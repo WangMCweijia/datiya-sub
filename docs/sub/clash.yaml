@@ -1,5 +1,5 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-09-24 21:38:15 +0800 | 可用节点 49 个（候选 787 个，datiya 覆盖 7 天）
+# 更新于 2026-09-25 04:02:59 +0800 | 可用节点 41 个（候选 786 个，datiya 覆盖 7 天）
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -22,6 +22,38 @@ dns:
   - https://1.1.1.1/dns-query
   - https://dns.google/dns-query
 proxies:
+- name: 🇺🇸_US_美国
+  type: vmess
+  server: guanwang.awsno.com
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
+  tls: true
+  skip-cert-verify: true
+  servername: guanwang.awsno.com
+  network: ws
+  ws-opts:
+    path: /hls/cctv5phd.m3u8
+    headers:
+      Host: guanwang.awsno.com
+  udp: true
+- name: 🇺🇸_US_美国_1
+  type: vmess
+  server: www.shopify.com
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
+  tls: true
+  skip-cert-verify: true
+  servername: guanwang.awsno.com
+  network: ws
+  ws-opts:
+    path: /hls/cctv5phd.m3u8
+    headers:
+      Host: guanwang.awsno.com
+  udp: true
 - name: 🇬🇧GB_1|1.1MB/s
   password: None
   port: 443
@@ -41,12 +73,6 @@ proxies:
 - name: 🇩🇪DE_3|1.4MB/s
   port: 443
   server: 149.36.50.1
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: 🇵🇱PL_2|2.4MB/s
-  port: 443
-  server: 37.120.156.18
   skip-cert-verify: true
   tls: true
   type: http
@@ -99,12 +125,6 @@ proxies:
   skip-cert-verify: true
   tls: true
   type: http
-- name: 🇵🇱PL_3|1020KB/s
-  port: 443
-  server: 37.120.156.34
-  skip-cert-verify: true
-  tls: true
-  type: http
 - name: 🇧🇬BG_1|2.0MB/s
   port: 443
   server: 185.94.192.210
@@ -131,30 +151,6 @@ proxies:
       Host: llm-api.sofurry.dpdns.org
       User-Agent: Mozilla/5.0 (Linux; Android 5.1.1; SM-J111M Build/LMY47V) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36
     path: /
-  xudp: true
-- client-fingerprint: chrome
-  encryption: none
-  name: 🇸🇪SE_1|3.0MB/s
-  network: xhttp
-  port: '443'
-  reality-opts:
-    public-key: kYwdZueXQt_DEKPrWTw8yoj6G4AWqupg8UrWjAgWbkE
-    short-id: 8ba6e72ee60667f6
-  server: 161.104.38.98
-  servername: donatov.net
-  tls: true
-  type: vless
-  udp: true
-  uuid: 256c5e3e-431d-002f-bed4-bfcf1334f64b
-  xhttp-opts:
-    mode: packet-up
-    path: /assets
-    reuse-settings:
-      c-max-reuse-times: '0'
-      h-keep-alive-period: 0
-      h-max-request-times: 600-900
-      h-max-reusable-secs: 1800-3000
-      max-connections: '2'
   xudp: true
 - name: 🇪🇸ES_1|1.1MB/s
   password: None
@@ -272,14 +268,6 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: RO_speednode_0094
-  password: None
-  port: 9002
-  server: 193.176.84.31
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
 - name: RO_speednode_0097
   password: None
   port: 9002
@@ -309,6 +297,22 @@ proxies:
   tls: true
   type: http
   udp: true
+- name: US_speednode_0131
+  password: 'null'
+  port: 9002
+  server: 138.199.35.216
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+  username: 'null'
+- name: US_speednode_0133
+  port: 443
+  server: fan.365747.xyz
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
 - name: US_speednode_0141
   port: 443
   server: 38.28.193.188
@@ -316,43 +320,12 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇩🇪 德国 | DEU 3
-  server: 168.222.43.35
-  port: 443
-  type: hysteria2
-  password: V2RayyNGvpn
-  auth: V2RayyNGvpn
-  sni: Play.google.com
+- name: US_speednode_0143
+  port: 9002
+  server: 138.199.35.198
   skip-cert-verify: true
-  obfs: salamander
-  obfs-password: V2RayyNGvpn
-- name: 🇩🇪 德国 | DEU 4
-  server: 138.124.121.233
-  port: 443
-  type: vless
-  uuid: 8e826a69-63f6-0001-a67d-4a1958e8b2d2
   tls: true
-  flow: xtls-rprx-vision
-  reality-opts:
-    public-key: WWeAHWUVD-phmnjNJ823cer0c4CMIbEs08AhsuEZmDc
-    short-id: a696de84963656de
-  servername: amd.com
-  client-fingerprint: firefox
-  network: tcp
-  udp: true
-- name: 🇫🇷 法国 | FRA 12
-  server: fra2.loozerp.wiki
-  port: 443
-  type: vless
-  uuid: f495298f-2bdb-4fd8-9ac9-5dd33d1b482a
-  tls: true
-  flow: xtls-rprx-vision
-  reality-opts:
-    public-key: W-zf_ncm9sYALF5EqvUsxqTkYGdAw-tQczT2SqwVMGE
-    short-id: ff776ff77be48b88
-  servername: fra2.loozerp.wiki
-  client-fingerprint: firefox
-  network: tcp
+  type: http
   udp: true
 - name: 🇰🇿 哈萨克斯坦 | KAZ
   server: kazartip.thewalkingded.life
@@ -368,43 +341,6 @@ proxies:
   client-fingerprint: firefox
   network: tcp
   udp: true
-- name: 🇵🇱 波兰 | POL
-  server: 2.26.173.70
-  port: 443
-  type: vless
-  uuid: 974f2c7e-a292-4207-8315-ef4151bdca41
-  tls: true
-  flow: xtls-rprx-vision
-  reality-opts:
-    public-key: TIKEWdxQBblFGWMQmQWserNef8P1rqJCfCLLi-KB32s
-  servername: poland.travel
-  client-fingerprint: safari
-  network: tcp
-  udp: true
-- name: 🇸🇪 瑞典 | SWE 2
-  server: 161.104.38.98
-  port: 443
-  type: vless
-  uuid: 256c5e3e-431d-002f-bed4-bfcf1334f64b
-  tls: true
-  reality-opts:
-    public-key: kYwdZueXQt_DEKPrWTw8yoj6G4AWqupg8UrWjAgWbkE
-    short-id: 8ba6e72ee60667f6
-  servername: donatov.net
-  client-fingerprint: chrome
-  network: xhttp
-  xhttp-opts:
-    path: /assets
-    host: donatov.net
-    mode: packet-up
-  udp: true
-- name: 🇺🇸 美国 | USA 2
-  server: 18.234.148.112
-  port: 443
-  type: ss
-  cipher: aes-256-cfb
-  password: amazonskr05
-  udp: true
 - name: 🇺🇸 美国 | USA 17
   server: blog.cloudflare.com
   port: 2095
@@ -416,39 +352,6 @@ proxies:
     path: /
     headers:
       Host: llm-api.sofurry.dpdns.org
-- name: 🇺🇸 美国 | USA 19
-  server: www.whatismyip.net
-  port: 2095
-  type: vless
-  uuid: 86c50e3a-5b87-49dd-bd20-03c7f2735e40
-  tls: false
-  network: ws
-  ws-opts:
-    path: /
-    headers:
-      Host: llm-api.sofurry.dpdns.org
-- name: 🇺🇸 美国 | USA 20
-  server: adheres-scruple.quick-cdn.net
-  port: 443
-  type: vless
-  uuid: c9ff358e-20c4-4979-bc14-acc3daaf1297
-  tls: true
-  alpn:
-  - http/1.1
-  servername: adheres-scruple.quick-cdn.net
-  client-fingerprint: chrome
-  network: ws
-  ws-opts:
-    path: /ws
-    headers:
-      Host: adheres-scruple.quick-cdn.net
-  udp: true
-- name: 🇯🇵JP-3.112.209.209-0431 | 25.702MB
-  server: 3.112.209.209
-  port: 443
-  type: ss
-  cipher: aes-256-cfb
-  password: amazonskr05
 proxy-groups:
 - name: 🚀 节点选择
   type: select
@@ -456,16 +359,15 @@ proxy-groups:
   - ♻️ 自动选择
   - DIRECT
   - 🌐 德国
-  - 🌐 日本
-  - 🌐 法国
   - 🌐 美国
   - 🌐 英国
   - 🌐 荷兰
   - 🌐 其他
+  - 🇺🇸_US_美国
+  - 🇺🇸_US_美国_1
   - 🇬🇧GB_1|1.1MB/s
   - 🇨🇿CZ_1|3.5MB/s
   - 🇩🇪DE_3|1.4MB/s
-  - 🇵🇱PL_2|2.4MB/s
   - 🇳🇱NL_3|1.3MB/s
   - 🇺🇸US_2|2.1MB/s
   - 🇺🇸US_3|2.3MB/s
@@ -473,11 +375,9 @@ proxy-groups:
   - 🇬🇧GB_2|1.2MB/s
   - 🇨🇿CZ_2|2.9MB/s
   - 🇳🇱NL_2|2.0MB/s
-  - 🇵🇱PL_3|1020KB/s
   - 🇧🇬BG_1|2.0MB/s
   - 🇱🇻LV_1|1.2MB/s
   - 🇺🇸US_4|3.6MB/s
-  - 🇸🇪SE_1|3.0MB/s
   - 🇪🇸ES_1|1.1MB/s
   - 🇬🇧GB_3|2.1MB/s
   - NL_speednode_0004
@@ -494,33 +394,27 @@ proxy-groups:
   - RO_speednode_0082
   - RO_speednode_0083
   - RO_speednode_0087
-  - RO_speednode_0094
   - RO_speednode_0097
   - RO_speednode_0110
   - RO_speednode_0124
   - RO_speednode_0126
+  - US_speednode_0131
+  - US_speednode_0133
   - US_speednode_0141
-  - 🇩🇪 德国 | DEU 3
-  - 🇩🇪 德国 | DEU 4
-  - 🇫🇷 法国 | FRA 12
+  - US_speednode_0143
   - 🇰🇿 哈萨克斯坦 | KAZ
-  - 🇵🇱 波兰 | POL
-  - 🇸🇪 瑞典 | SWE 2
-  - 🇺🇸 美国 | USA 2
   - 🇺🇸 美国 | USA 17
-  - 🇺🇸 美国 | USA 19
-  - 🇺🇸 美国 | USA 20
-  - 🇯🇵JP-3.112.209.209-0431 | 25.702MB
 - name: ♻️ 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
+  - 🇺🇸_US_美国
+  - 🇺🇸_US_美国_1
   - 🇬🇧GB_1|1.1MB/s
   - 🇨🇿CZ_1|3.5MB/s
   - 🇩🇪DE_3|1.4MB/s
-  - 🇵🇱PL_2|2.4MB/s
   - 🇳🇱NL_3|1.3MB/s
   - 🇺🇸US_2|2.1MB/s
   - 🇺🇸US_3|2.3MB/s
@@ -528,11 +422,9 @@ proxy-groups:
   - 🇬🇧GB_2|1.2MB/s
   - 🇨🇿CZ_2|2.9MB/s
   - 🇳🇱NL_2|2.0MB/s
-  - 🇵🇱PL_3|1020KB/s
   - 🇧🇬BG_1|2.0MB/s
   - 🇱🇻LV_1|1.2MB/s
   - 🇺🇸US_4|3.6MB/s
-  - 🇸🇪SE_1|3.0MB/s
   - 🇪🇸ES_1|1.1MB/s
   - 🇬🇧GB_3|2.1MB/s
   - NL_speednode_0004
@@ -549,23 +441,16 @@ proxy-groups:
   - RO_speednode_0082
   - RO_speednode_0083
   - RO_speednode_0087
-  - RO_speednode_0094
   - RO_speednode_0097
   - RO_speednode_0110
   - RO_speednode_0124
   - RO_speednode_0126
+  - US_speednode_0131
+  - US_speednode_0133
   - US_speednode_0141
-  - 🇩🇪 德国 | DEU 3
-  - 🇩🇪 德国 | DEU 4
-  - 🇫🇷 法国 | FRA 12
+  - US_speednode_0143
   - 🇰🇿 哈萨克斯坦 | KAZ
-  - 🇵🇱 波兰 | POL
-  - 🇸🇪 瑞典 | SWE 2
-  - 🇺🇸 美国 | USA 2
   - 🇺🇸 美国 | USA 17
-  - 🇺🇸 美国 | USA 19
-  - 🇺🇸 美国 | USA 20
-  - 🇯🇵JP-3.112.209.209-0431 | 25.702MB
 - name: 🌐 德国
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -573,36 +458,22 @@ proxy-groups:
   tolerance: 50
   proxies:
   - 🇩🇪DE_3|1.4MB/s
-  - 🇩🇪 德国 | DEU 3
-  - 🇩🇪 德国 | DEU 4
-- name: 🌐 日本
-  type: url-test
-  url: http://www.gstatic.com/generate_204
-  interval: 300
-  tolerance: 50
-  proxies:
-  - 🇯🇵JP-3.112.209.209-0431 | 25.702MB
-- name: 🌐 法国
-  type: url-test
-  url: http://www.gstatic.com/generate_204
-  interval: 300
-  tolerance: 50
-  proxies:
-  - 🇫🇷 法国 | FRA 12
 - name: 🌐 美国
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
+  - 🇺🇸_US_美国
+  - 🇺🇸_US_美国_1
   - 🇺🇸US_2|2.1MB/s
   - 🇺🇸US_3|2.3MB/s
   - 🇺🇸US_4|3.6MB/s
+  - US_speednode_0131
+  - US_speednode_0133
   - US_speednode_0141
-  - 🇺🇸 美国 | USA 2
+  - US_speednode_0143
   - 🇺🇸 美国 | USA 17
-  - 🇺🇸 美国 | USA 19
-  - 🇺🇸 美国 | USA 20
 - name: 🌐 英国
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -634,13 +505,10 @@ proxy-groups:
   tolerance: 50
   proxies:
   - 🇨🇿CZ_1|3.5MB/s
-  - 🇵🇱PL_2|2.4MB/s
   - 🇮🇹IT_1|1.3MB/s
   - 🇨🇿CZ_2|2.9MB/s
-  - 🇵🇱PL_3|1020KB/s
   - 🇧🇬BG_1|2.0MB/s
   - 🇱🇻LV_1|1.2MB/s
-  - 🇸🇪SE_1|3.0MB/s
   - 🇪🇸ES_1|1.1MB/s
   - RO_speednode_0041
   - RO_speednode_0042
@@ -649,14 +517,11 @@ proxy-groups:
   - RO_speednode_0082
   - RO_speednode_0083
   - RO_speednode_0087
-  - RO_speednode_0094
   - RO_speednode_0097
   - RO_speednode_0110
   - RO_speednode_0124
   - RO_speednode_0126
   - 🇰🇿 哈萨克斯坦 | KAZ
-  - 🇵🇱 波兰 | POL
-  - 🇸🇪 瑞典 | SWE 2
 rules:
 - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
 - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
