@@ -14,7 +14,9 @@ free.datiya.com：RSS 发现最近 N 天的文章  →  抓取每天的 uploads/
         ↓
     清洗节点（剔除明文 http/socks5、内核不支持的协议）
         ↓
-    mihomo 内核真实测速，剔除连不上的节点
+    第一轮：mihomo 内核真实连通性 + 延迟（超 max_delay_ms 的剔除）
+        ↓
+    第二轮：经每个节点真实下载测速（网速低于 min_speed_kbps 的剔除）
         ↓
     生成 Clash 配置 + v2ray 订阅  →  提交到仓库  →  GitHub Pages 发布
 ```
@@ -83,16 +85,22 @@ python main.py --verbose
 | `sources` | 附加的公开订阅源列表（Clash 格式），只取其中的 `proxies`；可自由增删 |
 | `check.enabled` | 是否做测活 |
 | `check.method` | `mihomo`（用内核真实测速，推荐）或 `tcp`（仅测端口连通，精度低） |
-| `check.test_url` / `timeout_ms` | 真实测速的目标地址与单节点超时（毫秒） |
-| `check.concurrency` | 并发测速数 |
+| `check.test_url` / `timeout_ms` | 第一轮连通性测试的目标地址与单节点超时（毫秒） |
+| `check.max_delay_ms` | 第一轮延迟上限，超过的剔除；`0` 表示不限 |
+| `check.speed_url` / `speed_bytes` | 第二轮下载测速的地址与下载字节预算 |
+| `check.speed_timeout_ms` | 第二轮单节点测速时间预算（毫秒） |
+| `check.speed_concurrency` | 第二轮并发数，太高会互相抢带宽导致测不准 |
+| `check.min_speed_kbps` | 网速下限（KB/s），低于的剔除 |
+| `check.concurrency` | 第一轮并发测速数 |
 | `check.min_alive` | 可用节点少于该值时**不覆盖**已有订阅，避免把好订阅写坏 |
 | `clash.*` | 生成配置的端口、测速地址、测速间隔 |
 
 ## 说明与限制
 
-- **默认做真实测速**：把候选节点灌进 mihomo 内核，逐个请求 `generate_204`，
-  拿不到延迟的（协议/凭据失效、无法出网）直接剔除，比只测 TCP 端口能否连上准确得多。
-  测速前会先剔除明文 `http`/`socks5` 代理和内核不支持的协议。
+- **默认做两轮真实测速**：第一轮把候选节点灌进 mihomo 内核逐个请求 `generate_204`，
+  拿不到响应的（协议/凭据失效、无法出网）直接剔除，再按 `max_delay_ms` 卡掉高延迟节点；
+  第二轮给每个节点单独开一个入站端口，**经该节点真实下载** `speed_url` 并按「字节/耗时」
+  算出网速，低于 `min_speed_kbps` 的剔除。测速前会先剔除明文 `http`/`socks5` 代理和内核不支持的协议。
 - **仍不能保证 100% 可用**。免费节点寿命很短，几分钟就可能失效；且测活机在境外，
   与你的网络环境不同，能测通的节点你未必连得上。客户端里用 url-test 组会自动挑当前最快的。
 - 站点偶尔返回不完整内容或超时，脚本已内置重试；某天抓取失败不影响其他天。
