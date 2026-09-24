@@ -173,9 +173,11 @@ def main():
 
     total = len(proxies)
     proxies = builder.dedupe(proxies)
-    log.info("去重后剩余 %d 个节点", len(proxies))
+    deduped = len(proxies)
+    log.info("去重后剩余 %d 个节点", deduped)
 
     proxies = builder.filter_supported(proxies)
+    cleaned = len(proxies)
     proxies = builder._unique_names(proxies)
 
     if check_cfg.get("enabled", True) and not args.no_check:
@@ -197,6 +199,7 @@ def main():
             )
     else:
         log.info("已跳过连通性检测")
+    probed = len(proxies)
 
     china_cfg = check_cfg.get("china_check") or {}
     china_dropped = 0
@@ -204,6 +207,15 @@ def main():
         before_china = len(proxies)
         proxies = china.filter_reachable(proxies, china_cfg)
         china_dropped = before_china - len(proxies)
+
+    log.info(
+        "漏斗：采集 %d → 去重 %d → 清洗 %d → 测活 %d → 国内可达 %d",
+        total,
+        deduped,
+        cleaned,
+        probed,
+        len(proxies),
+    )
 
     if len(proxies) < int(check_cfg.get("min_alive", 1)):
         log.error(

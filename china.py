@@ -1,20 +1,19 @@
 """中国大陆可达性检测：借助 Globalping 公开 API，用中国大陆探测点 ping 节点服务器。
 
 动机：GitHub Actions 的测活机在境外，「境外连得通」不等于「国内连得通」。
-mihomo 两轮测速只能验证节点在境外可用，这里再补一刀：把**确认在国内被墙**的服务器
-从订阅里剔除。
+mihomo 两轮测速只能验证节点在境外可用，这里再补一刀：只保留国内能摸到的服务器。
 
-判定规则（关键：只剔除有证据的，绝不误杀）：
-- 从中国大陆探测点能 ping 通            → 保留
-- 从中国大陆 ping 不通，但换一个境外探测点能 ping 通 → 确认被墙，剔除
-- 两边都 ping 不通                       → 多半是该服务器屏蔽了 ICMP，无法据此判断，
-                                           一律保留（避免把能用的节点误杀）
+两种模式（cfg.mode）：
+- strict（激进）：国内探测点 ping 得通 → 保留；ping 不通或结果未知 → 剔除。
+  节点更少但更干净，代价是可能误杀「屏蔽 ICMP 但端口可用」的节点。
+- safe（保守）：只剔除「国内不通但境外能通」的确认被墙节点；
+  国内不通、境外也不通的多半是屏蔽 ICMP，无法判断，一律保留（几乎不误杀）。
 
 实现要点：
 - 只 ping 服务器地址，不验证端口/协议，属「必要不充分」条件。
 - Globalping 免费额度约 250 次/小时，故默认每步只用 1 个探测点，并按 server 去重减少次数。
-- 任何异常（限速 429、网络错误、超时）都记为「未知」，未知一律保留，
-  绝不因为第三方接口抖动把订阅写空。
+- 安全阀：若国内探测结果全部未知（限速 429、接口异常、网络错误），说明拿不到有效信号，
+  直接跳过该过滤，绝不因为第三方接口抖动把订阅写空。
 """
 
 import logging
@@ -82,10 +81,11 @@ def _ping(host, country, limit, poll_interval, timeout_s):
 
 
 def filter_reachable(proxies, cfg):
-    """剔除确认在国内被墙的服务器，返回保留的节点。"""
+    """按中国大陆可达性过滤节点，返回保留的节点。"""
     if not proxies or not cfg or not cfg.get("enabled"):
         return proxies
 
+    mode = str(cfg.get("mode", "safe")).lower()
     country = cfg.get("country", "CN")
     reference = cfg.get("reference_country", "US")
     limit = int(cfg.get("limit", 1))
@@ -94,7 +94,13 @@ def filter_reachable(proxies, cfg):
     timeout_s = float(cfg.get("timeout_s", 90))
 
     servers = sorted({p["server"] for p in proxies})
-    log.info("中国可达性：从 %s 探测 %d 个服务器（对应 %d 个节点）", country, len(servers), len(proxies))
+    log.info(
+        "中国可达性(%s)：从 %s 探测 %d 个服务器（对应 %d 个节点）",
+        mode,
+        country,
+        len(servers),
+        len(proxies),
+    )
 
     def probe(host, where):
         return host, _ping(host, where, limit, poll_interval, timeout_s)
@@ -107,32 +113,51 @@ def filter_reachable(proxies, cfg):
         log.warning("中国可达性：%s 探测全部未取到结果（可能被限速或接口异常），跳过该过滤", country)
         return proxies
 
-    suspects = [h for h in servers if cn[h] is False]
+    reachable = {h for h in servers if cn[h] is True}
+    unreachable = [h for h in servers if cn[h] is False]
+    unknown = [h for h in servers if cn[h] is None]
+
+    if mode == "strict":
+        # 激进：只保留国内 ping 得通的；不通或未知（含屏蔽 ICMP）一律剔除。
+        kept = [p for p in proxies if p["server"] in reachable]
+        log.info(
+            "中国可达性(strict)：%s 可达 %d 个、不通 %d 个、未知 %d 个；"
+            "只保留可达的，剔除 %d/%d 个节点",
+            country,
+            len(reachable),
+            len(unreachable),
+            len(unknown),
+            len(proxies) - len(kept),
+            len(proxies),
+        )
+        return kept
+
+    # safe：只剔除「国内不通但境外能通」的确认被墙节点，其余（含未知）一律保留。
     log.info(
-        "中国可达性：%s 可达 %d 个，不通 %d 个；再用 %s 探测点复核是否只是屏蔽了 ICMP",
+        "中国可达性(safe)：%s 可达 %d 个，不通 %d 个；再用 %s 探测点复核是否只是屏蔽了 ICMP",
         country,
-        sum(1 for v in cn.values() if v is True),
-        len(suspects),
+        len(reachable),
+        len(unreachable),
         reference,
     )
 
     blocked = set()
     unknown_ref = 0
-    if suspects:
+    if unreachable:
         with ThreadPoolExecutor(max_workers=concurrency) as pool:
-            ref = dict(pool.map(lambda h: probe(h, reference), suspects))
-        unknown_ref = sum(1 for h in suspects if ref.get(h) is None)
+            ref = dict(pool.map(lambda h: probe(h, reference), unreachable))
+        unknown_ref = sum(1 for h in unreachable if ref.get(h) is None)
         # 境外能通、国内不通 → 确认被墙
-        blocked = {h for h in suspects if ref.get(h) is True}
+        blocked = {h for h in unreachable if ref.get(h) is True}
 
     kept = [p for p in proxies if p["server"] not in blocked]
     log.info(
-        "中国可达性：剔除 %d 个确认被墙的节点，保留 %d/%d 个"
+        "中国可达性(safe)：剔除 %d 个确认被墙的节点，保留 %d/%d 个"
         "（其中 %d 个服务器屏蔽 ICMP 无法判断、%d 个复核结果未知，均已保留）",
         len(proxies) - len(kept),
         len(kept),
         len(proxies),
-        len(suspects) - len(blocked) - unknown_ref,
+        len(unreachable) - len(blocked) - unknown_ref,
         unknown_ref,
     )
     return kept

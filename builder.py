@@ -98,16 +98,23 @@ def classify(name):
     return "其他"
 
 
-# 交给 mihomo 内核前先清洗：明文代理质量最差直接剔除，内核不支持的协议也不要，
-# 否则内核会因为解析不了某个节点而整体启动失败。
-PLAINTEXT_TYPES = {"http", "socks5", "socks5h"}
-CORE_TYPES = {"ss", "vmess", "vless", "trojan", "hysteria2"}
+# 交给 mihomo 内核前先清洗：内核不认识的协议会让内核整体启动失败，必须剔除；
+# 其余内核支持的协议一律保留，交给后面的测速环节去判断（不预先按类型误杀）。
+# 注：http / socks5 里很多其实是带 tls 的 HTTPS 代理，内核完全支持，不该直接丢。
+CORE_TYPES = {
+    "ss", "vmess", "vless", "trojan", "hysteria2", "hysteria", "anytls", "http", "socks5",
+}
 CORE_REQUIRED = {
     "ss": ("cipher", "password"),
     "vmess": ("uuid",),
     "vless": ("uuid",),
     "trojan": ("password",),
-    "hysteria2": ("password",),
+    "anytls": ("password",),
+}
+# 凭据字段有别名，任一存在即可
+CORE_ANY = {
+    "hysteria2": ("password", "auth"),
+    "hysteria": ("auth_str", "auth-str"),
 }
 
 
@@ -119,17 +126,20 @@ def _valid_core(proxy, kind):
             return False
     except (KeyError, TypeError, ValueError):
         return False
-    return all(proxy.get(field) not in (None, "") for field in CORE_REQUIRED[kind])
+    if not all(proxy.get(f) not in (None, "") for f in CORE_REQUIRED.get(kind, ())):
+        return False
+    aliases = CORE_ANY.get(kind)
+    if aliases and not any(proxy.get(f) not in (None, "") for f in aliases):
+        return False
+    return True
 
 
 def filter_supported(proxies):
-    """剔除明文代理、内核不支持的协议，以及字段缺失/端口异常的节点。"""
-    kept, dropped = [], {"明文代理": 0, "不支持协议": 0, "字段异常": 0}
+    """剔除内核不支持的协议，以及字段缺失/端口异常的节点。"""
+    kept, dropped = [], {"不支持协议": 0, "字段异常": 0}
     for proxy in proxies:
         kind = proxy.get("type")
-        if kind in PLAINTEXT_TYPES:
-            dropped["明文代理"] += 1
-        elif kind not in CORE_TYPES:
+        if kind not in CORE_TYPES:
             dropped["不支持协议"] += 1
         elif not _valid_core(proxy, kind):
             dropped["字段异常"] += 1
