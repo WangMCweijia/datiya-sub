@@ -12,6 +12,7 @@ import yaml
 
 import builder
 import checker
+import prober
 from fetcher import Fetcher
 
 log = logging.getLogger("datiya")
@@ -166,12 +167,26 @@ def main():
     proxies = builder.dedupe(proxies)
     log.info("去重后剩余 %d 个节点", len(proxies))
 
+    proxies = builder.filter_supported(proxies)
+    proxies = builder._unique_names(proxies)
+
     if check_cfg.get("enabled", True) and not args.no_check:
-        proxies = checker.filter_alive(
-            proxies,
-            timeout=check_cfg.get("timeout", 3.0),
-            concurrency=check_cfg.get("concurrency", 200),
-        )
+        if str(check_cfg.get("method", "tcp")).lower() == "mihomo":
+            try:
+                proxies = prober.filter_working(proxies, check_cfg)
+            except Exception as exc:
+                log.error("mihomo 真实测速不可用（%s），回退为 TCP 检测", exc)
+                proxies = checker.filter_alive(
+                    proxies,
+                    timeout=check_cfg.get("tcp_timeout", 3.0),
+                    concurrency=check_cfg.get("tcp_concurrency", 200),
+                )
+        else:
+            proxies = checker.filter_alive(
+                proxies,
+                timeout=check_cfg.get("tcp_timeout", 3.0),
+                concurrency=check_cfg.get("tcp_concurrency", 200),
+            )
     else:
         log.info("已跳过连通性检测")
 
@@ -183,7 +198,6 @@ def main():
         )
         return 1
 
-    proxies = builder._unique_names(proxies)
     now = datetime.now(timezone(timedelta(hours=8)))
     meta = {
         "updated_at": now.strftime("%Y-%m-%d %H:%M:%S %z"),

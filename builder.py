@@ -98,6 +98,49 @@ def classify(name):
     return "其他"
 
 
+# 交给 mihomo 内核前先清洗：明文代理质量最差直接剔除，内核不支持的协议也不要，
+# 否则内核会因为解析不了某个节点而整体启动失败。
+PLAINTEXT_TYPES = {"http", "socks5", "socks5h"}
+CORE_TYPES = {"ss", "vmess", "vless", "trojan", "hysteria2"}
+CORE_REQUIRED = {
+    "ss": ("cipher", "password"),
+    "vmess": ("uuid",),
+    "vless": ("uuid",),
+    "trojan": ("password",),
+    "hysteria2": ("password",),
+}
+
+
+def _valid_core(proxy, kind):
+    if not isinstance(proxy.get("server"), str) or not proxy["server"].strip():
+        return False
+    try:
+        if not 1 <= int(proxy["port"]) <= 65535:
+            return False
+    except (KeyError, TypeError, ValueError):
+        return False
+    return all(proxy.get(field) not in (None, "") for field in CORE_REQUIRED[kind])
+
+
+def filter_supported(proxies):
+    """剔除明文代理、内核不支持的协议，以及字段缺失/端口异常的节点。"""
+    kept, dropped = [], {"明文代理": 0, "不支持协议": 0, "字段异常": 0}
+    for proxy in proxies:
+        kind = proxy.get("type")
+        if kind in PLAINTEXT_TYPES:
+            dropped["明文代理"] += 1
+        elif kind not in CORE_TYPES:
+            dropped["不支持协议"] += 1
+        elif not _valid_core(proxy, kind):
+            dropped["字段异常"] += 1
+        else:
+            kept.append(proxy)
+    detail = "，".join(f"{k} {v}" for k, v in dropped.items() if v)
+    if detail:
+        log.info("清洗掉 %d 个节点（%s）", len(proxies) - len(kept), detail)
+    return kept
+
+
 def _unique_names(proxies):
     """保证输出配置里的节点名唯一。"""
     used = {}

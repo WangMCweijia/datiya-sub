@@ -12,13 +12,15 @@ free.datiya.com：RSS 发现最近 N 天的文章  →  抓取每天的 uploads/
         ↓
     合并后统一解析 proxies 并去重（按 server/port/uuid 等连接参数判重）
         ↓
-    TCP 连通性检测，剔除已失效的节点
+    清洗节点（剔除明文 http/socks5、内核不支持的协议）
+        ↓
+    mihomo 内核真实测速，剔除连不上的节点
         ↓
     生成 Clash 配置 + v2ray 订阅  →  提交到仓库  →  GitHub Pages 发布
 ```
 
 站点每天只发布约 14 个节点，单靠它候选太少。默认回溯 **7 天**，并额外合并若干 GitHub 公开订阅源，
-实测候选可达 2000+ 个，去重测活后可用节点数量大幅提升。
+候选可提升到近千个；再经真实测速，留下的是确实能代理出网的节点。
 
 ### 附加源（sources）
 
@@ -60,11 +62,14 @@ sources:
 
 ```bash
 pip install -r requirements.txt
-python main.py                # 采集 + 测活 + 生成到 docs/
-python main.py --no-check     # 跳过 TCP 检测（沙箱/无外网环境用）
+python main.py                # 采集 + 真实测速 + 生成到 docs/
+python main.py --no-check     # 跳过测活（沙箱/无外网环境用）
 python main.py --lookback 14  # 回溯 14 天
 python main.py --verbose
 ```
+
+默认用 [mihomo](https://github.com/MetaCubeX/mihomo)（clash.meta）内核做真实测速，本地运行需要它：
+放到 `PATH` 里，或用 `check.binary` 指定路径（例如 `/tmp/mihomo`）。没有内核时会自动回退为 TCP 检测。
 
 生成结果在 `docs/` 下，用任意静态服务器托管即可（例如 `python -m http.server -d docs 8888`，
 订阅地址就是 `http://127.0.0.1:8888/sub/clash.yaml`）。
@@ -76,18 +81,20 @@ python main.py --verbose
 | `site.lookback_days` | 回溯天数，越大节点越多、更新越慢，建议 5~14 |
 | `site.retries` / `retry_backoff` | 站点偶尔抖动，失败重试次数与退避 |
 | `sources` | 附加的公开订阅源列表（Clash 格式），只取其中的 `proxies`；可自由增删 |
-| `check.enabled` | 是否做 TCP 连通性检测 |
-| `check.timeout` | 单节点 TCP 连接超时，越小越快但可能误杀慢节点 |
-| `check.concurrency` | 检测并发数 |
+| `check.enabled` | 是否做测活 |
+| `check.method` | `mihomo`（用内核真实测速，推荐）或 `tcp`（仅测端口连通，精度低） |
+| `check.test_url` / `timeout_ms` | 真实测速的目标地址与单节点超时（毫秒） |
+| `check.concurrency` | 并发测速数 |
 | `check.min_alive` | 可用节点少于该值时**不覆盖**已有订阅，避免把好订阅写坏 |
 | `clash.*` | 生成配置的端口、测速地址、测速间隔 |
 
 ## 说明与限制
 
-- **TCP 连通性检测 ≠ 真实可用**。它只验证 `server:port` 能否建立连接，能过滤掉大部分已失效的节点，
-  但不校验密码/UUID 是否仍然有效。客户端里用 url-test 组会自动挑出当前最快的节点。
-- **测活环境决定结果**。GitHub Actions 的机器在境外，检测结果会偏乐观；
-  在自己电脑或 VPS 上跑，结果更贴近你的真实网络。
+- **默认做真实测速**：把候选节点灌进 mihomo 内核，逐个请求 `generate_204`，
+  拿不到延迟的（协议/凭据失效、无法出网）直接剔除，比只测 TCP 端口能否连上准确得多。
+  测速前会先剔除明文 `http`/`socks5` 代理和内核不支持的协议。
+- **仍不能保证 100% 可用**。免费节点寿命很短，几分钟就可能失效；且测活机在境外，
+  与你的网络环境不同，能测通的节点你未必连得上。客户端里用 url-test 组会自动挑当前最快的。
 - 站点偶尔返回不完整内容或超时，脚本已内置重试；某天抓取失败不影响其他天。
 - 采集失败或可用节点过少时脚本会**直接退出且不修改产物**，订阅不会被清空。
 

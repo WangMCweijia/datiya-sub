@@ -33,6 +33,15 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Install mihomo
+        run: |
+          curl -fsSL -o /tmp/mihomo.gz \
+            https://github.com/MetaCubeX/mihomo/releases/download/v1.19.31/mihomo-linux-amd64-v1.19.31.gz
+          gunzip -f /tmp/mihomo.gz
+          chmod +x /tmp/mihomo
+          sudo mv /tmp/mihomo /usr/local/bin/mihomo
+          mihomo -v
+
       - name: Build subscription
         run: python main.py --verbose
 
