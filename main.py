@@ -12,6 +12,7 @@ import yaml
 
 import builder
 import checker
+import china
 import prober
 from fetcher import Fetcher
 
@@ -79,6 +80,12 @@ def render_page(status, out_cfg):
     if sources:
         detail = "、".join(f"{name} {cnt}" for name, cnt in sources.items())
         source_row = f"<tr><th>附加源</th><td>{len(sources)} 个（{detail}）</td></tr>"
+    china_row = ""
+    if status.get("china_check"):
+        china_row = (
+            f"<tr><th>国内不可达剔除</th><td>{status.get('china_dropped', 0)} 个"
+            f"（Globalping 中国大陆探测）</td></tr>"
+        )
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -103,6 +110,7 @@ def render_page(status, out_cfg):
   <tr><th>候选节点</th><td>{status['collected']} 个（datiya 覆盖 {len(status['days'])} 天）</td></tr>
   {source_row}
   <tr><th>可用节点</th><td>{status['alive']} 个</td></tr>
+  {china_row}
   <tr><th>地区分布</th><td>{regions}</td></tr>
 </table>
 <table>
@@ -190,6 +198,13 @@ def main():
     else:
         log.info("已跳过连通性检测")
 
+    china_cfg = check_cfg.get("china_check") or {}
+    china_dropped = 0
+    if china_cfg.get("enabled") and not args.no_check:
+        before_china = len(proxies)
+        proxies = china.filter_reachable(proxies, china_cfg)
+        china_dropped = before_china - len(proxies)
+
     if len(proxies) < int(check_cfg.get("min_alive", 1)):
         log.error(
             "可用节点仅 %d 个，低于阈值 %s，保留原有订阅不变",
@@ -215,6 +230,8 @@ def main():
         "collected": total,
         "alive": len(proxies),
         "links": len(links),
+        "china_check": bool(china_cfg.get("enabled")),
+        "china_dropped": china_dropped,
         "sources": source_stats,
         "regions": dict(
             sorted(
