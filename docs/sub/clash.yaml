@@ -1,5 +1,5 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-09-24 13:50:20 +0800 | 可用节点 133 个（候选 859 个，datiya 覆盖 7 天）
+# 更新于 2026-09-24 13:56:57 +0800 | 可用节点 133 个（候选 859 个，datiya 覆盖 7 天）
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -153,16 +153,6 @@ proxies:
   sni: hopp-romania-new.roxa.org
   tls: false
   type: hysteria2
-- name: '@Daily_Configs : کانال تلگرام'
-  obfs: salamander
-  obfs-password: c1b4086fea89914496c7e10967a419216566
-  password: QCgqi_I4EkV8UR-OgQ_tG4EnVTEVvIyR2GgRBzrIn2s
-  port: 443
-  server: 162.249.125.133
-  skip-cert-verify: false
-  sni: hy2-new.aspidnet.xyz
-  tls: false
-  type: hysteria2
 - name: 'Telegram@vpnjey #4'
   obfs: salamander
   obfs-password: Telegram@vpnjey
@@ -276,6 +266,19 @@ proxies:
   udp: true
   uuid: 8fb65472-5957-4f64-ba2d-b5812b2f155a
   xudp: true
+- name: 🇨🇦 加拿大 | CAN
+  server: 34.186.193.91
+  port: 443
+  type: vless
+  uuid: 2ea95ec3-6b09-470e-952a-ebb171b0d666
+  tls: true
+  reality-opts:
+    public-key: 0dSYzX_uvVr-YmiONeKxPt7TdFkaFeYopYfjobxxEC4
+    short-id: 341ec000a90f1ced
+  servername: www.cloudflare.com
+  client-fingerprint: chrome
+  network: tcp
+  udp: true
 - name: 🇪🇸 西班牙 | ESP
   server: 185.18.250.252
   port: 443
@@ -337,13 +340,13 @@ proxies:
     headers:
       Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
   udp: true
-- name: 🇯🇵 日本 | JPN 2
-  server: open.2ml.cc.cd
-  port: 5443
-  type: hysteria2
-  password: my_super_password_123
-  auth: my_super_password_123
-  skip-cert-verify: true
+- name: 🇸🇬 新加坡 | SGP
+  server: 138.2.73.61
+  port: 56927
+  type: ss
+  cipher: 2022-blake3-chacha20-poly1305
+  password: To6vtBYY2vHB3dYSu3rGxLOObUWvC8zGLJMtn+/LEPU=
+  udp: true
 - name: 🇺🇸 美国 | USA 2
   server: k2.cloud--vpn.site
   port: 443
@@ -359,18 +362,6 @@ proxies:
     path: /
     headers:
       Host: c12.com
-  udp: true
-- name: 🇺🇸 美国 | USA 8
-  server: 162.159.0.53
-  port: 80
-  type: vless
-  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
-  tls: false
-  network: ws
-  ws-opts:
-    path: /?ed=2560security=tls
-    headers:
-      Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
   udp: true
 - name: 🇺🇸 美国 | USA 15
   server: 172.64.229.170
@@ -388,18 +379,6 @@ proxies:
 - name: 🇺🇸 美国 | USA 17
   server: 162.159.43.187
   port: 2082
-  type: vless
-  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
-  tls: false
-  network: ws
-  ws-opts:
-    path: /?ed=2560security=tls
-    headers:
-      Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
-  udp: true
-- name: 🇺🇸 美国 | USA 24
-  server: 162.159.0.53
-  port: 2095
   type: vless
   uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
   tls: false
@@ -449,18 +428,25 @@ proxies:
     headers:
       User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36
     path: /assignment
-- name: 🇺🇸US-173.244.56.9-0120 | 123.795MB
-  server: 173.244.56.9
-  port: 443
+- cipher: aes-256-cfb
+  name: 🇺🇸US_25|4.2MB/s
+  password: amazonskr05
+  port: '443'
+  server: 54.204.185.38
   type: ss
-  cipher: aes-128-gcm
-  password: shadowsocks
+  udp: true
 - name: 🇺🇸US-140.82.63.79-5267 | 123.597MB
   server: 140.82.63.79
   port: 8388
   type: ss
   cipher: chacha20-ietf-poly1305
   password: ZoZtfPOyVvmKARUN
+- name: 🇺🇸US-198.98.53.130-0062 | 123.071MB
+  server: 198.98.53.130
+  port: 443
+  type: ss
+  cipher: chacha20-ietf-poly1305
+  password: eDfN7SODQceIOmIAbtJJtK
 - name: 🇺🇸US-156.146.38.167-0115 | 118.352MB
   server: 156.146.38.167
   port: 443
@@ -515,6 +501,12 @@ proxies:
   type: ss
   cipher: chacha20-ietf-poly1305
   password: oZIoA69Q8yhcQV8ka3Pa3A
+- name: 🇬🇧GB-82.38.31.187-0079 | 60.129MB
+  server: 82.38.31.187
+  port: 8080
+  type: ss
+  cipher: chacha20-ietf-poly1305
+  password: k1dBOmOB4oqi7Ump37a1bQ
 - name: 🇬🇧GB-82.38.31.192-0064 | 59.973MB
   server: 82.38.31.192
   port: 8080
@@ -659,6 +651,12 @@ proxies:
   type: ss
   cipher: chacha20-ietf-poly1305
   password: oZIoA69Q8yhcQV8ka3Pa3A
+- name: 🇬🇧GB-82.38.31.186-0085 | 57.061MB
+  server: 82.38.31.186
+  port: 8080
+  type: ss
+  cipher: chacha20-ietf-poly1305
+  password: k1dBOmOB4oqi7Ump37a1bQ
 - name: 🇬🇧GB-82.38.31.10-0104 | 56.066MB
   server: 82.38.31.10
   port: 8080
@@ -869,12 +867,6 @@ proxies:
   type: ss
   cipher: chacha20-ietf-poly1305
   password: tfAcRikawhNoZAhu
-- name: 🇯🇵JP-149.22.87.240-0130 | 29.508MB
-  server: 149.22.87.240
-  port: 443
-  type: ss
-  cipher: aes-128-gcm
-  password: shadowsocks
 - name: 🇯🇵JP-149.22.87.204-0132 | 29.463MB
   server: 149.22.87.204
   port: 443
@@ -889,6 +881,12 @@ proxies:
   password: shadowsocks
 - name: 🇯🇵JP-18.179.111.96-0417 | 25.941MB
   server: 18.179.111.96
+  port: 443
+  type: ss
+  cipher: aes-256-cfb
+  password: amazonskr05
+- name: 🇯🇵JP-3.112.209.209-0431 | 25.702MB
+  server: 3.112.209.209
   port: 443
   type: ss
   cipher: aes-256-cfb
@@ -917,12 +915,6 @@ proxies:
   type: ss
   cipher: chacha20-ietf-poly1305
   password: c58d16e593d44f42
-- name: 🇬🇧GB-82.38.31.176-0141 | 13.567MB
-  server: 82.38.31.176
-  port: 8080
-  type: ss
-  cipher: chacha20-ietf-poly1305
-  password: k1dBOmOB4oqi7Ump37a1bQ
 - name: 🇫🇷FR-54.36.174.140-0134 | 12.406MB
   server: 54.36.174.140
   port: 443
@@ -1018,6 +1010,7 @@ proxy-groups:
   - 🌐 加拿大
   - 🌐 台湾
   - 🌐 德国
+  - 🌐 新加坡
   - 🌐 日本
   - 🌐 法国
   - 🌐 美国
@@ -1040,7 +1033,6 @@ proxy-groups:
   - '@v2raybaaz #1'
   - '@v2raybaaz #2'
   - 🛞64@oneclickvpnkeys
-  - '@Daily_Configs : کانال تلگرام'
   - 'Telegram@vpnjey #4'
   - 'Channel: @Daily_Configs'
   - 🛞62@oneclickvpnkeys
@@ -1052,22 +1044,22 @@ proxy-groups:
   - 🇯🇵JP_2|2.1MB/s
   - 🇭🇰HK_1|2.3MB/s
   - 🇨🇴CO_1|2.1MB/s
+  - 🇨🇦 加拿大 | CAN
   - 🇪🇸 西班牙 | ESP
   - 🇫🇷 法国 | FRA 8
   - 🇫🇷 法国 | FRA 18
   - 🇭🇰 香港 | HKG
   - 🇯🇵 日本 | JPN
-  - 🇯🇵 日本 | JPN 2
+  - 🇸🇬 新加坡 | SGP
   - 🇺🇸 美国 | USA 2
-  - 🇺🇸 美国 | USA 8
   - 🇺🇸 美国 | USA 15
   - 🇺🇸 美国 | USA 17
-  - 🇺🇸 美国 | USA 24
   - 🇺🇸 美国 | USA 27
   - 🇺🇸 美国 | USA 30
   - 🇫🇷FR_1|1.8MB/s
-  - 🇺🇸US-173.244.56.9-0120 | 123.795MB
+  - 🇺🇸US_25|4.2MB/s
   - 🇺🇸US-140.82.63.79-5267 | 123.597MB
+  - 🇺🇸US-198.98.53.130-0062 | 123.071MB
   - 🇺🇸US-156.146.38.167-0115 | 118.352MB
   - 🇺🇸US-156.146.38.169-0089 | 111.511MB
   - 🇺🇸US-156.146.38.168-0105 | 108.991MB
@@ -1077,6 +1069,7 @@ proxy-groups:
   - 🇨🇦CA-149.22.95.183-0125 | 66.829MB
   - 🇬🇧GB-82.38.31.191-0074 | 60.522MB
   - 🇬🇧GB-82.38.31.16-0081 | 60.285MB
+  - 🇬🇧GB-82.38.31.187-0079 | 60.129MB
   - 🇬🇧GB-82.38.31.192-0064 | 59.973MB
   - 🇬🇧GB-82.38.31.216-0078 | 59.787MB
   - 🇳🇱NL-193.29.139.147-0080 | 59.618MB
@@ -1101,6 +1094,7 @@ proxy-groups:
   - 🇬🇧GB-82.38.31.49-0072 | 57.5MB
   - 🇳🇱NL-193.29.139.168-0063 | 57.486MB
   - 🇬🇧GB-82.38.31.82-0093 | 57.329MB
+  - 🇬🇧GB-82.38.31.186-0085 | 57.061MB
   - 🇬🇧GB-82.38.31.10-0104 | 56.066MB
   - 🇺🇸US-37.19.198.160-0060 | 56.066MB
   - 🇬🇧GB-82.38.31.34-0096 | 56.039MB
@@ -1136,15 +1130,14 @@ proxy-groups:
   - 🇳🇱NL-108.181.58.239-0124 | 36.081MB
   - 🇩🇪DE-209.46.102.22-0121 | 33.042MB
   - ZA-139.84.247.164-0126 | 32.513MB
-  - 🇯🇵JP-149.22.87.240-0130 | 29.508MB
   - 🇯🇵JP-149.22.87.204-0132 | 29.463MB
   - 🇯🇵JP-149.22.87.241-0131 | 29.141MB
   - 🇯🇵JP-18.179.111.96-0417 | 25.941MB
+  - 🇯🇵JP-3.112.209.209-0431 | 25.702MB
   - 🇳🇱NL-158.173.20.171-5119 | 22.693MB
   - 🇬🇧GB-141.98.101.181-0128 | 18.862MB
   - 🇩🇪DE-8.209.74.72-0129 | 18.3MB
   - 🇳🇱NL-158.173.221.214-0127 | 17.269MB
-  - 🇬🇧GB-82.38.31.176-0141 | 13.567MB
   - 🇫🇷FR-54.36.174.140-0134 | 12.406MB
   - ZA-102.37.156.224-0139 | 9.775MB
   - ZA-102.133.165.160-0136 | 9.388MB
@@ -1179,7 +1172,6 @@ proxy-groups:
   - '@v2raybaaz #1'
   - '@v2raybaaz #2'
   - 🛞64@oneclickvpnkeys
-  - '@Daily_Configs : کانال تلگرام'
   - 'Telegram@vpnjey #4'
   - 'Channel: @Daily_Configs'
   - 🛞62@oneclickvpnkeys
@@ -1191,22 +1183,22 @@ proxy-groups:
   - 🇯🇵JP_2|2.1MB/s
   - 🇭🇰HK_1|2.3MB/s
   - 🇨🇴CO_1|2.1MB/s
+  - 🇨🇦 加拿大 | CAN
   - 🇪🇸 西班牙 | ESP
   - 🇫🇷 法国 | FRA 8
   - 🇫🇷 法国 | FRA 18
   - 🇭🇰 香港 | HKG
   - 🇯🇵 日本 | JPN
-  - 🇯🇵 日本 | JPN 2
+  - 🇸🇬 新加坡 | SGP
   - 🇺🇸 美国 | USA 2
-  - 🇺🇸 美国 | USA 8
   - 🇺🇸 美国 | USA 15
   - 🇺🇸 美国 | USA 17
-  - 🇺🇸 美国 | USA 24
   - 🇺🇸 美国 | USA 27
   - 🇺🇸 美国 | USA 30
   - 🇫🇷FR_1|1.8MB/s
-  - 🇺🇸US-173.244.56.9-0120 | 123.795MB
+  - 🇺🇸US_25|4.2MB/s
   - 🇺🇸US-140.82.63.79-5267 | 123.597MB
+  - 🇺🇸US-198.98.53.130-0062 | 123.071MB
   - 🇺🇸US-156.146.38.167-0115 | 118.352MB
   - 🇺🇸US-156.146.38.169-0089 | 111.511MB
   - 🇺🇸US-156.146.38.168-0105 | 108.991MB
@@ -1216,6 +1208,7 @@ proxy-groups:
   - 🇨🇦CA-149.22.95.183-0125 | 66.829MB
   - 🇬🇧GB-82.38.31.191-0074 | 60.522MB
   - 🇬🇧GB-82.38.31.16-0081 | 60.285MB
+  - 🇬🇧GB-82.38.31.187-0079 | 60.129MB
   - 🇬🇧GB-82.38.31.192-0064 | 59.973MB
   - 🇬🇧GB-82.38.31.216-0078 | 59.787MB
   - 🇳🇱NL-193.29.139.147-0080 | 59.618MB
@@ -1240,6 +1233,7 @@ proxy-groups:
   - 🇬🇧GB-82.38.31.49-0072 | 57.5MB
   - 🇳🇱NL-193.29.139.168-0063 | 57.486MB
   - 🇬🇧GB-82.38.31.82-0093 | 57.329MB
+  - 🇬🇧GB-82.38.31.186-0085 | 57.061MB
   - 🇬🇧GB-82.38.31.10-0104 | 56.066MB
   - 🇺🇸US-37.19.198.160-0060 | 56.066MB
   - 🇬🇧GB-82.38.31.34-0096 | 56.039MB
@@ -1275,15 +1269,14 @@ proxy-groups:
   - 🇳🇱NL-108.181.58.239-0124 | 36.081MB
   - 🇩🇪DE-209.46.102.22-0121 | 33.042MB
   - ZA-139.84.247.164-0126 | 32.513MB
-  - 🇯🇵JP-149.22.87.240-0130 | 29.508MB
   - 🇯🇵JP-149.22.87.204-0132 | 29.463MB
   - 🇯🇵JP-149.22.87.241-0131 | 29.141MB
   - 🇯🇵JP-18.179.111.96-0417 | 25.941MB
+  - 🇯🇵JP-3.112.209.209-0431 | 25.702MB
   - 🇳🇱NL-158.173.20.171-5119 | 22.693MB
   - 🇬🇧GB-141.98.101.181-0128 | 18.862MB
   - 🇩🇪DE-8.209.74.72-0129 | 18.3MB
   - 🇳🇱NL-158.173.221.214-0127 | 17.269MB
-  - 🇬🇧GB-82.38.31.176-0141 | 13.567MB
   - 🇫🇷FR-54.36.174.140-0134 | 12.406MB
   - ZA-102.37.156.224-0139 | 9.775MB
   - ZA-102.133.165.160-0136 | 9.388MB
@@ -1303,6 +1296,7 @@ proxy-groups:
   interval: 300
   tolerance: 50
   proxies:
+  - 🇨🇦 加拿大 | CAN
   - 🇨🇦CA-108.181.118.10-0117 | 75.751MB
   - 🇨🇦CA-149.22.95.183-0125 | 66.829MB
   - 🇨🇦CA-137.184.174.93-5347 | 46.457MB
@@ -1321,6 +1315,13 @@ proxy-groups:
   proxies:
   - 🇩🇪DE-209.46.102.22-0121 | 33.042MB
   - 🇩🇪DE-8.209.74.72-0129 | 18.3MB
+- name: 🌐 新加坡
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+  proxies:
+  - 🇸🇬 新加坡 | SGP
 - name: 🌐 日本
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -1329,11 +1330,10 @@ proxy-groups:
   proxies:
   - 🇯🇵JP_2|2.1MB/s
   - 🇯🇵 日本 | JPN
-  - 🇯🇵 日本 | JPN 2
-  - 🇯🇵JP-149.22.87.240-0130 | 29.508MB
   - 🇯🇵JP-149.22.87.204-0132 | 29.463MB
   - 🇯🇵JP-149.22.87.241-0131 | 29.141MB
   - 🇯🇵JP-18.179.111.96-0417 | 25.941MB
+  - 🇯🇵JP-3.112.209.209-0431 | 25.702MB
   - 🇯🇵JP-84.247.155.196-0142 | 4.293MB
   - 🇯🇵JP-84.247.155.196-0150 | 2.002MB
   - 🇯🇵JP-13.230.153.249-0133 | 0.0MB
@@ -1359,14 +1359,13 @@ proxy-groups:
   - 🇺🇸_US_美国_1
   - 美国3|@ripaojiedian
   - 🇺🇸 美国 | USA 2
-  - 🇺🇸 美国 | USA 8
   - 🇺🇸 美国 | USA 15
   - 🇺🇸 美国 | USA 17
-  - 🇺🇸 美国 | USA 24
   - 🇺🇸 美国 | USA 27
   - 🇺🇸 美国 | USA 30
-  - 🇺🇸US-173.244.56.9-0120 | 123.795MB
+  - 🇺🇸US_25|4.2MB/s
   - 🇺🇸US-140.82.63.79-5267 | 123.597MB
+  - 🇺🇸US-198.98.53.130-0062 | 123.071MB
   - 🇺🇸US-156.146.38.167-0115 | 118.352MB
   - 🇺🇸US-156.146.38.169-0089 | 111.511MB
   - 🇺🇸US-156.146.38.168-0105 | 108.991MB
@@ -1387,6 +1386,7 @@ proxy-groups:
   proxies:
   - 🇬🇧GB-82.38.31.191-0074 | 60.522MB
   - 🇬🇧GB-82.38.31.16-0081 | 60.285MB
+  - 🇬🇧GB-82.38.31.187-0079 | 60.129MB
   - 🇬🇧GB-82.38.31.192-0064 | 59.973MB
   - 🇬🇧GB-82.38.31.216-0078 | 59.787MB
   - 🇬🇧GB-82.38.31.42-0101 | 59.572MB
@@ -1407,6 +1407,7 @@ proxy-groups:
   - 🇬🇧GB-82.38.31.155-0088 | 57.643MB
   - 🇬🇧GB-82.38.31.49-0072 | 57.5MB
   - 🇬🇧GB-82.38.31.82-0093 | 57.329MB
+  - 🇬🇧GB-82.38.31.186-0085 | 57.061MB
   - 🇬🇧GB-82.38.31.10-0104 | 56.066MB
   - 🇬🇧GB-82.38.31.34-0096 | 56.039MB
   - 🇬🇧GB-82.38.31.174-0114 | 55.369MB
@@ -1428,7 +1429,6 @@ proxy-groups:
   - 🇬🇧GB-82.38.31.212-0107 | 49.486MB
   - 🇬🇧GB-82.38.31.190-0092 | 46.014MB
   - 🇬🇧GB-141.98.101.181-0128 | 18.862MB
-  - 🇬🇧GB-82.38.31.176-0141 | 13.567MB
   - 🇬🇧GB-94.156.250.148-0140 | 6.442MB
   - 🇬🇧GB-82.38.31.218-0146 | 2.359MB
   - 🇬🇧GB-82.38.31.219-0148 | 0.466MB
@@ -1477,7 +1477,6 @@ proxy-groups:
   - '@v2raybaaz #1'
   - '@v2raybaaz #2'
   - 🛞64@oneclickvpnkeys
-  - '@Daily_Configs : کانال تلگرام'
   - 'Telegram@vpnjey #4'
   - 'Channel: @Daily_Configs'
   - 🛞62@oneclickvpnkeys
