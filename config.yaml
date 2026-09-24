@@ -1,0 +1,27 @@
+# free.datiya.com 节点聚合配置
+site:
+  base_url: "https://free.datiya.com"
+  rss: "/index.xml"          # 站点 RSS，用于发现每日文章日期
+  lookback_days: 7           # 向前回溯几天的文章一起采集（跨天去重，节点更多）
+  timeout: 20                # 单次请求超时（秒）
+  retries: 3                 # 请求失败重试次数
+  retry_backoff: 2.0         # 重试退避基数（秒）
+
+check:
+  enabled: true              # 是否做 TCP 连通性检测
+  timeout: 3.0               # 单个节点 TCP 连接超时（秒）
+  concurrency: 200           # 并发数
+  min_alive: 1               # 可用节点少于该值时不覆盖已有订阅（防止把好订阅写坏）
+
+output:
+  dir: "docs"                # 产物目录（GitHub Pages 直接发布该目录）
+  clash_file: "sub/clash.yaml"
+  v2ray_file: "sub/v2ray.txt"
+  status_file: "status.json"
+
+clash:
+  http_port: 7890
+  socks_port: 7891
+  external_controller: "127.0.0.1:9090"
+  test_url: "http://www.gstatic.com/generate_204"
+  test_interval: 300
