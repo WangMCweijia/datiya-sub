@@ -47,6 +47,23 @@ def collect(fetcher, days):
     return proxies, ok_days
 
 
+def collect_extra(fetcher, sources):
+    """采集附加订阅源，返回 (节点列表, {源名: 节点数})。"""
+    proxies, stats = [], {}
+    for src in sources or []:
+        name = src.get("name") or src.get("url", "?")
+        text = fetcher.fetch_text(src["url"])
+        if not text:
+            log.warning("附加源 %s：未取到内容，跳过", name)
+            stats[name] = 0
+            continue
+        parsed = builder.parse_proxies(text)
+        log.info("附加源 %s：解析到 %d 个节点", name, len(parsed))
+        stats[name] = len(parsed)
+        proxies.extend(parsed)
+    return proxies, stats
+
+
 def render_page(status, out_cfg):
     rows = "".join(
         f"<tr><td>{label}</td><td><code>{path}</code></td></tr>"
@@ -56,6 +73,11 @@ def render_page(status, out_cfg):
         )
     )
     regions = "、".join(f"{k} {v}" for k, v in status["regions"].items()) or "无"
+    sources = status.get("sources") or {}
+    source_row = ""
+    if sources:
+        detail = "、".join(f"{name} {cnt}" for name, cnt in sources.items())
+        source_row = f"<tr><th>附加源</th><td>{len(sources)} 个（{detail}）</td></tr>"
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -77,7 +99,8 @@ def render_page(status, out_cfg):
 <p class="muted">由 <a href="{status['source']}">{status['source']}</a> 每日节点自动聚合生成，
 最后更新：<strong>{status['updated_at']}</strong></p>
 <table>
-  <tr><th>本次采集</th><td>{status['collected']} 个（覆盖 {len(status['days'])} 天）</td></tr>
+  <tr><th>候选节点</th><td>{status['collected']} 个（datiya 覆盖 {len(status['days'])} 天）</td></tr>
+  {source_row}
   <tr><th>可用节点</th><td>{status['alive']} 个</td></tr>
   <tr><th>地区分布</th><td>{regions}</td></tr>
 </table>
@@ -131,6 +154,10 @@ def main():
     log.info("本次采集日期：%s", ", ".join(days) or "无")
 
     proxies, ok_days = collect(fetcher, days)
+    extra, source_stats = collect_extra(fetcher, cfg.get("sources"))
+    if extra:
+        log.info("附加源合计 %d 个节点（%d 个源）", len(extra), len(source_stats))
+    proxies.extend(extra)
     if not proxies:
         log.error("未采集到任何节点，保留原有订阅不变")
         return 1
@@ -174,6 +201,7 @@ def main():
         "collected": total,
         "alive": len(proxies),
         "links": len(links),
+        "sources": source_stats,
         "regions": dict(
             sorted(
                 Counter(builder.classify(p["name"]) for p in proxies).items(),

@@ -73,3 +73,7 @@ class Fetcher:
                 if text and "proxies:" in text:
                     return text
         return None
+
+    def fetch_text(self, url):
+        """抓取任意订阅地址的文本，复用同样的超时与重试，失败返回 None。"""
+        return self._get(url)

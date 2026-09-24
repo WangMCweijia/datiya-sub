@@ -163,7 +163,7 @@ def build_clash(proxies, clash_cfg, meta):
     header = (
         "# 由 datiya-sub 自动生成，请勿手动修改\n"
         f"# 更新于 {meta['updated_at']} | 可用节点 {meta['alive']} 个"
-        f"（采集 {meta['total']} 个，覆盖 {meta['days']} 天）\n"
+        f"（候选 {meta['total']} 个，datiya 覆盖 {meta['days']} 天）\n"
     )
     body = yaml.safe_dump(
         config,
