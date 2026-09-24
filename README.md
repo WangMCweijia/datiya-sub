@@ -43,7 +43,8 @@ sources:
 3. 仓库 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**。
    （这一步必须手动做一次，Actions 内置的 `GITHUB_TOKEN` 无权自动开启 Pages。）
 4. 到 **Actions → Update subscription → Run workflow** 手动触发一次。
-5. 之后每天会自动更新 3 次（北京时间 08:17 / 16:17 / 00:17）。
+5. 之后每天会自动更新 3 次（北京时间 08:17 / 16:17 / 00:17）；此外，任何推送到 `main`
+   且改动了 `docs/` 以外文件的提交（例如调整 `config.yaml` 的 `sources`）也会自动触发一次刷新。
 
 完成后你的固定订阅地址是：
 

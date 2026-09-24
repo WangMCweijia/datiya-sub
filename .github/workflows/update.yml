@@ -5,6 +5,11 @@ on:
     # UTC：站点每天 22:44 (UTC) 左右更新，多跑几次兜底。北京时间 08:17 / 16:17 / 00:17
     - cron: "17 0,8,16 * * *"
   workflow_dispatch:
+  # 代码/配置有改动时自动刷新订阅；docs/ 是 workflow 自己提交的产物，忽略以免递归
+  push:
+    branches: [main]
+    paths-ignore:
+      - "docs/**"
 
 permissions:
   contents: write
