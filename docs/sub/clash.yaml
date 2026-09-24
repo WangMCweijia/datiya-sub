@@ -1,5 +1,5 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-09-24 13:25:09 +0800 | 可用节点 1262 个（候选 2486 个，datiya 覆盖 7 天）
+# 更新于 2026-09-24 13:26:39 +0800 | 可用节点 1262 个（候选 2486 个，datiya 覆盖 7 天）
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -150,18 +150,6 @@ proxies:
   type: hysteria2
 - alpn:
   - h3
-  name: 'Telegram@vpnjey #2'
-  obfs: salamander
-  obfs-password: Telegram@vpnjey
-  password: Telegram
-  port: 443
-  server: 31.76.27.23
-  skip-cert-verify: true
-  sni: de.vpnjey.store
-  tls: false
-  type: hysteria2
-- alpn:
-  - h3
   name: 'Telegram@vpnjey #3'
   obfs: salamander
   obfs-password: Telegram@vpnjey
@@ -265,6 +253,28 @@ proxies:
   udp: true
   uuid: e6695d9b-3663-4421-9893-de7f641a9f3a
   xudp: true
+- client-fingerprint: chrome
+  encryption: mlkem768x25519plus.native.0rtt.3NgXzjNikp-mZfb6hJKXw2AkXkg4ep5CCmvVdxOaWho
+  name: 🇫🇷FR_2|3.1MB/s
+  network: tcp
+  port: '21757'
+  reality-opts:
+    public-key: bfW8vPp9BnvyXWe-fGIZrDifaSNxLXKfd1bNnyOLO04
+    short-id: 1656aa5eae8ba05c
+  server: fr.gmail.com.vipneninet.ir
+  servername: Devrelate.io
+  tls: true
+  type: vless
+  udp: true
+  uuid: 140d54e9-fe85-4c63-8259-5bf9b3e29349
+  xudp: true
+- name: 🇰🇷KR_1|1.3MB/s
+  password: ''
+  port: '1090'
+  server: 121.169.46.116
+  skip-cert-verify: true
+  type: socks5
+  username: T2clM0QlM0Q6
 - name: 🇨🇳CN_1|5.1MB/s
   password: T2c9PTpPZz09
   port: '1080'
@@ -1451,13 +1461,6 @@ proxies:
   client-fingerprint: firefox
   network: tcp
   udp: true
-- name: 🇸🇬 新加坡 | SGP
-  server: 138.2.73.61
-  port: 56927
-  type: ss
-  cipher: 2022-blake3-chacha20-poly1305
-  password: To6vtBYY2vHB3dYSu3rGxLOObUWvC8zGLJMtn+/LEPU=
-  udp: true
 - name: 🇹🇼 🇨🇳 台湾 | TWN
   server: ac7548f3ebe045b39a90288ff1e97526.pnuqcnp.cn
   port: 443
@@ -2455,6 +2458,12 @@ proxies:
   type: ss
   cipher: aes-256-gcm
   password: 3eOFeNssde7PYYMv
+- name: 🇨🇳TW-36.224.141.124-0163 | 3.179MB
+  server: r3mrcg001286ek2.cybervena.com
+  port: 50099
+  type: ss
+  cipher: chacha20-ietf-poly1305
+  password: 7e731ec3-f8e1-43f6-92cf-3978d14705c4
 - name: 🇬🇧GB-82.38.31.218-0146 | 2.359MB
   server: 82.38.31.218
   port: 8080
@@ -2513,12 +2522,6 @@ proxies:
   type: ss
   cipher: aes-256-cfb
   password: qwerREWQ@@
-- name: 🇰🇷KR-141.164.45.187-5344 | 0.082MB
-  server: 141.164.45.187
-  port: 6679
-  type: ss
-  cipher: aes-256-gcm
-  password: TEzjfAYq2IjtuoS
 - name: 🇭🇰HK-47.244.120.197-5175 | 0.023MB
   server: 47.244.120.197
   port: 44867
@@ -2605,12 +2608,6 @@ proxies:
     path: /
     headers:
       Host: v2fly.samrt.website
-- name: 🇰🇷KR-141.164.45.187-0149 | 0.0MB
-  server: 141.164.45.187
-  port: 7001
-  type: ss
-  cipher: aes-256-gcm
-  password: RexnBgU7EV5ADxG
 - name: 🇰🇷KR-211.178.105.134-0151 | 0.0MB
   server: 211.178.105.134
   port: 6123
@@ -2779,6 +2776,12 @@ proxies:
   password: mainssh-ddoejfv14
   sni: frtgrpc.mainssh.xyz
   skip-cert-verify: false
+- name: 🇪🇸ES-5.188.181.201-0231 | 0.0MB
+  server: 5.188.181.201
+  port: 9019
+  type: ss
+  cipher: aes-256-cfb
+  password: GA9KzeEgvfxNrgmM
 - name: RELAY-141.193.213.21-0232 | 0.0MB
   server: blogs.microsoft.com
   port: 80
@@ -3553,15 +3556,6 @@ proxies:
     headers:
       Host: 4fc128ce-4845-11f0-a948-6a75f667b472.ShomaParvazRoYadetonNist-BypassIsHere.lat
     path: /4fc128ce-4845-11f0-a948-6a75f667b472?ed=2365
-- name: 中国 007
-  type: vmess
-  network: tcp
-  server: 112.132.215.108
-  port: 50002
-  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
-  skip-cert-verify: true
-  alterId: 0
-  cipher: auto
 - name: 德国 005
   type: vmess
   network: tcp
@@ -3682,6 +3676,15 @@ proxies:
     headers:
       Host: koochehpas.com
     path: /graphql
+- name: 美国 085
+  type: vmess
+  network: tcp
+  server: 216.106.187.60
+  port: 22324
+  uuid: 04621bae-ab36-11ec-b909-0242ac120002
+  skip-cert-verify: true
+  alterId: 0
+  cipher: auto
 - name: 美国 086
   type: vmess
   network: tcp
@@ -10915,6 +10918,16 @@ proxies:
     headers:
       Host: vps.181110.xyz
     path: /cf63446e-vl
+- name: 德国 069
+  type: vless
+  network: tcp
+  server: 116.202.19.249
+  port: 443
+  uuid: cf990ae8-ee77-4436-aa3a-bbc2fb040c53
+  skip-cert-verify: false
+  tls: true
+  udp: true
+  tfo: false
 - name: 荷兰 022
   type: vless
   network: ws
@@ -15401,19 +15414,6 @@ proxies:
     headers:
       Host: fullaccesstokoreannetsubnode1.azurewebsites.net
     path: /ws
-- name: 美国 884
-  type: vmess
-  network: ws
-  server: uicdn.cf
-  port: 80
-  uuid: 6fea1649-425b-4092-bf53-29792152c925
-  skip-cert-verify: true
-  alterId: 0
-  cipher: auto
-  ws-opts:
-    headers:
-      Host: uicdn.cf
-    path: /sshkit/fdfadsfa/63848bfe228fd/
 - name: 美国 885
   type: vmess
   network: ws
@@ -16278,7 +16278,6 @@ proxy-groups:
   - 🇭🇰_HK_中国香港
   - ✨ @NOFiLTERING2 | ❤️ وصل شدی ج...
   - '@Daily_Configs : کانال تلگرام'
-  - 'Telegram@vpnjey #2'
   - 'Telegram@vpnjey #3'
   - 'Tel: @Daily_Configs'
   - 'Channel: @Daily_Configs'
@@ -16288,6 +16287,8 @@ proxy-groups:
   - 香港|@ripaojiedian
   - 🇫🇮FI_1|3.0MB/s
   - 🇳🇱NL_1|4.2MB/s
+  - 🇫🇷FR_2|3.1MB/s
+  - 🇰🇷KR_1|1.3MB/s
   - 🇨🇳CN_1|5.1MB/s
   - 🇸🇪SE_1|1.1MB/s
   - 🇨🇿CZ_1|2.6MB/s
@@ -16415,7 +16416,6 @@ proxy-groups:
   - 🇯🇵 日本 | JPN
   - 🇱🇰 LK_31
   - 🇳🇱 荷兰 | NLD 2
-  - 🇸🇬 新加坡 | SGP
   - 🇹🇼 🇨🇳 台湾 | TWN
   - 🇹🇼 🇨🇳 台湾 | TWN 2
   - 🇺🇸 美国 | USA
@@ -16542,6 +16542,7 @@ proxy-groups:
   - 🇬🇧GB-94.156.250.148-0140 | 6.442MB
   - RELAY-188.114.96.19-0143 | 6.161MB
   - 🇯🇵JP-84.247.155.196-0142 | 4.293MB
+  - 🇨🇳TW-36.224.141.124-0163 | 3.179MB
   - 🇬🇧GB-82.38.31.218-0146 | 2.359MB
   - RELAY-188.114.96.19-0145 | 2.29MB
   - 🇯🇵JP-84.247.155.196-0150 | 2.002MB
@@ -16549,7 +16550,6 @@ proxy-groups:
   - 🇺🇸US-216.105.168.18-0147 | 1.013MB
   - 🇬🇧GB-82.38.31.219-0148 | 0.466MB
   - 🇰🇷KR-218.237.185.230-5343 | 0.389MB
-  - 🇰🇷KR-141.164.45.187-5344 | 0.082MB
   - 🇭🇰HK-47.244.120.197-5175 | 0.023MB
   - 🇭🇰HK-156.245.232.239-0154 | 0.008MB
   - 🇨🇦CA-23.162.200.227-0137 | 0.0MB
@@ -16557,7 +16557,6 @@ proxy-groups:
   - 🇯🇵JP-13.230.153.249-0133 | 0.0MB
   - RELAY-141.101.114.120-0055 | 0.0MB
   - RELAY-104.19.3.16-0047 | 0.0MB
-  - 🇰🇷KR-141.164.45.187-0149 | 0.0MB
   - 🇰🇷KR-211.178.105.134-0151 | 0.0MB
   - 🇭🇰HK-47.244.120.197-0153 | 0.0MB
   - RELAY-104.19.3.17-0043 | 0.0MB
@@ -16573,6 +16572,7 @@ proxy-groups:
   - 🇭🇰HK-103.149.182.79-0205 | 0.0MB
   - 🇬🇧GB-57.129.132.223-0207 | 0.0MB
   - 🇩🇪DE-95.179.254.136-0210 | 0.0MB
+  - 🇪🇸ES-5.188.181.201-0231 | 0.0MB
   - RELAY-141.193.213.21-0232 | 0.0MB
   - RELAY-141.193.213.20-0235 | 0.0MB
   - RELAY-141.193.213.21-0236 | 0.0MB
@@ -16637,7 +16637,6 @@ proxy-groups:
   - 俄罗斯 002
   - 德国 004
   - 南非 001
-  - 中国 007
   - 德国 005
   - 美国 068
   - 中国 008
@@ -16650,6 +16649,7 @@ proxy-groups:
   - 美国 082
   - 美国 083
   - 美国 084
+  - 美国 085
   - 美国 086
   - 英国 007
   - 瑞典 001
@@ -17142,6 +17142,7 @@ proxy-groups:
   - 美国 508
   - 美国 509
   - 美国 510
+  - 德国 069
   - 荷兰 022
   - 美国 511
   - 美国 512
@@ -17463,7 +17464,6 @@ proxy-groups:
   - 美国 881
   - 中国 026
   - 韩国 005
-  - 美国 884
   - 美国 885
   - 美国 886
   - 美国 887
@@ -17546,7 +17546,6 @@ proxy-groups:
   - 🇭🇰_HK_中国香港
   - ✨ @NOFiLTERING2 | ❤️ وصل شدی ج...
   - '@Daily_Configs : کانال تلگرام'
-  - 'Telegram@vpnjey #2'
   - 'Telegram@vpnjey #3'
   - 'Tel: @Daily_Configs'
   - 'Channel: @Daily_Configs'
@@ -17556,6 +17555,8 @@ proxy-groups:
   - 香港|@ripaojiedian
   - 🇫🇮FI_1|3.0MB/s
   - 🇳🇱NL_1|4.2MB/s
+  - 🇫🇷FR_2|3.1MB/s
+  - 🇰🇷KR_1|1.3MB/s
   - 🇨🇳CN_1|5.1MB/s
   - 🇸🇪SE_1|1.1MB/s
   - 🇨🇿CZ_1|2.6MB/s
@@ -17683,7 +17684,6 @@ proxy-groups:
   - 🇯🇵 日本 | JPN
   - 🇱🇰 LK_31
   - 🇳🇱 荷兰 | NLD 2
-  - 🇸🇬 新加坡 | SGP
   - 🇹🇼 🇨🇳 台湾 | TWN
   - 🇹🇼 🇨🇳 台湾 | TWN 2
   - 🇺🇸 美国 | USA
@@ -17810,6 +17810,7 @@ proxy-groups:
   - 🇬🇧GB-94.156.250.148-0140 | 6.442MB
   - RELAY-188.114.96.19-0143 | 6.161MB
   - 🇯🇵JP-84.247.155.196-0142 | 4.293MB
+  - 🇨🇳TW-36.224.141.124-0163 | 3.179MB
   - 🇬🇧GB-82.38.31.218-0146 | 2.359MB
   - RELAY-188.114.96.19-0145 | 2.29MB
   - 🇯🇵JP-84.247.155.196-0150 | 2.002MB
@@ -17817,7 +17818,6 @@ proxy-groups:
   - 🇺🇸US-216.105.168.18-0147 | 1.013MB
   - 🇬🇧GB-82.38.31.219-0148 | 0.466MB
   - 🇰🇷KR-218.237.185.230-5343 | 0.389MB
-  - 🇰🇷KR-141.164.45.187-5344 | 0.082MB
   - 🇭🇰HK-47.244.120.197-5175 | 0.023MB
   - 🇭🇰HK-156.245.232.239-0154 | 0.008MB
   - 🇨🇦CA-23.162.200.227-0137 | 0.0MB
@@ -17825,7 +17825,6 @@ proxy-groups:
   - 🇯🇵JP-13.230.153.249-0133 | 0.0MB
   - RELAY-141.101.114.120-0055 | 0.0MB
   - RELAY-104.19.3.16-0047 | 0.0MB
-  - 🇰🇷KR-141.164.45.187-0149 | 0.0MB
   - 🇰🇷KR-211.178.105.134-0151 | 0.0MB
   - 🇭🇰HK-47.244.120.197-0153 | 0.0MB
   - RELAY-104.19.3.17-0043 | 0.0MB
@@ -17841,6 +17840,7 @@ proxy-groups:
   - 🇭🇰HK-103.149.182.79-0205 | 0.0MB
   - 🇬🇧GB-57.129.132.223-0207 | 0.0MB
   - 🇩🇪DE-95.179.254.136-0210 | 0.0MB
+  - 🇪🇸ES-5.188.181.201-0231 | 0.0MB
   - RELAY-141.193.213.21-0232 | 0.0MB
   - RELAY-141.193.213.20-0235 | 0.0MB
   - RELAY-141.193.213.21-0236 | 0.0MB
@@ -17905,7 +17905,6 @@ proxy-groups:
   - 俄罗斯 002
   - 德国 004
   - 南非 001
-  - 中国 007
   - 德国 005
   - 美国 068
   - 中国 008
@@ -17918,6 +17917,7 @@ proxy-groups:
   - 美国 082
   - 美国 083
   - 美国 084
+  - 美国 085
   - 美国 086
   - 英国 007
   - 瑞典 001
@@ -18410,6 +18410,7 @@ proxy-groups:
   - 美国 508
   - 美国 509
   - 美国 510
+  - 德国 069
   - 荷兰 022
   - 美国 511
   - 美国 512
@@ -18731,7 +18732,6 @@ proxy-groups:
   - 美国 881
   - 中国 026
   - 韩国 005
-  - 美国 884
   - 美国 885
   - 美国 886
   - 美国 887
@@ -18844,6 +18844,7 @@ proxy-groups:
   proxies:
   - 🇹🇼 🇨🇳 台湾 | TWN
   - 🇹🇼 🇨🇳 台湾 | TWN 2
+  - 🇨🇳TW-36.224.141.124-0163 | 3.179MB
 - name: 🌐 土耳其
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -18892,6 +18893,7 @@ proxy-groups:
   - 德国 052
   - 德国 055
   - 德国 057
+  - 德国 069
   - 德国 074
   - 德国 075
   - 德国 079
@@ -18906,7 +18908,6 @@ proxy-groups:
   interval: 300
   tolerance: 50
   proxies:
-  - 🇸🇬 新加坡 | SGP
   - 新加坡 006
 - name: 🌐 日本
   type: url-test
@@ -18941,6 +18942,7 @@ proxy-groups:
   interval: 300
   tolerance: 50
   proxies:
+  - 🇫🇷FR_2|3.1MB/s
   - 🇫🇷FR_3|3.4MB/s
   - 🇫🇷FR_4|2.7MB/s
   - 🇫🇷 法国 | FRA
@@ -19120,6 +19122,7 @@ proxy-groups:
   - 美国 082
   - 美国 083
   - 美国 084
+  - 美国 085
   - 美国 086
   - 美国 087
   - 美国 088
@@ -19721,7 +19724,6 @@ proxy-groups:
   - 美国 878
   - 美国 879
   - 美国 881
-  - 美国 884
   - 美国 885
   - 美国 886
   - 美国 887
@@ -19914,9 +19916,8 @@ proxy-groups:
   interval: 300
   tolerance: 50
   proxies:
+  - 🇰🇷KR_1|1.3MB/s
   - 🇰🇷KR-218.237.185.230-5343 | 0.389MB
-  - 🇰🇷KR-141.164.45.187-5344 | 0.082MB
-  - 🇰🇷KR-141.164.45.187-0149 | 0.0MB
   - 🇰🇷KR-211.178.105.134-0151 | 0.0MB
   - 韩国 001
   - 韩国 002
@@ -19945,7 +19946,6 @@ proxy-groups:
   - 🇨🇳_CN_中国
   - ✨ @NOFiLTERING2 | ❤️ وصل شدی ج...
   - '@Daily_Configs : کانال تلگرام'
-  - 'Telegram@vpnjey #2'
   - 'Telegram@vpnjey #3'
   - 'Tel: @Daily_Configs'
   - 'Channel: @Daily_Configs'
@@ -20008,6 +20008,7 @@ proxy-groups:
   - RELAY-172.67.161.144-0192 | 0.0MB
   - RELAY-104.21.57.84-0193 | 0.0MB
   - RELAY-141.101.114.32-0198 | 0.0MB
+  - 🇪🇸ES-5.188.181.201-0231 | 0.0MB
   - RELAY-141.193.213.21-0232 | 0.0MB
   - RELAY-141.193.213.20-0235 | 0.0MB
   - RELAY-141.193.213.21-0236 | 0.0MB
@@ -20020,7 +20021,6 @@ proxy-groups:
   - 乌克兰 002
   - 罗马尼亚 003
   - 南非 001
-  - 中国 007
   - 中国 008
   - 以色列 001
   - 瑞典 001
