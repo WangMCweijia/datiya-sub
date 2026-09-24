@@ -1,5 +1,5 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-09-24 12:55:12 +0800 | 可用节点 14 个（采集 98 个，覆盖 7 天）
+# 更新于 2026-09-24 13:16:22 +0800 | 可用节点 3 个（采集 98 个，覆盖 7 天）
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -37,70 +37,6 @@ proxies:
   cipher: auto
   tls: false
   skip-cert-verify: false
-- name: 🇭🇰 香港2
-  server: 103.236.66.4
-  port: 10001
-  type: ss
-  cipher: aes-256-gcm
-  password: Butterfly123@qwe9527
-- name: 🇭🇰 香港3
-  server: 112.28.141.77
-  port: 10006
-  type: ss
-  cipher: aes-256-gcm
-  password: Butterfly123@qwe9527
-- name: 🇭🇰 香港4
-  server: 43.199.146.46
-  port: 2716
-  type: trojan
-  password: BxceQaOe
-  sni: t.me%2Fripaojiedian
-  skip-cert-verify: true
-- name: 🇭🇰 香港5
-  server: 13.215.162.132
-  port: 51391
-  type: trojan
-  password: BxceQaOe
-  sni: t.me%2Fripaojiedian
-  skip-cert-verify: true
-- name: 🇯🇵 日本
-  server: 35.73.128.210
-  port: 3893
-  type: trojan
-  password: BxceQaOe
-  sni: t.me%252Fripaojiedian
-  skip-cert-verify: true
-- name: 🇯🇵 日本2
-  server: 103.236.66.4
-  port: 40001
-  type: ss
-  cipher: aes-256-gcm
-  password: Butterfly123@qwe9527
-- name: 🇯🇵 日本3
-  server: 103.236.66.4
-  port: 40002
-  type: ss
-  cipher: aes-256-gcm
-  password: Butterfly123@qwe9527
-- name: 🇸🇬 新加坡3
-  server: 54.251.190.150
-  port: 41142
-  type: trojan
-  password: BxceQaOe
-  sni: t.me%252Fripaojiedian
-  skip-cert-verify: true
-- name: 🇺🇸 美国
-  server: 103.236.66.4
-  port: 50001
-  type: ss
-  cipher: aes-256-gcm
-  password: Butterfly123@qwe9527
-- name: 🇺🇸 美国2
-  server: 103.236.66.4
-  port: 50003
-  type: ss
-  cipher: aes-256-gcm
-  password: Butterfly123@qwe9527
 - name: 🇺🇸 美国3
   server: 100.42.228.109
   port: 443
@@ -108,38 +44,18 @@ proxies:
   password: BxceQaOe
   sni: t.me%2Fripaojiedian
   skip-cert-verify: true
-- name: 🇨🇳 台湾
-  server: 36.33.35.105
-  port: 30001
-  type: ss
-  cipher: aes-256-gcm
-  password: Butterfly123@qwe9527
 proxy-groups:
 - name: 🚀 节点选择
   type: select
   proxies:
   - ♻️ 自动选择
   - DIRECT
-  - 🌐 台湾
-  - 🌐 新加坡
-  - 🌐 日本
   - 🌐 美国
   - 🌐 香港
   - 🌐 其他
   - tg频道:@freenodedaily
   - 🇭🇰 香港
-  - 🇭🇰 香港2
-  - 🇭🇰 香港3
-  - 🇭🇰 香港4
-  - 🇭🇰 香港5
-  - 🇯🇵 日本
-  - 🇯🇵 日本2
-  - 🇯🇵 日本3
-  - 🇸🇬 新加坡3
-  - 🇺🇸 美国
-  - 🇺🇸 美国2
   - 🇺🇸 美国3
-  - 🇨🇳 台湾
 - name: ♻️ 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -148,49 +64,13 @@ proxy-groups:
   proxies:
   - tg频道:@freenodedaily
   - 🇭🇰 香港
-  - 🇭🇰 香港2
-  - 🇭🇰 香港3
-  - 🇭🇰 香港4
-  - 🇭🇰 香港5
-  - 🇯🇵 日本
-  - 🇯🇵 日本2
-  - 🇯🇵 日本3
-  - 🇸🇬 新加坡3
-  - 🇺🇸 美国
-  - 🇺🇸 美国2
   - 🇺🇸 美国3
-  - 🇨🇳 台湾
-- name: 🌐 台湾
-  type: url-test
-  url: http://www.gstatic.com/generate_204
-  interval: 300
-  tolerance: 50
-  proxies:
-  - 🇨🇳 台湾
-- name: 🌐 新加坡
-  type: url-test
-  url: http://www.gstatic.com/generate_204
-  interval: 300
-  tolerance: 50
-  proxies:
-  - 🇸🇬 新加坡3
-- name: 🌐 日本
-  type: url-test
-  url: http://www.gstatic.com/generate_204
-  interval: 300
-  tolerance: 50
-  proxies:
-  - 🇯🇵 日本
-  - 🇯🇵 日本2
-  - 🇯🇵 日本3
 - name: 🌐 美国
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
-  - 🇺🇸 美国
-  - 🇺🇸 美国2
   - 🇺🇸 美国3
 - name: 🌐 香港
   type: url-test
@@ -199,10 +79,6 @@ proxy-groups:
   tolerance: 50
   proxies:
   - 🇭🇰 香港
-  - 🇭🇰 香港2
-  - 🇭🇰 香港3
-  - 🇭🇰 香港4
-  - 🇭🇰 香港5
 - name: 🌐 其他
   type: url-test
   url: http://www.gstatic.com/generate_204
