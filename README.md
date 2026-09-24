@@ -18,7 +18,7 @@ free.datiya.com：RSS 发现最近 N 天的文章  →  抓取每天的 uploads/
         ↓
     第二轮：经每个节点真实下载测速（网速低于 min_speed_kbps 的剔除）
         ↓
-    第三轮：中国大陆可达性（Globalping 从国内探测点 ping 服务器，不通的剔除）
+    第三轮：中国大陆可达性（Globalping 从国内探测点 ping 服务器，确认被墙的剔除）
         ↓
     生成 Clash 配置 + v2ray 订阅  →  提交到仓库  →  GitHub Pages 发布
 ```
@@ -96,6 +96,7 @@ python main.py --verbose
 | `check.concurrency` | 第一轮并发测速数 |
 | `check.china_check.enabled` | 第三轮：是否做中国大陆可达性检测（借助 Globalping 公开 API） |
 | `check.china_check.country` | 探测点所在国家，默认 `CN`（中国大陆） |
+| `check.china_check.reference_country` | 复核用探测点所在国家，默认 `US`（确认是否只是屏蔽 ICMP） |
 | `check.china_check.limit` | 每个服务器用几个探测点，免费额度约 250 次/小时，慎调大 |
 | `check.min_alive` | 可用节点少于该值时**不覆盖**已有订阅，避免把好订阅写坏 |
 | `clash.*` | 生成配置的端口、测速地址、测速间隔 |
@@ -108,9 +109,11 @@ python main.py --verbose
   算出网速，低于 `min_speed_kbps` 的剔除。测速前会先剔除明文 `http`/`socks5` 代理和内核不支持的协议。
 - **第三轮补上「国内视角」**：前两轮都在 GitHub 的境外机器上跑，能测通不等于你在国内连得上。
   第三轮借助 [Globalping](https://globalping.io/) 公开 API，用中国大陆的探测点对每个节点的
-  **服务器地址**做 ICMP ping，国内完全 ping 不通的（多是被墙或线路被切断）直接剔除。
-  它只测服务器、不测端口/协议，属「必要不充分」条件；接口限速或异常时一律**保留**节点，
-  不会因为第三方抖动把订阅写空。不想用可把 `check.china_check.enabled` 设为 `false`。
+  **服务器地址**做 ICMP ping。判定很保守，**只剔除有证据的**：国内 ping 通 → 保留；
+  国内不通但换境外探测点能 ping 通 → 确认被墙，剔除；两地都不通 → 多半是服务器屏蔽了 ICMP，
+  无法据此判断，一律保留（避免误杀能用的节点）。它只测服务器、不测端口/协议，属「必要不充分」
+  条件；接口限速或异常时也一律**保留**节点，不会因为第三方抖动把订阅写空。
+  不想用可把 `check.china_check.enabled` 设为 `false`。
 - **仍不能保证 100% 可用**。免费节点寿命很短，几分钟就可能失效；测活机在境外，
   与你的网络环境不同。客户端里用 url-test 组（默认的「♻️ 自动选择」）会自动挑当前最快的，
   每隔几分钟重测一次并自动切换，不会一直卡在死节点上。

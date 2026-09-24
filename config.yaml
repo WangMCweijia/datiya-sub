@@ -39,11 +39,12 @@ check:
   speed_concurrency: 10      # 并发下载数（太高会互相抢带宽，反而测不准）
   min_speed_kbps: 200        # 网速下限（KB/s），低于的剔除
   # --- 第三轮：中国大陆可达性（借助 Globalping 公开 API）---
-  # 用中国大陆探测点 ping 各节点服务器，国内完全不通的剔除。
-  # 只测服务器地址、不测端口/协议，属"必要不充分"条件；异常时保留节点。
+  # 判定：国内 ping 通 → 保留；国内不通但境外 ping 通 → 确认被墙，剔除；
+  #       两地都不通 → 多为屏蔽 ICMP，无法判断，一律保留（避免误杀）。
   china_check:
     enabled: true
     country: "CN"            # 探测点所在国家（中国大陆）
+    reference_country: "US"  # 复核用探测点所在国家（确认是否"只是屏蔽 ICMP"）
     limit: 1                 # 每个服务器用几个探测点；免费额度约 250 次/小时，慎调大
     concurrency: 8           # 并发提交的探测数
     poll_interval: 2.0       # 轮询结果间隔（秒）
