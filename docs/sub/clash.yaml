@@ -1,5 +1,5 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-09-25 21:55:59 +0800 | 可用节点 61 个（候选 793 个，datiya 覆盖 7 天）
+# 更新于 2026-09-26 04:05:49 +0800 | 可用节点 64 个（候选 793 个，datiya 覆盖 7 天）
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -22,40 +22,6 @@ dns:
   - https://1.1.1.1/dns-query
   - https://dns.google/dns-query
 proxies:
-- name: 🇺🇸_US_美国
-  type: vless
-  server: roundhouse.proxy.rlwy.net
-  port: 28058
-  uuid: 5300170c-0c94-44d9-a276-a6af3fcc6d5f
-  network: ws
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: 🇺🇸_US_美国_2
-  type: vless
-  server: centerbeam.proxy.rlwy.net
-  port: 57787
-  uuid: 62fdc131-c75f-4750-b78f-da03b6782c6a
-  network: ws
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: 🇺🇸_US_美国_3
-  type: vmess
-  server: www.shopify.com
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
-  tls: true
-  skip-cert-verify: true
-  servername: guanwang.awsno.com
-  network: ws
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
-  udp: true
 - name: 🇭🇰_HK_中国香港
   type: anytls
   server: ac7548f3ebe045b39a90288ff1e97528.pnuqcnp.cn
@@ -65,6 +31,14 @@ proxies:
   skip-cert-verify: true
   tls: false
   udp: true
+- name: 🪐44@oneclickvpnkeys
+  password: 84a506ca5aca505696a454d828420b3f
+  port: 50160
+  server: 140.238.213.114
+  skip-cert-verify: true
+  sni: www.bing.com
+  tls: false
+  type: hysteria2
 - auth: 29ffde49-e1d6-4dcd-a135-352920f9f0b8
   name: 🇸🇪SE_1|1.7MB/s
   password: 29ffde49-e1d6-4dcd-a135-352920f9f0b8
@@ -88,6 +62,14 @@ proxies:
   skip-cert-verify: true
   sni: anytls2.864106.xyz
   type: anytls
+- name: 🇱🇻LV_1|1.6MB/s
+  password: ''
+  port: 443
+  server: 109.248.147.66
+  skip-cert-verify: true
+  tls: true
+  type: http
+  username: ''
 - name: 🇪🇸ES_1|1008KB/s
   password: None
   port: 443
@@ -156,6 +138,14 @@ proxies:
   tls: true
   type: http
   udp: true
+- auth: github.com/Alvin9999-newpac/fanqiang
+  name: 🇫🇷FR_1|2.5MB/s
+  password: github.com/Alvin9999-newpac/fanqiang
+  port: 60111
+  server: 62.210.7.139
+  skip-cert-verify: true
+  sni: www.bing.com
+  type: hysteria2
 - name: 🇬🇧GB_1|1.4MB/s
   password: None
   port: 9443
@@ -364,6 +354,20 @@ proxies:
   tls: true
   type: http
   udp: true
+- name: RO_speednode_0124
+  port: 9002
+  server: 193.176.84.32
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+- name: RO_speednode_0126
+  port: 9002
+  server: 193.176.84.39
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
 - name: US_speednode_0131
   password: 'null'
   port: 9002
@@ -409,22 +413,13 @@ proxies:
       Host:
       - cafebazaar.ir
   udp: true
-- name: 🇮🇱 以色列 | ISR
-  server: fserver-worker-001.mapleridgeway.top
-  port: 443
-  type: vless
-  uuid: 83b4af70-376e-427c-8c11-a025bec6b085
-  tls: true
-  alpn:
-  - http/1.1
-  servername: fserver-worker-001.mapleridgeway.top
-  client-fingerprint: chrome
-  network: ws
-  ws-opts:
-    path: /cdn/99294c014f2c7791?ed=2056
-    headers:
-      Host: fserver-worker-001.mapleridgeway.top
-  udp: true
+- name: 🇯🇵 日本 | JPN
+  server: open.2ml.cc.cd
+  port: 5443
+  type: hysteria2
+  password: my_super_password_123
+  auth: my_super_password_123
+  skip-cert-verify: true
 - name: 🇳🇱 荷兰 | NLD 3
   server: 77.74.123.99
   port: 8443
@@ -433,20 +428,6 @@ proxies:
   auth: s0_sdK93x9wer_D02Lz9cvK3_Sa014Oakl_C2z
   sni: grape-test-italy.dynuddns.net
   skip-cert-verify: true
-- name: 🇵🇱 波兰 | POL 2
-  server: pl.bubahero.com
-  port: 443
-  type: vless
-  uuid: c5694dc5-39fd-4a92-8430-3837baa522a3
-  tls: true
-  flow: xtls-rprx-vision
-  reality-opts:
-    public-key: GmZv3anSeAeHr_cMFKr-6MPLli-nyKNatnY6P3AFK00
-    short-id: 9c2378562188c3cb
-  servername: pl.bubahero.com
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
 - name: 🇸🇪 瑞典 | SWE
   server: 51.20.86.152
   port: 443
@@ -455,6 +436,12 @@ proxies:
   password: amazonskr05
 - name: 🇸🇪 瑞典 | SWE 2
   server: 13.51.242.39
+  port: 443
+  type: ss
+  cipher: aes-256-cfb
+  password: amazonskr05
+- name: 🇸🇪 瑞典 | SWE 3
+  server: 51.20.122.188
   port: 443
   type: ss
   cipher: aes-256-cfb
@@ -486,14 +473,6 @@ proxies:
     headers:
       Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
   udp: true
-- name: 🇹🇼 🇨🇳 台湾 | TWN
-  server: ac7548f3ebe045b39a90288ff1e97526.pnuqcnp.cn
-  port: 443
-  type: anytls
-  password: 9sK2mP8xQ7vL3nZ6
-  udp: true
-  sni: ac7548f3ebe045b39a90288ff1e97526.lwdnxf.cn
-  skip-cert-verify: true
 - name: 🇹🇼 🇨🇳 台湾 | TWN 2
   server: 6ivh.pnuqcnp.cn
   port: 443
@@ -502,6 +481,19 @@ proxies:
   udp: true
   sni: images.ctfassets.net
   skip-cert-verify: true
+- name: 🇺🇸 美国 | USA 3
+  server: 172.64.229.170
+  port: 80
+  type: vless
+  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
+  tls: false
+  servername: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
+  network: ws
+  ws-opts:
+    path: /?ed=2560security=tls
+    headers:
+      Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
+  udp: true
 - name: 🇺🇸 美国 | USA 7
   server: 146.190.72.139
   port: 11186
@@ -517,6 +509,12 @@ proxies:
       Host:
       - az.khamenei.ir
   udp: true
+- name: 🇺🇸 美国 | USA 13
+  server: 18.205.21.144
+  port: 443
+  type: ss
+  cipher: aes-256-cfb
+  password: amazonskr05
 - name: 🇺🇸 美国 | USA 19
   server: 161.35.187.182
   port: 11186
@@ -541,18 +539,19 @@ proxy-groups:
   - 🌐 台湾
   - 🌐 德国
   - 🌐 新加坡
+  - 🌐 日本
+  - 🌐 法国
   - 🌐 美国
   - 🌐 英国
   - 🌐 荷兰
   - 🌐 香港
   - 🌐 其他
-  - 🇺🇸_US_美国
-  - 🇺🇸_US_美国_2
-  - 🇺🇸_US_美国_3
   - 🇭🇰_HK_中国香港
+  - 🪐44@oneclickvpnkeys
   - 🇸🇪SE_1|1.7MB/s
   - 🇳🇱NL_1|1.2MB/s
   - 🇺🇸US_2|2.7MB/s
+  - 🇱🇻LV_1|1.6MB/s
   - 🇪🇸ES_1|1008KB/s
   - 🇩🇪DE_1|1.4MB/s
   - 🇮🇹IT_1|1.7MB/s
@@ -562,6 +561,7 @@ proxy-groups:
   - 🇪🇨EC_1|1.1MB/s
   - 🇦🇹AT_1|1.8MB/s
   - NL_speednode_0007
+  - 🇫🇷FR_1|2.5MB/s
   - 🇬🇧GB_1|1.4MB/s
   - 🇵🇱PL_1|2.4MB/s
   - 🇬🇧GB_2|1.0MB/s
@@ -591,21 +591,24 @@ proxy-groups:
   - RO_speednode_0094
   - RO_speednode_0097
   - RO_speednode_0110
+  - RO_speednode_0124
+  - RO_speednode_0126
   - US_speednode_0131
   - US_speednode_0133
   - US_speednode_0141
   - US_speednode_0143
   - 🇬🇧 英国 | GBR 6
-  - 🇮🇱 以色列 | ISR
+  - 🇯🇵 日本 | JPN
   - 🇳🇱 荷兰 | NLD 3
-  - 🇵🇱 波兰 | POL 2
   - 🇸🇪 瑞典 | SWE
   - 🇸🇪 瑞典 | SWE 2
+  - 🇸🇪 瑞典 | SWE 3
   - 🇸🇬 新加坡 | SGP
   - 🇸🇬 新加坡 | SGP 3
-  - 🇹🇼 🇨🇳 台湾 | TWN
   - 🇹🇼 🇨🇳 台湾 | TWN 2
+  - 🇺🇸 美国 | USA 3
   - 🇺🇸 美国 | USA 7
+  - 🇺🇸 美国 | USA 13
   - 🇺🇸 美国 | USA 19
 - name: ♻️ 自动选择
   type: url-test
@@ -613,13 +616,12 @@ proxy-groups:
   interval: 300
   tolerance: 50
   proxies:
-  - 🇺🇸_US_美国
-  - 🇺🇸_US_美国_2
-  - 🇺🇸_US_美国_3
   - 🇭🇰_HK_中国香港
+  - 🪐44@oneclickvpnkeys
   - 🇸🇪SE_1|1.7MB/s
   - 🇳🇱NL_1|1.2MB/s
   - 🇺🇸US_2|2.7MB/s
+  - 🇱🇻LV_1|1.6MB/s
   - 🇪🇸ES_1|1008KB/s
   - 🇩🇪DE_1|1.4MB/s
   - 🇮🇹IT_1|1.7MB/s
@@ -629,6 +631,7 @@ proxy-groups:
   - 🇪🇨EC_1|1.1MB/s
   - 🇦🇹AT_1|1.8MB/s
   - NL_speednode_0007
+  - 🇫🇷FR_1|2.5MB/s
   - 🇬🇧GB_1|1.4MB/s
   - 🇵🇱PL_1|2.4MB/s
   - 🇬🇧GB_2|1.0MB/s
@@ -658,21 +661,24 @@ proxy-groups:
   - RO_speednode_0094
   - RO_speednode_0097
   - RO_speednode_0110
+  - RO_speednode_0124
+  - RO_speednode_0126
   - US_speednode_0131
   - US_speednode_0133
   - US_speednode_0141
   - US_speednode_0143
   - 🇬🇧 英国 | GBR 6
-  - 🇮🇱 以色列 | ISR
+  - 🇯🇵 日本 | JPN
   - 🇳🇱 荷兰 | NLD 3
-  - 🇵🇱 波兰 | POL 2
   - 🇸🇪 瑞典 | SWE
   - 🇸🇪 瑞典 | SWE 2
+  - 🇸🇪 瑞典 | SWE 3
   - 🇸🇬 新加坡 | SGP
   - 🇸🇬 新加坡 | SGP 3
-  - 🇹🇼 🇨🇳 台湾 | TWN
   - 🇹🇼 🇨🇳 台湾 | TWN 2
+  - 🇺🇸 美国 | USA 3
   - 🇺🇸 美国 | USA 7
+  - 🇺🇸 美国 | USA 13
   - 🇺🇸 美国 | USA 19
 - name: 🌐 台湾
   type: url-test
@@ -680,7 +686,6 @@ proxy-groups:
   interval: 300
   tolerance: 50
   proxies:
-  - 🇹🇼 🇨🇳 台湾 | TWN
   - 🇹🇼 🇨🇳 台湾 | TWN 2
 - name: 🌐 德国
   type: url-test
@@ -698,21 +703,34 @@ proxy-groups:
   proxies:
   - 🇸🇬 新加坡 | SGP
   - 🇸🇬 新加坡 | SGP 3
+- name: 🌐 日本
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+  proxies:
+  - 🇯🇵 日本 | JPN
+- name: 🌐 法国
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+  proxies:
+  - 🇫🇷FR_1|2.5MB/s
 - name: 🌐 美国
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
-  - 🇺🇸_US_美国
-  - 🇺🇸_US_美国_2
-  - 🇺🇸_US_美国_3
   - 🇺🇸US_2|2.7MB/s
   - US_speednode_0131
   - US_speednode_0133
   - US_speednode_0141
   - US_speednode_0143
+  - 🇺🇸 美国 | USA 3
   - 🇺🇸 美国 | USA 7
+  - 🇺🇸 美国 | USA 13
   - 🇺🇸 美国 | USA 19
 - name: 🌐 英国
   type: url-test
@@ -754,7 +772,9 @@ proxy-groups:
   interval: 300
   tolerance: 50
   proxies:
+  - 🪐44@oneclickvpnkeys
   - 🇸🇪SE_1|1.7MB/s
+  - 🇱🇻LV_1|1.6MB/s
   - 🇪🇸ES_1|1008KB/s
   - 🇮🇹IT_1|1.7MB/s
   - 🇸🇪SE_2|1.8MB/s
@@ -779,10 +799,11 @@ proxy-groups:
   - RO_speednode_0094
   - RO_speednode_0097
   - RO_speednode_0110
-  - 🇮🇱 以色列 | ISR
-  - 🇵🇱 波兰 | POL 2
+  - RO_speednode_0124
+  - RO_speednode_0126
   - 🇸🇪 瑞典 | SWE
   - 🇸🇪 瑞典 | SWE 2
+  - 🇸🇪 瑞典 | SWE 3
 rules:
 - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
 - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
