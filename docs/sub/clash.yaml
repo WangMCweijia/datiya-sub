@@ -1,5 +1,5 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-09-27 22:05:03 +0800 | 可用节点 61 个（候选 780 个，datiya 覆盖 7 天）
+# 更新于 2026-09-28 03:49:46 +0800 | 可用节点 49 个（候选 778 个，datiya 覆盖 7 天）
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -38,22 +38,6 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- client-fingerprint: chrome
-  encryption: none
-  flow: xtls-rprx-vision
-  name: 🇯🇵JP_1|5.5MB/s
-  network: tcp
-  port: '443'
-  reality-opts:
-    public-key: p8VhFzvFOBAhWAEAeWmwDxT3xBSRsGYixqi0qnLFnBM
-    short-id: 21270a66
-  server: tk1.high-speed-test-56424.me
-  servername: aws.amazon.com
-  tls: true
-  type: vless
-  udp: true
-  uuid: 37615d66-5467-44a3-bc23-f2c3bef7f761
-  xudp: true
 - name: 🇵🇱PL_1|1.1MB/s
   password: None
   port: 443
@@ -88,12 +72,6 @@ proxies:
   tls: true
   type: http
   username: null
-- name: 🇨🇭CH_2|2.7MB/s
-  port: 443
-  server: 31.7.62.50
-  skip-cert-verify: true
-  tls: true
-  type: http
 - name: 🇩🇪DE_3|1.0MB/s
   password: None
   port: 443
@@ -183,13 +161,6 @@ proxies:
   tls: true
   type: http
   username: null
-- cipher: aes-256-cfb
-  name: 🇺🇸US_2|1.2MB/s
-  password: amazonskr05
-  port: 443
-  server: 3.85.21.125
-  type: ss
-  udp: true
 - name: 🇺🇸US_3|1.9MB/s
   port: 443
   server: 149.88.21.129
@@ -216,18 +187,6 @@ proxies:
   skip-cert-verify: true
   tls: true
   type: http
-- down: ''
-  fingerprint: ''
-  name: 🇩🇪DE_4|2.2MB/s
-  obfs: ''
-  obfs-password: ''
-  password: e3c3b722-1264-4cdc-a97c-b0a1bb73cd67
-  port: '9443'
-  server: 95.85.252.59
-  skip-cert-verify: true
-  sni: ''
-  type: hysteria2
-  up: ''
 - name: 🇵🇹PT_1|2.8MB/s
   password: ''
   port: '443'
@@ -314,13 +273,6 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: RO_speednode_0087
-  port: 9002
-  server: 193.176.84.20
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
 - name: RO_speednode_0094
   password: None
   port: 9002
@@ -381,67 +333,33 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇫🇷 法国 | FRA
-  server: francedobo.paslanmaz.ir
-  port: 4489
-  type: vless
-  uuid: 162ff214-21c8-4963-a80a-6200cbad787e
-  tls: true
-  flow: xtls-rprx-vision
-  encryption: mlkem768x25519plus.native.0rtt.M31lXtWMr7Q3cpC56jAAXjc19LW_6x7fONGkK5_ovgk
-  reality-opts:
-    public-key: Zb5hC10blFFRMl6raHM7yJS_TWaMy3pMzrBLDm8RC1w
-    short-id: 3cace608cf980b78
-  servername: www.tno.nl
-  client-fingerprint: random
-  network: tcp
-  udp: true
-- name: 🇯🇵 日本 | JPN 4
-  server: open.2ml.bid
-  port: 443
-  type: hysteria2
-  password: my_super_password_123
-  auth: my_super_password_123
-  sni: open.2ml.bid
+- name: US_speednode_0143
+  port: 9002
+  server: 138.199.35.198
   skip-cert-verify: true
-- name: 🇳🇱 荷兰 | NLD 7
-  server: 31.77.157.166
-  port: 8443
-  type: vless
-  uuid: 12062839-c99a-4084-b4de-e98be8b86c2d
   tls: true
-  reality-opts:
-    public-key: AGFw6SQFI2A6TaH7wOhfPnWYmY_Fp85NIoSXAqUNd20
-    short-id: b1d38becbb0d66cb
-  servername: www.cloudflare.com
-  client-fingerprint: firefox
-  network: grpc
-  grpc-opts:
-    grpc-mode: gun
-    grpc-service-name: b245bfa5d4
+  type: http
   udp: true
-- name: 🇳🇱 荷兰 | NLD 11
-  server: 153.76.122.38
+- name: 🇫🇷 法国 | FRA 3
+  server: 62.210.7.139
+  port: 60111
+  type: hysteria2
+  password: github.com/Alvin9999-newpac/fanqiang
+  auth: github.com/Alvin9999-newpac/fanqiang
+  sni: google.com
+  skip-cert-verify: true
+- name: 🇳🇱 荷兰 | NLD 4
+  server: 89.105.197.202
   port: 443
   type: vless
-  uuid: cdd6bfce-781a-4454-b7d5-4778abb5c24f
-  tls: true
-  flow: xtls-rprx-vision
-  servername: kosta8.api3-max.ru
-  client-fingerprint: firefox
-  network: tcp
-  udp: true
-- name: 🇵🇱 波兰 | POL
-  server: 31.77.13.19
-  port: 2063
-  type: vless
-  uuid: b18d5990-96eb-4587-a386-7f8ef7591e6a
+  uuid: 22a375e0-f7c6-4d8f-a154-81189914bbf4
   tls: true
   flow: xtls-rprx-vision
   reality-opts:
-    public-key: MMpt_jWc4J3oySBdf5sPDVRkiWlZmOObth6A1scM9BM
-  servername: rusbid.de
-  client-fingerprint: chrome
+    public-key: mza5Hn1aolSz65qu-UwvBP3oesxMe25r11o4nxvikF0
+    short-id: 64c1fe36c7846400
+  servername: findmypackets.com
+  client-fingerprint: safari
   network: tcp
   udp: true
 - name: 🇸🇪 瑞典 | SWE
@@ -450,29 +368,6 @@ proxies:
   type: ss
   cipher: aes-256-cfb
   password: amazonskr05
-- name: 🇸🇪 瑞典 | SWE 2
-  server: 51.20.122.188
-  port: 443
-  type: ss
-  cipher: aes-256-cfb
-  password: amazonskr05
-  udp: true
-- name: 🇸🇬 新加坡 | SGP 2
-  server: xjp1.mangshe.xyz
-  port: 2060
-  type: hysteria2
-  password: 5d0a6445-a30d-4522-bb1f-94f1d3ad63be
-  auth: 5d0a6445-a30d-4522-bb1f-94f1d3ad63be
-  sni: xjp1.mangshe.xyz
-  skip-cert-verify: true
-- name: 🇹🇼 🇨🇳 台湾 | TWN
-  server: 6ivh.pnuqcnp.cn
-  port: 443
-  type: anytls
-  password: 9sK2mP8xQ7vL3nZ6
-  udp: true
-  sni: images.ctfassets.net
-  skip-cert-verify: true
 - name: 🇹🇼 🇨🇳 台湾 | TWN 2
   server: ac7548f3ebe045b39a90288ff1e97526.pnuqcnp.cn
   port: 443
@@ -493,28 +388,8 @@ proxies:
     headers:
       Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
   udp: true
-- name: 🇺🇸US-18.205.21.144-0157 | 116.741MB
+- name: 🇺🇸US-18.205.21.144-0157 | 95.266MB
   server: 18.205.21.144
-  port: 443
-  type: ss
-  cipher: aes-256-cfb
-  password: amazonskr05
-- name: RELAY-188.114.96.19-0144 | 3.202MB
-  server: 188.114.96.19
-  port: 80
-  type: vmess
-  uuid: aed88e79-5762-4d2f-86fa-f438f32a7654
-  alterId: 0
-  cipher: auto
-  tls: false
-  skip-cert-verify: false
-  network: ws
-  ws-opts:
-    path: /
-    headers:
-      Host: google.whatsapp.snapp.torob.basalam.hesanid8.ir.
-- name: SE-51.20.122.188-0121 | 0.614MB
-  server: 51.20.122.188
   port: 443
   type: ss
   cipher: aes-256-cfb
@@ -527,21 +402,17 @@ proxy-groups:
   - DIRECT
   - 🌐 台湾
   - 🌐 德国
-  - 🌐 新加坡
-  - 🌐 日本
   - 🌐 法国
   - 🌐 美国
   - 🌐 英国
   - 🌐 荷兰
   - 🌐 其他
   - 🇺🇸_US_美国
-  - 🇯🇵JP_1|5.5MB/s
   - 🇵🇱PL_1|1.1MB/s
   - 🇷🇸RS_1|1.4MB/s
   - 🇭🇷HR_1|1.9MB/s
   - 🇬🇧GB_1|1.2MB/s
   - 🇨🇭CH_1|1.2MB/s
-  - 🇨🇭CH_2|2.7MB/s
   - 🇩🇪DE_3|1.0MB/s
   - 🇷🇸RS_2|1.1MB/s
   - 🇸🇪SE_1|1.0MB/s
@@ -554,12 +425,10 @@ proxy-groups:
   - 🇸🇪SE_2|1.1MB/s
   - 🇬🇧GB_3|2.6MB/s
   - 🇬🇧GB_4|3.0MB/s
-  - 🇺🇸US_2|1.2MB/s
   - 🇺🇸US_3|1.9MB/s
   - 🇬🇧GB_5|2.8MB/s
   - 🇫🇷FR_1|1.8MB/s
   - 🇱🇻LV_1|1.6MB/s
-  - 🇩🇪DE_4|2.2MB/s
   - 🇵🇹PT_1|2.8MB/s
   - NL_speednode_0006
   - NL_speednode_0007
@@ -572,7 +441,6 @@ proxy-groups:
   - RO_speednode_0045
   - RO_speednode_0082
   - RO_speednode_0083
-  - RO_speednode_0087
   - RO_speednode_0094
   - RO_speednode_0097
   - RO_speednode_0110
@@ -581,20 +449,13 @@ proxy-groups:
   - US_speednode_0131
   - US_speednode_0133
   - US_speednode_0141
-  - 🇫🇷 法国 | FRA
-  - 🇯🇵 日本 | JPN 4
-  - 🇳🇱 荷兰 | NLD 7
-  - 🇳🇱 荷兰 | NLD 11
-  - 🇵🇱 波兰 | POL
+  - US_speednode_0143
+  - 🇫🇷 法国 | FRA 3
+  - 🇳🇱 荷兰 | NLD 4
   - 🇸🇪 瑞典 | SWE
-  - 🇸🇪 瑞典 | SWE 2
-  - 🇸🇬 新加坡 | SGP 2
-  - 🇹🇼 🇨🇳 台湾 | TWN
   - 🇹🇼 🇨🇳 台湾 | TWN 2
   - 🇺🇸 美国 | USA 19
-  - 🇺🇸US-18.205.21.144-0157 | 116.741MB
-  - RELAY-188.114.96.19-0144 | 3.202MB
-  - SE-51.20.122.188-0121 | 0.614MB
+  - 🇺🇸US-18.205.21.144-0157 | 95.266MB
 - name: ♻️ 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -602,13 +463,11 @@ proxy-groups:
   tolerance: 50
   proxies:
   - 🇺🇸_US_美国
-  - 🇯🇵JP_1|5.5MB/s
   - 🇵🇱PL_1|1.1MB/s
   - 🇷🇸RS_1|1.4MB/s
   - 🇭🇷HR_1|1.9MB/s
   - 🇬🇧GB_1|1.2MB/s
   - 🇨🇭CH_1|1.2MB/s
-  - 🇨🇭CH_2|2.7MB/s
   - 🇩🇪DE_3|1.0MB/s
   - 🇷🇸RS_2|1.1MB/s
   - 🇸🇪SE_1|1.0MB/s
@@ -621,12 +480,10 @@ proxy-groups:
   - 🇸🇪SE_2|1.1MB/s
   - 🇬🇧GB_3|2.6MB/s
   - 🇬🇧GB_4|3.0MB/s
-  - 🇺🇸US_2|1.2MB/s
   - 🇺🇸US_3|1.9MB/s
   - 🇬🇧GB_5|2.8MB/s
   - 🇫🇷FR_1|1.8MB/s
   - 🇱🇻LV_1|1.6MB/s
-  - 🇩🇪DE_4|2.2MB/s
   - 🇵🇹PT_1|2.8MB/s
   - NL_speednode_0006
   - NL_speednode_0007
@@ -639,7 +496,6 @@ proxy-groups:
   - RO_speednode_0045
   - RO_speednode_0082
   - RO_speednode_0083
-  - RO_speednode_0087
   - RO_speednode_0094
   - RO_speednode_0097
   - RO_speednode_0110
@@ -648,27 +504,19 @@ proxy-groups:
   - US_speednode_0131
   - US_speednode_0133
   - US_speednode_0141
-  - 🇫🇷 法国 | FRA
-  - 🇯🇵 日本 | JPN 4
-  - 🇳🇱 荷兰 | NLD 7
-  - 🇳🇱 荷兰 | NLD 11
-  - 🇵🇱 波兰 | POL
+  - US_speednode_0143
+  - 🇫🇷 法国 | FRA 3
+  - 🇳🇱 荷兰 | NLD 4
   - 🇸🇪 瑞典 | SWE
-  - 🇸🇪 瑞典 | SWE 2
-  - 🇸🇬 新加坡 | SGP 2
-  - 🇹🇼 🇨🇳 台湾 | TWN
   - 🇹🇼 🇨🇳 台湾 | TWN 2
   - 🇺🇸 美国 | USA 19
-  - 🇺🇸US-18.205.21.144-0157 | 116.741MB
-  - RELAY-188.114.96.19-0144 | 3.202MB
-  - SE-51.20.122.188-0121 | 0.614MB
+  - 🇺🇸US-18.205.21.144-0157 | 95.266MB
 - name: 🌐 台湾
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
-  - 🇹🇼 🇨🇳 台湾 | TWN
   - 🇹🇼 🇨🇳 台湾 | TWN 2
 - name: 🌐 德国
   type: url-test
@@ -678,22 +526,6 @@ proxy-groups:
   proxies:
   - 🇩🇪DE_3|1.0MB/s
   - 🇩🇪DE_2|2.4MB/s
-  - 🇩🇪DE_4|2.2MB/s
-- name: 🌐 新加坡
-  type: url-test
-  url: http://www.gstatic.com/generate_204
-  interval: 300
-  tolerance: 50
-  proxies:
-  - 🇸🇬 新加坡 | SGP 2
-- name: 🌐 日本
-  type: url-test
-  url: http://www.gstatic.com/generate_204
-  interval: 300
-  tolerance: 50
-  proxies:
-  - 🇯🇵JP_1|5.5MB/s
-  - 🇯🇵 日本 | JPN 4
 - name: 🌐 法国
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -701,7 +533,7 @@ proxy-groups:
   tolerance: 50
   proxies:
   - 🇫🇷FR_1|1.8MB/s
-  - 🇫🇷 法国 | FRA
+  - 🇫🇷 法国 | FRA 3
 - name: 🌐 美国
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -709,13 +541,13 @@ proxy-groups:
   tolerance: 50
   proxies:
   - 🇺🇸_US_美国
-  - 🇺🇸US_2|1.2MB/s
   - 🇺🇸US_3|1.9MB/s
   - US_speednode_0131
   - US_speednode_0133
   - US_speednode_0141
+  - US_speednode_0143
   - 🇺🇸 美国 | USA 19
-  - 🇺🇸US-18.205.21.144-0157 | 116.741MB
+  - 🇺🇸US-18.205.21.144-0157 | 95.266MB
 - name: 🌐 英国
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -741,8 +573,7 @@ proxy-groups:
   - NL_speednode_0008
   - NL_speednode_0009
   - NL_speednode_0010
-  - 🇳🇱 荷兰 | NLD 7
-  - 🇳🇱 荷兰 | NLD 11
+  - 🇳🇱 荷兰 | NLD 4
 - name: 🌐 其他
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -753,7 +584,6 @@ proxy-groups:
   - 🇷🇸RS_1|1.4MB/s
   - 🇭🇷HR_1|1.9MB/s
   - 🇨🇭CH_1|1.2MB/s
-  - 🇨🇭CH_2|2.7MB/s
   - 🇷🇸RS_2|1.1MB/s
   - 🇸🇪SE_1|1.0MB/s
   - 🇭🇺HU_1|2.2MB/s
@@ -766,17 +596,12 @@ proxy-groups:
   - RO_speednode_0045
   - RO_speednode_0082
   - RO_speednode_0083
-  - RO_speednode_0087
   - RO_speednode_0094
   - RO_speednode_0097
   - RO_speednode_0110
   - RO_speednode_0124
   - RO_speednode_0126
-  - 🇵🇱 波兰 | POL
   - 🇸🇪 瑞典 | SWE
-  - 🇸🇪 瑞典 | SWE 2
-  - RELAY-188.114.96.19-0144 | 3.202MB
-  - SE-51.20.122.188-0121 | 0.614MB
 rules:
 - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
 - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
