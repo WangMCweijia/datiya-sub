@@ -1,5 +1,5 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-09-29 22:55:27 +0800 | 可用节点 52 个（候选 776 个，datiya 覆盖 7 天）
+# 更新于 2026-09-30 04:54:27 +0800 | 可用节点 49 个（候选 777 个，datiya 覆盖 7 天）
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -22,21 +22,14 @@ dns:
   - https://1.1.1.1/dns-query
   - https://dns.google/dns-query
 proxies:
-- client-fingerprint: firefox
-  flow: xtls-rprx-vision
-  name: 🇩🇪DE_4|1.9MB/s
-  network: tcp
+- name: 🇺🇸_US_美国
+  type: ss
+  server: 54.90.169.61
   port: 443
-  reality-opts:
-    public-key: 9XSdNkmBhBszLYoODqMrm7r_JRur2PRbzF9T1Uf2AV0
-    short-id: f1004027e382c2fa
-  server: 91.132.160.209
-  servername: dlcdn.apache.org
+  cipher: aes-256-cfb
+  password: amazonskr05
   skip-cert-verify: true
-  tls: true
-  type: vless
   udp: true
-  uuid: 2412bd96-925b-43f2-81d1-0ed4f0793699
 - alpn:
   - h2
   - http/1.1
@@ -68,14 +61,6 @@ proxies:
   type: vless
   udp: true
   uuid: 976bf067-9865-4184-938a-204463938c09
-- auth: Jz40_mIJ934vK0_k9D3jz92_Vx48q_GHa1_sz0
-  name: 🇷🇴RO_1|1.7MB/s
-  password: Jz40_mIJ934vK0_k9D3jz92_Vx48q_GHa1_sz0
-  port: 8443
-  server: 85.204.107.179
-  skip-cert-verify: true
-  sni: hopp-romania-new.roxa.org
-  type: hysteria2
 - name: 🇱🇻LV_1|2.1MB/s
   port: 443
   server: 109.248.147.66
@@ -179,20 +164,6 @@ proxies:
   type: vless
   udp: true
   uuid: 900e2cca-4798-47f6-b972-5288a77c8093
-- client-fingerprint: firefox
-  name: 🇨🇭CH_2|1.3MB/s
-  network: tcp
-  port: '2053'
-  reality-opts:
-    public-key: A49ue7zXSusJZdErPAewg3jqGdUFIO1a9xOunEKJfC0
-    short-id: ad86e2d52ff40ebd
-  server: 208.69.78.217
-  servername: www.apple.com
-  tls: true
-  type: vless
-  udp: true
-  uuid: c0dd6d59-1573-43af-8b70-1470b2632a6d
-  xudp: true
 - name: 🇺🇸US_4|3.6MB/s
   password: ''
   port: '8443'
@@ -201,18 +172,6 @@ proxies:
   tls: true
   type: http
   username: ''
-- down: ''
-  fingerprint: ''
-  name: 🇨🇭CH_3|2.8MB/s
-  obfs: ''
-  obfs-password: ''
-  password: we9_I1893UFj3149xbr1_k8qvJ8734ic_Mx82gH
-  port: '8443'
-  server: 82.38.64.235
-  skip-cert-verify: true
-  sni: hopp-swizland-new.mysynology.net
-  type: hysteria2
-  up: ''
 - name: NL_speednode_0004
   port: 9002
   server: 84.17.47.125
@@ -274,13 +233,6 @@ proxies:
 - name: RO_speednode_0042
   port: 9002
   server: 193.176.84.30
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: RO_speednode_0044
-  port: 9002
-  server: 193.176.84.35
   skip-cert-verify: true
   tls: true
   type: http
@@ -350,6 +302,15 @@ proxies:
   tls: true
   type: http
   udp: true
+- name: US_speednode_0131
+  password: 'null'
+  port: 9002
+  server: 138.199.35.216
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+  username: 'null'
 - name: US_speednode_0133
   port: 443
   server: fan.365747.xyz
@@ -364,34 +325,12 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇩🇪 德国 | DEU
-  server: 162.249.127.136
-  port: 8443
-  type: hysteria2
-  password: 9Me_Jx935gnHx13_Nx45M_NYXe037js_Be4z
-  auth: 9Me_Jx935gnHx13_Nx45M_NYXe037js_Be4z
-  sni: hop-germany-september.dynuddns.com
+- name: US_speednode_0143
+  port: 9002
+  server: 138.199.35.198
   skip-cert-verify: true
-- name: 🇩🇪 德国 | DEU 5
-  server: 91.132.160.209
-  port: 443
-  type: vless
-  uuid: 2412bd96-925b-43f2-81d1-0ed4f0793699
   tls: true
-  flow: xtls-rprx-vision
-  reality-opts:
-    public-key: 9XSdNkmBhBszLYoODqMrm7r_JRur2PRbzF9T1Uf2AV0
-    short-id: f1004027e382c2fa
-  servername: dlcdn.apache.org
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
-- name: 🇩🇪 德国 | DEU 6
-  server: 130.61.177.191
-  port: 59924
-  type: ss
-  cipher: 2022-blake3-chacha20-poly1305
-  password: T1bAAqVlY6NI/tQyT8OEP6Sm7kh5JLYiNuHLqQWMvWE=
+  type: http
   udp: true
 - name: 🇩🇪 德国 | DEU 9
   server: 162.249.127.135
@@ -409,20 +348,14 @@ proxies:
   udp: true
   sni: ac7548f3ebe045b39a90288ff1e97528.lwdnxf.cn
   skip-cert-verify: true
-- name: 🇳🇱 荷兰 | NLD 7
-  server: 89.125.65.110
-  port: 443
-  type: vless
-  uuid: 228ecfd3-9bf0-42fd-a50e-581f84022513
-  tls: true
-  flow: xtls-rprx-vision
-  reality-opts:
-    public-key: 94vM83D04n5QHxwxT-DSY8Q5YqGjMFEHnDVS_M-L2wc
-    short-id: 5d8ec7b1dbc0
-  servername: ozone.nl
-  client-fingerprint: firefox
-  network: tcp
-  udp: true
+- name: 🇰🇷 韩国 | KOR
+  server: 152.70.237.123
+  port: 2053
+  type: hysteria2
+  password: maintell
+  auth: maintell
+  sni: bing.com
+  skip-cert-verify: true
 - name: 🇷🇺 俄罗斯 | RUS
   server: 91.240.86.70
   port: 22443
@@ -431,6 +364,25 @@ proxies:
   auth: 3f63c86c-ac4a-4900-85cf-4fedf93c2ca5
   sni: 91.240.86.70
   skip-cert-verify: true
+- name: 🇸🇬 新加坡 | SGP 2
+  server: 138.2.89.249
+  port: 443
+  type: hysteria2
+  password: d042d150716709bb778cc73889cddb02
+  auth: d042d150716709bb778cc73889cddb02
+  sni: www.bing.com
+  skip-cert-verify: true
+  obfs: salamander
+  obfs-password: 309502c4a8df10b46fb976d4a8c43f42
+- name: 🇺🇸 美国 | USA 7
+  server: starlink-ft.251313.xyz
+  port: 443
+  type: hysteria2
+  password: https://xship.top
+  auth: https://xship.top
+  sni: xship.top
+  skip-cert-verify: true
+  udp: true
 - name: 🇺🇸 美国 | USA 8
   server: 162.159.43.187
   port: 8880
@@ -451,19 +403,12 @@ proxies:
   sni: 192.236.151.43
   skip-cert-verify: true
   udp: true
-- name: 🇺🇸 美国 | USA 14
-  server: 1.ppap.a1.zjs.ppt.998.kfc-520.com
-  port: 10002
-  type: vless
-  uuid: 8cb0c4fb-03ee-35b8-a47b-cd1d7e76dfd3
-  tls: true
-  flow: xtls-rprx-vision
-  reality-opts:
-    public-key: 3CzFme1556AXsnF-1bVjlvxYtU_rG2i50piDBR_NBjw
-    short-id: f61f173b
-  servername: www.nvidia.com
-  client-fingerprint: firefox
-  network: tcp
+- cipher: aes-256-cfb
+  name: 🇸🇪SE_1|1.6MB/s
+  password: amazonskr05
+  port: 443
+  server: 13.48.104.64
+  type: ss
   udp: true
 proxy-groups:
 - name: 🚀 节点选择
@@ -473,17 +418,18 @@ proxy-groups:
   - DIRECT
   - 🌐 俄罗斯
   - 🌐 德国
+  - 🌐 新加坡
   - 🌐 日本
   - 🌐 法国
   - 🌐 美国
   - 🌐 英国
   - 🌐 荷兰
+  - 🌐 韩国
   - 🌐 香港
   - 🌐 其他
-  - 🇩🇪DE_4|1.9MB/s
+  - 🇺🇸_US_美国
   - 🇩🇪DE_3|1.4MB/s
   - 🇯🇵JP_1|5.2MB/s
-  - 🇷🇴RO_1|1.7MB/s
   - 🇱🇻LV_1|2.1MB/s
   - 🇫🇷FR_1|2.4MB/s
   - 🇨🇿CZ_1|2.3MB/s
@@ -498,9 +444,7 @@ proxy-groups:
   - 🇬🇧GB_1|1.1MB/s
   - 🇺🇸US_3|3.3MB/s
   - 🇪🇪EE_1|1.1MB/s
-  - 🇨🇭CH_2|1.3MB/s
   - 🇺🇸US_4|3.6MB/s
-  - 🇨🇭CH_3|2.8MB/s
   - NL_speednode_0004
   - NL_speednode_0005
   - NL_speednode_0006
@@ -510,7 +454,6 @@ proxy-groups:
   - NL_speednode_0010
   - RO_speednode_0041
   - RO_speednode_0042
-  - RO_speednode_0044
   - RO_speednode_0045
   - RO_speednode_0082
   - RO_speednode_0083
@@ -520,28 +463,28 @@ proxy-groups:
   - RO_speednode_0110
   - RO_speednode_0124
   - RO_speednode_0126
+  - US_speednode_0131
   - US_speednode_0133
   - US_speednode_0141
-  - 🇩🇪 德国 | DEU
-  - 🇩🇪 德国 | DEU 5
-  - 🇩🇪 德国 | DEU 6
+  - US_speednode_0143
   - 🇩🇪 德国 | DEU 9
   - 🇭🇰 香港 | HKG
-  - 🇳🇱 荷兰 | NLD 7
+  - 🇰🇷 韩国 | KOR
   - 🇷🇺 俄罗斯 | RUS
+  - 🇸🇬 新加坡 | SGP 2
+  - 🇺🇸 美国 | USA 7
   - 🇺🇸 美国 | USA 8
   - 🇺🇸 美国 | USA 13
-  - 🇺🇸 美国 | USA 14
+  - 🇸🇪SE_1|1.6MB/s
 - name: ♻️ 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
-  - 🇩🇪DE_4|1.9MB/s
+  - 🇺🇸_US_美国
   - 🇩🇪DE_3|1.4MB/s
   - 🇯🇵JP_1|5.2MB/s
-  - 🇷🇴RO_1|1.7MB/s
   - 🇱🇻LV_1|2.1MB/s
   - 🇫🇷FR_1|2.4MB/s
   - 🇨🇿CZ_1|2.3MB/s
@@ -556,9 +499,7 @@ proxy-groups:
   - 🇬🇧GB_1|1.1MB/s
   - 🇺🇸US_3|3.3MB/s
   - 🇪🇪EE_1|1.1MB/s
-  - 🇨🇭CH_2|1.3MB/s
   - 🇺🇸US_4|3.6MB/s
-  - 🇨🇭CH_3|2.8MB/s
   - NL_speednode_0004
   - NL_speednode_0005
   - NL_speednode_0006
@@ -568,7 +509,6 @@ proxy-groups:
   - NL_speednode_0010
   - RO_speednode_0041
   - RO_speednode_0042
-  - RO_speednode_0044
   - RO_speednode_0045
   - RO_speednode_0082
   - RO_speednode_0083
@@ -578,18 +518,19 @@ proxy-groups:
   - RO_speednode_0110
   - RO_speednode_0124
   - RO_speednode_0126
+  - US_speednode_0131
   - US_speednode_0133
   - US_speednode_0141
-  - 🇩🇪 德国 | DEU
-  - 🇩🇪 德国 | DEU 5
-  - 🇩🇪 德国 | DEU 6
+  - US_speednode_0143
   - 🇩🇪 德国 | DEU 9
   - 🇭🇰 香港 | HKG
-  - 🇳🇱 荷兰 | NLD 7
+  - 🇰🇷 韩国 | KOR
   - 🇷🇺 俄罗斯 | RUS
+  - 🇸🇬 新加坡 | SGP 2
+  - 🇺🇸 美国 | USA 7
   - 🇺🇸 美国 | USA 8
   - 🇺🇸 美国 | USA 13
-  - 🇺🇸 美国 | USA 14
+  - 🇸🇪SE_1|1.6MB/s
 - name: 🌐 俄罗斯
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -603,12 +544,15 @@ proxy-groups:
   interval: 300
   tolerance: 50
   proxies:
-  - 🇩🇪DE_4|1.9MB/s
   - 🇩🇪DE_3|1.4MB/s
-  - 🇩🇪 德国 | DEU
-  - 🇩🇪 德国 | DEU 5
-  - 🇩🇪 德国 | DEU 6
   - 🇩🇪 德国 | DEU 9
+- name: 🌐 新加坡
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+  proxies:
+  - 🇸🇬 新加坡 | SGP 2
 - name: 🌐 日本
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -629,15 +573,18 @@ proxy-groups:
   interval: 300
   tolerance: 50
   proxies:
+  - 🇺🇸_US_美国
   - 🇺🇸US_1|1.0MB/s
   - 🇺🇸US_2|1.1MB/s
   - 🇺🇸US_3|3.3MB/s
   - 🇺🇸US_4|3.6MB/s
+  - US_speednode_0131
   - US_speednode_0133
   - US_speednode_0141
+  - US_speednode_0143
+  - 🇺🇸 美国 | USA 7
   - 🇺🇸 美国 | USA 8
   - 🇺🇸 美国 | USA 13
-  - 🇺🇸 美国 | USA 14
 - name: 🌐 英国
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -658,7 +605,13 @@ proxy-groups:
   - NL_speednode_0008
   - NL_speednode_0009
   - NL_speednode_0010
-  - 🇳🇱 荷兰 | NLD 7
+- name: 🌐 韩国
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+  proxies:
+  - 🇰🇷 韩国 | KOR
 - name: 🌐 香港
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -672,7 +625,6 @@ proxy-groups:
   interval: 300
   tolerance: 50
   proxies:
-  - 🇷🇴RO_1|1.7MB/s
   - 🇱🇻LV_1|2.1MB/s
   - 🇨🇿CZ_1|2.3MB/s
   - 🇨🇿CZ_2|1.2MB/s
@@ -682,11 +634,8 @@ proxy-groups:
   - 🇱🇻LV_2|1.2MB/s
   - 🇱🇻LV_3|3.2MB/s
   - 🇪🇪EE_1|1.1MB/s
-  - 🇨🇭CH_2|1.3MB/s
-  - 🇨🇭CH_3|2.8MB/s
   - RO_speednode_0041
   - RO_speednode_0042
-  - RO_speednode_0044
   - RO_speednode_0045
   - RO_speednode_0082
   - RO_speednode_0083
@@ -696,6 +645,7 @@ proxy-groups:
   - RO_speednode_0110
   - RO_speednode_0124
   - RO_speednode_0126
+  - 🇸🇪SE_1|1.6MB/s
 rules:
 - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
 - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
