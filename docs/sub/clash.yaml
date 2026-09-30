@@ -1,5 +1,5 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-09-30 23:00:56 +0800 | 可用节点 64 个（候选 877 个，datiya 覆盖 7 天）
+# 更新于 2026-10-01 04:53:53 +0800 | 可用节点 120 个（候选 915 个，datiya 覆盖 7 天）
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -22,81 +22,448 @@ dns:
   - https://1.1.1.1/dns-query
   - https://dns.google/dns-query
 proxies:
-- name: 🇺🇸_US_美国
-  type: vmess
-  server: guanwang.awsno.com
+- name: 🇺🇸 美国
+  server: 53vXOVarmgcreAsv.v.3dns.vip
   port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  type: vmess
+  uuid: f0b7bbd66aad458aaec0e9acaab768b6
   alterId: 0
   cipher: auto
   tls: true
-  skip-cert-verify: true
-  servername: guanwang.awsno.com
+  skip-cert-verify: false
+  servername: 53vXOVarmgcreAsv.v.3dns.vip
   network: ws
   ws-opts:
-    path: /hls/cctv5phd.m3u8
+    path: /ws-vmess
     headers:
-      Host: guanwang.awsno.com
+      Host: 53vXOVarmgcreAsv.v.3dns.vip
+- name: '🇺🇸 美国2 #2'
+  server: 24864168545164.oylfmxz.cn
+  port: 443
+  type: vmess
+  uuid: d90e4077-bc7e-414d-a650-70bf1baae4d6
+  alterId: 0
+  cipher: auto
+  tls: true
+  skip-cert-verify: false
+  servername: 24864168545164.oylfmxz.cn
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: 24864168545164.oylfmxz.cn
+- name: 🇨🇳_CN_中国
+  type: vmess
+  server: 112.132.215.108
+  port: 50002
+  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
+  alterId: 64
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
   udp: true
-- down: ''
-  fingerprint: ''
-  name: 🇷🇺RU_1|3.3MB/s
-  obfs: ''
-  obfs-password: ''
-  password: 3f63c86c-ac4a-4900-85cf-4fedf93c2ca5
-  port: '22443'
-  server: 91.240.86.70
+- name: 🇩🇪_DE_德国
+  type: vmess
+  server: 31.77.8.97
+  port: 110
+  uuid: d2d8601b-c14b-42c6-b8ea-33889bce152a
+  alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: Telegram:@v2rayng3
+  obfs: salamander
+  obfs-password: uw9b2qq5rx
+  password: 6aab8efdf13945829ae3699c342be406
+  port: 443
+  server: 31.76.80.69
   skip-cert-verify: false
-  sni: hy.quattro-tech.ru
+  sni: fiproxy1.lockdwn.com
+  tls: false
   type: hysteria2
-  up: ''
-- down: ''
-  fingerprint: ''
-  name: 🇷🇺RU_2|2.0MB/s
-  obfs: ''
-  obfs-password: ''
-  password: 3f63c86c-ac4a-4900-85cf-4fedf93c2ca5
-  port: '22443'
-  server: 91.240.86.70
+- alterId: 0
+  cipher: auto
+  name: 🇺🇸 美国|@ripaojiedian
+  network: ws
+  port: 443
+  server: 53vXOVarmgcreAsv.v.3dns.vip
+  servername: 53vXOVarmgcreAsv.v.3dns.vip
   skip-cert-verify: false
-  sni: itsallproxy.quattro-tech.ru
-  type: hysteria2
-  up: ''
+  tls: true
+  type: vmess
+  uuid: 88888888-8888-8888-8888-888888888888
+  ws-opts:
+    headers:
+      Host: 53vXOVarmgcreAsv.v.3dns.vip
+    path: /ws-vmess
+- client-fingerprint: chrome
+  name: 🇫🇷FR_1|2.4MB/s
+  network: ws
+  password: humanity
+  port: '443'
+  server: 104.16.174.117
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
+  type: trojan
+  udp: true
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36
+    path: /assignment
+- client-fingerprint: chrome
+  name: 🇫🇷FR_2|2.3MB/s
+  network: ws
+  password: humanity
+  port: '443'
+  server: 104.18.152.233
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
+  type: trojan
+  udp: true
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36
+    path: /assignment
+- alpn:
+  - h3
+  - h2
+  - http/1.1
+  client-fingerprint: chrome
+  name: 🇫🇷FR_3|2.9MB/s
+  network: ws
+  password: humanity
+  port: '443'
+  server: 104.21.46.3
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
+  type: trojan
+  udp: true
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Windows NT 6.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36
+    path: /assignment
+- client-fingerprint: chrome
+  name: 🇫🇷FR_4|2.3MB/s
+  network: ws
+  password: humanity
+  port: '443'
+  server: 104.16.174.121
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
+  type: trojan
+  udp: true
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36
+    path: /assignment
+- client-fingerprint: chrome
+  name: 🇫🇷FR_8|1.7MB/s
+  network: ws
+  password: humanity
+  port: '443'
+  server: 104.26.14.137
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
+  type: trojan
+  udp: true
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Linux; Android 6.0.1; SM-G532M Build/MMB29T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.91 Mobile Safari/537.36
+    path: /assignment
+- client-fingerprint: chrome
+  name: 🇫🇷FR_9|1.3MB/s
+  network: ws
+  password: humanity
+  port: '443'
+  server: 172.67.221.242
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
+  type: trojan
+  udp: true
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36
+    path: /assignment
+- client-fingerprint: chrome
+  name: 🇫🇷FR_10|1.0MB/s
+  network: ws
+  password: humanity
+  port: '443'
+  server: 104.17.177.143
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
+  type: trojan
+  udp: true
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36
+    path: /assignment
+- client-fingerprint: chrome
+  name: 🇫🇷FR_11|1.4MB/s
+  network: ws
+  password: humanity
+  port: '443'
+  server: 104.16.174.143
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
+  type: trojan
+  udp: true
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Linux; Android 5.1.1; SM-J120M Build/LMY47X) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36
+    path: /assignment
+- client-fingerprint: chrome
+  name: 🇫🇷FR_12|2.8MB/s
+  network: ws
+  password: humanity
+  port: '443'
+  server: 104.16.174.6
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
+  type: trojan
+  udp: true
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.93 Safari/537.36
+    path: /assignment
+- client-fingerprint: chrome
+  name: 🇫🇷FR_13|2.1MB/s
+  network: ws
+  password: humanity
+  port: '443'
+  server: 104.18.152.179
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
+  type: trojan
+  udp: true
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36
+    path: /assignment
+- client-fingerprint: chrome
+  name: 🇫🇷FR_14|1.8MB/s
+  network: ws
+  password: humanity
+  port: '443'
+  server: 104.18.152.108
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
+  type: trojan
+  udp: true
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.81 Safari/537.36
+    path: /assignment
+- client-fingerprint: chrome
+  name: 🇫🇷FR_15|1.2MB/s
+  network: ws
+  password: humanity
+  port: '443'
+  server: 104.17.111.3
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
+  type: trojan
+  udp: true
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.81 Safari/537.36
+    path: /assignment
+- client-fingerprint: chrome
+  name: 🇫🇷FR_16|1.3MB/s
+  network: ws
+  password: humanity
+  port: '443'
+  server: 104.18.152.133
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
+  type: trojan
+  udp: true
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.110 Safari/537.36
+    path: /assignment
+- client-fingerprint: chrome
+  name: 🇫🇷FR_17|2.0MB/s
+  network: ws
+  password: humanity
+  port: '443'
+  server: 104.16.174.71
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
+  type: trojan
+  udp: true
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36
+    path: /assignment
+- name: 🇳🇱NL_1|3.1MB/s
+  network: ws
+  port: '8880'
+  server: 172.67.179.98
+  type: vless
+  udp: true
+  uuid: 56c673ba-865a-48ec-8dc0-fd7133a7ecfd
+  ws-opts:
+    headers:
+      Host: curly-surf-4401.75-08c.workers.dev
+      User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31
+    path: /
+  xudp: true
+- client-fingerprint: chrome
+  name: 🇫🇷FR_18|1.2MB/s
+  network: ws
+  password: humanity
+  port: '443'
+  server: 104.18.152.159
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
+  type: trojan
+  udp: true
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36
+    path: /assignment
+- client-fingerprint: chrome
+  name: 🇫🇷FR_19|1.2MB/s
+  network: ws
+  password: humanity
+  port: '443'
+  server: 104.16.174.14
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
+  type: trojan
+  udp: true
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36
+    path: /assignment
+- name: 🇳🇱NL_2|2.7MB/s
+  network: ws
+  port: '8880'
+  server: 188.114.97.6
+  type: vless
+  udp: true
+  uuid: f09f4baa-7688-4514-8062-c3ea8e319624
+  ws-opts:
+    headers:
+      Host: dark-leaf-93a1.440-02e.workers.dev
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36
+    path: /pyip=ProxyIP.US.CMLiussss.net
+  xudp: true
+- encryption: none
+  name: 🇳🇱NL_3|2.5MB/s
+  network: ws
+  port: '8080'
+  server: 188.114.97.6
+  type: vless
+  udp: true
+  uuid: 3a701524-30c8-45f3-8922-d7af5d024af0
+  ws-opts:
+    headers:
+      Host: server14.peekconf.workers.dev
+      User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.99 Safari/533.4
+    path: /eyJqdW5rIjoiWDRPODRLWDd2IiwicHJvdG9jb2wiOiJ2bCIsIm1vZGUiOiJwcmVmaXgiLCJwYW5lbElQcyI6WyJbMmEwMjo4OTg6MTQ2OjY0OjpdIiwiWzI2MDI6ZmM1OTpiMDo2NDo6XSIsIlsyNjAyOmZjNTk6MTE6NjQ6Ol0iXX0=
+  xudp: true
+- encryption: none
+  name: 🇳🇱NL_4|2.3MB/s
+  network: ws
+  port: '8080'
+  server: 188.114.97.6
+  type: vless
+  udp: true
+  uuid: 36d9003c-7240-40bc-af62-07c39f7a0b94
+  ws-opts:
+    headers:
+      Host: server20.peekconfig5.workers.dev
+      User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36
+    path: /eyJqdW5rIjoiYmNCdUhCVkFEIiwicHJvdG9jb2wiOiJ2bCIsIm1vZGUiOiJwcmVmaXgiLCJwYW5lbElQcyI6WyJbMmEwMjo4OTg6MTQ2OjY0OjpdIiwiWzI2MDI6ZmM1OTpiMDo2NDo6XSIsIlsyNjAyOmZjNTk6MTE6NjQ6Ol0iXX0=
+  xudp: true
+- client-fingerprint: chrome
+  name: 🇫🇷FR_20|1.8MB/s
+  network: ws
+  password: humanity
+  port: '443'
+  server: 104.16.174.72
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
+  type: trojan
+  udp: true
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Linux; Android 7.0; TRT-LX2 Build/HUAWEITRT-LX2; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/59.0.3071.125 Mobile Safari/537.36
+    path: /assignment
+- encryption: none
+  name: 🇳🇱NL_5|3.8MB/s
+  network: ws
+  port: '8080'
+  server: 104.21.87.238
+  type: vless
+  udp: true
+  uuid: 8f53fce2-6c17-4e37-9ae9-d969fd85117c
+  ws-opts:
+    headers:
+      Host: ApI-hub-C9A393.ALiMiRZAi539-484.WOrKerS.DeV
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
+    path: /vl/Wp4FqWLcoYNYXCovu4?ed=2560
+  xudp: true
+- client-fingerprint: chrome
+  name: 🇫🇷FR_21|1.7MB/s
+  network: ws
+  password: humanity
+  port: '443'
+  server: 104.16.174.101
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
+  type: trojan
+  udp: true
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Linux; Android 5.1; A37f Build/LMY47V) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.93 Mobile Safari/537.36
+    path: /assignment
+- client-fingerprint: chrome
+  name: 🇳🇱NL_7|3.2MB/s
+  network: ws
+  port: '443'
+  server: 103.102.228.113
+  servername: vp58.cc.cd
+  tls: true
+  type: vless
+  udp: true
+  uuid: 7b102311-43fd-4e8f-877e-8090623c101d
+  ws-opts:
+    headers:
+      Host: vp58.cc.cd
+      User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36
+    path: /TelegramU0001F1E8U0001F1F3 @VPNine1fp=chrome
+  xudp: true
+- name: 🇳🇱NL_8|3.1MB/s
+  network: ws
+  port: '8880'
+  server: 172.67.152.71
+  type: vless
+  udp: true
+  uuid: 1cefdbfd-6032-43d5-ac13-f58b4498e2f7
+  ws-opts:
+    headers:
+      Host: royal-salad-175d.306.workers.dev
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36
+    path: /pyip=ProxyIP.US.CMLiussss.net
+  xudp: true
 - name: 🇱🇻LV_1|2.1MB/s
   port: 443
   server: 109.248.147.66
   skip-cert-verify: true
   tls: true
   type: http
-- name: 🇫🇷FR_22|5.2MB/s
-  password: github.com/Alvin9999-newpac/fanqiang
-  port: 30099
-  server: ip5.934618.xyz
-  sni: ip5.934618.xyz
-  type: anytls
-  udp: true
-- name: NL_speednode_0005
-  password: None
-  port: 9002
-  server: 84.17.47.125
+- name: 🇺🇸US_3|3.2MB/s
+  password: ''
+  port: '8443'
+  server: 154.81.36.92
   skip-cert-verify: true
   tls: true
   type: http
-  udp: true
-- name: NL_speednode_0007
-  port: 9002
-  server: 84.17.47.148
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: NL_speednode_0010
-  port: 9002
-  server: 84.17.47.149
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
+  username: ''
 - name: RO_speednode_0042
   port: 9002
   server: 193.176.84.30
@@ -143,17 +510,24 @@ proxies:
   tls: true
   type: http
   udp: true
+- name: 🇳🇱NL_14|2.8MB/s
+  network: ws
+  port: 8880
+  server: 104.21.0.89
+  skip-cert-verify: true
+  tls: false
+  type: vless
+  udp: true
+  uuid: 14e0ab2e-fb3e-4fd1-a6d9-62eeae62976b
+  ws-opts:
+    headers:
+      Host: jolly-shape-3ce6.392.workers.dev
+    path: /pyip=ProxyIP.JP.CMLiussss.net
 - name: 🇫🇷FR_23|2.0MB/s
   port: 443
   server: 103.82.101.44
   skip-cert-verify: true
   sni: f3a61d8406d537345747f99f8a281007-3f754ed5da1bba09.apache-iv.com
-  tls: true
-  type: http
-- name: 🇩🇪DE_6|1.1MB/s
-  port: 443
-  server: 87.106.223.158
-  skip-cert-verify: true
   tls: true
   type: http
 - name: 🇸🇪SE_1|2.6MB/s
@@ -227,21 +601,18 @@ proxies:
   skip-cert-verify: true
   tls: true
   type: http
+- name: 🇪🇸ES_1|2.5MB/s
+  port: 8443
+  server: 45.147.251.19
+  skip-cert-verify: true
+  tls: true
+  type: http
 - name: 🇨🇦CA_1|1.7MB/s
   port: 443
   server: 206.223.161.47
   skip-cert-verify: true
   tls: true
   type: http
-- name: 🇳🇱NL_16|3.4MB/s
-  password: 'null'
-  port: 9002
-  server: 84.17.47.147
-  skip-cert-verify: true
-  sni: 84.17.47.147
-  tls: true
-  type: http
-  username: 'null'
 - name: 🇦🇺AU_1|1.9MB/s
   port: 443
   server: 103.62.50.130
@@ -272,6 +643,40 @@ proxies:
   tls: true
   type: http
   username: ''
+- client-fingerprint: firefox
+  encryption: none
+  grpc-opts:
+    grpc-service-name: moktana.net.v1.StreamService
+  name: 🇩🇪DE_9|3.0MB/s
+  network: grpc
+  port: '443'
+  reality-opts:
+    public-key: C6nh6hqFTbtizgSH8vGmw2XUxsQAbAW3jPylpgGvfl4
+    short-id: a1b2c3d4e5f6a7b8
+  server: 186.246.6.110
+  servername: upload.hexagonicfield.com
+  tls: true
+  type: vless
+  udp: true
+  uuid: 8c40bb2c-157a-4830-a2c3-0b35ef50c660
+  xudp: true
+- client-fingerprint: ios
+  encryption: none
+  grpc-opts:
+    grpc-service-name: moktana.net.v1.StreamService
+  name: 🇸🇪SE_3|3.3MB/s
+  network: grpc
+  port: '443'
+  reality-opts:
+    public-key: C6nh6hqFTbtizgSH8vGmw2XUxsQAbAW3jPylpgGvfl4
+    short-id: 3f8e2d1c9b4a7e6f
+  server: 201.24.52.151
+  servername: hexagonicfield.com
+  tls: true
+  type: vless
+  udp: true
+  uuid: 8c40bb2c-157a-4830-a2c3-0b35ef50c660
+  xudp: true
 - cipher: chacha20-ietf-poly1305
   name: 🇺🇸US_6|3.7MB/s
   password: t0srmdxrm3xyjnvqz9ewlxb2myq7rjuv
@@ -301,35 +706,14 @@ proxies:
   sni: www.bing.com
   tls: true
   type: http
-- name: NL_speednode_0004
-  port: 9002
-  server: 84.17.47.125
+- name: 🇮🇳IN_1|1.0MB/s
+  password: ''
+  port: '443'
+  server: 35.197.129.84
   skip-cert-verify: true
   tls: true
   type: http
-  udp: true
-- name: NL_speednode_0006
-  port: 9002
-  server: 84.17.47.150
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: NL_speednode_0008
-  password: None
-  port: 9002
-  server: 84.17.47.148
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: NL_speednode_0009
-  port: 9002
-  server: 84.17.47.146
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
+  username: ''
 - name: RO_speednode_0041
   port: 9002
   server: 193.176.84.33
@@ -366,6 +750,45 @@ proxies:
   tls: true
   type: http
   udp: true
+- name: US_speednode_0131
+  password: 'null'
+  port: 9002
+  server: 138.199.35.216
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+  username: 'null'
+- client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  name: US_speednode_0136
+  network: tcp
+  port: 29893
+  reality-opts:
+    public-key: JrWOojSFwFA93YjsiQkDydTItQzNAsXsHU24HuWGWjA
+    short-id: bc8e3658db7d1323
+  server: 155.117.199.13
+  servername: cdnjs.cloudflare.com
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: f06c6039-a489-3d78-a676-ed43be6deca3
+- client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  name: US_speednode_0137
+  network: tcp
+  port: 39399
+  reality-opts:
+    public-key: JrWOojSFwFA93YjsiQkDydTItQzNAsXsHU24HuWGWjA
+    short-id: bc8e3658db7d1323
+  server: 155.117.199.13
+  servername: cdnjs.cloudflare.com
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: f06c6039-a489-3d78-a676-ed43be6deca3
 - name: US_speednode_0141
   port: 443
   server: 38.28.193.188
@@ -373,100 +796,248 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇨🇭 瑞士 | CHE
-  server: 152.67.75.161
-  port: 443
-  type: hysteria2
-  password: 3a702d4d1de4949005d8431220e040fb
-  auth: 3a702d4d1de4949005d8431220e040fb
-  sni: www.bing.com
-  skip-cert-verify: true
-  obfs: salamander
-  obfs-password: c13f29db6a638ad2b211b9ce2669ef27
-- name: 🇬🇧 英国 | GBR
-  server: jp-02-hdja-kido.younai-ytl.shop
-  port: 53274
-  type: anytls
-  password: 3fc0f254-54c3-4cf3-896b-5999a2b4c757
+- client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  name: US_speednode_0142
+  network: tcp
+  port: 39211
+  reality-opts:
+    public-key: JrWOojSFwFA93YjsiQkDydTItQzNAsXsHU24HuWGWjA
+    short-id: bc8e3658db7d1323
+  server: 155.117.199.13
+  servername: cdnjs.cloudflare.com
+  skip-cert-verify: false
+  tls: true
+  type: vless
   udp: true
-  sni: jp33.swiftrelay.cc
+  uuid: f06c6039-a489-3d78-a676-ed43be6deca3
+- name: US_speednode_0143
+  port: 9002
+  server: 138.199.35.198
   skip-cert-verify: true
-- name: 🇭🇰 香港 | HKG 4
-  server: 202.146.222.29
-  port: 443
-  type: hysteria2
-  password: H7mP2xY9kJ4nQ8wR5tF6vB3z
-  auth: H7mP2xY9kJ4nQ8wR5tF6vB3z
-  sni: 202.146.222.29
-  skip-cert-verify: true
-- name: 🇭🇰 香港 | HKG 5
-  server: test01.y1static-content-distribution.shop
-  port: 56726
-  type: anytls
-  password: 3fc0f254-54c3-4cf3-896b-5999a2b4c757
+  tls: true
+  type: http
   udp: true
-  sni: hk11.pulsarcore.site
+- name: 🇩🇪 德国 | DEU
+  server: 31.77.8.97
+  port: 110
+  type: vmess
+  uuid: d2d8601b-c14b-42c6-b8ea-33889bce152a
+  alterId: 0
+  cipher: auto
+  tls: false
+  alpn:
+  - ''
   skip-cert-verify: true
-- name: 🇯🇵 日本 | JPN
-  server: jpglobal-identity-federation-auth.younai-ytl.shop
-  port: 65308
-  type: anytls
-  password: 3fc0f254-54c3-4cf3-896b-5999a2b4c757
   udp: true
-  sni: jp11.pulsarcore.site
-  skip-cert-verify: true
-- name: 🇯🇵 日本 | JPN 2
-  server: bgroup.jp1.ilovegairport.com
+- name: 🇫🇷 法国 | FRA 2
+  server: 51.83.6.5
+  port: 20076
+  type: ss
+  cipher: aes-256-gcm
+  password: dHHIUyBuva3crUBRwpOXCA
+  udp: true
+- name: 🇭🇰 香港 | HKG 2
+  server: 156.224.79.105
   port: 443
   type: vless
-  uuid: 8079ccd4-4b4b-44e2-92f0-8f0367ad9c24
+  uuid: ab61daa1-b7fb-486e-8946-b1da9a444685
+  tls: true
+  servername: cf2us.3rr0r.online
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /proxyip=ProxyIP.HK.CMLiussss.Net
+    headers:
+      Host: cf2us.3rr0r.online
+- name: 🇯🇵 日本 | JPN 3
+  server: 45.8.173.250
+  port: 443
+  type: vless
+  uuid: fdc48be3-a615-41ac-8bd1-ed844c931048
+  tls: true
+  servername: edgetunnel-4uw.pages.dev
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: edgetunnel-4uw.pages.dev
+  udp: true
+- name: 🇰🇷 韩国 | KOR 5
+  server: 140.238.15.158
+  port: 443
+  type: vless
+  uuid: ab61daa1-b7fb-486e-8946-b1da9a444685
+  tls: true
+  servername: cf2us.3rr0r.online
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /proxyip=ProxyIP.KR.CMLiussss.Net
+    headers:
+      Host: cf2us.3rr0r.online
+- name: 🇰🇷 韩国 | KOR 6
+  server: 146.56.135.196
+  port: 443
+  type: vless
+  uuid: ab61daa1-b7fb-486e-8946-b1da9a444685
+  tls: true
+  servername: cf2us.3rr0r.online
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /proxyip=ProxyIP.KR.CMLiussss.Net
+    headers:
+      Host: cf2us.3rr0r.online
+- name: 🇰🇷 韩国 | KOR 7
+  server: 158.247.240.138
+  port: 443
+  type: vless
+  uuid: ab61daa1-b7fb-486e-8946-b1da9a444685
+  tls: true
+  servername: cf2us.3rr0r.online
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /proxyip=ProxyIP.KR.CMLiussss.Net
+    headers:
+      Host: cf2us.3rr0r.online
+- name: 🇱🇹 立陶宛 | LTU
+  server: 144.31.243.240
+  port: 443
+  type: vless
+  uuid: d72f05b0-b182-4783-a6f2-21cecc7d841a
   tls: true
   flow: xtls-rprx-vision
   reality-opts:
-    public-key: BJihKW3qLbtwFO_WAZ3htkU5VpWcMoFYX9tqlLmKiUY
-    short-id: f3f3bbfe1c
-  servername: ap-northeast-1.console.aws.amazon.com
+    public-key: SibLV5WBGdljTiUCmKx77KhHQfErCwjDMD_ZLoha3js
+    short-id: a1b2c3d4e5f67890
+  servername: dzen.ru
   client-fingerprint: firefox
   network: tcp
   udp: true
-- name: 🇰🇷 韩国 | KOR 2
-  server: svip.skycon808.com
-  port: 32578
-  type: anytls
-  password: 3fc0f254-54c3-4cf3-896b-5999a2b4c757
-  udp: true
-  sni: us58.pulsarcore.site
-  skip-cert-verify: true
-- name: 🇷🇺 俄罗斯 | RUS
-  server: 91.240.86.70
-  port: 22443
-  type: hysteria2
-  password: 3f63c86c-ac4a-4900-85cf-4fedf93c2ca5
-  auth: 3f63c86c-ac4a-4900-85cf-4fedf93c2ca5
-  sni: 91.240.86.70
-  skip-cert-verify: true
-- name: 🇷🇺 俄罗斯 | RUS 4
-  server: srv-17e124.21freedom.net
-  port: 11592
-  type: hysteria2
-  password: 41edb44c8e
-  auth: 41edb44c8e
-  sni: srv-17e124.21freedom.net
-  skip-cert-verify: true
-- name: 🇸🇬 新加坡 | SGP 5
-  server: agroup.sg1.ilovegairport.com
+- name: 🇳🇱 荷兰 | NLD 2
+  server: 104.26.10.213
   port: 443
   type: vless
-  uuid: 129e26fe-cee2-4786-9261-b29668337829
+  uuid: fdc48be3-a615-41ac-8bd1-ed844c931048
   tls: true
-  flow: xtls-rprx-vision
-  reality-opts:
-    public-key: eAQrXEfedW5BrMMeOecf_M9tkNNqQIShlLOl2xg1cho
-    short-id: 82f9ac23
-  servername: ap-southeast-1.console.aws.amazon.com
+  servername: edgetunnel-4uw.pages.dev
   client-fingerprint: chrome
-  network: tcp
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: edgetunnel-4uw.pages.dev
   udp: true
+- name: 🇷🇺 俄罗斯 | RUS 3
+  server: 195.133.5.184
+  port: 443
+  type: vless
+  uuid: 13ef8e97-815a-000d-8688-0154d85d26bf
+  tls: true
+  reality-opts:
+    public-key: Fe5PnOaERhhHbBXhGBEsQaRUBpSM8hCc03zOEpHz218
+    short-id: 51b784e13468
+  servername: ru26.aimodelhub.top
+  client-fingerprint: qq
+  network: xhttp
+  xhttp-opts:
+    path: /
+    host: ru26.aimodelhub.top
+  udp: true
+- name: 🇸🇬 新加坡 | SGP
+  server: 139.59.225.43
+  port: 443
+  type: vless
+  uuid: ab61daa1-b7fb-486e-8946-b1da9a444685
+  tls: true
+  servername: cf2us.3rr0r.online
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /proxyip=ProxyIP.SG.CMLiussss.Net
+    headers:
+      Host: cf2us.3rr0r.online
+- name: 🇸🇬 新加坡 | SGP 2
+  server: 140.245.103.72
+  port: 443
+  type: vless
+  uuid: ab61daa1-b7fb-486e-8946-b1da9a444685
+  tls: true
+  servername: cf2us.3rr0r.online
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /proxyip=ProxyIP.SG.CMLiussss.Net
+    headers:
+      Host: cf2us.3rr0r.online
+- name: 🇸🇬 新加坡 | SGP 3
+  server: 139.162.60.149
+  port: 443
+  type: vless
+  uuid: ab61daa1-b7fb-486e-8946-b1da9a444685
+  tls: true
+  servername: cf2us.3rr0r.online
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /proxyip=ProxyIP.SG.CMLiussss.Net
+    headers:
+      Host: cf2us.3rr0r.online
+- name: 🇸🇬 新加坡 | SGP 6
+  server: 116.251.217.65
+  port: 443
+  type: vless
+  uuid: ab61daa1-b7fb-486e-8946-b1da9a444685
+  tls: true
+  servername: cf2us.3rr0r.online
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /proxyip=ProxyIP.SG.CMLiussss.Net
+    headers:
+      Host: cf2us.3rr0r.online
+- name: 🇸🇬 新加坡 | SGP 9
+  server: 138.2.108.213
+  port: 443
+  type: vless
+  uuid: ab61daa1-b7fb-486e-8946-b1da9a444685
+  tls: true
+  servername: cf2us.3rr0r.online
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /proxyip=ProxyIP.SG.CMLiussss.Net
+    headers:
+      Host: cf2us.3rr0r.online
+- name: 🇸🇬 新加坡 | SGP 10
+  server: 162.159.43.187
+  port: 8080
+  type: vless
+  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
+  tls: false
+  servername: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
+  network: ws
+  ws-opts:
+    path: /?ed=2560security=tls
+    headers:
+      Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
+  udp: true
+- name: 🇸🇬 新加坡 | SGP 11
+  server: 139.162.40.240
+  port: 443
+  type: vless
+  uuid: ab61daa1-b7fb-486e-8946-b1da9a444685
+  tls: true
+  servername: cf2us.3rr0r.online
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /proxyip=ProxyIP.SG.CMLiussss.Net
+    headers:
+      Host: cf2us.3rr0r.online
 - name: 🇸🇬 新加坡 | SGP 12
   server: 162.159.43.187
   port: 2086
@@ -480,35 +1051,261 @@ proxies:
     headers:
       Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
   udp: true
-- name: 🇹🇭 泰国 | THA
-  server: th1.zestapp778.com
-  port: 443
-  type: trojan
-  password: Trojan@82164024
-  sni: th1.zestapp778.com
-  skip-cert-verify: true
-- name: 🇺🇸 美国 | USA
-  server: agroup.us2.ilovegairport.com
+- name: 🇹🇼 🇨🇳 台湾 | TWN
+  server: 43.213.230.249
   port: 443
   type: vless
-  uuid: 129e26fe-cee2-4786-9261-b29668337829
+  uuid: ab61daa1-b7fb-486e-8946-b1da9a444685
   tls: true
-  flow: xtls-rprx-vision
-  reality-opts:
-    public-key: zJmgsHKnfBjyqC1tZRrLb7J5CD6vDqq96uYRzAiPWRg
-    short-id: 17d299fb0790e7
-  servername: us-west-2.console.aws.amazon.com
+  servername: cf2us.3rr0r.online
   client-fingerprint: chrome
-  network: tcp
+  network: ws
+  ws-opts:
+    path: /proxyip=ProxyIP.TW.CMLiussss.Net
+    headers:
+      Host: cf2us.3rr0r.online
+- name: 🇹🇼 🇨🇳 台湾 | TWN 2
+  server: 151.242.189.162
+  port: 443
+  type: vless
+  uuid: ab61daa1-b7fb-486e-8946-b1da9a444685
+  tls: true
+  servername: cf2us.3rr0r.online
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /proxyip=ProxyIP.TW.CMLiussss.Net
+    headers:
+      Host: cf2us.3rr0r.online
+- name: 🇹🇼 🇨🇳 台湾 | TWN 4
+  server: 154.40.60.193
+  port: 443
+  type: vless
+  uuid: ab61daa1-b7fb-486e-8946-b1da9a444685
+  tls: true
+  servername: cf2us.3rr0r.online
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /proxyip=ProxyIP.TW.CMLiussss.Net
+    headers:
+      Host: cf2us.3rr0r.online
+- name: 🇺🇸 美国 | USA 8
+  server: 8.34.70.30
+  port: 8880
+  type: vless
+  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
+  tls: false
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: vms.lifetime09.workers.dev
   udp: true
-- name: 🇺🇸 美国 | USA 2
-  server: jpglobal-identity-federation-auth.younai-ytl.shop
-  port: 38302
-  type: anytls
-  password: 3fc0f254-54c3-4cf3-896b-5999a2b4c757
+- name: 🇺🇸 美国 | USA 10
+  server: 185.207.196.30
+  port: 8880
+  type: vless
+  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
+  tls: false
+  network: ws
+  ws-opts:
+    path: /?ed=2560
+    headers:
+      Host: vms.lifetime11.workers.dev
   udp: true
-  sni: us71.pulsarcore.site
+- cipher: aes-256-gcm
+  name: 🇫🇷[www.v2nodes.com] ss-FR-1584...
+  password: dHHIUyBuva3crUBRwpOXCA
+  port: 20076
+  server: 51.83.6.5
+  type: ss
+- cipher: chacha20-ietf-poly1305
+  name: 🇵🇱[www.v2nodes.com] ss-PL-1273...
+  password: mrs2e9a
+  port: 443
+  server: 54.36.174.140
+  type: ss
+- name: '🇫🇷[www.v2nodes.com] trojan-FR-... #4'
+  network: ws
+  password: humanity
+  port: 2053
+  server: 185.114.72.31
+  skip-cert-verify: false
+  sni: www.calmlunch.com
+  type: trojan
+  ws-opts:
+    headers:
+      Host: www.calmlunch.com
+    path: /assignment
+- name: '🇫🇷[www.v2nodes.com] trojan-FR-... #6'
+  network: ws
+  password: humanity
+  port: 443
+  server: 185.220.100.168
+  skip-cert-verify: false
+  sni: www.calmlunch.com
+  type: trojan
+  ws-opts:
+    headers:
+      Host: www.calmlunch.com
+    path: /assignment
+- name: '🇫🇷[www.v2nodes.com] trojan-FR-... #7'
+  password: humanity
+  port: 443
+  server: 165.215.250.14
+  type: trojan
+  ws-opts:
+    path: '%2Fassignment'
+- name: '🇫🇷[www.v2nodes.com] trojan-FR-... #8'
+  network: ws
+  password: humanity
+  port: 443
+  server: 104.19.229.21
+  skip-cert-verify: false
+  sni: www.calmlunch.com
+  type: trojan
+  ws-opts:
+    headers:
+      Host: www.calmlunch.com
+    path: '%2Fassignment'
+- name: '🇫🇷[www.v2nodes.com] trojan-FR-... #9'
+  network: ws
+  password: humanity
+  port: 443
+  server: 165.215.250.14
   skip-cert-verify: true
+  sni: www.calmlunch.com
+  type: trojan
+  ws-opts:
+    headers:
+      Host: www.calmlunch.com
+    path: '%2Fassignment'
+- name: '🇫🇷[www.v2nodes.com] trojan-FR-... #10'
+  network: ws
+  password: humanity
+  port: 443
+  server: 212.183.88.136
+  sni: www.calmlunch.com
+  type: trojan
+  ws-opts:
+    headers:
+      Host: www.calmlunch.com
+    path: '%2Fassignment'
+- alpn:
+  - http/1.1
+  name: 🇭🇰[www.v2nodes.com] trojan-HK-...
+  network: ws
+  password: Telegram_healer_config
+  port: 443
+  server: 104.21.70.21
+  sni: bjsa2ygfitzjtho8ucze29xf2m2q9c.g3fiajpf0erm9k3x6ww-yegzl2.workers.dev
+  type: trojan
+  ws-opts:
+    headers:
+      Host: bjsa2ygfitzjtho8ucze29xf2m2q9c.g3fiajpf0erm9k3x6ww-yegzl2.workers.dev
+    path: /tr/J6IJuAAWkqyiEt8UkeRnVdLlkLIGukLr%3Fed%3D2560
+- name: 🇮🇩[www.v2nodes.com] trojan-ID-...
+  password: 018b8e7b-7813-4dcb-84a5-3c98f1521e00
+  port: 443
+  server: 104.18.32.87
+  type: trojan
+  ws-opts:
+    path: '%2Ftrojan'
+- name: RELAY-188.114.96.19-0165 | 0.071MB
+  server: 188.114.96.19
+  port: 80
+  type: vmess
+  uuid: aed88e79-5762-4d2f-86fa-f438f32a7654
+  alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: google.whatsapp.snapp.torob.basalam.hesanid8.ir.
+- name: RELAY-141.101.114.80-0056 | 0.0MB
+  server: 141.101.114.80
+  port: 443
+  type: vmess
+  uuid: 2b61c372-ba2a-4cec-b222-42a4da3aefb7
+  alterId: 0
+  cipher: auto
+  tls: true
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: v2ray1.zhujicn2.org
+- name: RELAY-188.114.96.19-0143 | 0.0MB
+  server: 188.114.96.19
+  port: 80
+  type: vmess
+  uuid: 479526cd-5011-43cf-a788-504da95e07c2
+  alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: google.whatsapp.snapp.torob.basalam.fortresshost.ir.
+- name: 🇪🇸ES-5.188.181.201-0161 | 0.0MB
+  server: 5.188.181.201
+  port: 9040
+  type: ss
+  cipher: aes-256-cfb
+  password: p9z5BVADH2YFs3MN
+- name: RELAY-104.16.85.20-0020 | 0.0MB
+  server: 104.16.85.20
+  port: 80
+  type: vmess
+  uuid: c6747da4-fb2e-4a2a-bdb7-8614bdd6b0b3
+  alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: sg4-v2ray.sshkit.org
+- name: RELAY-162.159.240.102-0195 | 0.0MB
+  server: 162.159.240.102
+  port: 2095
+  type: vmess
+  uuid: 417d27fb-cb93-3bd8-9bf7-71cd91319821
+  alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /
+- name: RELAY-141.101.114.120-0204 | 0.0MB
+  server: 141.101.114.120
+  port: 443
+  type: vmess
+  uuid: 94887268-f3cb-48be-ade3-87d42faae3e4
+  alterId: 0
+  cipher: auto
+  tls: true
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: m5.v2rayfree1.xyz
+- name: RELAY-104.16.71.213-4598 | 0.0MB
+  server: 104.16.71.213
+  port: 443
+  type: trojan
+  password: MiTiVPN
+  skip-cert-verify: false
 - name: 'RO_speednode_0042 #2'
   server: 193.176.84.30
   port: 9002
@@ -545,6 +1342,8 @@ proxy-groups:
   - DIRECT
   - 🌐 俄罗斯
   - 🌐 加拿大
+  - 🌐 印度
+  - 🌐 台湾
   - 🌐 德国
   - 🌐 新加坡
   - 🌐 日本
@@ -556,22 +1355,47 @@ proxy-groups:
   - 🌐 韩国
   - 🌐 香港
   - 🌐 其他
-  - 🇺🇸_US_美国
-  - 🇷🇺RU_1|3.3MB/s
-  - 🇷🇺RU_2|2.0MB/s
+  - 🇺🇸 美国
+  - '🇺🇸 美国2 #2'
+  - 🇨🇳_CN_中国
+  - 🇩🇪_DE_德国
+  - Telegram:@v2rayng3
+  - 🇺🇸 美国|@ripaojiedian
+  - 🇫🇷FR_1|2.4MB/s
+  - 🇫🇷FR_2|2.3MB/s
+  - 🇫🇷FR_3|2.9MB/s
+  - 🇫🇷FR_4|2.3MB/s
+  - 🇫🇷FR_8|1.7MB/s
+  - 🇫🇷FR_9|1.3MB/s
+  - 🇫🇷FR_10|1.0MB/s
+  - 🇫🇷FR_11|1.4MB/s
+  - 🇫🇷FR_12|2.8MB/s
+  - 🇫🇷FR_13|2.1MB/s
+  - 🇫🇷FR_14|1.8MB/s
+  - 🇫🇷FR_15|1.2MB/s
+  - 🇫🇷FR_16|1.3MB/s
+  - 🇫🇷FR_17|2.0MB/s
+  - 🇳🇱NL_1|3.1MB/s
+  - 🇫🇷FR_18|1.2MB/s
+  - 🇫🇷FR_19|1.2MB/s
+  - 🇳🇱NL_2|2.7MB/s
+  - 🇳🇱NL_3|2.5MB/s
+  - 🇳🇱NL_4|2.3MB/s
+  - 🇫🇷FR_20|1.8MB/s
+  - 🇳🇱NL_5|3.8MB/s
+  - 🇫🇷FR_21|1.7MB/s
+  - 🇳🇱NL_7|3.2MB/s
+  - 🇳🇱NL_8|3.1MB/s
   - 🇱🇻LV_1|2.1MB/s
-  - 🇫🇷FR_22|5.2MB/s
-  - NL_speednode_0005
-  - NL_speednode_0007
-  - NL_speednode_0010
+  - 🇺🇸US_3|3.2MB/s
   - RO_speednode_0042
   - RO_speednode_0044
   - RO_speednode_0045
   - RO_speednode_0083
   - RO_speednode_0097
   - RO_speednode_0124
+  - 🇳🇱NL_14|2.8MB/s
   - 🇫🇷FR_23|2.0MB/s
-  - 🇩🇪DE_6|1.1MB/s
   - 🇸🇪SE_1|2.6MB/s
   - 🇦🇹AT_1|4.2MB/s
   - 🇧🇦BA_1|2.6MB/s
@@ -583,39 +1407,70 @@ proxy-groups:
   - 🇬🇧GB_2|2.1MB/s
   - 🇩🇪DE_8|4.0MB/s
   - 🇺🇸US_5|2.7MB/s
+  - 🇪🇸ES_1|2.5MB/s
   - 🇨🇦CA_1|1.7MB/s
-  - 🇳🇱NL_16|3.4MB/s
   - 🇦🇺AU_1|1.9MB/s
   - RO_speednode_0110
   - 🇸🇪SE_2|3.1MB/s
   - 🇬🇧GB_4|3.0MB/s
+  - 🇩🇪DE_9|3.0MB/s
+  - 🇸🇪SE_3|3.3MB/s
   - 🇺🇸US_6|3.7MB/s
   - 🇺🇸US_7|2.9MB/s
   - 🇷🇴RO_12|3.0MB/s
-  - NL_speednode_0004
-  - NL_speednode_0006
-  - NL_speednode_0008
-  - NL_speednode_0009
+  - 🇮🇳IN_1|1.0MB/s
   - RO_speednode_0041
   - RO_speednode_0082
   - RO_speednode_0087
   - RO_speednode_0094
   - RO_speednode_0126
+  - US_speednode_0131
+  - US_speednode_0136
+  - US_speednode_0137
   - US_speednode_0141
-  - 🇨🇭 瑞士 | CHE
-  - 🇬🇧 英国 | GBR
-  - 🇭🇰 香港 | HKG 4
-  - 🇭🇰 香港 | HKG 5
-  - 🇯🇵 日本 | JPN
-  - 🇯🇵 日本 | JPN 2
-  - 🇰🇷 韩国 | KOR 2
-  - 🇷🇺 俄罗斯 | RUS
-  - 🇷🇺 俄罗斯 | RUS 4
-  - 🇸🇬 新加坡 | SGP 5
+  - US_speednode_0142
+  - US_speednode_0143
+  - 🇩🇪 德国 | DEU
+  - 🇫🇷 法国 | FRA 2
+  - 🇭🇰 香港 | HKG 2
+  - 🇯🇵 日本 | JPN 3
+  - 🇰🇷 韩国 | KOR 5
+  - 🇰🇷 韩国 | KOR 6
+  - 🇰🇷 韩国 | KOR 7
+  - 🇱🇹 立陶宛 | LTU
+  - 🇳🇱 荷兰 | NLD 2
+  - 🇷🇺 俄罗斯 | RUS 3
+  - 🇸🇬 新加坡 | SGP
+  - 🇸🇬 新加坡 | SGP 2
+  - 🇸🇬 新加坡 | SGP 3
+  - 🇸🇬 新加坡 | SGP 6
+  - 🇸🇬 新加坡 | SGP 9
+  - 🇸🇬 新加坡 | SGP 10
+  - 🇸🇬 新加坡 | SGP 11
   - 🇸🇬 新加坡 | SGP 12
-  - 🇹🇭 泰国 | THA
-  - 🇺🇸 美国 | USA
-  - 🇺🇸 美国 | USA 2
+  - 🇹🇼 🇨🇳 台湾 | TWN
+  - 🇹🇼 🇨🇳 台湾 | TWN 2
+  - 🇹🇼 🇨🇳 台湾 | TWN 4
+  - 🇺🇸 美国 | USA 8
+  - 🇺🇸 美国 | USA 10
+  - 🇫🇷[www.v2nodes.com] ss-FR-1584...
+  - 🇵🇱[www.v2nodes.com] ss-PL-1273...
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #4'
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #6'
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #7'
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #8'
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #9'
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #10'
+  - 🇭🇰[www.v2nodes.com] trojan-HK-...
+  - 🇮🇩[www.v2nodes.com] trojan-ID-...
+  - RELAY-188.114.96.19-0165 | 0.071MB
+  - RELAY-141.101.114.80-0056 | 0.0MB
+  - RELAY-188.114.96.19-0143 | 0.0MB
+  - 🇪🇸ES-5.188.181.201-0161 | 0.0MB
+  - RELAY-104.16.85.20-0020 | 0.0MB
+  - RELAY-162.159.240.102-0195 | 0.0MB
+  - RELAY-141.101.114.120-0204 | 0.0MB
+  - RELAY-104.16.71.213-4598 | 0.0MB
   - 'RO_speednode_0042 #2'
   - 'RO_speednode_0044 #2'
   - 'RO_speednode_0083 #2'
@@ -626,22 +1481,47 @@ proxy-groups:
   interval: 300
   tolerance: 50
   proxies:
-  - 🇺🇸_US_美国
-  - 🇷🇺RU_1|3.3MB/s
-  - 🇷🇺RU_2|2.0MB/s
+  - 🇺🇸 美国
+  - '🇺🇸 美国2 #2'
+  - 🇨🇳_CN_中国
+  - 🇩🇪_DE_德国
+  - Telegram:@v2rayng3
+  - 🇺🇸 美国|@ripaojiedian
+  - 🇫🇷FR_1|2.4MB/s
+  - 🇫🇷FR_2|2.3MB/s
+  - 🇫🇷FR_3|2.9MB/s
+  - 🇫🇷FR_4|2.3MB/s
+  - 🇫🇷FR_8|1.7MB/s
+  - 🇫🇷FR_9|1.3MB/s
+  - 🇫🇷FR_10|1.0MB/s
+  - 🇫🇷FR_11|1.4MB/s
+  - 🇫🇷FR_12|2.8MB/s
+  - 🇫🇷FR_13|2.1MB/s
+  - 🇫🇷FR_14|1.8MB/s
+  - 🇫🇷FR_15|1.2MB/s
+  - 🇫🇷FR_16|1.3MB/s
+  - 🇫🇷FR_17|2.0MB/s
+  - 🇳🇱NL_1|3.1MB/s
+  - 🇫🇷FR_18|1.2MB/s
+  - 🇫🇷FR_19|1.2MB/s
+  - 🇳🇱NL_2|2.7MB/s
+  - 🇳🇱NL_3|2.5MB/s
+  - 🇳🇱NL_4|2.3MB/s
+  - 🇫🇷FR_20|1.8MB/s
+  - 🇳🇱NL_5|3.8MB/s
+  - 🇫🇷FR_21|1.7MB/s
+  - 🇳🇱NL_7|3.2MB/s
+  - 🇳🇱NL_8|3.1MB/s
   - 🇱🇻LV_1|2.1MB/s
-  - 🇫🇷FR_22|5.2MB/s
-  - NL_speednode_0005
-  - NL_speednode_0007
-  - NL_speednode_0010
+  - 🇺🇸US_3|3.2MB/s
   - RO_speednode_0042
   - RO_speednode_0044
   - RO_speednode_0045
   - RO_speednode_0083
   - RO_speednode_0097
   - RO_speednode_0124
+  - 🇳🇱NL_14|2.8MB/s
   - 🇫🇷FR_23|2.0MB/s
-  - 🇩🇪DE_6|1.1MB/s
   - 🇸🇪SE_1|2.6MB/s
   - 🇦🇹AT_1|4.2MB/s
   - 🇧🇦BA_1|2.6MB/s
@@ -653,39 +1533,70 @@ proxy-groups:
   - 🇬🇧GB_2|2.1MB/s
   - 🇩🇪DE_8|4.0MB/s
   - 🇺🇸US_5|2.7MB/s
+  - 🇪🇸ES_1|2.5MB/s
   - 🇨🇦CA_1|1.7MB/s
-  - 🇳🇱NL_16|3.4MB/s
   - 🇦🇺AU_1|1.9MB/s
   - RO_speednode_0110
   - 🇸🇪SE_2|3.1MB/s
   - 🇬🇧GB_4|3.0MB/s
+  - 🇩🇪DE_9|3.0MB/s
+  - 🇸🇪SE_3|3.3MB/s
   - 🇺🇸US_6|3.7MB/s
   - 🇺🇸US_7|2.9MB/s
   - 🇷🇴RO_12|3.0MB/s
-  - NL_speednode_0004
-  - NL_speednode_0006
-  - NL_speednode_0008
-  - NL_speednode_0009
+  - 🇮🇳IN_1|1.0MB/s
   - RO_speednode_0041
   - RO_speednode_0082
   - RO_speednode_0087
   - RO_speednode_0094
   - RO_speednode_0126
+  - US_speednode_0131
+  - US_speednode_0136
+  - US_speednode_0137
   - US_speednode_0141
-  - 🇨🇭 瑞士 | CHE
-  - 🇬🇧 英国 | GBR
-  - 🇭🇰 香港 | HKG 4
-  - 🇭🇰 香港 | HKG 5
-  - 🇯🇵 日本 | JPN
-  - 🇯🇵 日本 | JPN 2
-  - 🇰🇷 韩国 | KOR 2
-  - 🇷🇺 俄罗斯 | RUS
-  - 🇷🇺 俄罗斯 | RUS 4
-  - 🇸🇬 新加坡 | SGP 5
+  - US_speednode_0142
+  - US_speednode_0143
+  - 🇩🇪 德国 | DEU
+  - 🇫🇷 法国 | FRA 2
+  - 🇭🇰 香港 | HKG 2
+  - 🇯🇵 日本 | JPN 3
+  - 🇰🇷 韩国 | KOR 5
+  - 🇰🇷 韩国 | KOR 6
+  - 🇰🇷 韩国 | KOR 7
+  - 🇱🇹 立陶宛 | LTU
+  - 🇳🇱 荷兰 | NLD 2
+  - 🇷🇺 俄罗斯 | RUS 3
+  - 🇸🇬 新加坡 | SGP
+  - 🇸🇬 新加坡 | SGP 2
+  - 🇸🇬 新加坡 | SGP 3
+  - 🇸🇬 新加坡 | SGP 6
+  - 🇸🇬 新加坡 | SGP 9
+  - 🇸🇬 新加坡 | SGP 10
+  - 🇸🇬 新加坡 | SGP 11
   - 🇸🇬 新加坡 | SGP 12
-  - 🇹🇭 泰国 | THA
-  - 🇺🇸 美国 | USA
-  - 🇺🇸 美国 | USA 2
+  - 🇹🇼 🇨🇳 台湾 | TWN
+  - 🇹🇼 🇨🇳 台湾 | TWN 2
+  - 🇹🇼 🇨🇳 台湾 | TWN 4
+  - 🇺🇸 美国 | USA 8
+  - 🇺🇸 美国 | USA 10
+  - 🇫🇷[www.v2nodes.com] ss-FR-1584...
+  - 🇵🇱[www.v2nodes.com] ss-PL-1273...
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #4'
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #6'
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #7'
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #8'
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #9'
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #10'
+  - 🇭🇰[www.v2nodes.com] trojan-HK-...
+  - 🇮🇩[www.v2nodes.com] trojan-ID-...
+  - RELAY-188.114.96.19-0165 | 0.071MB
+  - RELAY-141.101.114.80-0056 | 0.0MB
+  - RELAY-188.114.96.19-0143 | 0.0MB
+  - 🇪🇸ES-5.188.181.201-0161 | 0.0MB
+  - RELAY-104.16.85.20-0020 | 0.0MB
+  - RELAY-162.159.240.102-0195 | 0.0MB
+  - RELAY-141.101.114.120-0204 | 0.0MB
+  - RELAY-104.16.71.213-4598 | 0.0MB
   - 'RO_speednode_0042 #2'
   - 'RO_speednode_0044 #2'
   - 'RO_speednode_0083 #2'
@@ -696,10 +1607,7 @@ proxy-groups:
   interval: 300
   tolerance: 50
   proxies:
-  - 🇷🇺RU_1|3.3MB/s
-  - 🇷🇺RU_2|2.0MB/s
-  - 🇷🇺 俄罗斯 | RUS
-  - 🇷🇺 俄罗斯 | RUS 4
+  - 🇷🇺 俄罗斯 | RUS 3
 - name: 🌐 加拿大
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -707,22 +1615,46 @@ proxy-groups:
   tolerance: 50
   proxies:
   - 🇨🇦CA_1|1.7MB/s
+- name: 🌐 印度
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+  proxies:
+  - 🇮🇳IN_1|1.0MB/s
+- name: 🌐 台湾
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+  proxies:
+  - 🇹🇼 🇨🇳 台湾 | TWN
+  - 🇹🇼 🇨🇳 台湾 | TWN 2
+  - 🇹🇼 🇨🇳 台湾 | TWN 4
 - name: 🌐 德国
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
-  - 🇩🇪DE_6|1.1MB/s
+  - 🇩🇪_DE_德国
   - 🇩🇪DE_7|1.4MB/s
   - 🇩🇪DE_8|4.0MB/s
+  - 🇩🇪DE_9|3.0MB/s
+  - 🇩🇪 德国 | DEU
 - name: 🌐 新加坡
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
-  - 🇸🇬 新加坡 | SGP 5
+  - 🇸🇬 新加坡 | SGP
+  - 🇸🇬 新加坡 | SGP 2
+  - 🇸🇬 新加坡 | SGP 3
+  - 🇸🇬 新加坡 | SGP 6
+  - 🇸🇬 新加坡 | SGP 9
+  - 🇸🇬 新加坡 | SGP 10
+  - 🇸🇬 新加坡 | SGP 11
   - 🇸🇬 新加坡 | SGP 12
 - name: 🌐 日本
   type: url-test
@@ -730,16 +1662,40 @@ proxy-groups:
   interval: 300
   tolerance: 50
   proxies:
-  - 🇯🇵 日本 | JPN
-  - 🇯🇵 日本 | JPN 2
+  - 🇯🇵 日本 | JPN 3
 - name: 🌐 法国
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
-  - 🇫🇷FR_22|5.2MB/s
+  - 🇫🇷FR_1|2.4MB/s
+  - 🇫🇷FR_2|2.3MB/s
+  - 🇫🇷FR_3|2.9MB/s
+  - 🇫🇷FR_4|2.3MB/s
+  - 🇫🇷FR_8|1.7MB/s
+  - 🇫🇷FR_9|1.3MB/s
+  - 🇫🇷FR_10|1.0MB/s
+  - 🇫🇷FR_11|1.4MB/s
+  - 🇫🇷FR_12|2.8MB/s
+  - 🇫🇷FR_13|2.1MB/s
+  - 🇫🇷FR_14|1.8MB/s
+  - 🇫🇷FR_15|1.2MB/s
+  - 🇫🇷FR_16|1.3MB/s
+  - 🇫🇷FR_17|2.0MB/s
+  - 🇫🇷FR_18|1.2MB/s
+  - 🇫🇷FR_19|1.2MB/s
+  - 🇫🇷FR_20|1.8MB/s
+  - 🇫🇷FR_21|1.7MB/s
   - 🇫🇷FR_23|2.0MB/s
+  - 🇫🇷 法国 | FRA 2
+  - 🇫🇷[www.v2nodes.com] ss-FR-1584...
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #4'
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #6'
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #7'
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #8'
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #9'
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #10'
 - name: 🌐 澳大利亚
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -753,14 +1709,22 @@ proxy-groups:
   interval: 300
   tolerance: 50
   proxies:
-  - 🇺🇸_US_美国
+  - 🇺🇸 美国
+  - '🇺🇸 美国2 #2'
+  - 🇺🇸 美国|@ripaojiedian
+  - 🇺🇸US_3|3.2MB/s
   - 🇺🇸US_4|2.5MB/s
   - 🇺🇸US_5|2.7MB/s
   - 🇺🇸US_6|3.7MB/s
   - 🇺🇸US_7|2.9MB/s
+  - US_speednode_0131
+  - US_speednode_0136
+  - US_speednode_0137
   - US_speednode_0141
-  - 🇺🇸 美国 | USA
-  - 🇺🇸 美国 | USA 2
+  - US_speednode_0142
+  - US_speednode_0143
+  - 🇺🇸 美国 | USA 8
+  - 🇺🇸 美国 | USA 10
 - name: 🌐 英国
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -769,43 +1733,47 @@ proxy-groups:
   proxies:
   - 🇬🇧GB_2|2.1MB/s
   - 🇬🇧GB_4|3.0MB/s
-  - 🇬🇧 英国 | GBR
 - name: 🌐 荷兰
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
-  - NL_speednode_0005
-  - NL_speednode_0007
-  - NL_speednode_0010
+  - 🇳🇱NL_1|3.1MB/s
+  - 🇳🇱NL_2|2.7MB/s
+  - 🇳🇱NL_3|2.5MB/s
+  - 🇳🇱NL_4|2.3MB/s
+  - 🇳🇱NL_5|3.8MB/s
+  - 🇳🇱NL_7|3.2MB/s
+  - 🇳🇱NL_8|3.1MB/s
+  - 🇳🇱NL_14|2.8MB/s
   - 🇳🇱NL_15|1.1MB/s
-  - 🇳🇱NL_16|3.4MB/s
-  - NL_speednode_0004
-  - NL_speednode_0006
-  - NL_speednode_0008
-  - NL_speednode_0009
+  - 🇳🇱 荷兰 | NLD 2
 - name: 🌐 韩国
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
-  - 🇰🇷 韩国 | KOR 2
+  - 🇰🇷 韩国 | KOR 5
+  - 🇰🇷 韩国 | KOR 6
+  - 🇰🇷 韩国 | KOR 7
 - name: 🌐 香港
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
-  - 🇭🇰 香港 | HKG 4
-  - 🇭🇰 香港 | HKG 5
+  - 🇭🇰 香港 | HKG 2
+  - 🇭🇰[www.v2nodes.com] trojan-HK-...
 - name: 🌐 其他
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
+  - 🇨🇳_CN_中国
+  - Telegram:@v2rayng3
   - 🇱🇻LV_1|2.1MB/s
   - RO_speednode_0042
   - RO_speednode_0044
@@ -818,16 +1786,27 @@ proxy-groups:
   - 🇧🇦BA_1|2.6MB/s
   - 🇬🇪GE_1|1.4MB/s
   - 🇷🇴RO_9|2.9MB/s
+  - 🇪🇸ES_1|2.5MB/s
   - RO_speednode_0110
   - 🇸🇪SE_2|3.1MB/s
+  - 🇸🇪SE_3|3.3MB/s
   - 🇷🇴RO_12|3.0MB/s
   - RO_speednode_0041
   - RO_speednode_0082
   - RO_speednode_0087
   - RO_speednode_0094
   - RO_speednode_0126
-  - 🇨🇭 瑞士 | CHE
-  - 🇹🇭 泰国 | THA
+  - 🇱🇹 立陶宛 | LTU
+  - 🇵🇱[www.v2nodes.com] ss-PL-1273...
+  - 🇮🇩[www.v2nodes.com] trojan-ID-...
+  - RELAY-188.114.96.19-0165 | 0.071MB
+  - RELAY-141.101.114.80-0056 | 0.0MB
+  - RELAY-188.114.96.19-0143 | 0.0MB
+  - 🇪🇸ES-5.188.181.201-0161 | 0.0MB
+  - RELAY-104.16.85.20-0020 | 0.0MB
+  - RELAY-162.159.240.102-0195 | 0.0MB
+  - RELAY-141.101.114.120-0204 | 0.0MB
+  - RELAY-104.16.71.213-4598 | 0.0MB
   - 'RO_speednode_0042 #2'
   - 'RO_speednode_0044 #2'
   - 'RO_speednode_0083 #2'
