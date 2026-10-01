@@ -1,5 +1,5 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-10-01 23:32:46 +0800 | 可用节点 46 个（候选 1065 个，datiya 覆盖 7 天）
+# 更新于 2026-10-02 05:06:44 +0800 | 可用节点 60 个（候选 1062 个，datiya 覆盖 7 天）
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -38,6 +38,21 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
+- name: 🇺🇸_US_美国->🇭🇰_HK_中国香港
+  type: vless
+  server: hk.152568.xyz
+  port: 8443
+  uuid: 0250424c-ae75-4b6b-890f-3fe26fae36c3
+  network: ws
+  servername: hk.152568.xyz
+  tls: true
+  client-fingerprint: edge
+  ws-opts:
+    path: /cdn/packages/runtime-core.tar.gz
+    headers:
+      Host: hk.152568.xyz
+  skip-cert-verify: true
+  udp: true
 - name: '🇮🇹[www.v2nodes.com] vless-IT-4... #1'
   network: ws
   port: 2052
@@ -60,30 +75,6 @@ proxies:
     headers:
       Host: zb1zi.s3nx.dyz.hh.vavava.kdns.fr
     path: /?ed=2560
-- name: '🏳[www.v2nodes.com] vless- #5'
-  network: ws
-  port: 80
-  server: 162.159.45.19
-  servername: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
-  tls: false
-  type: vless
-  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
-  ws-opts:
-    headers:
-      Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
-    path: /?ed=2560security=tls
-- name: '🇰🇷[www.v2nodes.com] vless-KR-3... #1'
-  network: ws
-  port: 80
-  server: 162.159.39.218
-  servername: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
-  tls: false
-  type: vless
-  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
-  ws-opts:
-    headers:
-      Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
-    path: /?ed=2560security=tls
 - name: '🇰🇷[www.v2nodes.com] vless-KR-4... #2'
   network: ws
   port: 2052
@@ -107,6 +98,26 @@ proxies:
     headers:
       Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
     path: /?ed=2560security=tls
+- name: '🇫🇷[www.v2nodes.com] trojan-FR-... #9'
+  network: ws
+  password: humanity
+  port: 443
+  server: 165.215.250.14
+  skip-cert-verify: true
+  sni: www.calmlunch.com
+  type: trojan
+  ws-opts:
+    headers:
+      Host: www.calmlunch.com
+    path: '%2Fassignment'
+- name: 🇭🇰HK_1|3.8MB/s
+  password: 3fc0f254-54c3-4cf3-896b-5999a2b4c757
+  port: 56726
+  server: test01.y1static-content-distribution.shop
+  skip-cert-verify: true
+  sni: hk11.pulsarcore.site
+  type: anytls
+  udp: true
 - name: 🇳🇱NL_1|1.3MB/s
   port: 443
   server: 149.36.51.129
@@ -114,13 +125,6 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇭🇰HK_2|2.7MB/s
-  password: admin
-  port: 8899
-  server: 47.242.19.215
-  skip-cert-verify: true
-  type: socks5
-  username: admin
 - auth: github.com/Alvin9999-newpac/fanqiang
   name: 🇫🇷 法国 | FRA
   password: github.com/Alvin9999-newpac/fanqiang
@@ -129,12 +133,43 @@ proxies:
   skip-cert-verify: true
   sni: t.me
   type: hysteria2
+- alterId: 0
+  cipher: auto
+  name: '🇭🇰 香港 | HKG #1'
+  network: ws
+  port: 443
+  server: yg1.ygkkk.dpdns.org
+  servername: jmp1.907737.xyz
+  skip-cert-verify: true
+  tls: true
+  type: vmess
+  uuid: b2ba4a73-3123-479e-aa96-5973a9ecd0c0
+  ws-opts:
+    headers:
+      Host: jmp1.907737.xyz
+    path: /b2ba4a73-3123-479e-aa96-5973a9ecd0c0-vm
 - name: 🇯🇵 日本 | JPN
   password: 3fc0f254-54c3-4cf3-896b-5999a2b4c757
   port: 65308
   server: jpglobal-identity-federation-auth.younai-ytl.shop
   skip-cert-verify: true
   sni: jp11.pulsarcore.site
+  type: anytls
+  udp: true
+- name: 🇰🇷 韩国 | KOR
+  password: 3fc0f254-54c3-4cf3-896b-5999a2b4c757
+  port: 47901
+  server: test01.y1static-content-distribution.shop
+  skip-cert-verify: true
+  sni: kr06.swiftrelay.cc
+  type: anytls
+  udp: true
+- name: 🇰🇷 韩国 | KOR 2
+  password: 3fc0f254-54c3-4cf3-896b-5999a2b4c757
+  port: 51178
+  server: yazhouany02.downapptwo.cc
+  skip-cert-verify: true
+  sni: hk09.alytest.cc
   type: anytls
   udp: true
 - name: 🇸🇬 新加坡 | SGP
@@ -158,12 +193,36 @@ proxies:
     headers:
       Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
     path: /?ed=2560security=tls
-- name: 🇹🇼 🇨🇳 台湾 | TWN 2
+- name: 🇸🇬 新加坡 | SGP 3
+  password: 3fc0f254-54c3-4cf3-896b-5999a2b4c757
+  port: 10778
+  server: yazhouany02.downapptwo.cc
+  skip-cert-verify: true
+  sni: xjp20.jdddyy01.cc
+  type: anytls
+  udp: true
+- name: 🇹🇼 🇨🇳 台湾 | TWN
+  password: 3fc0f254-54c3-4cf3-896b-5999a2b4c757
+  port: 33368
+  server: yazhouany02.downapptwo.cc
+  skip-cert-verify: true
+  sni: tw01.swiftrelay.cc
+  type: anytls
+  udp: true
+- name: 🇹🇼 🇨🇳 台湾 | TWN 3
   password: 3fc0f254-54c3-4cf3-896b-5999a2b4c757
   port: 443
-  server: tw04.cybergalaxy.me
+  server: tw56-kb.cybergalaxy.me
   skip-cert-verify: true
-  sni: tw04.cybergalaxy.me
+  sni: tw56-kb.cybergalaxy.me
+  type: anytls
+  udp: true
+- name: 🇺🇸 美国 | USA 17
+  password: github.com/Alvin9999-newpac/fanqiang
+  port: 19000
+  server: anytls2.864106.xyz
+  skip-cert-verify: true
+  sni: anytls2.864106.xyz
   type: anytls
   udp: true
 - name: NL_speednode_0004
@@ -177,13 +236,6 @@ proxies:
   password: None
   port: 9002
   server: 84.17.47.125
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: NL_speednode_0006
-  port: 9002
-  server: 84.17.47.150
   skip-cert-verify: true
   tls: true
   type: http
@@ -231,23 +283,9 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: RO_speednode_0044
-  port: 9002
-  server: 193.176.84.35
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
 - name: RO_speednode_0045
   port: 9002
   server: 193.176.84.17
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: RO_speednode_0082
-  port: 9002
-  server: 193.176.84.24
   skip-cert-verify: true
   tls: true
   type: http
@@ -282,6 +320,13 @@ proxies:
   tls: true
   type: http
   udp: true
+- name: RO_speednode_0110
+  port: 9002
+  server: 193.176.84.27
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
 - name: RO_speednode_0124
   port: 9002
   server: 193.176.84.32
@@ -308,6 +353,13 @@ proxies:
 - name: US_speednode_0141
   port: 443
   server: 38.28.193.188
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+- name: US_speednode_0143
+  port: 9002
+  server: 138.199.35.198
   skip-cert-verify: true
   tls: true
   type: http
@@ -364,22 +416,6 @@ proxies:
   udp: true
   sni: ip5.934618.xyz
   skip-cert-verify: true
-- name: 🇬🇧 英国 | GBR
-  server: cd.dlclive.click
-  port: 443
-  type: vless
-  uuid: e548f821-b286-4264-a9f9-63eb5c4a38b2
-  tls: true
-  alpn:
-  - h3
-  servername: cd-sr1.k8k8110.com
-  client-fingerprint: chrome
-  network: ws
-  ws-opts:
-    path: /
-    headers:
-      Host: cd-sr1.k8k8110.com
-  udp: true
 - name: 🇬🇧 英国 | GBR 2
   server: jp-02-hdja-kido.younai-ytl.shop
   port: 53274
@@ -387,6 +423,30 @@ proxies:
   password: 3fc0f254-54c3-4cf3-896b-5999a2b4c757
   udp: true
   sni: jp33.swiftrelay.cc
+  skip-cert-verify: true
+- name: 🇬🇧 英国 | GBR 3
+  server: yazhouany02.downapptwo.cc
+  port: 53991
+  type: anytls
+  password: 3fc0f254-54c3-4cf3-896b-5999a2b4c757
+  udp: true
+  sni: jp03.pulsarcore.site
+  skip-cert-verify: true
+- name: 🇭🇰 香港 | HKG
+  server: yazhouany02.downapptwo.cc
+  port: 25135
+  type: anytls
+  password: 3fc0f254-54c3-4cf3-896b-5999a2b4c757
+  udp: true
+  sni: hk27.pulsarcore.site
+  skip-cert-verify: true
+- name: ProxyPool | 🇰🇷 韩国 | KOR 2
+  server: svip.skycon808.com
+  port: 15700
+  type: anytls
+  password: 3fc0f254-54c3-4cf3-896b-5999a2b4c757
+  udp: true
+  sni: hk18.pulsarcore.site
   skip-cert-verify: true
 - name: 🇳🇱 荷兰 | NLD
   server: 162.35.242.252
@@ -400,6 +460,31 @@ proxies:
   servername: nl.aksay.pro
   client-fingerprint: chrome
   network: tcp
+  udp: true
+- name: ProxyPool | 🇸🇬 新加坡 | SGP
+  server: 162.159.43.187
+  port: 2086
+  type: vless
+  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
+  tls: false
+  servername: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
+  network: ws
+  ws-opts:
+    path: /?ed=2560security=tls
+    headers:
+      Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
+  udp: true
+- name: 🇸🇬 新加坡 | SGP 2
+  server: 162.159.43.187
+  port: 8880
+  type: vless
+  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
+  tls: false
+  network: ws
+  ws-opts:
+    path: /?ed=2560security=tls
+    headers:
+      Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
   udp: true
 - name: ProxyPool | 🇸🇬 新加坡 | SGP 3
   server: test01.y1static-content-distribution.shop
@@ -422,6 +507,35 @@ proxies:
     headers:
       Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
   udp: true
+- name: 🇸🇬 新加坡 | SGP 6
+  server: svip.skycon808.com
+  port: 35311
+  type: anytls
+  password: 3fc0f254-54c3-4cf3-896b-5999a2b4c757
+  udp: true
+  sni: xjp88.swiftrelay.cc
+  skip-cert-verify: true
+- name: 🇹🇷 土耳其 | TUR
+  server: nimm.mpd.cc.cd
+  port: 2053
+  type: trojan
+  password: e309e031-991e-4656-9934-44d10deb8fd8
+  sni: nimm.mpd.cc.cd
+  skip-cert-verify: true
+  network: ws
+  ws-opts:
+    path: /0962
+    headers:
+      Host: nimm.mpd.cc.cd
+  udp: true
+- name: ProxyPool | 🇹🇼 🇨🇳 台湾 | TWN
+  server: yazhou06.cybergalaxy.me
+  port: 443
+  type: anytls
+  password: 3fc0f254-54c3-4cf3-896b-5999a2b4c757
+  udp: true
+  sni: yazhou06.cybergalaxy.me
+  skip-cert-verify: true
 - name: ProxyPool | 🇹🇼 🇨🇳 台湾 | TWN 3
   server: jp-02-hdja-kido.younai-ytl.shop
   port: 37236
@@ -437,6 +551,22 @@ proxies:
   password: 9sK2mP8xQ7vL3nZ6
   udp: true
   sni: ac7548f3ebe045b39a90288ff1e97526.lwdnxf.cn
+  skip-cert-verify: true
+- name: 🇺🇸 美国 | USA 5
+  server: svip.skycon808.com
+  port: 22216
+  type: anytls
+  password: 3fc0f254-54c3-4cf3-896b-5999a2b4c757
+  udp: true
+  sni: us72.pulsarcore.site
+  skip-cert-verify: true
+- name: 🇺🇸 美国 | USA 11
+  server: svip.skycon808.com
+  port: 32578
+  type: anytls
+  password: 3fc0f254-54c3-4cf3-896b-5999a2b4c757
+  udp: true
+  sni: us58.pulsarcore.site
   skip-cert-verify: true
 - name: 🇺🇸 美国 | USA 15
   server: 162.159.43.187
@@ -458,6 +588,7 @@ proxy-groups:
   - ♻️ 自动选择
   - DIRECT
   - 🌐 台湾
+  - 🌐 土耳其
   - 🌐 新加坡
   - 🌐 日本
   - 🌐 法国
@@ -468,50 +599,64 @@ proxy-groups:
   - 🌐 香港
   - 🌐 其他
   - 🇺🇸_US_美国
+  - 🇺🇸_US_美国->🇭🇰_HK_中国香港
   - '🇮🇹[www.v2nodes.com] vless-IT-4... #1'
   - '🏳[www.v2nodes.com] vless- #3'
-  - '🏳[www.v2nodes.com] vless- #5'
-  - '🇰🇷[www.v2nodes.com] vless-KR-3... #1'
   - '🇰🇷[www.v2nodes.com] vless-KR-4... #2'
   - '🇺🇸[www.v2nodes.com] vless-US-1... #9'
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #9'
+  - 🇭🇰HK_1|3.8MB/s
   - 🇳🇱NL_1|1.3MB/s
-  - 🇭🇰HK_2|2.7MB/s
   - 🇫🇷 法国 | FRA
+  - '🇭🇰 香港 | HKG #1'
   - 🇯🇵 日本 | JPN
+  - 🇰🇷 韩国 | KOR
+  - 🇰🇷 韩国 | KOR 2
   - 🇸🇬 新加坡 | SGP
   - '🇸🇬 新加坡 | SGP #1'
-  - 🇹🇼 🇨🇳 台湾 | TWN 2
+  - 🇸🇬 新加坡 | SGP 3
+  - 🇹🇼 🇨🇳 台湾 | TWN
+  - 🇹🇼 🇨🇳 台湾 | TWN 3
+  - 🇺🇸 美国 | USA 17
   - NL_speednode_0004
   - NL_speednode_0005
-  - NL_speednode_0006
   - NL_speednode_0007
   - NL_speednode_0008
   - NL_speednode_0009
   - NL_speednode_0010
   - RO_speednode_0041
   - RO_speednode_0042
-  - RO_speednode_0044
   - RO_speednode_0045
-  - RO_speednode_0082
   - RO_speednode_0083
   - RO_speednode_0087
   - RO_speednode_0094
   - RO_speednode_0097
+  - RO_speednode_0110
   - RO_speednode_0124
   - RO_speednode_0126
   - US_speednode_0131
   - US_speednode_0141
+  - US_speednode_0143
   - 🇨🇿 捷克 | CZE
   - 🇪🇪 爱沙尼亚 | EST
   - 🇪🇪 爱沙尼亚 | EST 2
   - 🇫🇷 法国 | FRA 2
-  - 🇬🇧 英国 | GBR
   - 🇬🇧 英国 | GBR 2
+  - 🇬🇧 英国 | GBR 3
+  - 🇭🇰 香港 | HKG
+  - ProxyPool | 🇰🇷 韩国 | KOR 2
   - 🇳🇱 荷兰 | NLD
+  - ProxyPool | 🇸🇬 新加坡 | SGP
+  - 🇸🇬 新加坡 | SGP 2
   - ProxyPool | 🇸🇬 新加坡 | SGP 3
   - 🇸🇬 新加坡 | SGP 4
+  - 🇸🇬 新加坡 | SGP 6
+  - 🇹🇷 土耳其 | TUR
+  - ProxyPool | 🇹🇼 🇨🇳 台湾 | TWN
   - ProxyPool | 🇹🇼 🇨🇳 台湾 | TWN 3
   - 🇹🇼 🇨🇳 台湾 | TWN 6
+  - 🇺🇸 美国 | USA 5
+  - 🇺🇸 美国 | USA 11
   - 🇺🇸 美国 | USA 15
 - name: ♻️ 自动选择
   type: url-test
@@ -520,50 +665,64 @@ proxy-groups:
   tolerance: 50
   proxies:
   - 🇺🇸_US_美国
+  - 🇺🇸_US_美国->🇭🇰_HK_中国香港
   - '🇮🇹[www.v2nodes.com] vless-IT-4... #1'
   - '🏳[www.v2nodes.com] vless- #3'
-  - '🏳[www.v2nodes.com] vless- #5'
-  - '🇰🇷[www.v2nodes.com] vless-KR-3... #1'
   - '🇰🇷[www.v2nodes.com] vless-KR-4... #2'
   - '🇺🇸[www.v2nodes.com] vless-US-1... #9'
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #9'
+  - 🇭🇰HK_1|3.8MB/s
   - 🇳🇱NL_1|1.3MB/s
-  - 🇭🇰HK_2|2.7MB/s
   - 🇫🇷 法国 | FRA
+  - '🇭🇰 香港 | HKG #1'
   - 🇯🇵 日本 | JPN
+  - 🇰🇷 韩国 | KOR
+  - 🇰🇷 韩国 | KOR 2
   - 🇸🇬 新加坡 | SGP
   - '🇸🇬 新加坡 | SGP #1'
-  - 🇹🇼 🇨🇳 台湾 | TWN 2
+  - 🇸🇬 新加坡 | SGP 3
+  - 🇹🇼 🇨🇳 台湾 | TWN
+  - 🇹🇼 🇨🇳 台湾 | TWN 3
+  - 🇺🇸 美国 | USA 17
   - NL_speednode_0004
   - NL_speednode_0005
-  - NL_speednode_0006
   - NL_speednode_0007
   - NL_speednode_0008
   - NL_speednode_0009
   - NL_speednode_0010
   - RO_speednode_0041
   - RO_speednode_0042
-  - RO_speednode_0044
   - RO_speednode_0045
-  - RO_speednode_0082
   - RO_speednode_0083
   - RO_speednode_0087
   - RO_speednode_0094
   - RO_speednode_0097
+  - RO_speednode_0110
   - RO_speednode_0124
   - RO_speednode_0126
   - US_speednode_0131
   - US_speednode_0141
+  - US_speednode_0143
   - 🇨🇿 捷克 | CZE
   - 🇪🇪 爱沙尼亚 | EST
   - 🇪🇪 爱沙尼亚 | EST 2
   - 🇫🇷 法国 | FRA 2
-  - 🇬🇧 英国 | GBR
   - 🇬🇧 英国 | GBR 2
+  - 🇬🇧 英国 | GBR 3
+  - 🇭🇰 香港 | HKG
+  - ProxyPool | 🇰🇷 韩国 | KOR 2
   - 🇳🇱 荷兰 | NLD
+  - ProxyPool | 🇸🇬 新加坡 | SGP
+  - 🇸🇬 新加坡 | SGP 2
   - ProxyPool | 🇸🇬 新加坡 | SGP 3
   - 🇸🇬 新加坡 | SGP 4
+  - 🇸🇬 新加坡 | SGP 6
+  - 🇹🇷 土耳其 | TUR
+  - ProxyPool | 🇹🇼 🇨🇳 台湾 | TWN
   - ProxyPool | 🇹🇼 🇨🇳 台湾 | TWN 3
   - 🇹🇼 🇨🇳 台湾 | TWN 6
+  - 🇺🇸 美国 | USA 5
+  - 🇺🇸 美国 | USA 11
   - 🇺🇸 美国 | USA 15
 - name: 🌐 台湾
   type: url-test
@@ -571,9 +730,18 @@ proxy-groups:
   interval: 300
   tolerance: 50
   proxies:
-  - 🇹🇼 🇨🇳 台湾 | TWN 2
+  - 🇹🇼 🇨🇳 台湾 | TWN
+  - 🇹🇼 🇨🇳 台湾 | TWN 3
+  - ProxyPool | 🇹🇼 🇨🇳 台湾 | TWN
   - ProxyPool | 🇹🇼 🇨🇳 台湾 | TWN 3
   - 🇹🇼 🇨🇳 台湾 | TWN 6
+- name: 🌐 土耳其
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+  proxies:
+  - 🇹🇷 土耳其 | TUR
 - name: 🌐 新加坡
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -582,8 +750,12 @@ proxy-groups:
   proxies:
   - 🇸🇬 新加坡 | SGP
   - '🇸🇬 新加坡 | SGP #1'
+  - 🇸🇬 新加坡 | SGP 3
+  - ProxyPool | 🇸🇬 新加坡 | SGP
+  - 🇸🇬 新加坡 | SGP 2
   - ProxyPool | 🇸🇬 新加坡 | SGP 3
   - 🇸🇬 新加坡 | SGP 4
+  - 🇸🇬 新加坡 | SGP 6
 - name: 🌐 日本
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -597,6 +769,7 @@ proxy-groups:
   interval: 300
   tolerance: 50
   proxies:
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #9'
   - 🇫🇷 法国 | FRA
   - 🇫🇷 法国 | FRA 2
 - name: 🌐 美国
@@ -607,8 +780,12 @@ proxy-groups:
   proxies:
   - 🇺🇸_US_美国
   - '🇺🇸[www.v2nodes.com] vless-US-1... #9'
+  - 🇺🇸 美国 | USA 17
   - US_speednode_0131
   - US_speednode_0141
+  - US_speednode_0143
+  - 🇺🇸 美国 | USA 5
+  - 🇺🇸 美国 | USA 11
   - 🇺🇸 美国 | USA 15
 - name: 🌐 英国
   type: url-test
@@ -616,8 +793,8 @@ proxy-groups:
   interval: 300
   tolerance: 50
   proxies:
-  - 🇬🇧 英国 | GBR
   - 🇬🇧 英国 | GBR 2
+  - 🇬🇧 英国 | GBR 3
 - name: 🌐 荷兰
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -627,7 +804,6 @@ proxy-groups:
   - 🇳🇱NL_1|1.3MB/s
   - NL_speednode_0004
   - NL_speednode_0005
-  - NL_speednode_0006
   - NL_speednode_0007
   - NL_speednode_0008
   - NL_speednode_0009
@@ -639,15 +815,20 @@ proxy-groups:
   interval: 300
   tolerance: 50
   proxies:
-  - '🇰🇷[www.v2nodes.com] vless-KR-3... #1'
   - '🇰🇷[www.v2nodes.com] vless-KR-4... #2'
+  - 🇰🇷 韩国 | KOR
+  - 🇰🇷 韩国 | KOR 2
+  - ProxyPool | 🇰🇷 韩国 | KOR 2
 - name: 🌐 香港
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
-  - 🇭🇰HK_2|2.7MB/s
+  - 🇺🇸_US_美国->🇭🇰_HK_中国香港
+  - 🇭🇰HK_1|3.8MB/s
+  - '🇭🇰 香港 | HKG #1'
+  - 🇭🇰 香港 | HKG
 - name: 🌐 其他
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -656,16 +837,14 @@ proxy-groups:
   proxies:
   - '🇮🇹[www.v2nodes.com] vless-IT-4... #1'
   - '🏳[www.v2nodes.com] vless- #3'
-  - '🏳[www.v2nodes.com] vless- #5'
   - RO_speednode_0041
   - RO_speednode_0042
-  - RO_speednode_0044
   - RO_speednode_0045
-  - RO_speednode_0082
   - RO_speednode_0083
   - RO_speednode_0087
   - RO_speednode_0094
   - RO_speednode_0097
+  - RO_speednode_0110
   - RO_speednode_0124
   - RO_speednode_0126
   - 🇨🇿 捷克 | CZE
