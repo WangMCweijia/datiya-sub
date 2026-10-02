@@ -1,5 +1,5 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-10-02 22:49:46 +0800 | 可用节点 47 个（候选 1063 个，datiya 覆盖 7 天）
+# 更新于 2026-10-03 04:50:46 +0800 | 可用节点 52 个（候选 1075 个，datiya 覆盖 7 天）
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -47,6 +47,18 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
+- alpn:
+  - h3
+  auth-str: github.com/Alvin9999-newpac/fanqiang
+  down: 55 Mbps
+  name: 'github.com/*********-******/**... #1'
+  port: 23556
+  protocol: udp
+  server: 62.210.70.191
+  skip-cert-verify: true
+  sni: bing.com
+  type: hysteria
+  up: 11 Mbps
 - name: '🇮🇹[www.v2nodes.com] vless-IT-4... #1'
   network: ws
   port: 2052
@@ -116,6 +128,17 @@ proxies:
     headers:
       Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
     path: /?ed=2560security=tls
+- name: '🇰🇷[www.v2nodes.com] vless-KR-3... #4'
+  network: ws
+  port: 2086
+  server: 162.159.45.19
+  tls: false
+  type: vless
+  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
+  ws-opts:
+    headers:
+      Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
+    path: /?ed=2560security=tls
 - client-fingerprint: firefox
   grpc-opts:
     grpc-service-name: cdn.v1.AssetService
@@ -127,11 +150,12 @@ proxies:
   tls: true
   type: vless
   uuid: e0b9fb0f-1bbd-478b-9580-c2294778338b
-- name: '🇫🇷[www.v2nodes.com] trojan-FR-... #4'
+- name: '🇫🇷[www.v2nodes.com] trojan-FR-... #7'
   network: ws
   password: humanity
   port: 443
-  server: www.calmlunch.com
+  server: 185.220.100.168
+  skip-cert-verify: false
   sni: www.calmlunch.com
   type: trojan
   ws-opts:
@@ -145,15 +169,6 @@ proxies:
   tls: true
   type: http
   udp: true
-- auth: 3f63c86c-ac4a-4900-85cf-4fedf93c2ca5
-  name: '🇷🇺 俄罗斯 | RUS #3'
-  password: 3f63c86c-ac4a-4900-85cf-4fedf93c2ca5
-  port: 22443
-  server: 91.240.86.70
-  skip-cert-verify: true
-  sni: 91.240.86.70
-  tls: false
-  type: hysteria2
 - name: '🇸🇬 新加坡 | SGP #1'
   network: ws
   port: 80
@@ -186,19 +201,15 @@ proxies:
     headers:
       Host: v2ray.aizgl.com
     path: /xray-ws
-- name: 🇺🇸 美国 | USA 10
-  network: ws
-  password: humanity
+- auth: https://xship.2fa.cat
+  name: 🇺🇸 美国 | USA 13
+  password: https://xship.2fa.cat
   port: 443
-  server: 188.114.96.3
+  server: starlink-ft.251313.xyz
   skip-cert-verify: true
-  sni: www.calmlunch.com
-  type: trojan
+  sni: xship.top
+  type: hysteria2
   udp: true
-  ws-opts:
-    headers:
-      Host: www.calmlunch.com
-    path: /assignment
 - client-fingerprint: chrome
   grpc-opts:
     grpc-mode: gun
@@ -312,6 +323,14 @@ proxies:
   tls: true
   type: http
   udp: true
+- name: RO_speednode_0094
+  password: None
+  port: 9002
+  server: 193.176.84.31
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
 - name: RO_speednode_0097
   password: None
   port: 9002
@@ -393,6 +412,14 @@ proxies:
   auth: 9Me_Jx935gnHx13_Nx45M_NYXe037js_Be4z
   sni: hop-germany-september.dynuddns.com
   skip-cert-verify: true
+- name: 🇫🇷 法国 | FRA
+  server: 62.210.7.139
+  port: 60111
+  type: hysteria2
+  password: github.com/Alvin9999-newpac/fanqiang
+  auth: github.com/Alvin9999-newpac/fanqiang
+  sni: t.me
+  skip-cert-verify: true
 - name: 🇭🇰 香港 | HKG 2
   server: ac7548f3ebe045b39a90288ff1e97528.pnuqcnp.cn
   port: 443
@@ -431,6 +458,18 @@ proxies:
     host: api-maps.yandex.ru
     mode: auto
   udp: true
+- name: 🇹🇼 🇨🇳 台湾 | TWN
+  server: ttww11.bpca2026.top
+  port: 443
+  type: trojan
+  password: 9efd3f19-c7cb-4fa9-8d66-0598043597dc
+  sni: ttww11.bpca2026.top
+  skip-cert-verify: true
+  network: ws
+  ws-opts:
+    path: /images
+    headers:
+      Host: ttww11.bpca2026.top
 - name: 🇺🇸 美国 | USA 2
   server: 162.159.43.187
   port: 2095
@@ -470,6 +509,16 @@ proxies:
     headers:
       Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
   udp: true
+- name: 🇺🇸 美国 | USA 14
+  server: 155.117.19.17
+  port: 443
+  type: hysteria2
+  password: 5fa748137b6d822308eea4611f474ad5
+  auth: 5fa748137b6d822308eea4611f474ad5
+  sni: www.bing.com
+  skip-cert-verify: true
+  obfs: salamander
+  obfs-password: a39ca173b57ac7021b08bf3e3de9f1f6
 proxy-groups:
 - name: 🚀 节点选择
   type: select
@@ -488,20 +537,21 @@ proxy-groups:
   - 🌐 其他
   - 🇸🇬_SG_新加坡
   - 🇺🇸_US_美国
+  - 'github.com/*********-******/**... #1'
   - '🇮🇹[www.v2nodes.com] vless-IT-4... #1'
   - '🏳[www.v2nodes.com] vless- #3'
   - 🇰🇷[www.v2nodes.com] vless-KR-4...
   - '🇺🇸[www.v2nodes.com] vless-US-1... #7'
   - '🇰🇷[www.v2nodes.com] vless-KR-3... #6'
   - '🇰🇷[www.v2nodes.com] vless-KR-4... #1'
+  - '🇰🇷[www.v2nodes.com] vless-KR-3... #4'
   - 🇺🇸[www.v2nodes.com] vless-US-1...
-  - '🇫🇷[www.v2nodes.com] trojan-FR-... #4'
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #7'
   - 🇳🇱NL_1|1.3MB/s
-  - '🇷🇺 俄罗斯 | RUS #3'
   - '🇸🇬 新加坡 | SGP #1'
   - 🇹🇼 🇨🇳 台湾 | TWN 2
   - '🇺🇸 美国 | USA #2'
-  - 🇺🇸 美国 | USA 10
+  - 🇺🇸 美国 | USA 13
   - 🇺🇸 美国 | USA 18
   - NL_speednode_0004
   - NL_speednode_0005
@@ -517,6 +567,7 @@ proxy-groups:
   - RO_speednode_0082
   - RO_speednode_0083
   - RO_speednode_0087
+  - RO_speednode_0094
   - RO_speednode_0097
   - RO_speednode_0110
   - RO_speednode_0124
@@ -527,12 +578,15 @@ proxy-groups:
   - US_speednode_0143
   - 🇦🇪 阿联酋 | ARE
   - 🇩🇪 德国 | DEU 6
+  - 🇫🇷 法国 | FRA
   - 🇭🇰 香港 | HKG 2
   - 🇷🇺 俄罗斯 | RUS
   - 🇸🇪 瑞典 | SWE
+  - 🇹🇼 🇨🇳 台湾 | TWN
   - 🇺🇸 美国 | USA 2
   - 🇺🇸 美国 | USA 6
   - ProxyPool | 🇺🇸 美国 | USA 10
+  - 🇺🇸 美国 | USA 14
 - name: ♻️ 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -541,20 +595,21 @@ proxy-groups:
   proxies:
   - 🇸🇬_SG_新加坡
   - 🇺🇸_US_美国
+  - 'github.com/*********-******/**... #1'
   - '🇮🇹[www.v2nodes.com] vless-IT-4... #1'
   - '🏳[www.v2nodes.com] vless- #3'
   - 🇰🇷[www.v2nodes.com] vless-KR-4...
   - '🇺🇸[www.v2nodes.com] vless-US-1... #7'
   - '🇰🇷[www.v2nodes.com] vless-KR-3... #6'
   - '🇰🇷[www.v2nodes.com] vless-KR-4... #1'
+  - '🇰🇷[www.v2nodes.com] vless-KR-3... #4'
   - 🇺🇸[www.v2nodes.com] vless-US-1...
-  - '🇫🇷[www.v2nodes.com] trojan-FR-... #4'
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #7'
   - 🇳🇱NL_1|1.3MB/s
-  - '🇷🇺 俄罗斯 | RUS #3'
   - '🇸🇬 新加坡 | SGP #1'
   - 🇹🇼 🇨🇳 台湾 | TWN 2
   - '🇺🇸 美国 | USA #2'
-  - 🇺🇸 美国 | USA 10
+  - 🇺🇸 美国 | USA 13
   - 🇺🇸 美国 | USA 18
   - NL_speednode_0004
   - NL_speednode_0005
@@ -570,6 +625,7 @@ proxy-groups:
   - RO_speednode_0082
   - RO_speednode_0083
   - RO_speednode_0087
+  - RO_speednode_0094
   - RO_speednode_0097
   - RO_speednode_0110
   - RO_speednode_0124
@@ -580,19 +636,21 @@ proxy-groups:
   - US_speednode_0143
   - 🇦🇪 阿联酋 | ARE
   - 🇩🇪 德国 | DEU 6
+  - 🇫🇷 法国 | FRA
   - 🇭🇰 香港 | HKG 2
   - 🇷🇺 俄罗斯 | RUS
   - 🇸🇪 瑞典 | SWE
+  - 🇹🇼 🇨🇳 台湾 | TWN
   - 🇺🇸 美国 | USA 2
   - 🇺🇸 美国 | USA 6
   - ProxyPool | 🇺🇸 美国 | USA 10
+  - 🇺🇸 美国 | USA 14
 - name: 🌐 俄罗斯
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
-  - '🇷🇺 俄罗斯 | RUS #3'
   - 🇷🇺 俄罗斯 | RUS
 - name: 🌐 台湾
   type: url-test
@@ -601,6 +659,7 @@ proxy-groups:
   tolerance: 50
   proxies:
   - 🇹🇼 🇨🇳 台湾 | TWN 2
+  - 🇹🇼 🇨🇳 台湾 | TWN
 - name: 🌐 德国
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -622,7 +681,8 @@ proxy-groups:
   interval: 300
   tolerance: 50
   proxies:
-  - '🇫🇷[www.v2nodes.com] trojan-FR-... #4'
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #7'
+  - 🇫🇷 法国 | FRA
 - name: 🌐 美国
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -633,7 +693,7 @@ proxy-groups:
   - '🇺🇸[www.v2nodes.com] vless-US-1... #7'
   - 🇺🇸[www.v2nodes.com] vless-US-1...
   - '🇺🇸 美国 | USA #2'
-  - 🇺🇸 美国 | USA 10
+  - 🇺🇸 美国 | USA 13
   - 🇺🇸 美国 | USA 18
   - US_speednode_0131
   - US_speednode_0133
@@ -642,6 +702,7 @@ proxy-groups:
   - 🇺🇸 美国 | USA 2
   - 🇺🇸 美国 | USA 6
   - ProxyPool | 🇺🇸 美国 | USA 10
+  - 🇺🇸 美国 | USA 14
 - name: 🌐 荷兰
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -665,6 +726,7 @@ proxy-groups:
   - 🇰🇷[www.v2nodes.com] vless-KR-4...
   - '🇰🇷[www.v2nodes.com] vless-KR-3... #6'
   - '🇰🇷[www.v2nodes.com] vless-KR-4... #1'
+  - '🇰🇷[www.v2nodes.com] vless-KR-3... #4'
 - name: 🌐 香港
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -678,6 +740,7 @@ proxy-groups:
   interval: 300
   tolerance: 50
   proxies:
+  - 'github.com/*********-******/**... #1'
   - '🇮🇹[www.v2nodes.com] vless-IT-4... #1'
   - '🏳[www.v2nodes.com] vless- #3'
   - RO_speednode_0041
@@ -687,6 +750,7 @@ proxy-groups:
   - RO_speednode_0082
   - RO_speednode_0083
   - RO_speednode_0087
+  - RO_speednode_0094
   - RO_speednode_0097
   - RO_speednode_0110
   - RO_speednode_0124
