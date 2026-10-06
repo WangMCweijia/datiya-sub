@@ -1,5 +1,5 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-10-06 23:18:53 +0800 | 可用节点 163 个（候选 1214 个，datiya 覆盖 7 天）
+# 更新于 2026-10-07 05:04:14 +0800 | 可用节点 164 个（候选 1202 个，datiya 覆盖 7 天）
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -30,14 +30,6 @@ proxies:
   alterId: 0
   cipher: auto
   tls: false
-  skip-cert-verify: true
-  udp: true
-- name: 🇯🇵_JP_日本
-  type: ss
-  server: 212.192.221.129
-  port: 10771
-  cipher: aes-256-gcm
-  password: 9cfaa78d51ac366f
   skip-cert-verify: true
   udp: true
 - name: Telegram:@v2rayng3
@@ -443,13 +435,6 @@ proxies:
     headers:
       Host: id1.nathaya.web.id
     path: /trojan
-- name: 🇯🇵[www.v2nodes.com] trojan-JP-...
-  password: e26a229d-e8f2-4ff9-8c7d-58a9d83ee437
-  port: 8886
-  server: 45.32.52.173
-  skip-cert-verify: true
-  sni: 45.32.52.173
-  type: trojan
 - alpn:
   - http/1.1
   name: '🇳🇱[www.v2nodes.com] trojan-NL-... #1'
@@ -734,6 +719,20 @@ proxies:
   sni: 76d1d3ecadca44efa2339867d7dfc9a1-8e928736d0f8dbdc.apache-iv.com
   tls: true
   type: http
+- name: 🇬🇧GB_4|1.4MB/s
+  password: 0fcf5a7a-e1b7-11ec-a352-f23c91cfbbc9
+  port: 443
+  server: 1e32fec0-t9zts0-tq9o8d-1d3bw.uk.oshuawei.com
+  sni: 1e32fec0-t9zts0-tq9o8d-1d3bw.uk.oshuawei.com
+  tls: true
+  type: http
+  username: 0fcf5a7a-e1b7-11ec-a352-f23c91cfbbc9
+- name: 🇺🇸US_27|2.3MB/s
+  port: 443
+  server: 12.221.146.147
+  skip-cert-verify: true
+  tls: true
+  type: http
 - name: 🇺🇸US_28|3.2MB/s
   port: 443
   server: 23.133.176.14
@@ -805,10 +804,6 @@ proxies:
   skip-cert-verify: true
   tls: true
   type: http
-- name: 🇬🇧GB_7|1.5MB/s
-  port: 11111
-  server: 157.180.24.140
-  type: socks5
 - name: 🇭🇺HU_1|2.6MB/s
   port: 443
   server: 146.70.203.18
@@ -1092,6 +1087,14 @@ proxies:
     headers:
       Host: shin-ra.ccwu.cc
     path: /
+- name: 🇻🇳 越南 | VNM
+  password: a7c5d30b-ce9b-4e34-b5cb-66f8308790ef
+  port: 1007
+  server: 4zfp01mn.zf-mix.9999231.xyz
+  skip-cert-verify: true
+  sni: vn-my.9999231.xyz
+  type: anytls
+  udp: true
 - name: '🇳🇱 荷兰 | NLD #4'
   password: humanity
   port: 443
@@ -1159,6 +1162,13 @@ proxies:
   tls: true
   type: http
   udp: true
+- name: RO_speednode_0087
+  port: 9002
+  server: 193.176.84.20
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
 - name: RO_speednode_0094
   password: None
   port: 9002
@@ -1219,20 +1229,6 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇦🇪 阿联酋 | ARE
-  server: 157.228.155.238
-  port: 443
-  type: vless
-  uuid: 4d852af3-a121-41aa-9aed-4ca40a6f7b4d
-  tls: true
-  flow: xtls-rprx-vision
-  reality-opts:
-    public-key: 5BDht3tAZdKEKpJymGlRK9JugOnieA-kMSWz_0FoE0I
-    short-id: 6f76ad09
-  servername: addons.mozilla.org
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
 - name: 🇩🇪 德国 | DEU 3
   server: 31.59.210.25
   port: 2087
@@ -1270,20 +1266,6 @@ proxies:
     path: /
     host: germanytest.tulnaro.ir
     mode: auto
-  udp: true
-- name: 🇪🇪 爱沙尼亚 | EST
-  server: 45.12.28.108
-  port: 443
-  type: vless
-  uuid: d342d11e-d424-4583-b36e-524ab1f0afa4
-  tls: true
-  servername: fzo5i.ir46.90k.hh.ov0.kdns.fr
-  client-fingerprint: chrome
-  network: ws
-  ws-opts:
-    path: /glasspanel/guest000_0_5de14443985f/
-    headers:
-      Host: fzo5i.ir46.90k.hh.ov0.kdns.fr
   udp: true
 - name: 🇫🇷 法国 | FRA 3
   server: 138.124.58.39
@@ -1418,13 +1400,6 @@ proxies:
     headers:
       Host: 1.proxy2.us.ci.
   udp: true
-- name: ProxyPool | 🇺🇸 美国 | USA 2
-  server: 212.192.221.129
-  port: 10771
-  type: ss
-  cipher: aes-256-gcm
-  password: 9cfaa78d51ac366f
-  udp: true
 - name: 🇺🇸 美国 | USA 3
   server: 100.48.94.91
   port: 443
@@ -1470,7 +1445,7 @@ proxies:
     headers:
       Host: dimskiee.biz.id
   udp: true
-- name: '🇫🇷[www.v2nodes.com] trojan-FR-... #3 #2'
+- name: '🏳[www.v2nodes.com] trojan- #4'
   network: ws
   password: humanity
   port: 2053
@@ -1494,32 +1469,53 @@ proxies:
   type: trojan
   ws-opts:
     path: '%2F---%40MetiVIP---%40MetiVIP%2F---%40MetiVIP---%40MetiVIP%2F---%40MetiVIP---%40MetiVIP%2Fdes---%40MetiVIP---%40MetiVIP%2F---%40MetiVIP---%40%40MetiVIP%2F---%40%40MetiVIP---%40MetiVIP'
-- name: '🇺🇸 美国 | USA #7 #2'
-  password: 19877587-ed94-4033-88cd-4ac50a5e8718
+- cipher: aes-256-cfb
+  name: 🇺🇸US_3|1.5MB/s
+  password: amazonskr05
   port: 443
-  server: 104.16.148.5
-  skip-cert-verify: true
-  sni: dimskiee.biz.id
-  type: trojan
-- name: 🇺🇸US-23.22.158.187-0685 | 42.523MB
+  server: 23.22.158.187
+  type: ss
+  udp: true
+- cipher: aes-256-cfb
+  name: 🇩🇪DE_5|4.0MB/s
+  password: amazonskr05
+  port: 443
+  server: 18.159.149.158
+  type: ss
+  udp: true
+- cipher: aes-256-cfb
+  name: 🇩🇪DE_6|4.1MB/s
+  password: amazonskr05
+  port: 443
+  server: 3.67.197.81
+  type: ss
+  udp: true
+- cipher: aes-256-cfb
+  name: 🇺🇸US_15|1009KB/s
+  password: amazonskr05
+  port: 443
+  server: 100.26.108.154
+  type: ss
+  udp: true
+- name: 🇺🇸US-23.22.158.187-0685 | 32.748MB
   server: 23.22.158.187
   port: 443
   type: ss
   cipher: aes-256-cfb
   password: amazonskr05
-- name: 🇺🇸US-18.208.223.39-0666 | 34.712MB
+- name: 🇺🇸US-18.208.223.39-0666 | 25.136MB
   server: 18.208.223.39
   port: 443
   type: ss
   cipher: aes-256-cfb
   password: amazonskr05
-- name: 🇫🇷FR-13.36.167.227-2711 | 19.13MB
+- name: 🇫🇷FR-13.36.167.227-2711 | 18.04MB
   server: 13.36.167.227
   port: 443
   type: ss
   cipher: aes-256-cfb
   password: amazonskr05
-- name: RELAY-188.114.96.19-0300 | 3.921MB
+- name: RELAY-188.114.96.19-0300 | 1.196MB
   server: 188.114.96.19
   port: 80
   type: vmess
@@ -1620,11 +1616,11 @@ proxy-groups:
   - 🌐 美国
   - 🌐 英国
   - 🌐 荷兰
+  - 🌐 越南
   - 🌐 韩国
   - 🌐 香港
   - 🌐 其他
   - 🇨🇳_CN_中国
-  - 🇯🇵_JP_日本
   - Telegram:@v2rayng3
   - '@B2Hub #1'
   - '🏳[www.v2nodes.com] vless- #1'
@@ -1661,7 +1657,6 @@ proxy-groups:
   - '🇫🇷[www.v2nodes.com] trojan-FR-... #10'
   - 🇭🇰[www.v2nodes.com] trojan-HK-...
   - 🇮🇩[www.v2nodes.com] trojan-ID-...
-  - 🇯🇵[www.v2nodes.com] trojan-JP-...
   - '🇳🇱[www.v2nodes.com] trojan-NL-... #1'
   - 🇺🇸[www.v2nodes.com] trojan-US-...
   - '🇺🇸[www.v2nodes.com] trojan-US-... #2'
@@ -1700,6 +1695,8 @@ proxy-groups:
   - 🇺🇸US_24|3.6MB/s
   - 🇮🇹IT_2|1009KB/s
   - 🇫🇷FR_6|2.3MB/s
+  - 🇬🇧GB_4|1.4MB/s
+  - 🇺🇸US_27|2.3MB/s
   - 🇺🇸US_28|3.2MB/s
   - 🇨🇦CA_3|1.2MB/s
   - 🇺🇸US_29|1.8MB/s
@@ -1712,7 +1709,6 @@ proxy-groups:
   - 🇱🇻LV_1|2.4MB/s
   - 🇨🇦CA_5|1.2MB/s
   - 🇬🇧GB_6|1010KB/s
-  - 🇬🇧GB_7|1.5MB/s
   - 🇭🇺HU_1|2.6MB/s
   - 🇭🇷HR_1|1.0MB/s
   - 🇭🇷HR_2|2.6MB/s
@@ -1737,6 +1733,7 @@ proxy-groups:
   - '🇺🇸 美国 | USA #6'
   - '🇺🇸 美国 | USA #8'
   - '🇺🇸 美国 | USA #9'
+  - 🇻🇳 越南 | VNM
   - '🇳🇱 荷兰 | NLD #4'
   - '🇸🇪 瑞典 | SWE #1'
   - '🇺🇸 美国 | USA #3'
@@ -1746,6 +1743,7 @@ proxy-groups:
   - RO_speednode_0045
   - RO_speednode_0082
   - RO_speednode_0083
+  - RO_speednode_0087
   - RO_speednode_0094
   - RO_speednode_0097
   - RO_speednode_0110
@@ -1754,10 +1752,8 @@ proxy-groups:
   - US_speednode_0131
   - US_speednode_0141
   - US_speednode_0143
-  - 🇦🇪 阿联酋 | ARE
   - 🇩🇪 德国 | DEU 3
   - 🇩🇪 德国 | DEU 6
-  - 🇪🇪 爱沙尼亚 | EST
   - 🇫🇷 法国 | FRA 3
   - 🇫🇷 法国 | FRA 4
   - 🇬🇧 英国 | GBR
@@ -1768,19 +1764,21 @@ proxy-groups:
   - 🇷🇺 俄罗斯 | RUS
   - 🇸🇬 新加坡 | SGP 3
   - ProxyPool | 🇺🇸 美国 | USA
-  - ProxyPool | 🇺🇸 美国 | USA 2
   - 🇺🇸 美国 | USA 3
   - 🇺🇸 美国 | USA 4
   - 🇺🇸 美国 | USA 7
   - 🇺🇸 美国 | USA 8
-  - '🇫🇷[www.v2nodes.com] trojan-FR-... #3 #2'
+  - '🏳[www.v2nodes.com] trojan- #4'
   - 🇹🇼[www.v2nodes.com] trojan-TW-...
   - '🇺🇸[www.v2nodes.com] trojan-US-... #2'
-  - '🇺🇸 美国 | USA #7 #2'
-  - 🇺🇸US-23.22.158.187-0685 | 42.523MB
-  - 🇺🇸US-18.208.223.39-0666 | 34.712MB
-  - 🇫🇷FR-13.36.167.227-2711 | 19.13MB
-  - RELAY-188.114.96.19-0300 | 3.921MB
+  - 🇺🇸US_3|1.5MB/s
+  - 🇩🇪DE_5|4.0MB/s
+  - 🇩🇪DE_6|4.1MB/s
+  - 🇺🇸US_15|1009KB/s
+  - 🇺🇸US-23.22.158.187-0685 | 32.748MB
+  - 🇺🇸US-18.208.223.39-0666 | 25.136MB
+  - 🇫🇷FR-13.36.167.227-2711 | 18.04MB
+  - RELAY-188.114.96.19-0300 | 1.196MB
   - RELAY-172.67.212.44-8006 | 0.0MB
   - 🇺🇸US-45.58.149.170-0150 | 0.0MB
   - US_speednode_0136
@@ -1793,7 +1791,6 @@ proxy-groups:
   tolerance: 50
   proxies:
   - 🇨🇳_CN_中国
-  - 🇯🇵_JP_日本
   - Telegram:@v2rayng3
   - '@B2Hub #1'
   - '🏳[www.v2nodes.com] vless- #1'
@@ -1830,7 +1827,6 @@ proxy-groups:
   - '🇫🇷[www.v2nodes.com] trojan-FR-... #10'
   - 🇭🇰[www.v2nodes.com] trojan-HK-...
   - 🇮🇩[www.v2nodes.com] trojan-ID-...
-  - 🇯🇵[www.v2nodes.com] trojan-JP-...
   - '🇳🇱[www.v2nodes.com] trojan-NL-... #1'
   - 🇺🇸[www.v2nodes.com] trojan-US-...
   - '🇺🇸[www.v2nodes.com] trojan-US-... #2'
@@ -1869,6 +1865,8 @@ proxy-groups:
   - 🇺🇸US_24|3.6MB/s
   - 🇮🇹IT_2|1009KB/s
   - 🇫🇷FR_6|2.3MB/s
+  - 🇬🇧GB_4|1.4MB/s
+  - 🇺🇸US_27|2.3MB/s
   - 🇺🇸US_28|3.2MB/s
   - 🇨🇦CA_3|1.2MB/s
   - 🇺🇸US_29|1.8MB/s
@@ -1881,7 +1879,6 @@ proxy-groups:
   - 🇱🇻LV_1|2.4MB/s
   - 🇨🇦CA_5|1.2MB/s
   - 🇬🇧GB_6|1010KB/s
-  - 🇬🇧GB_7|1.5MB/s
   - 🇭🇺HU_1|2.6MB/s
   - 🇭🇷HR_1|1.0MB/s
   - 🇭🇷HR_2|2.6MB/s
@@ -1906,6 +1903,7 @@ proxy-groups:
   - '🇺🇸 美国 | USA #6'
   - '🇺🇸 美国 | USA #8'
   - '🇺🇸 美国 | USA #9'
+  - 🇻🇳 越南 | VNM
   - '🇳🇱 荷兰 | NLD #4'
   - '🇸🇪 瑞典 | SWE #1'
   - '🇺🇸 美国 | USA #3'
@@ -1915,6 +1913,7 @@ proxy-groups:
   - RO_speednode_0045
   - RO_speednode_0082
   - RO_speednode_0083
+  - RO_speednode_0087
   - RO_speednode_0094
   - RO_speednode_0097
   - RO_speednode_0110
@@ -1923,10 +1922,8 @@ proxy-groups:
   - US_speednode_0131
   - US_speednode_0141
   - US_speednode_0143
-  - 🇦🇪 阿联酋 | ARE
   - 🇩🇪 德国 | DEU 3
   - 🇩🇪 德国 | DEU 6
-  - 🇪🇪 爱沙尼亚 | EST
   - 🇫🇷 法国 | FRA 3
   - 🇫🇷 法国 | FRA 4
   - 🇬🇧 英国 | GBR
@@ -1937,19 +1934,21 @@ proxy-groups:
   - 🇷🇺 俄罗斯 | RUS
   - 🇸🇬 新加坡 | SGP 3
   - ProxyPool | 🇺🇸 美国 | USA
-  - ProxyPool | 🇺🇸 美国 | USA 2
   - 🇺🇸 美国 | USA 3
   - 🇺🇸 美国 | USA 4
   - 🇺🇸 美国 | USA 7
   - 🇺🇸 美国 | USA 8
-  - '🇫🇷[www.v2nodes.com] trojan-FR-... #3 #2'
+  - '🏳[www.v2nodes.com] trojan- #4'
   - 🇹🇼[www.v2nodes.com] trojan-TW-...
   - '🇺🇸[www.v2nodes.com] trojan-US-... #2'
-  - '🇺🇸 美国 | USA #7 #2'
-  - 🇺🇸US-23.22.158.187-0685 | 42.523MB
-  - 🇺🇸US-18.208.223.39-0666 | 34.712MB
-  - 🇫🇷FR-13.36.167.227-2711 | 19.13MB
-  - RELAY-188.114.96.19-0300 | 3.921MB
+  - 🇺🇸US_3|1.5MB/s
+  - 🇩🇪DE_5|4.0MB/s
+  - 🇩🇪DE_6|4.1MB/s
+  - 🇺🇸US_15|1009KB/s
+  - 🇺🇸US-23.22.158.187-0685 | 32.748MB
+  - 🇺🇸US-18.208.223.39-0666 | 25.136MB
+  - 🇫🇷FR-13.36.167.227-2711 | 18.04MB
+  - RELAY-188.114.96.19-0300 | 1.196MB
   - RELAY-172.67.212.44-8006 | 0.0MB
   - 🇺🇸US-45.58.149.170-0150 | 0.0MB
   - US_speednode_0136
@@ -1993,6 +1992,8 @@ proxy-groups:
   - '🇩🇪 德国 | DEU #6'
   - 🇩🇪 德国 | DEU 3
   - 🇩🇪 德国 | DEU 6
+  - 🇩🇪DE_5|4.0MB/s
+  - 🇩🇪DE_6|4.1MB/s
 - name: 🌐 新加坡
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -2011,8 +2012,6 @@ proxy-groups:
   interval: 300
   tolerance: 50
   proxies:
-  - 🇯🇵_JP_日本
-  - 🇯🇵[www.v2nodes.com] trojan-JP-...
   - '🇯🇵 日本 | JPN #1'
   - 🇯🇵 日本 | JPN
   - 🇯🇵 日本 | JPN 2
@@ -2035,8 +2034,7 @@ proxy-groups:
   - '🇫🇷 法国 | FRA #2'
   - 🇫🇷 法国 | FRA 3
   - 🇫🇷 法国 | FRA 4
-  - '🇫🇷[www.v2nodes.com] trojan-FR-... #3 #2'
-  - 🇫🇷FR-13.36.167.227-2711 | 19.13MB
+  - 🇫🇷FR-13.36.167.227-2711 | 18.04MB
 - name: 🌐 美国
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -2054,6 +2052,7 @@ proxy-groups:
   - 🇺🇸US_17|4.3MB/s
   - 🇺🇸US_23|2.6MB/s
   - 🇺🇸US_24|3.6MB/s
+  - 🇺🇸US_27|2.3MB/s
   - 🇺🇸US_28|3.2MB/s
   - 🇺🇸US_29|1.8MB/s
   - 🇺🇸US_30|1.0MB/s
@@ -2074,15 +2073,15 @@ proxy-groups:
   - US_speednode_0141
   - US_speednode_0143
   - ProxyPool | 🇺🇸 美国 | USA
-  - ProxyPool | 🇺🇸 美国 | USA 2
   - 🇺🇸 美国 | USA 3
   - 🇺🇸 美国 | USA 4
   - 🇺🇸 美国 | USA 7
   - 🇺🇸 美国 | USA 8
   - '🇺🇸[www.v2nodes.com] trojan-US-... #2'
-  - '🇺🇸 美国 | USA #7 #2'
-  - 🇺🇸US-23.22.158.187-0685 | 42.523MB
-  - 🇺🇸US-18.208.223.39-0666 | 34.712MB
+  - 🇺🇸US_3|1.5MB/s
+  - 🇺🇸US_15|1009KB/s
+  - 🇺🇸US-23.22.158.187-0685 | 32.748MB
+  - 🇺🇸US-18.208.223.39-0666 | 25.136MB
   - 🇺🇸US-45.58.149.170-0150 | 0.0MB
   - US_speednode_0136
   - US_speednode_0137
@@ -2096,8 +2095,8 @@ proxy-groups:
   - 🇬🇧GB_1|1.3MB/s
   - 🇬🇧GB_2|2.7MB/s
   - 🇬🇧GB_3|1.8MB/s
+  - 🇬🇧GB_4|1.4MB/s
   - 🇬🇧GB_6|1010KB/s
-  - 🇬🇧GB_7|1.5MB/s
   - 🇬🇧 英国 | GBR
 - name: 🌐 荷兰
   type: url-test
@@ -2117,6 +2116,13 @@ proxy-groups:
   - '🇳🇱 荷兰 | NLD #4'
   - 🇳🇱 荷兰 | NLD
   - 🇳🇱 荷兰 | NLD 3
+- name: 🌐 越南
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+  proxies:
+  - 🇻🇳 越南 | VNM
 - name: 🌐 韩国
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -2187,14 +2193,14 @@ proxy-groups:
   - RO_speednode_0045
   - RO_speednode_0082
   - RO_speednode_0083
+  - RO_speednode_0087
   - RO_speednode_0094
   - RO_speednode_0097
   - RO_speednode_0110
   - RO_speednode_0124
   - RO_speednode_0126
-  - 🇦🇪 阿联酋 | ARE
-  - 🇪🇪 爱沙尼亚 | EST
-  - RELAY-188.114.96.19-0300 | 3.921MB
+  - '🏳[www.v2nodes.com] trojan- #4'
+  - RELAY-188.114.96.19-0300 | 1.196MB
   - RELAY-172.67.212.44-8006 | 0.0MB
 rules:
 - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
