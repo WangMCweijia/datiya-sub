@@ -152,13 +152,22 @@ def filter_supported(proxies):
 
 
 def _unique_names(proxies):
-    """保证输出配置里的节点名唯一。"""
-    used = {}
+    """保证输出配置里的节点名唯一。
+
+    注意：必须按「最终生成的名字」判重，而不是按基础名计数。否则当某个源站节点名
+    本身就带 " #2" 时，会和另一个同基础名节点被改出的 "xxx #2" 撞车，导致配置里出现
+    重名——mihomo 遇到重名会直接拒绝启动，客户端一个节点都加载不出来。
+    """
+    used = set()
     for proxy in proxies:
         base = str(proxy.get("name") or "node").strip() or "node"
-        count = used.get(base, 0) + 1
-        used[base] = count
-        proxy["name"] = base if count == 1 else f"{base} #{count}"
+        name = base
+        n = 1
+        while name in used:
+            n += 1
+            name = f"{base} #{n}"
+        used.add(name)
+        proxy["name"] = name
     return proxies
 
 
