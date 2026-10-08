@@ -1,5 +1,5 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-10-08 09:41:30 +0800 | 可用节点 120 个（候选 1206 个，datiya 覆盖 7 天）
+# 更新于 2026-10-08 10:04:48 +0800 | 可用节点 127 个（候选 1206 个，datiya 覆盖 7 天）
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -45,17 +45,23 @@ proxies:
     headers:
       Host: cnd.singapure.mygold.stream
     path: /cdn/assets/stream
-- cipher: chacha20-ietf-poly1305
-  name: 🇺🇸[www.v2nodes.com] ss-US-1591...
-  password: 6054f059036c3ff1e907aeb51377b2ac54e61ceb666226fd
-  port: 8389
-  server: 45.76.9.57
-  type: ss
 - name: '🇫🇷[www.v2nodes.com] trojan-FR-... #5'
   network: ws
   password: humanity
   port: 2053
   server: 185.114.72.31
+  skip-cert-verify: false
+  sni: www.calmlunch.com
+  type: trojan
+  ws-opts:
+    headers:
+      Host: www.calmlunch.com
+    path: /assignment
+- name: '🇫🇷[www.v2nodes.com] trojan-FR-... #7'
+  network: ws
+  password: humanity
+  port: 443
+  server: 185.220.100.168
   skip-cert-verify: false
   sni: www.calmlunch.com
   type: trojan
@@ -119,45 +125,9 @@ proxies:
     path: /api/v1/cdn
     x-padding-bytes: 100-1000
   xudp: true
-- alpn:
-  - h2
-  client-fingerprint: chrome
-  encryption: none
-  name: 🇩🇪DE_2|2.0MB/s
-  network: ws
-  port: 443
-  server: 141.193.27.22
-  servername: bomb.pasta-makers.online
-  tls: true
-  type: vless
-  udp: true
-  uuid: 0335d20a-ddde-4528-b135-dd21430e1690
-  ws-opts:
-    headers:
-      Host: bomb.pasta-makers.online
-      User-Agent: Mozilla/5.0 (Unknown; Linux) AppleWebKit/538.1 (KHTML, like Gecko) Chrome/v1.0.0 Safari/538.1
-    path: /ws
-  xudp: true
-- cipher: chacha20-ietf-poly1305
-  name: 🇺🇸 美国 | USA 4
-  password: t0srmdxrm3xyjnvqz9ewlxb2myq7rjuv
-  plugin: obfs
-  plugin-opts:
-    host: (Telegramð¨ð³ @WangCai2)f6e348d:70852
-    mode: tls
-  port: 2377
-  server: 88.210.36.106
-  type: ss
-  udp: true
 - name: 🇦🇱AL_1|2.2MB/s
   port: 443
   server: 87.120.103.226
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: 🇪🇪EE_1|1.9MB/s
-  port: 9443
-  server: 95.153.31.66
   skip-cert-verify: true
   tls: true
   type: http
@@ -243,6 +213,14 @@ proxies:
 - name: NL_speednode_0007
   port: 9002
   server: 84.17.47.148
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+- name: RO_speednode_0097
+  password: None
+  port: 9002
+  server: 193.176.84.23
   skip-cert-verify: true
   tls: true
   type: http
@@ -370,9 +348,22 @@ proxies:
   skip-cert-verify: true
   tls: true
   type: http
+- name: 🇺🇸US_12|3.7MB/s
+  port: 443
+  server: 44.239.226.15
+  skip-cert-verify: true
+  tls: true
+  type: http
 - name: 🇳🇱NL_9|2.3MB/s
   port: 9002
   server: 84.17.47.123
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇷🇴RO_2|2.8MB/s
+  password: None
+  port: 9002
+  server: 193.176.84.38
   skip-cert-verify: true
   tls: true
   type: http
@@ -407,22 +398,15 @@ proxies:
   skip-cert-verify: true
   tls: true
   type: http
-- name: 🇮🇹IT_1|3.0MB/s
-  port: 443
-  server: 94.177.163.156
-  skip-cert-verify: true
-  tls: true
-  type: http
 - name: 🇵🇱PL_1|1.3MB/s
   port: 443
   server: 37.120.156.34
   skip-cert-verify: true
   tls: true
   type: http
-- name: 🇪🇸ES_3|2.4MB/s
-  password: None
-  port: 443
-  server: 130.195.250.18
+- name: 🇳🇱NL_10|1.9MB/s
+  port: 9090
+  server: 185.53.129.141
   skip-cert-verify: true
   tls: true
   type: http
@@ -439,6 +423,13 @@ proxies:
   skip-cert-verify: true
   tls: true
   type: http
+- name: 🇺🇸US_15|1.3MB/s
+  password: None
+  port: 443
+  server: 52.55.81.168
+  skip-cert-verify: true
+  tls: true
+  type: http
 - name: 🇨🇦CA_1|2.8MB/s
   port: 9443
   server: 198.44.157.27
@@ -451,6 +442,12 @@ proxies:
   skip-cert-verify: true
   tls: true
   type: http
+- name: 🇺🇸US_16|1.3MB/s
+  port: 443
+  server: 64.98.50.100
+  skip-cert-verify: true
+  tls: true
+  type: http
 - name: 🇳🇱NL_11|2.9MB/s
   port: 14287
   server: 51.158.194.16
@@ -460,6 +457,12 @@ proxies:
 - name: 🇩🇰DK_1|3.2MB/s
   port: 443
   server: 185.245.84.50
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇺🇸US_17|3.3MB/s
+  port: 443
+  server: 44.198.49.169
   skip-cert-verify: true
   tls: true
   type: http
@@ -561,13 +564,6 @@ proxies:
   sni: www.bing.com
   tls: true
   type: http
-- name: 🇷🇴RO_5|2.0MB/s
-  port: 9002
-  server: 193.176.84.37
-  skip-cert-verify: true
-  sni: www.bing.com
-  tls: true
-  type: http
 - name: 🇷🇴RO_6|2.4MB/s
   port: 9002
   server: 193.176.84.40
@@ -623,6 +619,20 @@ proxies:
   sni: hop-germany-september.dynuddns.com
   tls: false
   type: hysteria2
+- client-fingerprint: chrome
+  name: '🇩🇪 德国 | DEU #6'
+  network: ws
+  port: 443
+  server: 117.55.233.87
+  servername: s3ws.ragingbull.de5.net
+  tls: true
+  type: vless
+  udp: true
+  uuid: f49d04d6-aaa7-4013-b323-bc35b78230db
+  ws-opts:
+    headers:
+      Host: s3ws.ragingbull.de5.net
+    path: /wsrb7k2m
 - auth: e3c3b722-1264-4cdc-a97c-b0a1bb73cd67
   name: '🇩🇪 德国 | DEU #9'
   password: e3c3b722-1264-4cdc-a97c-b0a1bb73cd67
@@ -632,6 +642,20 @@ proxies:
   sni: onecloudstream.com
   tls: false
   type: hysteria2
+- cipher: aes-256-cfb
+  name: '🇩🇪 德国 | DEU #11'
+  password: amazonskr05
+  port: 443
+  server: 18.196.88.40
+  type: ss
+  udp: true
+- cipher: aes-256-cfb
+  name: '🇩🇪 德国 | DEU #12'
+  password: amazonskr05
+  port: 443
+  server: 3.66.88.253
+  type: ss
+  udp: true
 - client-fingerprint: chrome
   name: '🇫🇷 法国 | FRA #3'
   network: ws
@@ -653,24 +677,6 @@ proxies:
   server: 104.165.205.46
   skip-cert-verify: true
   sni: onecloudstream.com
-  tls: false
-  type: hysteria2
-- auth: s0_sdK93x9wer_D02Lz9cvK3_Sa014Oakl_C2z
-  name: '🇳🇱 荷兰 | NLD #1'
-  password: s0_sdK93x9wer_D02Lz9cvK3_Sa014Oakl_C2z
-  port: 8443
-  server: 77.74.123.107
-  skip-cert-verify: true
-  sni: grape-test-italy.dynuddns.net
-  tls: false
-  type: hysteria2
-- auth: s0_sdK93x9wer_D02Lz9cvK3_Sa014Oakl_C2z
-  name: '🇳🇱 荷兰 | NLD #5'
-  password: s0_sdK93x9wer_D02Lz9cvK3_Sa014Oakl_C2z
-  port: 8443
-  server: 77.74.123.109
-  skip-cert-verify: true
-  sni: grape-test-italy.dynuddns.net
   tls: false
   type: hysteria2
 - alpn:
@@ -938,6 +944,28 @@ proxies:
   client-fingerprint: chrome
   network: tcp
   udp: true
+- name: 🇳🇱 荷兰 | NLD 4
+  server: 135.106.185.11
+  port: 443
+  type: vless
+  uuid: 5b5e4cbf-2366-499a-8327-0cd9918c687d
+  tls: true
+  alpn:
+  - h2
+  - http/1.1
+  flow: xtls-rprx-vision
+  encryption: mlkem768x25519plus.native.0rtt.7ubIdGViskcMx_OjRlI_ZHDAF57lFKYbBhvJA9LsDSY
+  reality-opts:
+    public-key: unyMkEgCJNp-OUOTJTqp-baBcnma66E7J-Jqylmmx0Y
+    short-id: da1ed0217bab3f09
+  servername: keys.api.2gis.com
+  client-fingerprint: firefox
+  network: xhttp
+  xhttp-opts:
+    path: /
+    host: keys.api.2gis.com
+    mode: auto
+  udp: true
 - name: 🇳🇱 荷兰 | NLD 5
   server: 77.74.123.109
   port: 8443
@@ -962,8 +990,32 @@ proxies:
     grpc-mode: gun
     grpc-service-name: grpc-tunnel
   udp: true
+- name: 🇺🇸US-34.228.79.192-2668 | 87.821MB
+  server: 34.228.79.192
+  port: 443
+  type: ss
+  cipher: aes-256-cfb
+  password: amazonskr05
 - name: 🇺🇸US-54.221.120.243-2669 | 71.055MB
   server: 54.221.120.243
+  port: 443
+  type: ss
+  cipher: aes-256-cfb
+  password: amazonskr05
+- name: 🇫🇷FR-15.237.53.180-2665 | 25.929MB
+  server: 15.237.53.180
+  port: 443
+  type: ss
+  cipher: aes-256-cfb
+  password: amazonskr05
+- name: 🇫🇷FR-13.36.241.80-2667 | 25.925MB
+  server: 13.36.241.80
+  port: 443
+  type: ss
+  cipher: aes-256-cfb
+  password: amazonskr05
+- name: 🇩🇪DE-18.196.88.40-2666 | 23.544MB
+  server: 18.196.88.40
   port: 443
   type: ss
   cipher: aes-256-cfb
@@ -1001,16 +1053,13 @@ proxy-groups:
   - 🌐 其他
   - 🇮🇹[www.v2nodes.com] vless-IT-7...
   - '🇸🇬[www.v2nodes.com] vless-SG-1... #6'
-  - 🇺🇸[www.v2nodes.com] ss-US-1591...
   - '🇫🇷[www.v2nodes.com] trojan-FR-... #5'
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #7'
   - '🇫🇷[www.v2nodes.com] trojan-FR-... #9'
   - '🇳🇱[www.v2nodes.com] trojan-NL-... #2'
   - 🇺🇸 美国 | USA 3
   - 🇩🇪DE_1|3.9MB/s
-  - 🇩🇪DE_2|2.0MB/s
-  - 🇺🇸 美国 | USA 4
   - 🇦🇱AL_1|2.2MB/s
-  - 🇪🇪EE_1|1.9MB/s
   - 🇩🇪DE_3|1.8MB/s
   - 🇫🇷FR_4|2.4MB/s
   - 🇩🇪DE_4|2.4MB/s
@@ -1024,6 +1073,7 @@ proxy-groups:
   - 🇳🇱NL_3|1.5MB/s
   - NL_speednode_0005
   - NL_speednode_0007
+  - RO_speednode_0097
   - 🇩🇪DE_5|1.5MB/s
   - 🇩🇪DE_6|1.4MB/s
   - 🇫🇷FR_5|3.2MB/s
@@ -1043,21 +1093,25 @@ proxy-groups:
   - 🇳🇱NL_8|4.5MB/s
   - 🇺🇸US_10|2.8MB/s
   - 🇫🇷FR_8|3.4MB/s
+  - 🇺🇸US_12|3.7MB/s
   - 🇳🇱NL_9|2.3MB/s
+  - 🇷🇴RO_2|2.8MB/s
   - 🇩🇪DE_8|1.9MB/s
   - 🇨🇿CZ_2|2.2MB/s
   - 🇺🇸US_13|1.6MB/s
   - 🇺🇸US_14|1.5MB/s
   - 🇮🇳IN_1|1.1MB/s
-  - 🇮🇹IT_1|3.0MB/s
   - 🇵🇱PL_1|1.3MB/s
-  - 🇪🇸ES_3|2.4MB/s
+  - 🇳🇱NL_10|1.9MB/s
   - 🇧🇦BA_1|2.1MB/s
   - 🇬🇧GB_5|2.6MB/s
+  - 🇺🇸US_15|1.3MB/s
   - 🇨🇦CA_1|2.8MB/s
   - 🇨🇦CA_2|1.1MB/s
+  - 🇺🇸US_16|1.3MB/s
   - 🇳🇱NL_11|2.9MB/s
   - 🇩🇰DK_1|3.2MB/s
+  - 🇺🇸US_17|3.3MB/s
   - 🇨🇦CA_3|2.0MB/s
   - 🇨🇦CA_4|1.9MB/s
   - 🇬🇷GR_1|1.7MB/s
@@ -1073,18 +1127,18 @@ proxy-groups:
   - 🇦🇺AU_1|2.0MB/s
   - RO_speednode_0124
   - 🇷🇴RO_4|2.0MB/s
-  - 🇷🇴RO_5|2.0MB/s
   - 🇷🇴RO_6|2.4MB/s
   - 🇺🇸US_18|2.2MB/s
   - 🇺🇸US_21|1.8MB/s
   - 🇷🇴RO_7|1.2MB/s
   - RO_speednode_0042
   - '🇩🇪 德国 | DEU #2'
+  - '🇩🇪 德国 | DEU #6'
   - '🇩🇪 德国 | DEU #9'
+  - '🇩🇪 德国 | DEU #11'
+  - '🇩🇪 德国 | DEU #12'
   - '🇫🇷 法国 | FRA #3'
   - '🇱🇻 拉脱维亚 | LVA #1'
-  - '🇳🇱 荷兰 | NLD #1'
-  - '🇳🇱 荷兰 | NLD #5'
   - 🇳🇱 荷兰 | NLD 7
   - '🇷🇺 俄罗斯 | RUS #1'
   - '🇷🇺 俄罗斯 | RUS #2'
@@ -1114,9 +1168,14 @@ proxy-groups:
   - 🇳🇱 荷兰 | NLD
   - 🇳🇱 荷兰 | NLD 2
   - 🇳🇱 荷兰 | NLD 3
+  - 🇳🇱 荷兰 | NLD 4
   - 🇳🇱 荷兰 | NLD 5
   - 🇵🇱 波兰 | POL 2
+  - 🇺🇸US-34.228.79.192-2668 | 87.821MB
   - 🇺🇸US-54.221.120.243-2669 | 71.055MB
+  - 🇫🇷FR-15.237.53.180-2665 | 25.929MB
+  - 🇫🇷FR-13.36.241.80-2667 | 25.925MB
+  - 🇩🇪DE-18.196.88.40-2666 | 23.544MB
   - 'RO_speednode_0042 #2'
   - 'RO_speednode_0124 #2'
 - name: ♻️ 自动选择
@@ -1127,16 +1186,13 @@ proxy-groups:
   proxies:
   - 🇮🇹[www.v2nodes.com] vless-IT-7...
   - '🇸🇬[www.v2nodes.com] vless-SG-1... #6'
-  - 🇺🇸[www.v2nodes.com] ss-US-1591...
   - '🇫🇷[www.v2nodes.com] trojan-FR-... #5'
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #7'
   - '🇫🇷[www.v2nodes.com] trojan-FR-... #9'
   - '🇳🇱[www.v2nodes.com] trojan-NL-... #2'
   - 🇺🇸 美国 | USA 3
   - 🇩🇪DE_1|3.9MB/s
-  - 🇩🇪DE_2|2.0MB/s
-  - 🇺🇸 美国 | USA 4
   - 🇦🇱AL_1|2.2MB/s
-  - 🇪🇪EE_1|1.9MB/s
   - 🇩🇪DE_3|1.8MB/s
   - 🇫🇷FR_4|2.4MB/s
   - 🇩🇪DE_4|2.4MB/s
@@ -1150,6 +1206,7 @@ proxy-groups:
   - 🇳🇱NL_3|1.5MB/s
   - NL_speednode_0005
   - NL_speednode_0007
+  - RO_speednode_0097
   - 🇩🇪DE_5|1.5MB/s
   - 🇩🇪DE_6|1.4MB/s
   - 🇫🇷FR_5|3.2MB/s
@@ -1169,21 +1226,25 @@ proxy-groups:
   - 🇳🇱NL_8|4.5MB/s
   - 🇺🇸US_10|2.8MB/s
   - 🇫🇷FR_8|3.4MB/s
+  - 🇺🇸US_12|3.7MB/s
   - 🇳🇱NL_9|2.3MB/s
+  - 🇷🇴RO_2|2.8MB/s
   - 🇩🇪DE_8|1.9MB/s
   - 🇨🇿CZ_2|2.2MB/s
   - 🇺🇸US_13|1.6MB/s
   - 🇺🇸US_14|1.5MB/s
   - 🇮🇳IN_1|1.1MB/s
-  - 🇮🇹IT_1|3.0MB/s
   - 🇵🇱PL_1|1.3MB/s
-  - 🇪🇸ES_3|2.4MB/s
+  - 🇳🇱NL_10|1.9MB/s
   - 🇧🇦BA_1|2.1MB/s
   - 🇬🇧GB_5|2.6MB/s
+  - 🇺🇸US_15|1.3MB/s
   - 🇨🇦CA_1|2.8MB/s
   - 🇨🇦CA_2|1.1MB/s
+  - 🇺🇸US_16|1.3MB/s
   - 🇳🇱NL_11|2.9MB/s
   - 🇩🇰DK_1|3.2MB/s
+  - 🇺🇸US_17|3.3MB/s
   - 🇨🇦CA_3|2.0MB/s
   - 🇨🇦CA_4|1.9MB/s
   - 🇬🇷GR_1|1.7MB/s
@@ -1199,18 +1260,18 @@ proxy-groups:
   - 🇦🇺AU_1|2.0MB/s
   - RO_speednode_0124
   - 🇷🇴RO_4|2.0MB/s
-  - 🇷🇴RO_5|2.0MB/s
   - 🇷🇴RO_6|2.4MB/s
   - 🇺🇸US_18|2.2MB/s
   - 🇺🇸US_21|1.8MB/s
   - 🇷🇴RO_7|1.2MB/s
   - RO_speednode_0042
   - '🇩🇪 德国 | DEU #2'
+  - '🇩🇪 德国 | DEU #6'
   - '🇩🇪 德国 | DEU #9'
+  - '🇩🇪 德国 | DEU #11'
+  - '🇩🇪 德国 | DEU #12'
   - '🇫🇷 法国 | FRA #3'
   - '🇱🇻 拉脱维亚 | LVA #1'
-  - '🇳🇱 荷兰 | NLD #1'
-  - '🇳🇱 荷兰 | NLD #5'
   - 🇳🇱 荷兰 | NLD 7
   - '🇷🇺 俄罗斯 | RUS #1'
   - '🇷🇺 俄罗斯 | RUS #2'
@@ -1240,9 +1301,14 @@ proxy-groups:
   - 🇳🇱 荷兰 | NLD
   - 🇳🇱 荷兰 | NLD 2
   - 🇳🇱 荷兰 | NLD 3
+  - 🇳🇱 荷兰 | NLD 4
   - 🇳🇱 荷兰 | NLD 5
   - 🇵🇱 波兰 | POL 2
+  - 🇺🇸US-34.228.79.192-2668 | 87.821MB
   - 🇺🇸US-54.221.120.243-2669 | 71.055MB
+  - 🇫🇷FR-15.237.53.180-2665 | 25.929MB
+  - 🇫🇷FR-13.36.241.80-2667 | 25.925MB
+  - 🇩🇪DE-18.196.88.40-2666 | 23.544MB
   - 'RO_speednode_0042 #2'
   - 'RO_speednode_0124 #2'
 - name: 🌐 俄罗斯
@@ -1279,7 +1345,6 @@ proxy-groups:
   tolerance: 50
   proxies:
   - 🇩🇪DE_1|3.9MB/s
-  - 🇩🇪DE_2|2.0MB/s
   - 🇩🇪DE_3|1.8MB/s
   - 🇩🇪DE_4|2.4MB/s
   - 🇩🇪DE_5|1.5MB/s
@@ -1287,11 +1352,15 @@ proxy-groups:
   - 🇩🇪DE_7|4.4MB/s
   - 🇩🇪DE_8|1.9MB/s
   - '🇩🇪 德国 | DEU #2'
+  - '🇩🇪 德国 | DEU #6'
   - '🇩🇪 德国 | DEU #9'
+  - '🇩🇪 德国 | DEU #11'
+  - '🇩🇪 德国 | DEU #12'
   - 🇩🇪 德国 | DEU 2
   - 🇩🇪 德国 | DEU 3
   - 🇩🇪 德国 | DEU 4
   - 🇩🇪 德国 | DEU 9
+  - 🇩🇪DE-18.196.88.40-2666 | 23.544MB
 - name: 🌐 新加坡
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -1306,6 +1375,7 @@ proxy-groups:
   tolerance: 50
   proxies:
   - '🇫🇷[www.v2nodes.com] trojan-FR-... #5'
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #7'
   - '🇫🇷[www.v2nodes.com] trojan-FR-... #9'
   - 🇫🇷FR_4|2.4MB/s
   - 🇫🇷FR_5|3.2MB/s
@@ -1315,6 +1385,8 @@ proxy-groups:
   - 🇫🇷FR_9|1.8MB/s
   - 🇫🇷FR_10|1.8MB/s
   - '🇫🇷 法国 | FRA #3'
+  - 🇫🇷FR-15.237.53.180-2665 | 25.929MB
+  - 🇫🇷FR-13.36.241.80-2667 | 25.925MB
 - name: 🌐 澳大利亚
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -1329,19 +1401,22 @@ proxy-groups:
   interval: 300
   tolerance: 50
   proxies:
-  - 🇺🇸[www.v2nodes.com] ss-US-1591...
   - 🇺🇸 美国 | USA 3
-  - 🇺🇸 美国 | USA 4
   - 🇺🇸US_4|3.2MB/s
   - 🇺🇸US_9|2.8MB/s
   - 🇺🇸US_10|2.8MB/s
+  - 🇺🇸US_12|3.7MB/s
   - 🇺🇸US_13|1.6MB/s
   - 🇺🇸US_14|1.5MB/s
+  - 🇺🇸US_15|1.3MB/s
+  - 🇺🇸US_16|1.3MB/s
+  - 🇺🇸US_17|3.3MB/s
   - 🇺🇸US_18|2.2MB/s
   - 🇺🇸US_21|1.8MB/s
   - US_speednode_0131
   - US_speednode_0141
   - US_speednode_0143
+  - 🇺🇸US-34.228.79.192-2668 | 87.821MB
   - 🇺🇸US-54.221.120.243-2669 | 71.055MB
 - name: 🌐 英国
   type: url-test
@@ -1369,12 +1444,11 @@ proxy-groups:
   - 🇳🇱NL_7|3.0MB/s
   - 🇳🇱NL_8|4.5MB/s
   - 🇳🇱NL_9|2.3MB/s
+  - 🇳🇱NL_10|1.9MB/s
   - 🇳🇱NL_11|2.9MB/s
   - 🇳🇱NL_12|3.4MB/s
   - 🇳🇱NL_13|1.6MB/s
   - 🇳🇱NL_14|2.8MB/s
-  - '🇳🇱 荷兰 | NLD #1'
-  - '🇳🇱 荷兰 | NLD #5'
   - 🇳🇱 荷兰 | NLD 7
   - NL_speednode_0004
   - NL_speednode_0006
@@ -1384,6 +1458,7 @@ proxy-groups:
   - 🇳🇱 荷兰 | NLD
   - 🇳🇱 荷兰 | NLD 2
   - 🇳🇱 荷兰 | NLD 3
+  - 🇳🇱 荷兰 | NLD 4
   - 🇳🇱 荷兰 | NLD 5
 - name: 🌐 其他
   type: url-test
@@ -1393,19 +1468,18 @@ proxy-groups:
   proxies:
   - 🇮🇹[www.v2nodes.com] vless-IT-7...
   - 🇦🇱AL_1|2.2MB/s
-  - 🇪🇪EE_1|1.9MB/s
   - 🇦🇱AL_2|2.4MB/s
   - 🇦🇹AT_1|2.7MB/s
   - 🇷🇸RS_1|1.5MB/s
   - 🇪🇸ES_2|2.5MB/s
   - 🇸🇪SE_1|2.8MB/s
+  - RO_speednode_0097
   - 🇧🇪BE_1|2.6MB/s|R002-260618
   - 🇨🇿CZ_1|2.5MB/s
   - 🇮🇪IE_1|1.9MB/s
+  - 🇷🇴RO_2|2.8MB/s
   - 🇨🇿CZ_2|2.2MB/s
-  - 🇮🇹IT_1|3.0MB/s
   - 🇵🇱PL_1|1.3MB/s
-  - 🇪🇸ES_3|2.4MB/s
   - 🇧🇦BA_1|2.1MB/s
   - 🇩🇰DK_1|3.2MB/s
   - 🇬🇷GR_1|1.7MB/s
@@ -1413,7 +1487,6 @@ proxy-groups:
   - 🇧🇬BG_1|2.6MB/s
   - RO_speednode_0124
   - 🇷🇴RO_4|2.0MB/s
-  - 🇷🇴RO_5|2.0MB/s
   - 🇷🇴RO_6|2.4MB/s
   - 🇷🇴RO_7|1.2MB/s
   - RO_speednode_0042
