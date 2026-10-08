@@ -4,6 +4,7 @@ import base64
 import json
 import logging
 import re
+import unicodedata
 from collections import defaultdict
 from urllib.parse import quote
 
@@ -149,6 +150,36 @@ def filter_supported(proxies):
     if detail:
         log.info("清洗掉 %d 个节点（%s）", len(proxies) - len(kept), detail)
     return kept
+
+
+def _strip_controls(value):
+    """递归清掉字符串里的控制字符（Unicode 类别 C*），其余原样保留。"""
+    if isinstance(value, str):
+        return "".join(ch for ch in value if unicodedata.category(ch)[0] != "C")
+    if isinstance(value, dict):
+        return {k: _strip_controls(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [_strip_controls(v) for v in value]
+    return value
+
+
+def sanitize(proxies):
+    """清掉节点字段里的控制字符，否则生成的配置无法被内核加载。
+
+    上游源里偶有字段被错误解码（例如 emoji 被按 latin-1 读成乱码字节），落进 YAML 时会变成
+    \\x9F 这类 C1 控制字符转义。mihomo / FlClash 的内核解析时会直接报
+    "yaml: control characters are not allowed" 并拒绝**整个**配置，表现为客户端节点列表空白。
+    """
+    fixed = 0
+    for proxy in proxies:
+        for key, value in list(proxy.items()):
+            cleaned = _strip_controls(value)
+            if cleaned != value:
+                fixed += 1
+                proxy[key] = cleaned
+    if fixed:
+        log.info("清洗掉 %d 处含控制字符的字段", fixed)
+    return proxies
 
 
 def _unique_names(proxies):

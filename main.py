@@ -178,6 +178,7 @@ def main():
 
     proxies = builder.filter_supported(proxies)
     cleaned = len(proxies)
+    proxies = builder.sanitize(proxies)
     proxies = builder._unique_names(proxies)
 
     if check_cfg.get("enabled", True) and not args.no_check:
