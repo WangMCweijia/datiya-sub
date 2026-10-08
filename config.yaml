@@ -39,15 +39,17 @@ check:
   speed_concurrency: 10      # 并发下载数（太高会互相抢带宽，反而测不准）
   min_speed_kbps: 200        # 网速下限（KB/s），低于的剔除
   # --- 第三轮：中国大陆可达性（借助 Globalping 公开 API）---
-  # strict（激进）：国内探测点 ping 得通才保留；不通或结果未知一律剔除，节点更少但更干净。
-  # safe（保守）：只剔除「国内不通但境外能通」的确认被墙节点，屏蔽 ICMP 的一律保留。
+  # 对 TCP 协议直接对 服务器:端口 做 TCP 拨号（只 ping 主机不够：运营商常放行 ICMP 却封端口）；
+  # hysteria2 等 UDP 协议无法用 TCP 验证，退回 ICMP，属尽力而为。
+  # strict（激进）：国内连得上才保留；不通或结果未知一律剔除，节点更少但更干净。
+  # safe（保守）：只剔除「国内不通但境外能通」的确认被墙节点，其余一律保留。
   # 安全阀：若国内探测结果全部未知（限速/接口异常），自动跳过该过滤，不写空订阅。
   china_check:
     enabled: true
     mode: "strict"           # strict=激进（推荐）；safe=保守
     country: "CN"            # 探测点所在国家（中国大陆）
     reference_country: "US"  # 仅 safe 模式使用的复核探测点所在国家
-    limit: 1                 # 每个服务器用几个探测点；免费额度约 250 次/小时，慎调大
+    limit: 1                 # 每个「服务器:端口」用几个探测点；免费额度约 250 次/小时，慎调大
     concurrency: 8           # 并发提交的探测数
     poll_interval: 2.0       # 轮询结果间隔（秒）
     timeout_s: 90            # 单次探测的总超时（秒）

@@ -1,17 +1,19 @@
-"""中国大陆可达性检测：借助 Globalping 公开 API，用中国大陆探测点 ping 节点服务器。
+"""中国大陆可达性检测：借助 Globalping 公开 API，从中国大陆探测点检查节点的代理端口。
 
 动机：GitHub Actions 的测活机在境外，「境外连得通」不等于「国内连得通」。
-mihomo 两轮测速只能验证节点在境外可用，这里再补一刀：只保留国内能摸到的服务器。
+而且只 ping 主机（ICMP）是「必要不充分」的——很多运营商放行 ICMP，却封掉代理的真实端口，
+于是「ping 通、端口不通」的节点被保留，用户导入后一测就是失效。
+所以对 TCP 协议直接对 host:port 做 TCP 拨号；hysteria2 这类 UDP 协议没法用 TCP 验证，
+只能退回 ICMP（属于尽力而为）。
 
 两种模式（cfg.mode）：
-- strict（激进）：国内探测点 ping 得通 → 保留；ping 不通或结果未知 → 剔除。
-  节点更少但更干净，代价是可能误杀「屏蔽 ICMP 但端口可用」的节点。
+- strict（激进）：国内连得上 → 保留；连不上或结果未知 → 剔除。
+  节点更少但更干净，代价是可能误杀。
 - safe（保守）：只剔除「国内不通但境外能通」的确认被墙节点；
-  国内不通、境外也不通的多半是屏蔽 ICMP，无法判断，一律保留（几乎不误杀）。
+  国内不通、境外也不通的多半是探测协议不匹配，无法判断，一律保留（几乎不误杀）。
 
 实现要点：
-- 只 ping 服务器地址，不验证端口/协议，属「必要不充分」条件。
-- Globalping 免费额度约 250 次/小时，故默认每步只用 1 个探测点，并按 server 去重减少次数。
+- Globalping 免费额度有限（约 250 次/小时），故默认每步只用 1 个探测点，并按 (server, port) 去重。
 - 安全阀：若国内探测结果全部未知（限速 429、接口异常、网络错误），说明拿不到有效信号，
   直接跳过该过滤，绝不因为第三方接口抖动把订阅写空。
 """
@@ -27,21 +29,27 @@ log = logging.getLogger("datiya.china")
 API = "https://api.globalping.io/v1/measurements"
 UA = "datiya-sub/1.0 (+https://github.com/WangMCweijia/datiya-sub)"
 
+# 这些协议的端口是 UDP/QUIC，用 TCP 拨号必然失败，只能退回 ICMP 判断。
+UDP_TYPES = {"hysteria", "hysteria2", "tuic"}
 
-def _ping(host, country, limit, poll_interval, timeout_s):
-    """从指定国家探测点 ping 一个主机，返回 True(可达)/False(不可达)/None(未知)。"""
+
+def _probe(host, port, proto, country, limit, poll_interval, timeout_s):
+    """从指定国家的探测点检查可达性，返回 True(可达)/False(不可达)/None(未知)。
+
+    proto="tcp"：对 host:port 做 TCP 拨号，能直接反映「这个代理端口国内连不连得上」；
+    proto="icmp"：只 ping 主机（用于 UDP 协议，端口无法用 TCP 验证）。
+    """
+    payload = {
+        "type": "ping",
+        "target": host,
+        "locations": [{"country": country}],
+        "limit": limit,
+    }
+    if proto == "tcp":
+        payload["measurementOptions"] = {"protocol": "TCP", "port": port}
+
     try:
-        resp = requests.post(
-            API,
-            json={
-                "type": "ping",
-                "target": host,
-                "locations": [{"country": country}],
-                "limit": limit,
-            },
-            headers={"User-Agent": UA},
-            timeout=20,
-        )
+        resp = requests.post(API, json=payload, headers={"User-Agent": UA}, timeout=20)
     except requests.RequestException as exc:
         log.debug("china: 提交探测失败 %s: %s", host, exc)
         return None
@@ -71,13 +79,19 @@ def _ping(host, country, limit, poll_interval, timeout_s):
             continue
         if data.get("status") != "finished":
             continue
-        # 任意一个探测点收到 ICMP 响应即视为可达
+        # 任意一个探测点拿到往返时间即视为可达
         for probe in data.get("results") or []:
             stats = (probe.get("result") or {}).get("stats") or {}
             if stats.get("avg") is not None:
                 return True
         return False
     return None
+
+
+def _protocol_of(types):
+    """该端口的探测方式：只要有一个 TCP 协议在用，就做 TCP 拨号。"""
+    kinds = {str(t).lower() for t in types if t}
+    return "icmp" if kinds and kinds <= UDP_TYPES else "tcp"
 
 
 def filter_reachable(proxies, cfg):
@@ -93,33 +107,43 @@ def filter_reachable(proxies, cfg):
     poll_interval = float(cfg.get("poll_interval", 2.0))
     timeout_s = float(cfg.get("timeout_s", 90))
 
-    servers = sorted({p["server"] for p in proxies})
+    # 端口也是关键：同一个服务器换个端口可能就通/不通，所以按 (server, port) 去重。
+    endpoints = {}
+    for proxy in proxies:
+        endpoints.setdefault((proxy["server"], proxy.get("port")), set()).add(proxy.get("type"))
+
+    pairs = sorted(endpoints)
+    tcp_count = sum(1 for key in pairs if _protocol_of(endpoints[key]) == "tcp")
     log.info(
-        "中国可达性(%s)：从 %s 探测 %d 个服务器（对应 %d 个节点）",
+        "中国可达性(%s)：从 %s 探测 %d 个「服务器:端口」（TCP 拨号 %d 个、ICMP %d 个，对应 %d 个节点）",
         mode,
         country,
-        len(servers),
+        len(pairs),
+        tcp_count,
+        len(pairs) - tcp_count,
         len(proxies),
     )
 
-    def probe(host, where):
-        return host, _ping(host, where, limit, poll_interval, timeout_s)
+    def probe(key, where):
+        host, port = key
+        proto = _protocol_of(endpoints[key])
+        return key, _probe(host, port, proto, where, limit, poll_interval, timeout_s)
 
     with ThreadPoolExecutor(max_workers=concurrency) as pool:
-        cn = dict(pool.map(lambda h: probe(h, country), servers))
+        cn = dict(pool.map(lambda key: probe(key, country), pairs))
 
     unknown_cn = sum(1 for v in cn.values() if v is None)
-    if servers and unknown_cn == len(servers):
+    if pairs and unknown_cn == len(pairs):
         log.warning("中国可达性：%s 探测全部未取到结果（可能被限速或接口异常），跳过该过滤", country)
         return proxies
 
-    reachable = {h for h in servers if cn[h] is True}
-    unreachable = [h for h in servers if cn[h] is False]
-    unknown = [h for h in servers if cn[h] is None]
+    reachable = {key for key, value in cn.items() if value is True}
+    unreachable = [key for key in pairs if cn[key] is False]
+    unknown = [key for key in pairs if cn[key] is None]
 
     if mode == "strict":
-        # 激进：只保留国内 ping 得通的；不通或未知（含屏蔽 ICMP）一律剔除。
-        kept = [p for p in proxies if p["server"] in reachable]
+        # 激进：只保留国内连得上的；连不上或未知一律剔除。
+        kept = [p for p in proxies if (p["server"], p.get("port")) in reachable]
         log.info(
             "中国可达性(strict)：%s 可达 %d 个、不通 %d 个、未知 %d 个；"
             "只保留可达的，剔除 %d/%d 个节点",
@@ -134,7 +158,7 @@ def filter_reachable(proxies, cfg):
 
     # safe：只剔除「国内不通但境外能通」的确认被墙节点，其余（含未知）一律保留。
     log.info(
-        "中国可达性(safe)：%s 可达 %d 个，不通 %d 个；再用 %s 探测点复核是否只是屏蔽了 ICMP",
+        "中国可达性(safe)：%s 可达 %d 个，不通 %d 个；再用 %s 探测点复核是否只是探测协议不匹配",
         country,
         len(reachable),
         len(unreachable),
@@ -145,15 +169,15 @@ def filter_reachable(proxies, cfg):
     unknown_ref = 0
     if unreachable:
         with ThreadPoolExecutor(max_workers=concurrency) as pool:
-            ref = dict(pool.map(lambda h: probe(h, reference), unreachable))
-        unknown_ref = sum(1 for h in unreachable if ref.get(h) is None)
+            ref = dict(pool.map(lambda key: probe(key, reference), unreachable))
+        unknown_ref = sum(1 for key in unreachable if ref.get(key) is None)
         # 境外能通、国内不通 → 确认被墙
-        blocked = {h for h in unreachable if ref.get(h) is True}
+        blocked = {key for key in unreachable if ref.get(key) is True}
 
-    kept = [p for p in proxies if p["server"] not in blocked]
+    kept = [p for p in proxies if (p["server"], p.get("port")) not in blocked]
     log.info(
         "中国可达性(safe)：剔除 %d 个确认被墙的节点，保留 %d/%d 个"
-        "（其中 %d 个服务器屏蔽 ICMP 无法判断、%d 个复核结果未知，均已保留）",
+        "（其中 %d 个服务器:端口无法判断、%d 个复核结果未知，均已保留）",
         len(proxies) - len(kept),
         len(kept),
         len(proxies),
