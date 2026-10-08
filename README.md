@@ -20,6 +20,8 @@ free.datiya.com：RSS 发现最近 N 天的文章  →  抓取每天的 uploads/
         ↓
     第三轮：中国大陆可达性（Globalping 从国内探测点 ping 服务器，只保留国内可达的）
         ↓
+    发布前校验：mihomo -t 加载生成的配置，不通过则报错并保留原有订阅
+        ↓
     生成 Clash 配置 + v2ray 订阅  →  提交到仓库  →  GitHub Pages 发布
 ```
 

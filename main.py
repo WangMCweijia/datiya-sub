@@ -234,6 +234,13 @@ def main():
         "days": len(ok_days),
     }
     clash_text = builder.build_clash(proxies, cfg["clash"], meta)
+
+    ok, detail = prober.validate_config(clash_text, check_cfg)
+    if not ok:
+        log.error("发布前校验未通过，保留原有订阅不变：\n%s", detail)
+        return 1
+    log.info("发布前校验：mihomo 可正常加载该配置（%s）", detail)
+
     links = builder.build_links(proxies)
 
     status = {

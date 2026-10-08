@@ -41,6 +41,45 @@ def _find_binary(cfg):
     return shutil.which(cfg.get("binary") or "mihomo")
 
 
+# mihomo 启动时会确保 geodata（MMDB 等）就绪；拉不到属于网络/环境问题，不是配置本身有误。
+_GEO_NOISE = ("MMDB", "GeoIP", "GeoSite", "Geodata", "geoip.metadb", "geosite.dat")
+
+
+def validate_config(text, cfg):
+    """用 `mihomo -t` 校验最终配置能否被内核加载，返回 (是否通过, 说明)。
+
+    节点重名、协议字段非法等都会让内核拒绝**整份**配置，客户端表现为节点列表空白。
+    发布前先自检，避免把坏订阅写出去。
+    """
+    exe = _find_binary(cfg)
+    if not exe:
+        log.warning("未找到 mihomo（binary=%s），跳过发布前校验", cfg.get("binary") or "mihomo")
+        return True, "未找到 mihomo，跳过校验"
+
+    with tempfile.TemporaryDirectory() as tmp:
+        path = Path(tmp) / "config.yaml"
+        path.write_text(text, encoding="utf-8")
+        try:
+            proc = subprocess.run(
+                [exe, "-t", "-d", tmp, "-f", str(path)],
+                capture_output=True,
+                text=True,
+                timeout=180,
+            )
+        except subprocess.TimeoutExpired:
+            return False, "mihomo -t 超过 180 秒未结束"
+
+    output = "\n".join(part for part in (proc.stdout, proc.stderr) if part).strip()
+    if proc.returncode == 0:
+        return True, "通过"
+
+    errors = [line for line in output.splitlines() if "level=error" in line]
+    if errors and all(any(key in line for key in _GEO_NOISE) for line in errors):
+        log.warning("mihomo 校验因拉取 geodata 失败而报错（非配置问题），放行：%s", errors[0][:200])
+        return True, "仅 geodata 相关报错，放行"
+    return False, output
+
+
 def _write_config(path, proxies, controller_port, mixed_port, ports):
     """给每个节点配一个绑定它的入站端口，用于第二轮真实下载测速。"""
     listeners = [
