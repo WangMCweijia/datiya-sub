@@ -14,6 +14,8 @@
 
 实现要点：
 - Globalping 免费额度有限（约 250 次/小时），故默认每步只用 1 个探测点，并按 (server, port) 去重。
+  额度不足时，探测按传入 proxies 的顺序进行（main 已按延迟从低到高排好），
+  先保住更值得保留的快节点，被名额挤掉的只会是慢节点。
 - 安全阀：若国内探测结果全部未知（限速 429、接口异常、网络错误），说明拿不到有效信号，
   直接跳过该过滤，绝不因为第三方接口抖动把订阅写空。
 """
@@ -112,7 +114,10 @@ def filter_reachable(proxies, cfg):
     for proxy in proxies:
         endpoints.setdefault((proxy["server"], proxy.get("port")), set()).add(proxy.get("type"))
 
-    pairs = sorted(endpoints)
+    # 保持 proxies 的先后顺序（main 里已按延迟从低到高排好），不做字典序重排：
+    # Globalping 免费额度有限（约 250 次/小时），额度耗尽后剩下的探测会被记为未知、
+    # 在 strict 模式下剔除。先探排在前面（更快、更值得保留）的节点，被名额挤掉的才是慢节点。
+    pairs = list(endpoints)
     tcp_count = sum(1 for key in pairs if _protocol_of(endpoints[key]) == "tcp")
     log.info(
         "中国可达性(%s)：从 %s 探测 %d 个「服务器:端口」（TCP 拨号 %d 个、ICMP %d 个，对应 %d 个节点）",

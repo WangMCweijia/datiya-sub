@@ -247,6 +247,11 @@ def filter_working(proxies, cfg):
                 alive = [p for p in proxies if delays.get(p["name"]) is not None]
                 if max_delay_ms > 0:
                     alive = [p for p in alive if delays[p["name"]] <= max_delay_ms]
+                # 按延迟从低到高排序，让「更值得保留」的快节点排在前面。
+                # 第三轮的国内 TCP 拨号有名额上限（Globalping 免费额度约 250 次/小时），
+                # 名额耗尽后剩下的只能记为未知、在 strict 模式下被剔除——先探快节点，
+                # 被名额挤掉的才是慢节点，不至于把好节点浪费在探测上。
+                alive.sort(key=lambda p: delays[p["name"]])
                 log.info(
                     "第一轮：%d/%d 个节点连通%s",
                     len(alive),
