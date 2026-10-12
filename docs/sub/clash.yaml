@@ -1,5 +1,5 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-10-12 04:28:11 +0800 | 可用节点 55 个（候选 1126 个，datiya 覆盖 7 天）
+# 更新于 2026-10-12 14:12:50 +0800 | 可用节点 89 个（候选 1209 个，datiya 覆盖 7 天）
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -22,12 +22,19 @@ dns:
   - https://1.1.1.1/dns-query
   - https://dns.google/dns-query
 proxies:
-- name: 🇩🇪DE_2|1.3MB/s
+- name: 🇺🇸US_13|2.7MB/s
   port: 443
-  server: 172.64.68.89
+  server: 129.153.93.183
   skip-cert-verify: true
   tls: true
   type: http
+- name: US_speednode_0143
+  port: 9002
+  server: 138.199.35.198
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
 - name: US_speednode_0131
   password: 'null'
   port: 9002
@@ -37,14 +44,81 @@ proxies:
   type: http
   udp: true
   username: 'null'
-- name: US_speednode_0143
+- name: 🇺🇸US_4|3.4MB/s
+  password: None
   port: 9002
-  server: 138.199.35.198
+  server: 138.199.35.201
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇺🇸US_25|2.6MB/s
+  password: 'null'
+  port: 9002
+  server: 138.199.35.206
+  skip-cert-verify: true
+  tls: true
+  type: http
+  username: 'null'
+- name: 🇺🇸US_6|4.4MB/s
+  port: 9002
+  server: 138.199.35.211
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇺🇸US_9|3.9MB/s
+  password: None
+  port: 9002
+  server: 138.199.35.205
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇺🇸US_24|2.7MB/s
+  password: None
+  port: 9002
+  server: 138.199.35.213
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇺🇸US_8|2.8MB/s
+  port: 9002
+  server: 138.199.35.214
   skip-cert-verify: true
   tls: true
   type: http
   udp: true
-- name: 🇺🇸 美国 | USA 5
+- name: 🇺🇸US_7|1.8MB/s
+  port: 9443
+  server: 38.95.111.226
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸US_11|3.7MB/s
+  password: 'null'
+  port: 9002
+  server: 138.199.35.196
+  skip-cert-verify: true
+  tls: true
+  type: http
+  username: 'null'
+- alpn:
+  - http/1.1
+  client-fingerprint: chrome
+  encryption: none
+  name: '🇭🇰[www.v2nodes.com] vless-HK #1'
+  network: ws
+  port: 443
+  server: 188.114.96.9
+  servername: IdB8ONMVbntuYT5t7t6cEJfw8vLrb.paGEs.DeV
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  uuid: 2e305ebe-f6e6-4689-b32f-cd04ab5ff541
+  ws-opts:
+    headers:
+      Host: idb8onmvbntuyt5t7t6cejfw8vlrb.pages.dev
+    path: /vl/9yvcoLdzdOXLUYfH7r5gwJhu1CHrj
+- name: 🇺🇸 美国 | USA 4
   password: github.com/Alvin9999-newpac/fanqiang
   port: 19000
   server: anytls2.864106.xyz
@@ -52,20 +126,19 @@ proxies:
   sni: anytls2.864106.xyz
   type: anytls
   udp: true
-- name: 🇺🇸US_1|1.3MB/s
+- name: 🇺🇸US_17|2.8MB/s
   port: 443
-  server: 12.202.180.10
+  server: 167.88.60.242
   skip-cert-verify: true
   tls: true
   type: http
-- name: US_speednode_0141
+- name: 🇺🇸US_14|3.1MB/s
   port: 443
-  server: 38.28.193.188
+  server: 23.133.176.14
   skip-cert-verify: true
   tls: true
   type: http
-  udp: true
-- name: рҹҮәрҹҮё_US_зҫҺеӣҪ
+- name: 🇺🇸_US_美国
   type: vmess
   server: guanwang.awsno.com
   port: 443
@@ -81,22 +154,12 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- client-fingerprint: chrome
-  name: 🇯🇵JP_3|2.0MB/s
-  network: tcp
-  password: Trojan@82164024
+- name: 🇺🇸US_12|2.1MB/s
   port: 443
-  server: jp.tronsg.com
-  skip-cert-verify: false
-  sni: jp.tronsg.com
-  type: trojan
-  udp: true
-- name: US_speednode_0134
-  port: 443
-  server: voteshirleysew.club
+  server: 12.221.146.147
+  skip-cert-verify: true
   tls: true
   type: http
-  udp: true
 - name: US_speednode_0140
   password: None
   port: 443
@@ -104,8 +167,105 @@ proxies:
   tls: true
   type: http
   udp: true
+- name: US_speednode_0134
+  port: 443
+  server: voteshirleysew.club
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸US_15|2.9MB/s
+  port: 8443
+  server: 44.248.167.117
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇺🇸US_5|1.2MB/s
+  port: 443
+  server: 44.239.226.15
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇺🇸US_22|1.7MB/s
+  port: 8443
+  server: 129.212.181.253
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇨🇦CA_3|3.5MB/s
+  port: 8080
+  server: 173.180.22.3
+  type: http
+- name: 🇺🇸US_23|2.3MB/s
+  password: test123
+  port: 1080
+  server: 104.168.249.36
+  type: socks5
+  username: test123
+- name: 🇺🇸US_16|1.7MB/s
+  port: 443
+  server: 64.98.50.100
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇺🇸US_18|1000KB/s
+  password: None
+  port: 443
+  server: 52.55.81.168
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇺🇸US_20|2.9MB/s
+  port: 443
+  server: 149.88.21.140
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇺🇸US_21|1.1MB/s
+  password: e4b72b531a2d10900519
+  port: 443
+  server: 147.182.216.4
+  sni: 93b6d804.acsnet.co
+  tls: true
+  type: http
+  username: testuser1
+- alpn:
+  - http/1.1
+  client-fingerprint: chrome
+  encryption: none
+  name: 🇨🇦[www.v2nodes.com] vless-CA-1...
+  network: ws
+  port: 443
+  server: 104.21.70.22
+  servername: brightlux.forum
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  uuid: efe19c5a-0ea1-4666-8a4c-4a33f4670775
+  ws-opts:
+    headers:
+      Host: brightlux.forum
+    path: /raccoonwsvless
+- name: 🇨🇦CA_1|3.1MB/s
+  port: 9443
+  server: 198.44.157.19
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: US_speednode_0141
+  port: 443
+  server: 38.28.193.188
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+- name: 🇨🇦CA_2|2.8MB/s
+  port: 443
+  server: 206.223.161.47
+  skip-cert-verify: true
+  tls: true
+  type: http
 - client-fingerprint: chrome
-  name: '🇺🇸 美国 | USA #6'
+  name: '🇺🇸 美国 | USA #3'
   network: ws
   port: 443
   server: whuiy.xyz
@@ -118,90 +278,57 @@ proxies:
     headers:
       Host: whuiy.xyz
     path: /vless-cdn
-- name: 🇭🇰 香港 | HKG 9
-  server: 45.207.157.24
-  port: 9443
+- name: 🇺🇸_US_美国_1
   type: vless
-  uuid: fe0721ac-c577-4938-b7ca-8ab5f43bb8da
+  server: whuiy.xyz
+  port: 443
+  uuid: c64992bd-54aa-4d3d-8527-42da7d7e520a
+  network: ws
+  servername: whuiy.xyz
   tls: true
-  flow: xtls-rprx-vision
+  client-fingerprint: chrome
+  ws-opts:
+    path: /vless-cdn
+    headers:
+      Host: whuiy.xyz
+  skip-cert-verify: true
+  udp: true
+- name: 🇮🇪IE_1|3.6MB/s
+  port: 443
+  server: 34.249.214.108
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇬🇧GB_2|3.5MB/s
+  port: 9443
+  server: 84.17.50.214
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇵🇱 波兰 | POL
+  server: 80.47.12.94
+  port: 443
+  type: vless
+  uuid: c6e3c24c-ce20-4ad5-8c8c-68cb05890ea8
+  tls: true
   reality-opts:
-    public-key: 0hIFPaEn4RdFib8_eP8HYxMywR5izEwM3JA2W1Zo8U4
-    short-id: b390142456517acc
-  servername: www.amazon.com
+    public-key: gS0qvWKumWcOVoAgf8SHt6Sm3tqpBw07c5sA_Clb1hg
+  servername: pl-1-1.unturned-rust-dead.lol
   client-fingerprint: random
   network: tcp
-- name: 🇫🇷 法国 | FRA
-  password: github.com/Alvin9999-newpac/fanqiang
-  port: 30099
-  server: ip5.934618.xyz
-  skip-cert-verify: true
-  sni: ip5.934618.xyz
-  type: anytls
   udp: true
-- client-fingerprint: chrome
-  name: 🇫🇷FR_4|3.4MB/s
-  network: ws
-  password: humanity
+- name: 🇬🇧GB_3|3.2MB/s
   port: 443
-  server: 162.159.36.20
-  skip-cert-verify: false
-  sni: www.calmlunch.com
-  type: trojan
-  udp: true
-  ws-opts:
-    headers:
-      User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36
-    path: /assignment
-- name: 🇬🇧GB_1|1.0MB/s
+  server: 212.102.63.31
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇬🇧GB_4|2.4MB/s
   port: 443
-  server: 185.164.138.156
+  server: 212.102.63.61
   skip-cert-verify: true
   tls: true
   type: http
-- name: 🇬🇧GB_2|1.9MB/s
-  port: 9443
-  server: 84.17.50.129
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: NL_speednode_0006
-  port: 9002
-  server: 84.17.47.150
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: NL_speednode_0008
-  password: None
-  port: 9002
-  server: 84.17.47.148
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: NL_speednode_0005
-  password: None
-  port: 9002
-  server: 84.17.47.125
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: NL_speednode_0007
-  port: 9002
-  server: 84.17.47.148
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: NL_speednode_0010
-  port: 9002
-  server: 84.17.47.149
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
 - alpn:
   - http/1.1
   name: 🇳🇱[www.v2nodes.com] trojan-NL-...
@@ -216,19 +343,93 @@ proxies:
     headers:
       Host: www.trusteeforward.com
     path: /assignment
-- name: 🇩🇪DE_3|1.5MB/s
-  port: 443
-  server: 79.127.156.177
+- name: 🇳🇱NL_8|2.8MB/s
+  port: 21384
+  server: 51.158.204.46
   skip-cert-verify: true
   tls: true
   type: http
-- name: 🇫🇷FR_3|1.9MB/s
+- name: 🇳🇱NL_7|4.2MB/s
+  password: None
   port: 443
-  server: 149.102.245.65
+  server: 5.255.118.82
   skip-cert-verify: true
   tls: true
   type: http
-- name: '🇫🇷[www.v2nodes.com] trojan-FR-... #5'
+- name: NL_speednode_0005
+  password: None
+  port: 9002
+  server: 84.17.47.125
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+- name: NL_speednode_0004
+  port: 9002
+  server: 84.17.47.125
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+- name: 🇬🇧GB_1|1.1MB/s
+  password: None
+  port: 443
+  server: 37.120.233.34
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: NL_speednode_0007
+  port: 9002
+  server: 84.17.47.148
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+- name: NL_speednode_0009
+  port: 9002
+  server: 84.17.47.146
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+- name: 🇳🇱NL_6|2.3MB/s
+  password: 'null'
+  port: 9002
+  server: 84.17.47.146
+  skip-cert-verify: true
+  tls: true
+  type: http
+  username: 'null'
+- name: NL_speednode_0010
+  port: 9002
+  server: 84.17.47.149
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+- name: 🇫🇷FR_2|5.5MB/s
+  password: github.com/Alvin9999-newpac/fanqiang
+  port: 30099
+  server: ip5.934618.xyz
+  skip-cert-verify: true
+  sni: ip5.934618.xyz
+  type: anytls
+  udp: true
+- name: 🇩🇪DE_3|1020KB/s
+  password: None
+  port: 443
+  server: 87.249.132.97
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇧🇪BE_1|2.5MB/s
+  password: None
+  port: 443
+  server: 146.70.123.98
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: '🇫🇷[www.v2nodes.com] trojan-FR-... #4'
   network: ws
   password: humanity
   port: 2053
@@ -241,517 +442,619 @@ proxies:
       Host: www.calmlunch.com
     path: /assignment
 - alpn:
+  - h2
   - http/1.1
-  client-fingerprint: firefox
+  client-fingerprint: chrome
   encryption: none
-  name: 🇫🇷FR_5|1.5MB/s
-  network: ws
-  port: 11443
-  server: 205.237.105.31
-  servername: f4.vimeostream.online
+  name: 🇳🇱NL_1|2.0MB/s
+  network: xhttp
+  port: 10443
+  server: 117.55.202.200
+  servername: origin-nl2.liveflow.space
   tls: true
   type: vless
   udp: true
   uuid: c6db98c5-9959-425e-9340-300779fc4e4b
+  xhttp-opts:
+    host: origin-nl2.liveflow.space
+    mode: packet-up
+    path: /api/uploadFile/
+    sc-max-each-post-bytes: 262144
+    sc-min-posts-interval-ms: 80
+    x-padding-header: X-Cache
+    x-padding-key: _dc
+    x-padding-method: tokenish
+    x-padding-obfs-mode: true
+    x-padding-placement: queryInHeader
+  xudp: true
+- name: NL_speednode_0008
+  password: None
+  port: 9002
+  server: 84.17.47.148
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+- name: '🇫🇷[www.v2nodes.com] trojan-FR-... #3'
+  network: ws
+  password: humanity
+  port: 443
+  server: www.calmlunch.com
+  sni: www.calmlunch.com
+  type: trojan
   ws-opts:
     headers:
-      Host: f4.vimeostream.online
-      User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36
-    path: /api/v2/stream/ws
-  xudp: true
-- name: 🇵🇱 波兰 | POL 2
-  server: pl-1-1.unturned-rust-dead.lol
-  port: 443
-  type: vless
-  uuid: c6e3c24c-ce20-4ad5-8c8c-68cb05890ea8
+      Host: www.calmlunch.com
+    path: /assignment
+- name: 🇫🇷FR_7|3.1MB/s
+  port: 8090
+  server: 80.124.109.22
+  skip-cert-verify: true
   tls: true
-  reality-opts:
-    public-key: gS0qvWKumWcOVoAgf8SHt6Sm3tqpBw07c5sA_Clb1hg
-  servername: pl-1-1.unturned-rust-dead.lol
-  client-fingerprint: random
-  network: tcp
-  udp: true
-- name: 🇫🇷FR_2|2.3MB/s
+  type: http
+- name: 🇩🇰DK_1|2.9MB/s
   port: 9443
-  server: 138.199.47.247
+  server: 185.245.84.50
   skip-cert-verify: true
   tls: true
   type: http
-- name: NL_speednode_0009
+- name: NL_speednode_0006
   port: 9002
-  server: 84.17.47.146
+  server: 84.17.47.150
   skip-cert-verify: true
   tls: true
   type: http
   udp: true
-- name: 🇨🇭CH_1|1.2MB/s
+- name: 🇫🇷FR_4|3.7MB/s
+  port: 443
+  server: 82.64.255.151
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇱🇺LU_1|2.0MB/s
+  port: 9443
+  server: 185.221.132.226
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇰🇷 韩国 | KOR 2
+  server: kr.tronsg.com
+  port: 443
+  type: trojan
+  password: Trojan@82164024
+  sni: kr.tronsg.com
+  skip-cert-verify: true
+  udp: true
+- name: 🇩🇪DE_5|3.2MB/s
+  port: 9002
+  server: 158.173.154.5
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇩🇪DE_1|3.5MB/s
+  port: 9002
+  server: 158.173.154.3
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇩🇪DE_4|2.2MB/s
+  port: 9002
+  server: 158.173.154.2
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇩🇪DE_7|1.1MB/s
   password: None
+  port: 443
+  server: 149.36.50.157
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇫🇷FR_6|3.4MB/s
+  port: 443
+  server: 82.66.235.221
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇩🇪DE_6|2.7MB/s
+  password: None
+  port: 443
+  server: 149.36.50.129
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇩🇪DE_2|3.4MB/s
+  port: 443
+  server: 213.109.163.119
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇨🇿CZ_2|3.8MB/s
+  port: 9443
+  server: 152.233.16.174
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇫🇷FR_3|1.7MB/s
+  port: 8090
+  server: 82.96.128.175
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇦🇹AT_1|3.0MB/s
+  password: None
+  port: 443
+  server: 146.70.244.2
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇨🇭CH_1|2.0MB/s
   port: 443
   server: 31.7.62.50
   skip-cert-verify: true
   tls: true
   type: http
-- name: NL_speednode_0004
-  port: 9002
-  server: 84.17.47.125
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: 🇦🇹AT_1|1.0MB/s
+- name: 🇸🇪SE_2|3.0MB/s
   password: None
   port: 443
-  server: 146.70.244.18
+  server: 149.50.216.65
   skip-cert-verify: true
   tls: true
   type: http
-- name: 🇵🇱PL_1|1.4MB/s
+- name: '🇫🇷[www.v2nodes.com] trojan-FR-... #6'
+  network: ws
+  password: humanity
   port: 443
-  server: 37.120.156.18
-  skip-cert-verify: true
-  tls: true
-  type: http
-- auth: b42d90fa667942aebc734d60
-  name: 🇦🇺 澳大利亚 | AUS
-  obfs: salamander
-  obfs-password: b42d90fa667942aebc734d60
-  password: b42d90fa667942aebc734d60
-  port: 20000
-  ports: 20000-30000
-  server: 137.23.2.56
-  skip-cert-verify: true
-  sni: rmgyvpn.rest
-  type: hysteria2
-- name: 🇵🇱PL_2|1.4MB/s
+  server: 185.220.100.168
+  skip-cert-verify: false
+  sni: www.calmlunch.com
+  type: trojan
+  ws-opts:
+    headers:
+      Host: www.calmlunch.com
+    path: /assignment
+- name: 🇮🇹IT_2|4.1MB/s
   port: 443
-  server: 37.120.156.34
+  server: 94.177.163.156
   skip-cert-verify: true
   tls: true
   type: http
-- name: 🇳🇱 荷兰 | NLD
-  server: 31.59.210.25
-  port: 2087
-  type: vless
-  uuid: 5413edfb-08d6-4fba-b51c-809c04feb127
-  tls: true
-  reality-opts:
-    public-key: KDBhxT2YMtMjDEC9VdoDEISdCwxd6KFrSE8uyUaHcTY
-    short-id: ed435c242097fd05
-  servername: www.yandex.ru
-  client-fingerprint: firefox
-  network: grpc
-  grpc-opts:
-    grpc-mode: gun
-    grpc-service-name: astracat
-  udp: true
-- name: 🇨🇿CZ_1|1.3MB/s
-  password: None
-  port: 443
-  server: 185.216.35.130
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: 🇪🇸ES_1|3.7MB/s
-  password: None
-  port: 443
-  server: 130.195.250.18
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: 🇧🇬BG_1|2.0MB/s
+- name: 🇳🇴NO_1|2.5MB/s
   port: 9443
-  server: 169.150.237.1
+  server: 146.70.170.210
   skip-cert-verify: true
   tls: true
   type: http
-- name: 🇮🇹IT_1|1.1MB/s
+- alpn:
+  - http/1.1
+  client-fingerprint: chrome
+  name: 🇵🇱PL_2|2.1MB/s
+  network: ws
+  port: 443
+  server: 45.158.185.172
+  servername: z5n1.vpnpolar.online
+  tls: true
+  type: vless
+  udp: true
+  uuid: 49e4b91a-bd15-4e54-9b51-41a3380afb51
+  ws-opts:
+    headers:
+      Host: z5n1.vpnpolar.online
+      User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36
+    path: /beeline
+  xudp: true
+- name: 🇨🇿CZ_1|2.7MB/s
+  password: None
+  port: 443
+  server: 185.216.35.66
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇮🇸IS_1|1.9MB/s
+  port: 9443
+  server: 185.165.170.1
+  skip-cert-verify: true
+  tls: true
+  type: http
+- name: 🇮🇹IT_1|1.5MB/s
   password: None
   port: 443
   server: 185.183.105.130
   skip-cert-verify: true
   tls: true
   type: http
-- name: рҹҮЁрҹҮі_CN_дёӯеӣҪ_1
-  type: vmess
-  server: 120.48.133.162
-  port: 10086
-  uuid: fde10e39-48bb-4dcf-b3ba-71d711323a54
-  alterId: 0
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  network: ws
-  udp: true
-- alpn:
-  - http/1.1
-  name: 🇺🇸 美国 | USA 9
-  network: ws
-  password: humanity
+- name: 🇵🇱PL_1|2.6MB/s
   port: 443
-  server: 104.18.35.86
-  skip-cert-verify: true
-  sni: www.volumerOot.coM.
-  type: trojan
-  udp: true
-  ws-opts:
-    headers:
-      Host: www.volumerOot.coM.
-    path: /assignment
-- name: RO_speednode_0042
-  port: 9002
-  server: 193.176.84.30
+  server: 37.120.156.34
   skip-cert-verify: true
   tls: true
   type: http
-  udp: true
-- name: RO_speednode_0041
-  port: 9002
-  server: 193.176.84.33
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: RO_speednode_0097
+- name: 🇸🇪SE_3|2.9MB/s
   password: None
-  port: 9002
-  server: 193.176.84.23
+  port: 443
+  server: 79.142.77.63
   skip-cert-verify: true
   tls: true
   type: http
-  udp: true
-- name: RO_speednode_0044
-  port: 9002
-  server: 193.176.84.35
+- name: 🇷🇸RS_2|2.2MB/s
+  port: 443
+  server: 146.70.221.18
   skip-cert-verify: true
   tls: true
   type: http
-  udp: true
-- name: RO_speednode_0083
-  port: 9002
-  server: 193.176.84.25
+- name: 🇸🇪SE_1|1.5MB/s
+  port: 443
+  server: 146.70.242.146
   skip-cert-verify: true
   tls: true
   type: http
-  udp: true
-- name: RO_speednode_0082
-  port: 9002
-  server: 193.176.84.24
+- name: 🇧🇬BG_2|2.1MB/s
+  port: 443
+  server: 109.204.88.17
   skip-cert-verify: true
   tls: true
   type: http
-  udp: true
-- name: RO_speednode_0126
-  port: 9002
-  server: 193.176.84.39
+- name: 🇱🇻LV_1|1.1MB/s
+  port: 443
+  server: 109.248.149.34
   skip-cert-verify: true
   tls: true
   type: http
-  udp: true
-- name: RO_speednode_0110
-  port: 9002
-  server: 193.176.84.27
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: RO_speednode_0094
+- name: 🇷🇸RS_1|3.2MB/s
   password: None
-  port: 9002
-  server: 193.176.84.31
+  port: 443
+  server: 146.70.221.34
   skip-cert-verify: true
   tls: true
   type: http
-  udp: true
-- name: RO_speednode_0124
-  port: 9002
-  server: 193.176.84.32
+- name: 🇭🇺HU_1|3.0MB/s
+  port: 443
+  server: 146.70.203.18
   skip-cert-verify: true
   tls: true
   type: http
-  udp: true
-- client-fingerprint: chrome
-  encryption: none
-  name: 🇸🇬[www.v2nodes.com] vless-SG-1...
-  network: ws
-  port: 8443
-  server: 170.114.45.6
-  servername: primelinelk.me
-  skip-cert-verify: false
-  tls: true
-  type: vless
-  uuid: ba9ba1d3-19c8-4792-9d3f-ddd2cdcc2e65
-  ws-opts:
-    headers:
-      Host: primelinelk.me
-    path: /xprolk-primeline
-- name: 🇭🇰 香港 | HKG 6
-  server: 3696b38bsg.murphyweb.sbs
-  port: 32134
-  type: vless
-  uuid: 5b01dc2d-6892-49b8-8289-3f73a32e00e4
-  tls: true
-  flow: xtls-rprx-vision
-  reality-opts:
-    public-key: OdTELUjAUKO_qr-O-uihaAZJAhA8GyIWVI6CpozVCU4
-    short-id: 6c6c7c97
-  servername: buylite.music.apple.com
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
-- name: RO_speednode_0045
-  port: 9002
-  server: 193.176.84.17
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
 proxy-groups:
 - name: 🚀 节点选择
   type: select
   proxies:
   - ♻️ 自动选择
   - DIRECT
+  - 🌐 加拿大
   - 🌐 德国
-  - 🌐 新加坡
-  - 🌐 日本
   - 🌐 法国
-  - 🌐 澳大利亚
   - 🌐 美国
   - 🌐 英国
   - 🌐 荷兰
+  - 🌐 韩国
   - 🌐 香港
   - 🌐 其他
-  - 🇩🇪DE_2|1.3MB/s
-  - US_speednode_0131
+  - 🇺🇸US_13|2.7MB/s
   - US_speednode_0143
-  - 🇺🇸 美国 | USA 5
-  - 🇺🇸US_1|1.3MB/s
-  - US_speednode_0141
-  - рҹҮәрҹҮё_US_зҫҺеӣҪ
-  - 🇯🇵JP_3|2.0MB/s
-  - US_speednode_0134
+  - US_speednode_0131
+  - 🇺🇸US_4|3.4MB/s
+  - 🇺🇸US_25|2.6MB/s
+  - 🇺🇸US_6|4.4MB/s
+  - 🇺🇸US_9|3.9MB/s
+  - 🇺🇸US_24|2.7MB/s
+  - 🇺🇸US_8|2.8MB/s
+  - 🇺🇸US_7|1.8MB/s
+  - 🇺🇸US_11|3.7MB/s
+  - '🇭🇰[www.v2nodes.com] vless-HK #1'
+  - 🇺🇸 美国 | USA 4
+  - 🇺🇸US_17|2.8MB/s
+  - 🇺🇸US_14|3.1MB/s
+  - 🇺🇸_US_美国
+  - 🇺🇸US_12|2.1MB/s
   - US_speednode_0140
-  - '🇺🇸 美国 | USA #6'
-  - 🇭🇰 香港 | HKG 9
-  - 🇫🇷 法国 | FRA
-  - 🇫🇷FR_4|3.4MB/s
-  - 🇬🇧GB_1|1.0MB/s
-  - 🇬🇧GB_2|1.9MB/s
-  - NL_speednode_0006
-  - NL_speednode_0008
-  - NL_speednode_0005
-  - NL_speednode_0007
-  - NL_speednode_0010
+  - US_speednode_0134
+  - 🇺🇸US_15|2.9MB/s
+  - 🇺🇸US_5|1.2MB/s
+  - 🇺🇸US_22|1.7MB/s
+  - 🇨🇦CA_3|3.5MB/s
+  - 🇺🇸US_23|2.3MB/s
+  - 🇺🇸US_16|1.7MB/s
+  - 🇺🇸US_18|1000KB/s
+  - 🇺🇸US_20|2.9MB/s
+  - 🇺🇸US_21|1.1MB/s
+  - 🇨🇦[www.v2nodes.com] vless-CA-1...
+  - 🇨🇦CA_1|3.1MB/s
+  - US_speednode_0141
+  - 🇨🇦CA_2|2.8MB/s
+  - '🇺🇸 美国 | USA #3'
+  - 🇺🇸_US_美国_1
+  - 🇮🇪IE_1|3.6MB/s
+  - 🇬🇧GB_2|3.5MB/s
+  - 🇵🇱 波兰 | POL
+  - 🇬🇧GB_3|3.2MB/s
+  - 🇬🇧GB_4|2.4MB/s
   - 🇳🇱[www.v2nodes.com] trojan-NL-...
-  - 🇩🇪DE_3|1.5MB/s
-  - 🇫🇷FR_3|1.9MB/s
-  - '🇫🇷[www.v2nodes.com] trojan-FR-... #5'
-  - 🇫🇷FR_5|1.5MB/s
-  - 🇵🇱 波兰 | POL 2
-  - 🇫🇷FR_2|2.3MB/s
-  - NL_speednode_0009
-  - 🇨🇭CH_1|1.2MB/s
+  - 🇳🇱NL_8|2.8MB/s
+  - 🇳🇱NL_7|4.2MB/s
+  - NL_speednode_0005
   - NL_speednode_0004
-  - 🇦🇹AT_1|1.0MB/s
-  - 🇵🇱PL_1|1.4MB/s
-  - 🇦🇺 澳大利亚 | AUS
-  - 🇵🇱PL_2|1.4MB/s
-  - 🇳🇱 荷兰 | NLD
-  - 🇨🇿CZ_1|1.3MB/s
-  - 🇪🇸ES_1|3.7MB/s
-  - 🇧🇬BG_1|2.0MB/s
-  - 🇮🇹IT_1|1.1MB/s
-  - рҹҮЁрҹҮі_CN_дёӯеӣҪ_1
-  - 🇺🇸 美国 | USA 9
-  - RO_speednode_0042
-  - RO_speednode_0041
-  - RO_speednode_0097
-  - RO_speednode_0044
-  - RO_speednode_0083
-  - RO_speednode_0082
-  - RO_speednode_0126
-  - RO_speednode_0110
-  - RO_speednode_0094
-  - RO_speednode_0124
-  - 🇸🇬[www.v2nodes.com] vless-SG-1...
-  - 🇭🇰 香港 | HKG 6
-  - RO_speednode_0045
+  - 🇬🇧GB_1|1.1MB/s
+  - NL_speednode_0007
+  - NL_speednode_0009
+  - 🇳🇱NL_6|2.3MB/s
+  - NL_speednode_0010
+  - 🇫🇷FR_2|5.5MB/s
+  - 🇩🇪DE_3|1020KB/s
+  - 🇧🇪BE_1|2.5MB/s
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #4'
+  - 🇳🇱NL_1|2.0MB/s
+  - NL_speednode_0008
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #3'
+  - 🇫🇷FR_7|3.1MB/s
+  - 🇩🇰DK_1|2.9MB/s
+  - NL_speednode_0006
+  - 🇫🇷FR_4|3.7MB/s
+  - 🇱🇺LU_1|2.0MB/s
+  - 🇰🇷 韩国 | KOR 2
+  - 🇩🇪DE_5|3.2MB/s
+  - 🇩🇪DE_1|3.5MB/s
+  - 🇩🇪DE_4|2.2MB/s
+  - 🇩🇪DE_7|1.1MB/s
+  - 🇫🇷FR_6|3.4MB/s
+  - 🇩🇪DE_6|2.7MB/s
+  - 🇩🇪DE_2|3.4MB/s
+  - 🇨🇿CZ_2|3.8MB/s
+  - 🇫🇷FR_3|1.7MB/s
+  - 🇦🇹AT_1|3.0MB/s
+  - 🇨🇭CH_1|2.0MB/s
+  - 🇸🇪SE_2|3.0MB/s
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #6'
+  - 🇮🇹IT_2|4.1MB/s
+  - 🇳🇴NO_1|2.5MB/s
+  - 🇵🇱PL_2|2.1MB/s
+  - 🇨🇿CZ_1|2.7MB/s
+  - 🇮🇸IS_1|1.9MB/s
+  - 🇮🇹IT_1|1.5MB/s
+  - 🇵🇱PL_1|2.6MB/s
+  - 🇸🇪SE_3|2.9MB/s
+  - 🇷🇸RS_2|2.2MB/s
+  - 🇸🇪SE_1|1.5MB/s
+  - 🇧🇬BG_2|2.1MB/s
+  - 🇱🇻LV_1|1.1MB/s
+  - 🇷🇸RS_1|3.2MB/s
+  - 🇭🇺HU_1|3.0MB/s
 - name: ♻️ 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
-  - 🇩🇪DE_2|1.3MB/s
-  - US_speednode_0131
+  - 🇺🇸US_13|2.7MB/s
   - US_speednode_0143
-  - 🇺🇸 美国 | USA 5
-  - 🇺🇸US_1|1.3MB/s
-  - US_speednode_0141
-  - рҹҮәрҹҮё_US_зҫҺеӣҪ
-  - 🇯🇵JP_3|2.0MB/s
-  - US_speednode_0134
+  - US_speednode_0131
+  - 🇺🇸US_4|3.4MB/s
+  - 🇺🇸US_25|2.6MB/s
+  - 🇺🇸US_6|4.4MB/s
+  - 🇺🇸US_9|3.9MB/s
+  - 🇺🇸US_24|2.7MB/s
+  - 🇺🇸US_8|2.8MB/s
+  - 🇺🇸US_7|1.8MB/s
+  - 🇺🇸US_11|3.7MB/s
+  - '🇭🇰[www.v2nodes.com] vless-HK #1'
+  - 🇺🇸 美国 | USA 4
+  - 🇺🇸US_17|2.8MB/s
+  - 🇺🇸US_14|3.1MB/s
+  - 🇺🇸_US_美国
+  - 🇺🇸US_12|2.1MB/s
   - US_speednode_0140
-  - '🇺🇸 美国 | USA #6'
-  - 🇭🇰 香港 | HKG 9
-  - 🇫🇷 法国 | FRA
-  - 🇫🇷FR_4|3.4MB/s
-  - 🇬🇧GB_1|1.0MB/s
-  - 🇬🇧GB_2|1.9MB/s
-  - NL_speednode_0006
-  - NL_speednode_0008
-  - NL_speednode_0005
-  - NL_speednode_0007
-  - NL_speednode_0010
+  - US_speednode_0134
+  - 🇺🇸US_15|2.9MB/s
+  - 🇺🇸US_5|1.2MB/s
+  - 🇺🇸US_22|1.7MB/s
+  - 🇨🇦CA_3|3.5MB/s
+  - 🇺🇸US_23|2.3MB/s
+  - 🇺🇸US_16|1.7MB/s
+  - 🇺🇸US_18|1000KB/s
+  - 🇺🇸US_20|2.9MB/s
+  - 🇺🇸US_21|1.1MB/s
+  - 🇨🇦[www.v2nodes.com] vless-CA-1...
+  - 🇨🇦CA_1|3.1MB/s
+  - US_speednode_0141
+  - 🇨🇦CA_2|2.8MB/s
+  - '🇺🇸 美国 | USA #3'
+  - 🇺🇸_US_美国_1
+  - 🇮🇪IE_1|3.6MB/s
+  - 🇬🇧GB_2|3.5MB/s
+  - 🇵🇱 波兰 | POL
+  - 🇬🇧GB_3|3.2MB/s
+  - 🇬🇧GB_4|2.4MB/s
   - 🇳🇱[www.v2nodes.com] trojan-NL-...
-  - 🇩🇪DE_3|1.5MB/s
-  - 🇫🇷FR_3|1.9MB/s
-  - '🇫🇷[www.v2nodes.com] trojan-FR-... #5'
-  - 🇫🇷FR_5|1.5MB/s
-  - 🇵🇱 波兰 | POL 2
-  - 🇫🇷FR_2|2.3MB/s
-  - NL_speednode_0009
-  - 🇨🇭CH_1|1.2MB/s
+  - 🇳🇱NL_8|2.8MB/s
+  - 🇳🇱NL_7|4.2MB/s
+  - NL_speednode_0005
   - NL_speednode_0004
-  - 🇦🇹AT_1|1.0MB/s
-  - 🇵🇱PL_1|1.4MB/s
-  - 🇦🇺 澳大利亚 | AUS
-  - 🇵🇱PL_2|1.4MB/s
-  - 🇳🇱 荷兰 | NLD
-  - 🇨🇿CZ_1|1.3MB/s
-  - 🇪🇸ES_1|3.7MB/s
-  - 🇧🇬BG_1|2.0MB/s
-  - 🇮🇹IT_1|1.1MB/s
-  - рҹҮЁрҹҮі_CN_дёӯеӣҪ_1
-  - 🇺🇸 美国 | USA 9
-  - RO_speednode_0042
-  - RO_speednode_0041
-  - RO_speednode_0097
-  - RO_speednode_0044
-  - RO_speednode_0083
-  - RO_speednode_0082
-  - RO_speednode_0126
-  - RO_speednode_0110
-  - RO_speednode_0094
-  - RO_speednode_0124
-  - 🇸🇬[www.v2nodes.com] vless-SG-1...
-  - 🇭🇰 香港 | HKG 6
-  - RO_speednode_0045
+  - 🇬🇧GB_1|1.1MB/s
+  - NL_speednode_0007
+  - NL_speednode_0009
+  - 🇳🇱NL_6|2.3MB/s
+  - NL_speednode_0010
+  - 🇫🇷FR_2|5.5MB/s
+  - 🇩🇪DE_3|1020KB/s
+  - 🇧🇪BE_1|2.5MB/s
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #4'
+  - 🇳🇱NL_1|2.0MB/s
+  - NL_speednode_0008
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #3'
+  - 🇫🇷FR_7|3.1MB/s
+  - 🇩🇰DK_1|2.9MB/s
+  - NL_speednode_0006
+  - 🇫🇷FR_4|3.7MB/s
+  - 🇱🇺LU_1|2.0MB/s
+  - 🇰🇷 韩国 | KOR 2
+  - 🇩🇪DE_5|3.2MB/s
+  - 🇩🇪DE_1|3.5MB/s
+  - 🇩🇪DE_4|2.2MB/s
+  - 🇩🇪DE_7|1.1MB/s
+  - 🇫🇷FR_6|3.4MB/s
+  - 🇩🇪DE_6|2.7MB/s
+  - 🇩🇪DE_2|3.4MB/s
+  - 🇨🇿CZ_2|3.8MB/s
+  - 🇫🇷FR_3|1.7MB/s
+  - 🇦🇹AT_1|3.0MB/s
+  - 🇨🇭CH_1|2.0MB/s
+  - 🇸🇪SE_2|3.0MB/s
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #6'
+  - 🇮🇹IT_2|4.1MB/s
+  - 🇳🇴NO_1|2.5MB/s
+  - 🇵🇱PL_2|2.1MB/s
+  - 🇨🇿CZ_1|2.7MB/s
+  - 🇮🇸IS_1|1.9MB/s
+  - 🇮🇹IT_1|1.5MB/s
+  - 🇵🇱PL_1|2.6MB/s
+  - 🇸🇪SE_3|2.9MB/s
+  - 🇷🇸RS_2|2.2MB/s
+  - 🇸🇪SE_1|1.5MB/s
+  - 🇧🇬BG_2|2.1MB/s
+  - 🇱🇻LV_1|1.1MB/s
+  - 🇷🇸RS_1|3.2MB/s
+  - 🇭🇺HU_1|3.0MB/s
+- name: 🌐 加拿大
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+  proxies:
+  - 🇨🇦CA_3|3.5MB/s
+  - 🇨🇦[www.v2nodes.com] vless-CA-1...
+  - 🇨🇦CA_1|3.1MB/s
+  - 🇨🇦CA_2|2.8MB/s
 - name: 🌐 德国
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
-  - 🇩🇪DE_2|1.3MB/s
-  - 🇩🇪DE_3|1.5MB/s
-- name: 🌐 新加坡
-  type: url-test
-  url: http://www.gstatic.com/generate_204
-  interval: 300
-  tolerance: 50
-  proxies:
-  - 🇸🇬[www.v2nodes.com] vless-SG-1...
-- name: 🌐 日本
-  type: url-test
-  url: http://www.gstatic.com/generate_204
-  interval: 300
-  tolerance: 50
-  proxies:
-  - 🇯🇵JP_3|2.0MB/s
+  - 🇩🇪DE_3|1020KB/s
+  - 🇩🇪DE_5|3.2MB/s
+  - 🇩🇪DE_1|3.5MB/s
+  - 🇩🇪DE_4|2.2MB/s
+  - 🇩🇪DE_7|1.1MB/s
+  - 🇩🇪DE_6|2.7MB/s
+  - 🇩🇪DE_2|3.4MB/s
 - name: 🌐 法国
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
-  - 🇫🇷 法国 | FRA
-  - 🇫🇷FR_4|3.4MB/s
-  - 🇫🇷FR_3|1.9MB/s
-  - '🇫🇷[www.v2nodes.com] trojan-FR-... #5'
-  - 🇫🇷FR_5|1.5MB/s
-  - 🇫🇷FR_2|2.3MB/s
-- name: 🌐 澳大利亚
-  type: url-test
-  url: http://www.gstatic.com/generate_204
-  interval: 300
-  tolerance: 50
-  proxies:
-  - 🇦🇺 澳大利亚 | AUS
+  - 🇫🇷FR_2|5.5MB/s
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #4'
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #3'
+  - 🇫🇷FR_7|3.1MB/s
+  - 🇫🇷FR_4|3.7MB/s
+  - 🇫🇷FR_6|3.4MB/s
+  - 🇫🇷FR_3|1.7MB/s
+  - '🇫🇷[www.v2nodes.com] trojan-FR-... #6'
 - name: 🌐 美国
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
-  - US_speednode_0131
+  - 🇺🇸US_13|2.7MB/s
   - US_speednode_0143
-  - 🇺🇸 美国 | USA 5
-  - 🇺🇸US_1|1.3MB/s
-  - US_speednode_0141
-  - рҹҮәрҹҮё_US_зҫҺеӣҪ
-  - US_speednode_0134
+  - US_speednode_0131
+  - 🇺🇸US_4|3.4MB/s
+  - 🇺🇸US_25|2.6MB/s
+  - 🇺🇸US_6|4.4MB/s
+  - 🇺🇸US_9|3.9MB/s
+  - 🇺🇸US_24|2.7MB/s
+  - 🇺🇸US_8|2.8MB/s
+  - 🇺🇸US_7|1.8MB/s
+  - 🇺🇸US_11|3.7MB/s
+  - 🇺🇸 美国 | USA 4
+  - 🇺🇸US_17|2.8MB/s
+  - 🇺🇸US_14|3.1MB/s
+  - 🇺🇸_US_美国
+  - 🇺🇸US_12|2.1MB/s
   - US_speednode_0140
-  - '🇺🇸 美国 | USA #6'
-  - 🇺🇸 美国 | USA 9
+  - US_speednode_0134
+  - 🇺🇸US_15|2.9MB/s
+  - 🇺🇸US_5|1.2MB/s
+  - 🇺🇸US_22|1.7MB/s
+  - 🇺🇸US_23|2.3MB/s
+  - 🇺🇸US_16|1.7MB/s
+  - 🇺🇸US_18|1000KB/s
+  - 🇺🇸US_20|2.9MB/s
+  - 🇺🇸US_21|1.1MB/s
+  - US_speednode_0141
+  - '🇺🇸 美国 | USA #3'
+  - 🇺🇸_US_美国_1
 - name: 🌐 英国
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
-  - 🇬🇧GB_1|1.0MB/s
-  - 🇬🇧GB_2|1.9MB/s
+  - 🇬🇧GB_2|3.5MB/s
+  - 🇬🇧GB_3|3.2MB/s
+  - 🇬🇧GB_4|2.4MB/s
+  - 🇬🇧GB_1|1.1MB/s
 - name: 🌐 荷兰
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
-  - NL_speednode_0006
-  - NL_speednode_0008
-  - NL_speednode_0005
-  - NL_speednode_0007
-  - NL_speednode_0010
   - 🇳🇱[www.v2nodes.com] trojan-NL-...
-  - NL_speednode_0009
+  - 🇳🇱NL_8|2.8MB/s
+  - 🇳🇱NL_7|4.2MB/s
+  - NL_speednode_0005
   - NL_speednode_0004
-  - 🇳🇱 荷兰 | NLD
+  - NL_speednode_0007
+  - NL_speednode_0009
+  - 🇳🇱NL_6|2.3MB/s
+  - NL_speednode_0010
+  - 🇳🇱NL_1|2.0MB/s
+  - NL_speednode_0008
+  - NL_speednode_0006
+- name: 🌐 韩国
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+  proxies:
+  - 🇰🇷 韩国 | KOR 2
 - name: 🌐 香港
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
-  - 🇭🇰 香港 | HKG 9
-  - 🇭🇰 香港 | HKG 6
+  - '🇭🇰[www.v2nodes.com] vless-HK #1'
 - name: 🌐 其他
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
-  - 🇵🇱 波兰 | POL 2
-  - 🇨🇭CH_1|1.2MB/s
-  - 🇦🇹AT_1|1.0MB/s
-  - 🇵🇱PL_1|1.4MB/s
-  - 🇵🇱PL_2|1.4MB/s
-  - 🇨🇿CZ_1|1.3MB/s
-  - 🇪🇸ES_1|3.7MB/s
-  - 🇧🇬BG_1|2.0MB/s
-  - 🇮🇹IT_1|1.1MB/s
-  - рҹҮЁрҹҮі_CN_дёӯеӣҪ_1
-  - RO_speednode_0042
-  - RO_speednode_0041
-  - RO_speednode_0097
-  - RO_speednode_0044
-  - RO_speednode_0083
-  - RO_speednode_0082
-  - RO_speednode_0126
-  - RO_speednode_0110
-  - RO_speednode_0094
-  - RO_speednode_0124
-  - RO_speednode_0045
+  - 🇮🇪IE_1|3.6MB/s
+  - 🇵🇱 波兰 | POL
+  - 🇧🇪BE_1|2.5MB/s
+  - 🇩🇰DK_1|2.9MB/s
+  - 🇱🇺LU_1|2.0MB/s
+  - 🇨🇿CZ_2|3.8MB/s
+  - 🇦🇹AT_1|3.0MB/s
+  - 🇨🇭CH_1|2.0MB/s
+  - 🇸🇪SE_2|3.0MB/s
+  - 🇮🇹IT_2|4.1MB/s
+  - 🇳🇴NO_1|2.5MB/s
+  - 🇵🇱PL_2|2.1MB/s
+  - 🇨🇿CZ_1|2.7MB/s
+  - 🇮🇸IS_1|1.9MB/s
+  - 🇮🇹IT_1|1.5MB/s
+  - 🇵🇱PL_1|2.6MB/s
+  - 🇸🇪SE_3|2.9MB/s
+  - 🇷🇸RS_2|2.2MB/s
+  - 🇸🇪SE_1|1.5MB/s
+  - 🇧🇬BG_2|2.1MB/s
+  - 🇱🇻LV_1|1.1MB/s
+  - 🇷🇸RS_1|3.2MB/s
+  - 🇭🇺HU_1|3.0MB/s
 rules:
 - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
 - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
