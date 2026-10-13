@@ -396,21 +396,52 @@ def filter_reachable(proxies, cfg):
             log.warning("中国可达性：额度预算耗尽，剩余单位按未知处理（严格模式剔除）")
             break
 
-    # 冷却后对仍无结论的单位补最后一轮（滚动额度可能已释放；不再占用本地预算计数）
+    # 冷却补测（滚动额度可能已释放，不走本地预算计数；连续被 429 就立刻收手）：
+    # ①无结论单位补 1 点；②单票通过的单位补 1 点（出现反票即降级，防假活，
+    # 实测单点假阳率约 2-5%）；③单票不通的单位补 2 点（需 2 票通过才能翻案）。
     unknown = [item for item in units if _tally(votes[item[0]]) is None]
-    if unknown:
-        log.info("中国可达性：%d 个单位仍无结论，冷却 45s 后补测", len(unknown))
+    single_ok = [item for item in units
+                 if _tally(votes[item[0]]) is True and len(votes[item[0]]) == 1]
+    single_bad = [item for item in units
+                  if _tally(votes[item[0]]) is False and len(votes[item[0]]) == 1]
+    cooldown = [(item, 1) for item in unknown]
+    cooldown += [(item, 1) for item in single_ok]
+    cooldown += [(item, 2) for item in single_bad]
+    if cooldown:
+        log.info("中国可达性：冷却 45s 后补测 %d 个单位（无结论 %d、单票通过 %d、单票不通 %d）",
+                 len(cooldown), len(unknown), len(single_ok), len(single_bad))
         time.sleep(45)
 
-        def run_cooldown(item):
+        def run_cooldown(task):
+            item, limit = task
             key, unit = item
-            # 只试 2 次：真遇到持续 429 就放弃（按未知处理），不让构建拖太久
-            return key, (gp.measure(unit, count_budget=False, retries=2) or ["err"])[:1]
+            # retries=2：真遇到持续 429 快速放弃，不让构建拖太久
+            verdicts = gp.measure(unit, limit=limit, count_budget=False, retries=2)
+            return key, verdicts  # None=没测成（多半 429），不追加票
 
+        # 每批 4 个（2 并发）：整批都没测成说明额度没恢复；连续两批空转或总时长
+        # 超过 8 分钟就停止，避免额度紧张时补测阶段长时间空转拖慢构建。
+        deadline = time.time() + 480
+        empty_batches = 0
         with ThreadPoolExecutor(max_workers=min(2, gp.concurrency)) as pool:
-            for key, verdicts in pool.map(run_cooldown, unknown):
-                if verdicts and verdicts != ["err"]:
-                    votes[key].extend(verdicts)
+            for i in range(0, len(cooldown), 4):
+                if time.time() > deadline:
+                    log.info("中国可达性：补测达到时长上限，停止（剩余 %d 个单位维持原判）",
+                             len(cooldown) - i)
+                    break
+                batch = cooldown[i:i + 4]
+                got = 0
+                for key, verdicts in pool.map(run_cooldown, batch):
+                    if verdicts:
+                        votes[key].extend(verdicts)
+                        got += 1
+                if got == 0:
+                    empty_batches += 1
+                    if empty_batches >= 2:
+                        log.info("中国可达性：补测额度未恢复，停止补测")
+                        break
+                else:
+                    empty_batches = 0
 
     verdict_of_key = {key: _tally(votes[key]) for key, _ in units}
     reachable = {k for k, v in verdict_of_key.items() if v is True}
