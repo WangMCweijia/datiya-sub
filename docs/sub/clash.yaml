@@ -1,5 +1,5 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-10-13 19:47:50 +0800 | 可用节点 60 个（候选 6966 个，datiya 覆盖 7 天）
+# 更新于 2026-10-14 00:21:13 +0800 | 可用节点 34 个（候选 6871 个，datiya 覆盖 7 天）
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -22,156 +22,26 @@ dns:
   - https://1.1.1.1/dns-query
   - https://dns.google/dns-query
 proxies:
-- name: 🇺🇸US_22|1.2MB/s
-  port: 8443
-  server: 44.217.145.28
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: 🇺🇸US_7|3.3MB/s
-  port: 9002
-  server: 138.199.35.220
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_9|2.0MB/s
-  password: 'null'
-  port: 9002
-  server: 138.199.35.205
-  skip-cert-verify: true
-  tls: true
-  type: http
-  username: 'null'
-- name: 🇺🇸US_14|2.2MB/s
-  password: 'null'
-  port: 9002
-  server: 138.199.35.196
-  skip-cert-verify: true
-  tls: true
-  type: http
-  username: 'null'
-- name: 🇺🇸US_12|2.8MB/s
-  password: None
-  port: 9002
-  server: 138.199.35.199
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: 🇺🇸US_8|3.8MB/s
-  password: None
-  port: 9002
-  server: 138.199.35.209
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: 🇺🇸US_23|1.5MB/s
-  port: 443
-  server: 45.63.38.134
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: US_speednode_0143
-  port: 9002
-  server: 138.199.35.198
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: US_speednode_0131
-  password: 'null'
-  port: 9002
-  server: 138.199.35.216
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-  username: 'null'
-- name: 🇺🇸US_11|3.2MB/s
-  port: 9002
-  server: 138.199.35.210
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: 🇨🇦CA_4|2.1MB/s
+- name: 🇨🇦CA_1|1.7MB/s
   port: 443
   server: 35.183.131.26
   skip-cert-verify: true
   tls: true
   type: http
-- name: 🇺🇸US_10|3.1MB/s
-  port: 9002
-  server: 138.199.35.200
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_15|1.5MB/s
-  port: 9002
-  server: 138.199.35.203
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: 🇺🇸US_5|3.0MB/s
+- name: 🇩🇪 德国 | DEU 3
+  server: 31.58.95.10
   port: 443
-  server: 44.228.137.206
-  skip-cert-verify: true
+  type: vless
+  uuid: c6e3c24c-ce20-4ad5-8c8c-68cb05890ea8
   tls: true
-  type: http
-- name: 🇺🇸US_6|4.5MB/s
-  port: 443
-  server: 44.239.226.15
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: 🇺🇸US_13|3.4MB/s
-  port: 8443
-  server: 44.248.167.117
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: 🇺🇸US_3|4.1MB/s
-  port: 443
-  server: 148.135.10.80
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: 🇺🇸_US_美国
-  type: vmess
-  server: guanwang.awsno.com
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
-  tls: true
-  skip-cert-verify: true
-  servername: guanwang.awsno.com
-  network: ws
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
-  udp: true
-- name: 🇫🇷 法国 | FRA
-  password: github.com/Alvin9999-newpac/fanqiang
-  port: 30099
-  server: ip5.934618.xyz
-  skip-cert-verify: true
-  sni: ip5.934618.xyz
-  type: anytls
-  udp: true
-- name: 🇮🇪IE_2|1.3MB/s
-  port: 443
-  server: 18.200.158.139
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: NL_speednode_0004
-  port: 9002
-  server: 84.17.47.125
-  skip-cert-verify: true
-  tls: true
-  type: http
+  reality-opts:
+    public-key: aYz4_13W8gtAXGBrWeqJXtExahAJ9kUPDapqeyAlYCk
+  servername: de-gdd-1.unturned-rust-dead.lol
+  client-fingerprint: random
+  network: grpc
+  grpc-opts:
+    grpc-mode: gun
+    grpc-service-name: gdd-grpc
   udp: true
 - name: NL_speednode_0008
   password: None
@@ -188,33 +58,20 @@ proxies:
   tls: true
   type: http
   udp: true
-- encryption: mlkem768x25519plus.native.0rtt.BheP3zTPlA3cijplJnfrJSIp9rYlrGqnqEOnYD-wA20
-  name: '🇩🇪 德国 | DEU #6'
-  network: ws
-  port: 8880
-  server: 188.114.99.0
-  tls: false
-  type: vless
+- name: NL_speednode_0010
+  port: 9002
+  server: 84.17.47.149
+  skip-cert-verify: true
+  tls: true
+  type: http
   udp: true
-  uuid: 3ee10440-225e-4cbc-83ed-3c80b90bcb07
-  ws-opts:
-    headers:
-      Host: ovh-gr1.mahkhorshidi.ir
-    path: /notls
-- name: 🇳🇱NL_7|1.3MB/s
-  password: 'null'
+- name: NL_speednode_0004
   port: 9002
   server: 84.17.47.125
   skip-cert-verify: true
   tls: true
   type: http
-  username: 'null'
-- name: 🇳🇱NL_1|2.3MB/s
-  port: 9002
-  server: 84.17.47.126
-  skip-cert-verify: true
-  tls: true
-  type: http
+  udp: true
 - name: NL_speednode_0007
   port: 9002
   server: 84.17.47.148
@@ -230,12 +87,6 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇩🇪DE_3|2.4MB/s
-  port: 9002
-  server: 158.173.154.5
-  skip-cert-verify: true
-  tls: true
-  type: http
 - name: NL_speednode_0006
   port: 9002
   server: 84.17.47.150
@@ -243,82 +94,20 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇩🇪DE_6|2.7MB/s
-  port: 443
-  server: 193.233.75.115
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: 🇳🇱NL_9|3.7MB/s
+- name: RO_speednode_0083
   port: 9002
-  server: 84.17.47.123
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: 🇩🇪DE_4|3.3MB/s
-  port: 9002
-  server: 158.173.154.1
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: NL_speednode_0010
-  port: 9002
-  server: 84.17.47.149
+  server: 193.176.84.25
   skip-cert-verify: true
   tls: true
   type: http
   udp: true
-- name: 🇳🇱NL_12|2.2MB/s
-  port: 443
-  server: 5.2.73.112
+- name: RO_speednode_0097
+  password: None
+  port: 9002
+  server: 193.176.84.23
   skip-cert-verify: true
   tls: true
   type: http
-- name: 🇫🇷FR_2|3.2MB/s
-  port: 6103
-  server: 87.98.174.157
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: 🇫🇷FR_5|2.8MB/s
-  port: 8090
-  server: 82.96.128.175
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: 🇮🇹IT_1|1.6MB/s
-  port: 443
-  server: 95.229.15.89
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: 🇱🇻LV_1|2.3MB/s
-  port: 443
-  server: 185.219.159.15
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: 🇱🇻LV_2|3.0MB/s
-  port: 443
-  server: 185.219.159.16
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: 🇷🇺 俄罗斯 | RUS 2
-  server: 176.124.214.107
-  port: 8443
-  type: vless
-  uuid: ed8704b8-9e9e-48e6-b55b-ae9079ab3a59
-  tls: true
-  reality-opts:
-    public-key: i5a8i2AWUSMZ-rYA6hGBRCBBoe7W5ah33SCdF5JkMk4
-    short-id: 8bcfe256cf216fd8
-  servername: apple.com
-  client-fingerprint: qq
-  network: grpc
-  grpc-opts:
-    grpc-mode: gun
-    grpc-service-name: grpc-tunnel
   udp: true
 - name: RO_speednode_0044
   port: 9002
@@ -327,6 +116,86 @@ proxies:
   tls: true
   type: http
   udp: true
+- name: RO_speednode_0094
+  password: None
+  port: 9002
+  server: 193.176.84.31
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+- name: RO_speednode_0041
+  port: 9002
+  server: 193.176.84.33
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+- name: RO_speednode_0082
+  port: 9002
+  server: 193.176.84.24
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+- name: RO_speednode_0110
+  port: 9002
+  server: 193.176.84.27
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+- name: RO_speednode_0124
+  port: 9002
+  server: 193.176.84.32
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+- name: RO_speednode_0045
+  port: 9002
+  server: 193.176.84.17
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+- name: 🇫🇷 法国 | FRA
+  password: github.com/Alvin9999-newpac/fanqiang
+  port: 30099
+  server: ip5.934618.xyz
+  skip-cert-verify: true
+  sni: ip5.934618.xyz
+  type: anytls
+  udp: true
+- name: RO_speednode_0087
+  port: 9002
+  server: 193.176.84.20
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+- name: RO_speednode_0126
+  port: 9002
+  server: 193.176.84.39
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+- name: 🇭🇰 香港 | HKG 4
+  password: ec74bb6a86c2
+  port: 443
+  server: 56481.df6h451rh.xin
+  skip-cert-verify: true
+  sni: images.ctfassets.net
+  type: anytls
+  udp: true
+- name: 🇸🇬SG_1|2.2MB/s
+  password: '1234'
+  port: 2080
+  server: 54.169.228.182
+  skip-cert-verify: true
+  type: http
+  username: '1234'
 - name: RO_speednode_0042
   port: 9002
   server: 193.176.84.30
@@ -334,6 +203,57 @@ proxies:
   tls: true
   type: http
   udp: true
+- name: 🇺🇸US-137.175.22.8-0797
+  server: fan.365747.xyz
+  port: 443
+  type: http
+  tls: true
+  skip-cert-verify: false
+- name: US_speednode_0141
+  port: 443
+  server: 38.28.193.188
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+- name: 美国 584
+  type: vmess
+  network: ws
+  server: guanwang.awsno.com
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  skip-cert-verify: true
+  tls: true
+  alterId: 0
+  cipher: auto
+  ws-opts:
+    headers:
+      Host: guanwang.awsno.com
+    path: /hls/cctv5phd.m3u8
+- name: 巴西 003
+  type: vless
+  network: ws
+  server: 188.114.99.0
+  port: 8880
+  uuid: 3ee10440-225e-4cbc-83ed-3c80b90bcb07
+  tls: false
+  udp: true
+  encryption: mlkem768x25519plus.native.0rtt.BheP3zTPlA3cijplJnfrJSIp9rYlrGqnqEOnYD-wA20
+  ws-opts:
+    headers:
+      Host: ovh-gr1.mahkhorshidi.ir
+    path: /notls
+- auth: a34f3990b69f44bfa0d32385
+  name: 🇦🇺 澳大利亚 | AUS 2
+  obfs: salamander
+  obfs-password: a34f3990b69f44bfa0d32385
+  password: a34f3990b69f44bfa0d32385
+  port: 20000
+  ports: 20000-30000
+  server: 137.23.16.77
+  skip-cert-verify: true
+  sni: rmgyvpn.rest
+  type: hysteria2
 - name: 🏁RELAY-172.67.190.164-0418
   server: guanwang.awsno.com
   port: 443
@@ -349,119 +269,36 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
-- name: 🇦🇺 澳大利亚 | AUS
-  server: 137.23.16.77
-  port: 20000
-  type: hysteria2
-  password: a34f3990b69f44bfa0d32385
-  auth: a34f3990b69f44bfa0d32385
-  sni: rmgyvpn.rest
-  skip-cert-verify: true
-  obfs: salamander
-  obfs-password: a34f3990b69f44bfa0d32385
-  ports: 20000-30000
-- name: US_speednode_0141
+- name: 🇹🇼 🇨🇳 台湾 | TWN
+  password: ec74bb6a86c2
   port: 443
-  server: 38.28.193.188
+  server: er8u54dh.df6h451rh.xin
   skip-cert-verify: true
-  tls: true
-  type: http
+  sni: px.ads.linkedin.com
+  type: anytls
   udp: true
-- name: RO_speednode_0124
-  port: 9002
-  server: 193.176.84.32
+- name: 🇭🇰 香港 | HKG 3
+  server: any.tianziip.com
+  port: 443
+  type: anytls
+  password: bbf4aea670b05b18c7ca0e6301ccc9550be6a546f892f3e5
+  udp: false
+  sni: any.tianziip.com
   skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: RO_speednode_0041
-  port: 9002
-  server: 193.176.84.33
+- auth: CyG0RFxMjzs41uQD4OLuHQ==
+  name: 🇧🇷 巴西 | BRA
+  obfs: salamander
+  obfs-password: CyG0RFxMjzs41uQD4OLuHQ==
+  password: CyG0RFxMjzs41uQD4OLuHQ==
+  port: 20000
+  ports: 20000-30000
+  server: 147.15.23.247
   skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: RO_speednode_0094
-  password: None
-  port: 9002
-  server: 193.176.84.31
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: RO_speednode_0126
-  port: 9002
-  server: 193.176.84.39
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: RO_speednode_0110
-  port: 9002
-  server: 193.176.84.27
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: RO_speednode_0097
-  password: None
-  port: 9002
-  server: 193.176.84.23
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: RO_speednode_0087
-  port: 9002
-  server: 193.176.84.20
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: 🇷🇴RO_3|1.8MB/s
-  port: 9002
-  server: 193.176.84.18
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: 🇷🇴RO_7|1.3MB/s
-  password: None
-  port: 9002
-  server: 193.176.84.21
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: 🇷🇴RO_4|1.7MB/s
-  password: None
-  port: 9002
-  server: 193.176.84.37
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: RO_speednode_0082
-  port: 9002
-  server: 193.176.84.24
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: RO_speednode_0083
-  port: 9002
-  server: 193.176.84.25
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
+  sni: rmgyvpn.rest
+  type: hysteria2
 - name: US_speednode_0133
   port: 443
   server: fan.365747.xyz
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: 🇷🇴RO_6|1.3MB/s
-  port: 9002
-  server: 193.176.84.26
   skip-cert-verify: true
   tls: true
   type: http
@@ -472,74 +309,50 @@ proxy-groups:
   proxies:
   - ♻️ 自动选择
   - DIRECT
-  - 🌐 俄罗斯
   - 🌐 加拿大
+  - 🌐 台湾
   - 🌐 德国
+  - 🌐 新加坡
   - 🌐 法国
   - 🌐 澳大利亚
   - 🌐 美国
   - 🌐 荷兰
+  - 🌐 香港
   - 🌐 其他
-  - 🇺🇸US_22|1.2MB/s
-  - 🇺🇸US_7|3.3MB/s
-  - 🇺🇸US_9|2.0MB/s
-  - 🇺🇸US_14|2.2MB/s
-  - 🇺🇸US_12|2.8MB/s
-  - 🇺🇸US_8|3.8MB/s
-  - 🇺🇸US_23|1.5MB/s
-  - US_speednode_0143
-  - US_speednode_0131
-  - 🇺🇸US_11|3.2MB/s
-  - 🇨🇦CA_4|2.1MB/s
-  - 🇺🇸US_10|3.1MB/s
-  - 🇺🇸US_15|1.5MB/s
-  - 🇺🇸US_5|3.0MB/s
-  - 🇺🇸US_6|4.5MB/s
-  - 🇺🇸US_13|3.4MB/s
-  - 🇺🇸US_3|4.1MB/s
-  - 🇺🇸_US_美国
-  - 🇫🇷 法国 | FRA
-  - 🇮🇪IE_2|1.3MB/s
-  - NL_speednode_0004
+  - 🇨🇦CA_1|1.7MB/s
+  - 🇩🇪 德国 | DEU 3
   - NL_speednode_0008
   - NL_speednode_0009
-  - '🇩🇪 德国 | DEU #6'
-  - 🇳🇱NL_7|1.3MB/s
-  - 🇳🇱NL_1|2.3MB/s
+  - NL_speednode_0010
+  - NL_speednode_0004
   - NL_speednode_0007
   - NL_speednode_0005
-  - 🇩🇪DE_3|2.4MB/s
   - NL_speednode_0006
-  - 🇩🇪DE_6|2.7MB/s
-  - 🇳🇱NL_9|3.7MB/s
-  - 🇩🇪DE_4|3.3MB/s
-  - NL_speednode_0010
-  - 🇳🇱NL_12|2.2MB/s
-  - 🇫🇷FR_2|3.2MB/s
-  - 🇫🇷FR_5|2.8MB/s
-  - 🇮🇹IT_1|1.6MB/s
-  - 🇱🇻LV_1|2.3MB/s
-  - 🇱🇻LV_2|3.0MB/s
-  - 🇷🇺 俄罗斯 | RUS 2
-  - RO_speednode_0044
-  - RO_speednode_0042
-  - 🏁RELAY-172.67.190.164-0418
-  - 🇦🇺 澳大利亚 | AUS
-  - US_speednode_0141
-  - RO_speednode_0124
-  - RO_speednode_0041
-  - RO_speednode_0094
-  - RO_speednode_0126
-  - RO_speednode_0110
-  - RO_speednode_0097
-  - RO_speednode_0087
-  - 🇷🇴RO_3|1.8MB/s
-  - 🇷🇴RO_7|1.3MB/s
-  - 🇷🇴RO_4|1.7MB/s
-  - RO_speednode_0082
   - RO_speednode_0083
+  - RO_speednode_0097
+  - RO_speednode_0044
+  - RO_speednode_0094
+  - RO_speednode_0041
+  - RO_speednode_0082
+  - RO_speednode_0110
+  - RO_speednode_0124
+  - RO_speednode_0045
+  - 🇫🇷 法国 | FRA
+  - RO_speednode_0087
+  - RO_speednode_0126
+  - 🇭🇰 香港 | HKG 4
+  - 🇸🇬SG_1|2.2MB/s
+  - RO_speednode_0042
+  - 🇺🇸US-137.175.22.8-0797
+  - US_speednode_0141
+  - 美国 584
+  - 巴西 003
+  - 🇦🇺 澳大利亚 | AUS 2
+  - 🏁RELAY-172.67.190.164-0418
+  - 🇹🇼 🇨🇳 台湾 | TWN
+  - 🇭🇰 香港 | HKG 3
+  - 🇧🇷 巴西 | BRA
   - US_speednode_0133
-  - 🇷🇴RO_6|1.3MB/s
 - name: ♻️ 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -547,74 +360,40 @@ proxy-groups:
   tolerance: 50
   timeout: 8000
   proxies:
-  - 🇺🇸US_22|1.2MB/s
-  - 🇺🇸US_7|3.3MB/s
-  - 🇺🇸US_9|2.0MB/s
-  - 🇺🇸US_14|2.2MB/s
-  - 🇺🇸US_12|2.8MB/s
-  - 🇺🇸US_8|3.8MB/s
-  - 🇺🇸US_23|1.5MB/s
-  - US_speednode_0143
-  - US_speednode_0131
-  - 🇺🇸US_11|3.2MB/s
-  - 🇨🇦CA_4|2.1MB/s
-  - 🇺🇸US_10|3.1MB/s
-  - 🇺🇸US_15|1.5MB/s
-  - 🇺🇸US_5|3.0MB/s
-  - 🇺🇸US_6|4.5MB/s
-  - 🇺🇸US_13|3.4MB/s
-  - 🇺🇸US_3|4.1MB/s
-  - 🇺🇸_US_美国
-  - 🇫🇷 法国 | FRA
-  - 🇮🇪IE_2|1.3MB/s
-  - NL_speednode_0004
+  - 🇨🇦CA_1|1.7MB/s
+  - 🇩🇪 德国 | DEU 3
   - NL_speednode_0008
   - NL_speednode_0009
-  - '🇩🇪 德国 | DEU #6'
-  - 🇳🇱NL_7|1.3MB/s
-  - 🇳🇱NL_1|2.3MB/s
+  - NL_speednode_0010
+  - NL_speednode_0004
   - NL_speednode_0007
   - NL_speednode_0005
-  - 🇩🇪DE_3|2.4MB/s
   - NL_speednode_0006
-  - 🇩🇪DE_6|2.7MB/s
-  - 🇳🇱NL_9|3.7MB/s
-  - 🇩🇪DE_4|3.3MB/s
-  - NL_speednode_0010
-  - 🇳🇱NL_12|2.2MB/s
-  - 🇫🇷FR_2|3.2MB/s
-  - 🇫🇷FR_5|2.8MB/s
-  - 🇮🇹IT_1|1.6MB/s
-  - 🇱🇻LV_1|2.3MB/s
-  - 🇱🇻LV_2|3.0MB/s
-  - 🇷🇺 俄罗斯 | RUS 2
-  - RO_speednode_0044
-  - RO_speednode_0042
-  - 🏁RELAY-172.67.190.164-0418
-  - 🇦🇺 澳大利亚 | AUS
-  - US_speednode_0141
-  - RO_speednode_0124
-  - RO_speednode_0041
-  - RO_speednode_0094
-  - RO_speednode_0126
-  - RO_speednode_0110
-  - RO_speednode_0097
-  - RO_speednode_0087
-  - 🇷🇴RO_3|1.8MB/s
-  - 🇷🇴RO_7|1.3MB/s
-  - 🇷🇴RO_4|1.7MB/s
-  - RO_speednode_0082
   - RO_speednode_0083
+  - RO_speednode_0097
+  - RO_speednode_0044
+  - RO_speednode_0094
+  - RO_speednode_0041
+  - RO_speednode_0082
+  - RO_speednode_0110
+  - RO_speednode_0124
+  - RO_speednode_0045
+  - 🇫🇷 法国 | FRA
+  - RO_speednode_0087
+  - RO_speednode_0126
+  - 🇭🇰 香港 | HKG 4
+  - 🇸🇬SG_1|2.2MB/s
+  - RO_speednode_0042
+  - 🇺🇸US-137.175.22.8-0797
+  - US_speednode_0141
+  - 美国 584
+  - 巴西 003
+  - 🇦🇺 澳大利亚 | AUS 2
+  - 🏁RELAY-172.67.190.164-0418
+  - 🇹🇼 🇨🇳 台湾 | TWN
+  - 🇭🇰 香港 | HKG 3
+  - 🇧🇷 巴西 | BRA
   - US_speednode_0133
-  - 🇷🇴RO_6|1.3MB/s
-- name: 🌐 俄罗斯
-  type: url-test
-  url: http://www.gstatic.com/generate_204
-  interval: 300
-  tolerance: 50
-  timeout: 8000
-  proxies:
-  - 🇷🇺 俄罗斯 | RUS 2
 - name: 🌐 加拿大
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -622,7 +401,15 @@ proxy-groups:
   tolerance: 50
   timeout: 8000
   proxies:
-  - 🇨🇦CA_4|2.1MB/s
+  - 🇨🇦CA_1|1.7MB/s
+- name: 🌐 台湾
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+  timeout: 8000
+  proxies:
+  - 🇹🇼 🇨🇳 台湾 | TWN
 - name: 🌐 德国
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -630,10 +417,15 @@ proxy-groups:
   tolerance: 50
   timeout: 8000
   proxies:
-  - '🇩🇪 德国 | DEU #6'
-  - 🇩🇪DE_3|2.4MB/s
-  - 🇩🇪DE_6|2.7MB/s
-  - 🇩🇪DE_4|3.3MB/s
+  - 🇩🇪 德国 | DEU 3
+- name: 🌐 新加坡
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+  timeout: 8000
+  proxies:
+  - 🇸🇬SG_1|2.2MB/s
 - name: 🌐 法国
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -642,8 +434,6 @@ proxy-groups:
   timeout: 8000
   proxies:
   - 🇫🇷 法国 | FRA
-  - 🇫🇷FR_2|3.2MB/s
-  - 🇫🇷FR_5|2.8MB/s
 - name: 🌐 澳大利亚
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -651,7 +441,7 @@ proxy-groups:
   tolerance: 50
   timeout: 8000
   proxies:
-  - 🇦🇺 澳大利亚 | AUS
+  - 🇦🇺 澳大利亚 | AUS 2
 - name: 🌐 美国
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -659,24 +449,9 @@ proxy-groups:
   tolerance: 50
   timeout: 8000
   proxies:
-  - 🇺🇸US_22|1.2MB/s
-  - 🇺🇸US_7|3.3MB/s
-  - 🇺🇸US_9|2.0MB/s
-  - 🇺🇸US_14|2.2MB/s
-  - 🇺🇸US_12|2.8MB/s
-  - 🇺🇸US_8|3.8MB/s
-  - 🇺🇸US_23|1.5MB/s
-  - US_speednode_0143
-  - US_speednode_0131
-  - 🇺🇸US_11|3.2MB/s
-  - 🇺🇸US_10|3.1MB/s
-  - 🇺🇸US_15|1.5MB/s
-  - 🇺🇸US_5|3.0MB/s
-  - 🇺🇸US_6|4.5MB/s
-  - 🇺🇸US_13|3.4MB/s
-  - 🇺🇸US_3|4.1MB/s
-  - 🇺🇸_US_美国
+  - 🇺🇸US-137.175.22.8-0797
   - US_speednode_0141
+  - 美国 584
   - US_speednode_0133
 - name: 🌐 荷兰
   type: url-test
@@ -685,17 +460,22 @@ proxy-groups:
   tolerance: 50
   timeout: 8000
   proxies:
-  - NL_speednode_0004
   - NL_speednode_0008
   - NL_speednode_0009
-  - 🇳🇱NL_7|1.3MB/s
-  - 🇳🇱NL_1|2.3MB/s
+  - NL_speednode_0010
+  - NL_speednode_0004
   - NL_speednode_0007
   - NL_speednode_0005
   - NL_speednode_0006
-  - 🇳🇱NL_9|3.7MB/s
-  - NL_speednode_0010
-  - 🇳🇱NL_12|2.2MB/s
+- name: 🌐 香港
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+  timeout: 8000
+  proxies:
+  - 🇭🇰 香港 | HKG 4
+  - 🇭🇰 香港 | HKG 3
 - name: 🌐 其他
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -703,26 +483,21 @@ proxy-groups:
   tolerance: 50
   timeout: 8000
   proxies:
-  - 🇮🇪IE_2|1.3MB/s
-  - 🇮🇹IT_1|1.6MB/s
-  - 🇱🇻LV_1|2.3MB/s
-  - 🇱🇻LV_2|3.0MB/s
-  - RO_speednode_0044
-  - RO_speednode_0042
-  - 🏁RELAY-172.67.190.164-0418
-  - RO_speednode_0124
-  - RO_speednode_0041
-  - RO_speednode_0094
-  - RO_speednode_0126
-  - RO_speednode_0110
-  - RO_speednode_0097
-  - RO_speednode_0087
-  - 🇷🇴RO_3|1.8MB/s
-  - 🇷🇴RO_7|1.3MB/s
-  - 🇷🇴RO_4|1.7MB/s
-  - RO_speednode_0082
   - RO_speednode_0083
-  - 🇷🇴RO_6|1.3MB/s
+  - RO_speednode_0097
+  - RO_speednode_0044
+  - RO_speednode_0094
+  - RO_speednode_0041
+  - RO_speednode_0082
+  - RO_speednode_0110
+  - RO_speednode_0124
+  - RO_speednode_0045
+  - RO_speednode_0087
+  - RO_speednode_0126
+  - RO_speednode_0042
+  - 巴西 003
+  - 🏁RELAY-172.67.190.164-0418
+  - 🇧🇷 巴西 | BRA
 rules:
 - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
 - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
