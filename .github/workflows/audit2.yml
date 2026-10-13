@@ -1,0 +1,21 @@
+name: Audit2
+on:
+  push:
+    branches: [main]
+    paths: ["audit2.go"]
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -q -r requirements.txt
+      - name: Install mihomo
+        run: |
+          curl -fsSL -o /tmp/m.gz https://github.com/MetaCubeX/mihomo/releases/download/v1.19.31/mihomo-linux-amd64-v1.19.31.gz
+          gunzip -f /tmp/m.gz && chmod +x /tmp/m && sudo mv /tmp/m /usr/local/bin/mihomo
+      - run: python runner_audit.py 2>&1 | tee audit2.log
+      - uses: actions/upload-artifact@v4
+        with: {name: audit2, path: audit2.log, if-no-files-found: error}
