@@ -416,6 +416,10 @@ def filter_reachable(proxies, cfg):
     reachable = {k for k, v in verdict_of_key.items() if v is True}
     unreachable = [k for k, v in verdict_of_key.items() if v is False]
     unk = [k for k, v in verdict_of_key.items() if v is None]
+    for key, unit in units:
+        log.info("中国可达性：%s %s:%s 票=%s → %s", unit["kind"], unit["target"],
+                 unit["port"] or "-", "".join(votes[key]) or "-",
+                 {True: "可达", False: "不通"}.get(verdict_of_key[key], "未知"))
     multi = sum(1 for k, v in votes.items() if len(v) >= 2)
     log.info("中国可达性：票型分布 %d 单位多点、%d 单位单点（总消耗约 %d tests）",
              multi, len(units) - multi, gp.used)
