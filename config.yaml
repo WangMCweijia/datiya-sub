@@ -10,16 +10,14 @@ site:
 # 附加订阅源（Clash 格式），与 datiya 节点合并去重后再统一测活。
 # 只读取每个源里的 proxies 列表，源自身的规则/分组会被忽略。
 sources:
-  - name: ripaojiedian
-    url: "https://raw.githubusercontent.com/ripaojiedian/freenode/main/clash"
   - name: ermaozi
     url: "https://raw.githubusercontent.com/ermaozi/get_subscribe/main/subscribe/clash.yml"
-  - name: NoMoreWalls
-    url: "https://raw.githubusercontent.com/peasoft/NoMoreWalls/master/list.yml"
-  - name: ShadowsocksAggregator
-    url: "https://raw.githubusercontent.com/mahdibland/ShadowsocksAggregator/master/Eternity.yml"
-  - name: passcro
-    url: "https://raw.githubusercontent.com/zhangkaiitugithub/passcro/main/speednodes.yaml"
+  - name: anaer
+    url: "https://raw.githubusercontent.com/anaer/Sub/main/clash.yaml"
+  - name: V2RayAggregator
+    url: "https://raw.githubusercontent.com/mahdibland/V2RayAggregator/master/sub/sub_merge_yaml.yml"
+  - name: fly
+    url: "https://raw.githubusercontent.com/ts-sf/fly/main/clash"
 
 check:
   enabled: true              # 是否做测活
