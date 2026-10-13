@@ -50,6 +50,10 @@ jobs:
           mihomo -v
 
       - name: Build subscription
+        env:
+          # 可选：在 globalping.io 用 GitHub 账号免费注册后把 token 配到仓库 Secrets，
+          # 国内可达性探测额度可从 250 tests/h 提升到 500 tests/h；不配置也能正常运行。
+          GLOBALPING_TOKEN: ${{ secrets.GLOBALPING_TOKEN }}
         run: python main.py --verbose
 
       - name: Commit generated files

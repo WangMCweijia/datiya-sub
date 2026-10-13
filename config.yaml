@@ -37,20 +37,32 @@ check:
   speed_concurrency: 10      # 并发下载数（太高会互相抢带宽，反而测不准）
   min_speed_kbps: 200        # 网速下限（KB/s），低于的剔除
   # --- 第三轮：中国大陆可达性（借助 Globalping 公开 API）---
-  # 对 TCP 协议直接对 服务器:端口 做 TCP 拨号（只 ping 主机不够：运营商常放行 ICMP 却封端口）；
-  # hysteria2 等 UDP 协议无法用 TCP 验证，退回 ICMP，属尽力而为。
-  # strict（激进）：国内连得上才保留；不通或结果未知一律剔除，节点更少但更干净。
+  # TLS 层验证：从国内真实家宽探测点（eyeball-network）对节点发 HTTPS 请求，
+  # SNI/Host/路径取节点真实配置（CF 边缘对裸 TCP 永远应答，只测端口会把死节点判活）；
+  # reality/明文节点退回 TCP 拨号；hysteria2 等 UDP 协议退回 ICMP（尽力而为）。
+  # 额度：Globalping 免费 250 tests/小时（1 个探测点=1 test）；设置环境变量
+  # GLOBALPING_TOKEN（用 GitHub 账号免费注册 globalping.io）可提升到 500。
+  # 第 1 轮每单位 1 个探测点（按网速从快到慢），剩余额度优先补测无结论/待复核单位，
+  # 每单位最多 max_probes 点、≥2 票定案；额度不足时单票定案，未测到的按未知剔除。
+  # 周期性用百度做对照组，探测网络自身异常时自动退避；429 按 Retry-After 重试，
+  # 未知单位冷却后补测一轮。
+  # strict（激进）：国内验证通过才保留；不通或未知一律剔除，节点更少但更干净。
   # safe（保守）：只剔除「国内不通但境外能通」的确认被墙节点，其余一律保留。
-  # 安全阀：若国内探测结果全部未知（限速/接口异常），自动跳过该过滤，不写空订阅。
+  # 安全阀：若国内探测几乎全部未知（限速/接口异常），自动跳过该过滤，不写空订阅。
   china_check:
     enabled: true
     mode: "strict"           # strict=激进（推荐）；safe=保守
     country: "CN"            # 探测点所在国家（中国大陆）
     reference_country: "US"  # 仅 safe 模式使用的复核探测点所在国家
-    limit: 1                 # 每个「服务器:端口」用几个探测点；免费额度约 250 次/小时，慎调大
-    concurrency: 8           # 并发提交的探测数
+    tag: "eyeball-network"   # 只要真实家宽探测点（机房出口与家宽体验不一致）
+    max_probes: 3            # 每单位最多用几个探测点（第 1 轮每点 1 个，剩余额度逐轮补）
+    hourly_tests: 250        # 每小时 tests 额度（无 token=250；配 GLOBALPING_TOKEN 可设 500）
+    reserve_tests: 24        # 给对照组/境外复核/冷却补测预留的 tests 数
+    concurrency: 4           # 并发测量数（国内家宽探测点很少，太高会把 probe 压垮导致成片误判）
+    submit_gap: 0.35         # 提交测量的最小间隔（秒），削峰避免触发拥塞/限速
+    control_every: 25        # 每多少个单位插一次百度对照组；0=关闭
     poll_interval: 2.0       # 轮询结果间隔（秒）
-    timeout_s: 90            # 单次探测的总超时（秒）
+    timeout_s: 90            # 单次测量的总超时（秒）
   # --- method: tcp（仅连通性，精度低）---
   tcp_timeout: 3.0           # 单个节点 TCP 连接超时（秒）
   tcp_concurrency: 200       # 并发数
