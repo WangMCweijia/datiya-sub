@@ -207,6 +207,8 @@ def build_clash(proxies, clash_cfg, meta):
     names = [p["name"] for p in proxies]
     test_url = clash_cfg.get("test_url", "http://www.gstatic.com/generate_204")
     interval = int(clash_cfg.get("test_interval", 300))
+    # url-test 默认 5 秒判超时，晚高峰国际链路 TTFB 常到 5~8 秒，会把其实能用的节点误判为 timeout。
+    test_timeout = int(clash_cfg.get("test_timeout", 8000))
 
     by_region = defaultdict(list)
     for proxy in proxies:
@@ -219,6 +221,7 @@ def build_clash(proxies, clash_cfg, meta):
             "url": test_url,
             "interval": interval,
             "tolerance": 50,
+            "timeout": test_timeout,
             "proxies": nodes,
         }
         for region, nodes in sorted(by_region.items(), key=lambda kv: (kv[0] == "其他", kv[0]))
@@ -236,6 +239,7 @@ def build_clash(proxies, clash_cfg, meta):
             "url": test_url,
             "interval": interval,
             "tolerance": 50,
+            "timeout": test_timeout,
             "proxies": names,
         },
     ]
