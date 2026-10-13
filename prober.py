@@ -37,6 +37,27 @@ def _free_port():
     return port
 
 
+def _free_ports(count):
+    """批量分配 count 个互不相同的空闲端口。
+
+    不能像 _free_port 那样「拿一个就关」：内核会立刻把刚释放的临时端口
+    再次分配出去，节点上千时连续申请几乎必然拿到重复端口，
+    导致 mihomo 配置里两个 listener 绑同一端口、启动即失败。
+    正确做法：所有 socket 先持有住（保证分配期间不重复），全部拿到后再一起关闭。
+    """
+    socks, ports = [], []
+    try:
+        for _ in range(count):
+            sock = socket.socket()
+            sock.bind(("127.0.0.1", 0))
+            socks.append(sock)
+            ports.append(sock.getsockname()[1])
+    finally:
+        for sock in socks:
+            sock.close()
+    return ports
+
+
 def _find_binary(cfg):
     return shutil.which(cfg.get("binary") or "mihomo")
 
@@ -223,7 +244,8 @@ def filter_working(proxies, cfg):
 
     controller_port = _free_port()
     mixed_port = _free_port()
-    ports = {p["name"]: _free_port() for p in proxies}
+    free_ports = _free_ports(len(proxies))
+    ports = {p["name"]: port for p, port in zip(proxies, free_ports)}
     base = f"http://127.0.0.1:{controller_port}"
 
     with tempfile.TemporaryDirectory() as workdir:
@@ -235,11 +257,11 @@ def filter_working(proxies, cfg):
         with open(log_path, "wb") as logf:
             proc = subprocess.Popen(
                 [exe, "-d", str(workdir), "-f", str(config_path)],
-                stdout=subprocess.DEVNULL,
-                stderr=logf,
+                stdout=logf,
+                stderr=subprocess.STDOUT,
             )
             try:
-                if not _wait_api(proc, base):
+                if not _wait_api(proc, base, timeout=60.0):
                     detail = log_path.read_text(encoding="utf-8", errors="replace")
                     raise RuntimeError(f"mihomo 启动失败：{detail.strip()[:500]}")
 
