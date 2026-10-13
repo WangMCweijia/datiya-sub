@@ -218,6 +218,10 @@ def main():
         len(proxies),
     )
 
+    # 剥除测速阶段挂的内部字段（不能写进订阅），网速降序的先后顺序保持不变。
+    for proxy in proxies:
+        proxy.pop("_speed_kbps", None)
+
     if len(proxies) < int(check_cfg.get("min_alive", 1)):
         log.error(
             "可用节点仅 %d 个，低于阈值 %s，保留原有订阅不变",

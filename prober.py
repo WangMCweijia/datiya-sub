@@ -192,9 +192,14 @@ def _speed_filter(proxies, ports, cfg):
     if not measured:
         log.warning("第二轮：所有节点都没测出网速，测速端点可能不可用，跳过网速过滤")
         return proxies
+    # 把实测网速挂到节点上（输出前由 main 剥除），并按网速从高到低排序。
+    # sorted 是稳定排序：网速相同的节点保持进入本轮前的顺序（那时已按延迟从低到高排好）。
+    for proxy, speed in measured:
+        proxy["_speed_kbps"] = round(speed, 1)
     kept = [p for p, speed in measured if speed >= min_kbps]
+    kept.sort(key=lambda p: -p["_speed_kbps"])
     log.info(
-        "第二轮：%d/%d 个节点网速 ≥ %g KB/s（成功下载的 %d 个）",
+        "第二轮：%d/%d 个节点网速 ≥ %g KB/s（成功下载的 %d 个），已按网速从高到低排序",
         len(kept),
         len(proxies),
         min_kbps,
