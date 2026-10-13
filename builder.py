@@ -164,14 +164,27 @@ def _strip_controls(value):
 
 
 def sanitize(proxies):
-    """清掉节点字段里的控制字符，否则生成的配置无法被内核加载。
+    """清掉节点字段里的控制字符，并规范化个别会让 mihomo 拒绝整份配置的字段。
 
     上游源里偶有字段被错误解码（例如 emoji 被按 latin-1 读成乱码字节），落进 YAML 时会变成
     \\x9F 这类 C1 控制字符转义。mihomo / FlClash 的内核解析时会直接报
     "yaml: control characters are not allowed" 并拒绝**整个**配置，表现为客户端节点列表空白。
+
+    另外，vmess 节点若带空字符串 cipher（security），mihomo 会报
+    "unsupported security type: \"\"" 并拒绝**整份**测速配置（几千个节点里一个坏节点
+    就会让真实测速整体回退）。这里统一归一成内核支持的取值，无法识别的用 auto。
     """
+    # mihomo vmess 支持的加密方式；其余取值（含空串）一律退回 auto（由内核自行协商）。
+    VMESS_SECURITY = {"auto", "none", "zero", "aes-128-gcm", "chacha20-poly1305"}
     fixed = 0
+    vmess_fixed = 0
     for proxy in proxies:
+        if str(proxy.get("type")).lower() == "vmess":
+            raw = proxy.get("cipher")
+            security = str(raw).strip().lower() if raw not in (None, "") else ""
+            if security not in VMESS_SECURITY:
+                proxy["cipher"] = "auto"
+                vmess_fixed += 1
         for key, value in list(proxy.items()):
             cleaned = _strip_controls(value)
             if cleaned != value:
@@ -179,6 +192,8 @@ def sanitize(proxies):
                 proxy[key] = cleaned
     if fixed:
         log.info("清洗掉 %d 处含控制字符的字段", fixed)
+    if vmess_fixed:
+        log.info("规范化 %d 个 vmess 节点的加密方式为 auto", vmess_fixed)
     return proxies
 
 

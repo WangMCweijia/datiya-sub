@@ -28,22 +28,13 @@ import yaml
 log = logging.getLogger("datiya.probe")
 
 
-def _free_port():
-    """借系统分配一个空闲端口，避免与其它服务冲突。"""
-    sock = socket.socket()
-    sock.bind(("127.0.0.1", 0))
-    port = sock.getsockname()[1]
-    sock.close()
-    return port
+def _alloc_ports(count):
+    """分配 count 个互不相同的空闲端口，返回 (端口列表, 持有中的 socket 列表)。
 
-
-def _free_ports(count):
-    """批量分配 count 个互不相同的空闲端口。
-
-    不能像 _free_port 那样「拿一个就关」：内核会立刻把刚释放的临时端口
-    再次分配出去，节点上千时连续申请几乎必然拿到重复端口，
+    不能「拿一个就关」：内核会立刻把刚释放的临时端口再次分配出去，
+    节点上千时连续申请几乎必然拿到重复端口（还会与先申请后关闭的控制端口撞号），
     导致 mihomo 配置里两个 listener 绑同一端口、启动即失败。
-    正确做法：所有 socket 先持有住（保证分配期间不重复），全部拿到后再一起关闭。
+    正确做法：所有 socket 先持有住（保证分配期间不重复），由调用方在启动 mihomo 前统一关闭。
     """
     socks, ports = [], []
     try:
@@ -52,10 +43,11 @@ def _free_ports(count):
             sock.bind(("127.0.0.1", 0))
             socks.append(sock)
             ports.append(sock.getsockname()[1])
-    finally:
+    except BaseException:
         for sock in socks:
             sock.close()
-    return ports
+        raise
+    return ports, socks
 
 
 def _find_binary(cfg):
@@ -242,17 +234,35 @@ def filter_working(proxies, cfg):
     concurrency = int(cfg.get("concurrency", 50))
     max_delay_ms = int(cfg.get("max_delay_ms", 0))
 
-    controller_port = _free_port()
-    mixed_port = _free_port()
-    free_ports = _free_ports(len(proxies))
-    ports = {p["name"]: port for p, port in zip(proxies, free_ports)}
+    # 节点上千时要同时持有数千个占位 socket、mihomo 还要监听数千个端口；
+    # 部分机器进程的文件描述符软上限只有 1024，会直接耗尽。尽量抬到硬上限（子进程继承）。
+    try:
+        import resource
+
+        soft, hard = resource.getrlimit(resource.RLIMIT_NOFILE)
+        target = hard if hard != resource.RLIM_INFINITY else 65536
+        if soft < target:
+            resource.setrlimit(resource.RLIMIT_NOFILE, (target, hard))
+    except (ValueError, OSError, ImportError):
+        pass
+
+    # 控制端口、混合入站端口和每个节点的测速端口在同一批次里占位，
+    # 保证几千个端口彼此不撞号（分开申请会让内核把刚释放的端口再发出来）。
+    all_ports, held_sockets = _alloc_ports(len(proxies) + 2)
+    controller_port, mixed_port = all_ports[0], all_ports[1]
+    ports = {p["name"]: port for p, port in zip(proxies, all_ports[2:])}
     base = f"http://127.0.0.1:{controller_port}"
 
     with tempfile.TemporaryDirectory() as workdir:
         workdir = Path(workdir)
         config_path = workdir / "config.yaml"
         log_path = workdir / "mihomo.log"
-        _write_config(config_path, proxies, controller_port, mixed_port, ports)
+        # 配置写好后立即释放占位 socket，紧接着启动 mihomo 绑定这些端口。
+        try:
+            _write_config(config_path, proxies, controller_port, mixed_port, ports)
+        finally:
+            for sock in held_sockets:
+                sock.close()
 
         with open(log_path, "wb") as logf:
             proc = subprocess.Popen(
