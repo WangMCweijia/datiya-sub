@@ -16,6 +16,30 @@ sources:
     url: "https://raw.githubusercontent.com/VPN-Subcription-Links/ClashX-V2Ray-TopFreeProxy/main/combine/clash.config.yaml"
   - name: daily_free_vpn
     url: "https://raw.githubusercontent.com/cbusifabcap/daily_free_vpn/main/sub/ClashMeta.yml"
+  # Au1rxx/free-vpn-subscriptions：每小时更新，上游用 sing-box 对每个节点真实转发
+  # HTTP 流量验证后发布（非仅 TCP 通），all-verified 为全量分片（curated 单文件按海外
+  # 延迟排序、与国内可达目标错配，实测优质节点反被轮换掉，故不用）。
+  # 分片数量未来若增减：缺失的分片记 0 跳过，不影响构建。
+  - name: Au1rxx-01
+    url: "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/all-verified/clash-0001.yaml"
+  - name: Au1rxx-02
+    url: "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/all-verified/clash-0002.yaml"
+  - name: Au1rxx-03
+    url: "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/all-verified/clash-0003.yaml"
+  - name: Au1rxx-04
+    url: "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/all-verified/clash-0004.yaml"
+  - name: Au1rxx-05
+    url: "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/all-verified/clash-0005.yaml"
+  - name: Au1rxx-06
+    url: "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/all-verified/clash-0006.yaml"
+  - name: Au1rxx-07
+    url: "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/all-verified/clash-0007.yaml"
+  - name: Au1rxx-08
+    url: "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/all-verified/clash-0008.yaml"
+  - name: Au1rxx-09
+    url: "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/all-verified/clash-0009.yaml"
+  - name: Au1rxx-10
+    url: "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/all-verified/clash-0010.yaml"
 
 check:
   enabled: true              # 是否做测活
