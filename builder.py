@@ -276,19 +276,33 @@ def _unique_names(proxies):
     return proxies
 
 
-def rank_by_protocol(proxies, scores):
-    """按协议「实测真实出网可用率」做稳定分区排序，让订阅头部就是最能用的节点。
+def rank_by_protocol(proxies, scores, high_ratio=0.75):
+    """按协议「实测真实出网可用率」分区排序，让最能用的节点先占探测额度。
 
-    依据 2026-10-21 用 mihomo 内核对线上 237 个节点逐节点 CONNECT 的实测结果：
-        socks5 3/3=100%   http 107/119=89.9%   vless 23/108=21.3%
-        hysteria2 0/4     trojan 0/2           ss 0/1
-    同类节点内部保持原有顺序（存活次数 → 网速），所以这只是分区、不是重排。
-    订阅里排在前面的节点会成为大多数客户端的 url-test 首选，直接决定体验。
+    依据 2026-10-21 在本机（国内家宽）用 mihomo 内核逐节点真实 CONNECT 的实测：
+        socks5 100%    http 84~90%    vless 10~21%    ss/vmess/trojan/anytls/hy2 ≈ 0%
+    协议差异极大，而 Globalping 的探测名额（默认 240 个候选）是稀缺资源：
+    让 0% 可用的协议去占名额，等于把额度浪费在必死节点上。
+    高可用协议最多占 high_ratio（默认 75%），其余留给其他协议，
+    避免订阅被单一协议垄断——同源节点往往同时失效，需要留点冗余。
+
+    节点内部顺序不变（上游已按 存活次数 → 网速 排好），这里只做分区。
     """
     if not scores:
         return proxies
     weight = {str(k).lower(): float(v) for k, v in scores.items()}
-    return sorted(proxies, key=lambda p: -weight.get(str(p.get("type") or "").lower(), 0))
+
+    def score(p):
+        return weight.get(str(p.get("type") or "").lower(), 0.0)
+
+    high = [p for p in proxies if score(p) >= 80]
+    low = [p for p in proxies if score(p) < 80]
+    low.sort(key=lambda p: -score(p))         # 低分区内也按可用率高到低
+    quota = max(1, int(len(proxies) * float(high_ratio)))
+    if len(high) <= quota:
+        return high + low
+    # 超出配额的高分节点排到最后，额度不够时优先被截掉
+    return high[:quota] + low + high[quota:]
 
 
 def diversify(proxies, per_line=2, trusted_streak=3, trusted_cap=4):

@@ -61,15 +61,21 @@ check:
   # 样本为当时线上全部 237 个节点；协议可用率变化时请重新标定。
   # 注意：http/socks5 是明文代理，只能看到你访问的域名（HTTPS 内容仍端到端加密），
   # 但来源不可控，敏感场景建议优先选 vless/vmess 等加密协议。
+  # 实测（2026-10-21，本机 mihomo 逐节点真实 CONNECT，两批共 396 个节点样本）：
+  #   http 84~90%   socks5 100%   vless 10~21%   ss/vmess/trojan/anytls/hysteria2 ≈ 0%
+  # 打分只需相对大小，80 分以上被视为「高可用」，优先占用 Globalping 探测名额。
   protocol_score:
     socks5: 100
-    http: 90
-    vmess: 50
-    ss: 50
-    trojan: 40
-    anytls: 40
-    vless: 21
-    hysteria2: 10
+    http: 86
+    vless: 15
+    ss: 5
+    vmess: 5
+    trojan: 5
+    anytls: 5
+    hysteria2: 2
+  # 高可用协议最多占探测名额的比例。留出余量给其他协议，避免订阅被单一协议垄断
+  # （同源节点往往成批失效，全押 http 风险集中）。
+  high_score_quota: 0.75
   # 第二轮：真实下载测速（剔除下载失败或网速过低的）
   speed_url: "https://speed.cloudflare.com/__down?bytes=2000000"
   speed_bytes: 1000000       # 下载够这么多字节就够算速度

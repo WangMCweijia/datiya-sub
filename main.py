@@ -232,6 +232,14 @@ def main():
         # 再做线路去冗（同一 server:port 的多份凭据只留最好的几个），
         # 最后按 Globalping 额度截断——存活达标的节点无条件占位，不会被额度挤掉。
         ledger.annotate(proxies)
+        # 协议分区必须在「额度截断」之前：探测名额给谁，直接决定最终能用几个。
+        # 实测 0% 可用的协议占着名额，就等于把额度烧在必死节点上。
+        protocol_score = check_cfg.get("protocol_score") or {}
+        if protocol_score:
+            proxies = builder.rank_by_protocol(
+                proxies, protocol_score,
+                high_ratio=float(check_cfg.get("high_score_quota", 0.75)),
+            )
         proxies = ledger.rank(proxies, trusted_streak)
         proxies = builder.diversify(
             proxies,
@@ -256,15 +264,12 @@ def main():
         proxies = china.filter_reachable(proxies, china_cfg)
         china_dropped = before_china - len(proxies)
 
-    # 按实测可用率分区：http/socks5 这类在本机真实出网验证里最稳的排前面，
-    # 客户端 url-test 与手工挑选通常只取订阅头部，顺序直接决定体验。
-    protocol_score = check_cfg.get("protocol_score") or {}
-    if protocol_score:
-        before = {str(p.get("type")) for p in proxies}
-        proxies = builder.rank_by_protocol(proxies, protocol_score)
-        if proxies:
-            log.info("按实测可用率分区排序：头部协议 %s（覆盖 %s）",
-                     proxies[0].get("type"), "/".join(sorted(before)))
+    # 协议分区已在额度截断前完成（决定谁占用探测名额），这里只记录发布头部协议。
+    # 不能再排一次：国内可达性过滤刚把「可达」排在了「未知」前面，重排会打乱这个顺序。
+    if (check_cfg.get("protocol_score") or {}) and proxies:
+        from collections import Counter as _Counter
+        head = _Counter(str(p.get("type")) for p in proxies[:20])
+        log.info("发布头部协议构成（前 20）：%s", dict(head))
 
     log.info(
         "漏斗：采集 %d → 去重 %d → 清洗 %d → 测活 %d → 探测候选 %d → 国内可达 %d",
