@@ -2,8 +2,12 @@ name: Update subscription
 
 on:
   schedule:
-    # UTC：站点每天 22:44 (UTC) 左右更新，多跑几次兜底。北京时间 08:17 / 16:17 / 00:17
-    - cron: "17 0,8,16 * * *"
+    # 免费节点寿命以分钟到小时计，每天 3 次太慢（发布时活着、用户导入时已死）。
+    # 改为每 2 小时（UTC 偶数小时 17 分）：单次构建约 30~40 分钟，concurrency 已串行化。
+    # 之所以不设每小时：Globalping 免费额度 250 tests/h，而单次构建就花掉约 226 tests，
+    # 间隔 1 小时会紧贴限额、容易触发 429 引发成片误判。配了 GLOBALPING_TOKEN
+    # （额度 500/h）后可以自行改成 "17 * * * *"。
+    - cron: "17 */2 * * *"
   workflow_dispatch:
   # 代码/配置有改动时自动刷新订阅；docs/ 和 Trae 分享包是自动产物，忽略以免无谓触发
   push:
@@ -61,6 +65,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -f docs
+          # history.json 是跨构建存活账本，必须一起提交，否则每轮都从零开始。
+          # 首次运行时文件可能还不存在，用条件判断避免 git add 报错中断构建。
+          [ -f history.json ] && git add -f history.json
           git diff --cached --quiet || git commit -m "chore: 更新订阅 $(date -u +%Y-%m-%dT%H:%MZ)"
           git push
 

@@ -19,10 +19,12 @@ sources for removal.
 ## Pipeline context (must follow the real code)
 
 Funnel in `main.py`: 采集 collect (datiya site 7-day articles + extra sources)
-→ `builder.dedupe` (JSON key of all fields except `name`; sources merged in
-config order, cross-source duplicates credited to the FIRST source)
-→ `builder.filter_supported` + `sanitize` → mihomo probes (delay ≤1500ms,
-download ≥200KB/s) → `china.filter_reachable` (Globalping CN verdict) →
+→ `builder.dedupe` (connection-identity key: type+server+port+credential+SNI+transport;
+sources merged in config order, cross-source duplicates credited to the FIRST source)
+→ `builder.filter_supported` (drops plaintext `http`/`socks5` and unsupported types)
++ `sanitize` → mihomo probes (delay ≤1500ms, download ≥200KB/s)
+→ `history` ledger (annotate streak → rank long-lived first → cap at
+`china_check.max_units`) → `china.filter_reachable` (Globalping CN verdict) →
 published `docs/sub/clash.yaml`.
 
 Raw counts are recorded per source in `docs/status.json` (`sources` field) at

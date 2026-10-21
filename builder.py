@@ -1,6 +1,7 @@
 """合并节点、生成固定订阅（Clash 配置 + v2ray 订阅）。"""
 
 import base64
+import hashlib
 import json
 import logging
 import re
@@ -71,21 +72,70 @@ def _parse_inline(text):
     return result
 
 
+def _ws_host(proxy):
+    headers = (proxy.get("ws-opts") or {}).get("headers") or {}
+    return headers.get("Host") or headers.get("host") or ""
+
+
+def _credential(proxy, kind):
+    """取节点的身份凭据：不同协议字段名不同，同一台机器的多份包装必须能对齐。"""
+    for key in ("uuid", "password", "auth", "auth_str", "auth-str"):
+        value = proxy.get(key)
+        if value not in (None, ""):
+            return str(value)
+    if kind in PLAINTEXT_TYPES:
+        return f"{proxy.get('username') or ''}:{proxy.get('password') or ''}"
+    return ""
+
+
+def conn_key(proxy):
+    """节点的**连接身份**（用于去重与跨构建追踪）。
+
+    旧实现拿「除 name 外的全部字段」做 JSON key，上游只差 `udp: true`、
+    `client-fingerprint`、`sub_tag` 这类附属字段就会被当成不同节点，于是同一台机器的
+    同一端口在订阅里出现 5~6 份（实测 237 个节点只有 148 条线路）：既浪费测速与
+    Globalping 额度，又让用户误以为「节点很多」，实际一死就是成片死。
+
+    这里只保留决定「能不能连上、连到哪」的字段。
+    """
+    kind = str(proxy.get("type") or "").lower()
+    server = str(proxy.get("server") or "").strip().lower()
+    port = str(proxy.get("port") or "").strip()
+    sni = proxy.get("sni") or proxy.get("servername") or _ws_host(proxy) or ""
+    net = str(proxy.get("network") or "")
+    path = (proxy.get("ws-opts") or {}).get("path") or (
+        proxy.get("grpc-opts") or {}
+    ).get("grpc-service-name") or ""
+    return (kind, server, port, _credential(proxy, kind), str(sni), net, str(path))
+
+
+def fingerprint(proxy):
+    """连接身份的稳定短指纹，用作存活账本的键。"""
+    return hashlib.sha1(
+        "|".join(conn_key(proxy)).encode("utf-8", "replace")
+    ).hexdigest()[:16]
+
+
+_EMPTY = (None, "", [], {})
+
+
 def dedupe(proxies):
-    """按连接参数去重（名称不同但参数相同的视为同一节点）。"""
-    seen = set()
-    result = []
+    """按连接身份去重；参数相同的多份包装合并成一个节点（取字段最全的那份）。"""
+    order, best, merged_fields = [], {}, 0
     for proxy in proxies:
-        key = json.dumps(
-            {k: v for k, v in proxy.items() if k != "name"},
-            sort_keys=True,
-            ensure_ascii=False,
-            default=str,
-        )
-        if key in seen:
+        key = conn_key(proxy)
+        current = best.get(key)
+        if current is None:
+            best[key] = dict(proxy)
+            order.append(key)
             continue
-        seen.add(key)
-        result.append(proxy)
+        for field, value in proxy.items():
+            if current.get(field) in _EMPTY and value not in _EMPTY:
+                current[field] = value
+                merged_fields += 1
+    result = [best[key] for key in order]
+    if merged_fields:
+        log.info("去重时补全 %d 处缺失字段（同线路多份包装已合并）", merged_fields)
     return result
 
 
@@ -101,9 +151,15 @@ def classify(name):
 
 # 交给 mihomo 内核前先清洗：内核不认识的协议会让内核整体启动失败，必须剔除；
 # 其余内核支持的协议一律保留，交给后面的测速环节去判断（不预先按类型误杀）。
-# 注：http / socks5 里很多其实是带 tls 的 HTTPS 代理，内核完全支持，不该直接丢。
+#
+# 明文代理（http / socks5）已从白名单移除，原因见 2026-10 实测：这类节点在公开源里
+# 数量极大（曾占到发布订阅的一半），TCP/TLS 层全部「活着」——因为它们只是开着 443/9002
+# 端口并且能完成 TLS 握手，但真实代理请求全部被拒；抽样 25 个仅 1 个能出网（4%）。
+# 它们既污染订阅又拖慢测速，对翻墙用户价值为零，故整类不进候选。
+# 需要保留可把它们加回 CORE_TYPES。
+PLAINTEXT_TYPES = {"http", "socks5"}
 CORE_TYPES = {
-    "ss", "vmess", "vless", "trojan", "hysteria2", "hysteria", "anytls", "http", "socks5",
+    "ss", "vmess", "vless", "trojan", "hysteria2", "hysteria", "anytls",
 }
 CORE_REQUIRED = {
     "ss": ("cipher", "password"),
@@ -137,10 +193,12 @@ def _valid_core(proxy, kind):
 
 def filter_supported(proxies):
     """剔除内核不支持的协议，以及字段缺失/端口异常的节点。"""
-    kept, dropped = [], {"不支持协议": 0, "字段异常": 0}
+    kept, dropped = [], {"明文代理": 0, "不支持协议": 0, "字段异常": 0}
     for proxy in proxies:
-        kind = proxy.get("type")
-        if kind not in CORE_TYPES:
+        kind = str(proxy.get("type") or "").lower()
+        if kind in PLAINTEXT_TYPES:
+            dropped["明文代理"] += 1
+        elif kind not in CORE_TYPES:
             dropped["不支持协议"] += 1
         elif not _valid_core(proxy, kind):
             dropped["字段异常"] += 1
@@ -217,16 +275,48 @@ def _unique_names(proxies):
     return proxies
 
 
+def diversify(proxies, per_line=2, trusted_streak=3, trusted_cap=4):
+    """同一 `server:port` 最多保留 per_line 个凭据，提升订阅的线路多样性。
+
+    公开源里同一台机器的「不同账号」常常成批出现（同一 IP:端口挂几十个 uuid），
+    实测发布订阅里 237 个节点只对应 148 条线路，最夸张的一条线路占 6 份。
+    这些多份凭据往往同时失效——留多份只是重复占位、挤占探测额度，
+    且让用户误以为节点很多。存活达标的节点放宽到 trusted_cap，避免误伤真正稳的。
+    """
+    if not per_line or per_line <= 0:
+        return proxies
+    used = {}
+    kept, dropped = [], 0
+    for proxy in proxies:
+        key = (str(proxy.get("server")), proxy.get("port"))
+        count = used.get(key, 0)
+        cap = trusted_cap if int(proxy.get("_streak") or 0) >= trusted_streak else per_line
+        if count >= cap:
+            dropped += 1
+            continue
+        used[key] = count + 1
+        kept.append(proxy)
+    if dropped:
+        log.info("线路去冗：同一 server:port 最多保留 %d 个凭据（存活达标放宽到 %d），剔除 %d 个",
+                 per_line, trusted_cap, dropped)
+    return kept
+
+
 def build_clash(proxies, clash_cfg, meta):
     """生成完整、可直接导入的 Clash 配置。"""
-    names = [p["name"] for p in proxies]
+    # 防御：_speed_kbps / _streak 这类内部字段一旦写进配置，mihomo 会拒绝整份文件
+    # （客户端表现为节点列表空白），这里再兜一层，不依赖调用方先剥干净。
+    clean = [
+        {k: v for k, v in proxy.items() if not k.startswith("_")} for proxy in proxies
+    ]
+    names = [p["name"] for p in clean]
     test_url = clash_cfg.get("test_url", "http://www.gstatic.com/generate_204")
     interval = int(clash_cfg.get("test_interval", 300))
     # url-test 默认 5 秒判超时，晚高峰国际链路 TTFB 常到 5~8 秒，会把其实能用的节点误判为 timeout。
     test_timeout = int(clash_cfg.get("test_timeout", 8000))
 
     by_region = defaultdict(list)
-    for proxy in proxies:
+    for proxy in clean:
         by_region[classify(proxy["name"])].append(proxy["name"])
 
     region_groups = [
@@ -268,7 +358,7 @@ def build_clash(proxies, clash_cfg, meta):
         "log-level": "info",
         "external-controller": clash_cfg.get("external_controller", "127.0.0.1:9090"),
         "dns": _dns_config(),
-        "proxies": proxies,
+        "proxies": clean,
         "proxy-groups": groups,
         "rules": _rules(),
     }
@@ -312,14 +402,14 @@ def _rules():
     ]
 
 
-SUPPORTED_LINK_TYPES = ("ss", "vmess", "trojan", "vless")
+SUPPORTED_LINK_TYPES = ("ss", "vmess", "trojan", "vless", "hysteria2", "anytls")
 
 
 def build_links(proxies):
-    """生成 v2rayN / v2rayNG 等客户端可用的分享链接。"""
+    """生成 v2rayN / v2rayNG / NekoBox 等客户端可用的分享链接。"""
     links = []
     for proxy in proxies:
-        kind = proxy.get("type")
+        kind = str(proxy.get("type") or "").lower()
         if kind not in SUPPORTED_LINK_TYPES:
             continue
         try:
@@ -335,18 +425,59 @@ def b64(data):
     return base64.urlsafe_b64encode(data).decode().rstrip("=")
 
 
+def _transport(proxy):
+    """把 mihomo 的传输层参数翻译成分享链接的 query 片段。
+
+    reality / gRPC 这类节点的参数字段名与分享链接完全不同，漏一个客户端就废：
+    实测旧实现给 17 个 reality 节点生成的 vless 链接里 pbk/sid/fp 全部缺失，
+    导入 v2rayN 必然连不上（reality 没有 publicKey 无法握手）。
+    """
+    query = []
+    net = str(proxy.get("network") or "tcp")
+    ws_opts = proxy.get("ws-opts") or {}
+    grpc_opts = proxy.get("grpc-opts") or {}
+    if net == "ws":
+        host = _ws_host(proxy)
+        if host:
+            query.append(("host", host))
+        path = ws_opts.get("path")
+        if path:
+            query.append(("path", path))
+    elif net == "grpc":
+        service = grpc_opts.get("grpc-service-name")
+        if service:
+            query.append(("serviceName", service))
+    elif net in ("h2", "http"):
+        hosts = (proxy.get("h2-opts") or {}).get("host") or []
+        if hosts:
+            query.append(("host", hosts[0] if isinstance(hosts, list) else hosts))
+        path = (proxy.get("h2-opts") or {}).get("path")
+        if path:
+            query.append(("path", path))
+    return query
+
+
 def _make_link(proxy):
-    kind = proxy["type"]
-    name = str(proxy["name"])
-    server = str(proxy["server"])
-    port = str(proxy["port"])
+    kind = str(proxy.get("type") or "").lower()
+    name = str(proxy.get("name"))
+    server = str(proxy.get("server"))
+    port = str(proxy.get("port"))
     tag = "#" + _quote(name)
 
     if kind == "ss":
         userinfo = b64(f"{proxy.get('cipher', 'aes-256-gcm')}:{proxy.get('password', '')}")
-        return f"ss://{userinfo}@{server}:{port}{tag}"
+        query = []
+        plugin = proxy.get("plugin")
+        if plugin:
+            opts = proxy.get("plugin-opts") or {}
+            value = f"{plugin};{_plugin_opts(opts)}" if opts else str(plugin)
+            query.append(("plugin", value))
+        tail = f"?{_query(query)}" if query else ""
+        return f"ss://{userinfo}@{server}:{port}{tail}{tag}"
 
     if kind == "vmess":
+        net = str(proxy.get("network", "tcp"))
+        service = (proxy.get("grpc-opts") or {}).get("grpc-service-name", "")
         payload = {
             "v": "2",
             "ps": name,
@@ -354,13 +485,14 @@ def _make_link(proxy):
             "port": port,
             "id": str(proxy.get("uuid", "")),
             "aid": str(proxy.get("alterId", 0)),
-            "scy": str(proxy.get("cipher", "auto")),
-            "net": str(proxy.get("network", "tcp")),
+            "scy": str(proxy.get("cipher") or "auto"),
+            "net": net,
             "type": "none",
-            "host": str(proxy.get("ws-opts", {}).get("headers", {}).get("Host", "") or proxy.get("servername", "")),
-            "path": str(proxy.get("ws-opts", {}).get("path", "")),
+            "host": _ws_host(proxy) or str(proxy.get("servername") or ""),
+            "path": str((proxy.get("ws-opts") or {}).get("path") or service or ""),
             "tls": "tls" if proxy.get("tls") else "",
-            "sni": str(proxy.get("servername", "") or proxy.get("sni", "")),
+            "sni": str(proxy.get("servername") or proxy.get("sni") or ""),
+            "fp": str(proxy.get("client-fingerprint") or ""),
         }
         return "vmess://" + base64.b64encode(
             json.dumps(payload, ensure_ascii=False).encode("utf-8")
@@ -373,12 +505,20 @@ def _make_link(proxy):
             query.append(("sni", str(sni)))
         if proxy.get("skip-cert-verify"):
             query.append(("allowInsecure", "1"))
+        query += _transport(proxy)
         return f"trojan://{_quote(str(proxy.get('password', '')))}@{server}:{port}?{_query(query)}{tag}"
 
     if kind == "vless":
+        reality = proxy.get("reality-opts") or {}
+        if reality:
+            security = "reality"
+        elif proxy.get("tls"):
+            security = "tls"
+        else:
+            security = "none"
         query = [
             ("encryption", "none"),
-            ("security", "tls" if proxy.get("tls") else "none"),
+            ("security", security),
             ("type", str(proxy.get("network", "tcp"))),
         ]
         sni = proxy.get("servername") or proxy.get("sni")
@@ -388,9 +528,64 @@ def _make_link(proxy):
             query.append(("allowInsecure", "1"))
         if proxy.get("flow"):
             query.append(("flow", str(proxy["flow"])))
+        if reality:
+            # reality 三件套：publicKey 必需，shortId/SpiderX 有则带上；
+            # fingerprint 也必需（reality 握手靠它伪装浏览器）。
+            if reality.get("public-key"):
+                query.append(("pbk", str(reality["public-key"])))
+            if reality.get("short-id"):
+                query.append(("sid", str(reality["short-id"])))
+            if reality.get("spider-x"):
+                query.append(("spx", str(reality["spider-x"])))
+            query.append(("fp", str(proxy.get("client-fingerprint") or "chrome")))
+        elif proxy.get("client-fingerprint"):
+            query.append(("fp", str(proxy["client-fingerprint"])))
+        query += _transport(proxy)
         return f"vless://{proxy.get('uuid', '')}@{server}:{port}?{_query(query)}{tag}"
 
+    if kind == "hysteria2":
+        query = []
+        sni = proxy.get("sni") or proxy.get("servername")
+        if sni:
+            query.append(("sni", str(sni)))
+        if proxy.get("skip-cert-verify"):
+            query.append(("insecure", "1"))
+        obfs = proxy.get("obfs")
+        if obfs:
+            query.append(("obfs", str(obfs)))
+            if proxy.get("obfs-password"):
+                query.append(("obfs-password", str(proxy["obfs-password"])))
+        password = proxy.get("password") or proxy.get("auth") or ""
+        tail = f"?{_query(query)}" if query else ""
+        return f"hysteria2://{_quote(str(password))}@{server}:{port}{tail}{tag}"
+
+    if kind == "anytls":
+        query = []
+        sni = proxy.get("sni") or proxy.get("servername")
+        if sni:
+            query.append(("sni", str(sni)))
+        if proxy.get("skip-cert-verify"):
+            query.append(("insecure", "1"))
+        if proxy.get("client-fingerprint"):
+            query.append(("fp", str(proxy["client-fingerprint"])))
+        tail = f"?{_query(query)}" if query else ""
+        return f"anytls://{_quote(str(proxy.get('password', '')))}@{server}:{port}{tail}{tag}"
+
     raise ValueError(f"不支持的协议: {kind}")
+
+
+def _plugin_opts(opts):
+    """ss 插件参数拼成 SIP002 的 `plugin` 值（k=v 用分号连接）。"""
+    pairs = []
+    for key in ("mode", "host", "path", "tls"):
+        value = opts.get(key)
+        if value in (None, "", False):
+            continue
+        if value is True:
+            pairs.append(str(key))
+        else:
+            pairs.append(f"{key}={value}")
+    return ";".join(pairs)
 
 
 def _query(pairs):

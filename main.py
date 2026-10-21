@@ -13,6 +13,7 @@ import yaml
 import builder
 import checker
 import china
+import history
 import prober
 from fetcher import Fetcher
 
@@ -86,6 +87,24 @@ def render_page(status, out_cfg):
             f"<tr><th>国内不可达剔除</th><td>{status.get('china_dropped', 0)} 个"
             f"（Globalping 中国大陆探测）</td></tr>"
         )
+    proto_row = ""
+    if status.get("protocols"):
+        detail = "、".join(f"{kind} {count}" for kind, count in status["protocols"].items())
+        proto_row = f"<tr><th>协议构成</th><td>{detail}</td></tr>"
+    line_row = ""
+    if status.get("unique_lines"):
+        line_row = (
+            f"<tr><th>独立线路</th><td>{status['unique_lines']} 条"
+            f"（唯一率 {status.get('line_uniqueness', 0):.0%}，越低说明重复越多）</td></tr>"
+        )
+    streak_row = ""
+    streaks = status.get("streak") or {}
+    if streaks:
+        streak_row = (
+            f"<tr><th>存活轮次</th><td>本轮新出现 {streaks.get('first', 0)} 个 · "
+            f"连续 2 轮 {streaks.get('repeat', 0)} 个 · "
+            f"连续 3 轮以上 {streaks.get('trusted', 0)} 个（置顶优先）</td></tr>"
+        )
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -110,6 +129,9 @@ def render_page(status, out_cfg):
   <tr><th>候选节点</th><td>{status['collected']} 个（datiya 覆盖 {len(status['days'])} 天）</td></tr>
   {source_row}
   <tr><th>可用节点</th><td>{status['alive']} 个</td></tr>
+  {proto_row}
+  {line_row}
+  {streak_row}
   {china_row}
   <tr><th>地区分布</th><td>{regions}</td></tr>
 </table>
@@ -181,6 +203,13 @@ def main():
     proxies = builder.sanitize(proxies)
     proxies = builder._unique_names(proxies)
 
+    hist_cfg = cfg.get("history") or {}
+    trusted_streak = int(hist_cfg.get("trusted_streak", 3))
+    ledger = history.Ledger(
+        ROOT / str(hist_cfg.get("file", "history.json")),
+        enabled=bool(hist_cfg.get("enabled", True)),
+    )
+
     if check_cfg.get("enabled", True) and not args.no_check:
         if str(check_cfg.get("method", "tcp")).lower() == "mihomo":
             try:
@@ -198,9 +227,27 @@ def main():
                 timeout=check_cfg.get("tcp_timeout", 3.0),
                 concurrency=check_cfg.get("tcp_concurrency", 200),
             )
+        probed = len(proxies)
+        # 存活账本：先标注「连续通过次数」，再稳定优先排序（长寿节点置顶），
+        # 再做线路去冗（同一 server:port 的多份凭据只留最好的几个），
+        # 最后按 Globalping 额度截断——存活达标的节点无条件占位，不会被额度挤掉。
+        ledger.annotate(proxies)
+        proxies = ledger.rank(proxies, trusted_streak)
+        proxies = builder.diversify(
+            proxies,
+            per_line=int(check_cfg.get("max_per_line", 2)),
+            trusted_streak=trusted_streak,
+        )
+        cap = int((check_cfg.get("china_check") or {}).get("max_units") or 0)
+        proxies = ledger.select(proxies, cap, trusted_streak)
     else:
         log.info("已跳过连通性检测")
-    probed = len(proxies)
+        probed = len(proxies)
+
+    # 进入国内可达性探测的候选快照。账本以它为准判断「本轮被探测并淘汰」：
+    # 被额度截断、压根没进探测的节点不算淘汰，连续存活次数保持不变（否则会死锁：
+    # 没进探测 → 清零 → 下轮没有存活加成 → 永远排不上号）。
+    probe_input = list(proxies)
 
     china_cfg = check_cfg.get("china_check") or {}
     china_dropped = 0
@@ -210,23 +257,20 @@ def main():
         china_dropped = before_china - len(proxies)
 
     log.info(
-        "漏斗：采集 %d → 去重 %d → 清洗 %d → 测活 %d → 国内可达 %d",
+        "漏斗：采集 %d → 去重 %d → 清洗 %d → 测活 %d → 探测候选 %d → 国内可达 %d",
         total,
         deduped,
         cleaned,
         probed,
+        len(probe_input),
         len(proxies),
     )
 
-    # 剥除测速阶段挂的内部字段（不能写进订阅），网速降序的先后顺序保持不变。
-    for proxy in proxies:
-        proxy.pop("_speed_kbps", None)
-
-    if len(proxies) < int(check_cfg.get("min_alive", 1)):
+    if len(proxies) < int(check_cfg.get("min_alive", 30)):
         log.error(
             "可用节点仅 %d 个，低于阈值 %s，保留原有订阅不变",
             len(proxies),
-            check_cfg.get("min_alive", 1),
+            check_cfg.get("min_alive", 30),
         )
         return 1
 
@@ -237,7 +281,12 @@ def main():
         "total": total,
         "days": len(ok_days),
     }
-    clash_text = builder.build_clash(proxies, cfg["clash"], meta)
+    # 订阅里不能出现 _speed_kbps / _streak 这类内部字段（mihomo 会拒绝整份配置）；
+    # 但账本结算要用到它们，所以先造一份干净副本用于发布与校验。
+    public = [
+        {k: v for k, v in proxy.items() if not k.startswith("_")} for proxy in proxies
+    ]
+    clash_text = builder.build_clash(public, cfg["clash"], meta)
 
     ok, detail = prober.validate_config(clash_text, check_cfg)
     if not ok:
@@ -245,8 +294,12 @@ def main():
         return 1
     log.info("发布前校验：mihomo 可正常加载该配置（%s）", detail)
 
-    links = builder.build_links(proxies)
+    links = builder.build_links(public)
+    # 只有真正通过发布前校验才记账：本轮发布 +1，进过探测但被淘汰的清零。
+    ledger.commit(proxies, probe_input, trusted_streak)
 
+    streaks = [int(p.get("_streak") or 0) for p in proxies]
+    unique_lines = len({(str(p.get("server")), p.get("port")) for p in proxies})
     status = {
         "updated_at": meta["updated_at"],
         "source": site["base_url"],
@@ -254,6 +307,17 @@ def main():
         "collected": total,
         "alive": len(proxies),
         "links": len(links),
+        "probe_input": len(probe_input),
+        "protocols": dict(
+            Counter(str(p.get("type")) for p in proxies).most_common()
+        ),
+        "unique_lines": unique_lines,
+        "line_uniqueness": round(unique_lines / len(proxies), 3) if proxies else 0,
+        "streak": {
+            "first": sum(1 for s in streaks if s <= 1),
+            "repeat": sum(1 for s in streaks if 1 < s < trusted_streak),
+            "trusted": sum(1 for s in streaks if s >= trusted_streak),
+        },
         "china_check": bool(china_cfg.get("enabled")),
         "china_dropped": china_dropped,
         "sources": source_stats,

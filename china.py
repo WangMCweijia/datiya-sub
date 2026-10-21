@@ -38,6 +38,7 @@ import logging
 import os
 import threading
 import time
+from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 
 import requests
@@ -92,11 +93,39 @@ def _is_cdn_edge(result):
     return any(marker in blob for marker in _CDN_MARKERS)
 
 
+# CDN 边缘「背后源站已死」的确定性特征。这类页面的共同点：TLS 握手完全正常、
+# 边缘自己应答，但内容明确表示 Worker/源站不存在或不可达。
+# 反例需要避开：vless/vmess over WS 的服务端对普通 GET 常回 400/404/直接断开，
+# 那是**正常的**（它只处理 WebSocket 升级），绝不能据此判死。
+_DEAD_PAGE_MARKERS = (
+    "there is nothing here yet",       # Cloudflare Pages/Worker 未部署
+    "this page could not be found",
+    "error 1016", "error 1019", "error 1020",
+    "error 1101", "error 1102",         # Worker 抛异常
+    "error 521", "error 522", "error 523", "error 524",
+    "web server is down", "origin is unreachable",
+    "connection timed out", "worker threw exception",
+    "dns points to prohibited ip",
+)
+
+
+def _edge_says_dead(result):
+    blob = " ".join(str(result.get(k) or "").lower()
+                    for k in ("rawBody", "rawOutput"))
+    return any(marker in blob for marker in _DEAD_PAGE_MARKERS)
+
+
 def _build_units(proxies):
     """把节点折叠成去重的探测单位，保持 proxies 的先后顺序（已按网速降序）。
 
     返回 (units, node_key)：units 为 [(key, unit)]（首次出现顺序，去重），
     node_key 把每个 proxy 对象映射到它所属单位的 key。
+
+    单位身份必须包含 **server**。曾经的实现只用 (target=SNI, port, host, path) 作 key，
+    于是「同一 SNI 背后不同 IP」的节点被折成一个单位：实测发布订阅里
+    SNI=snip.edgeoneai.cc.cd 的一个单位代表 76 个节点（占订阅 32%），那一次 TLS 探测
+    通过就把 76 个互不相同的 IP 全部放行——而它们当中只有 20/84 在国内真正连得上。
+    反向同样致命：一次误判会整批删掉几十个可能可用的节点。
     """
     seen = set()
     units = []
@@ -107,10 +136,12 @@ def _build_units(proxies):
 
         if ptype in UDP_TYPES:
             key = ("icmp", server)
-            unit = {"kind": "icmp", "target": server, "port": 0, "host": None, "path": None}
+            unit = {"kind": "icmp", "target": server, "server": server,
+                    "port": 0, "host": None, "path": None}
         elif _is_reality(proxy) or not _is_tls(proxy):
             key = ("tcp", server, port)
-            unit = {"kind": "tcp", "target": server, "port": port, "host": None, "path": None}
+            unit = {"kind": "tcp", "target": server, "server": server,
+                    "port": port, "host": None, "path": None}
         else:
             sni = _sni_of(proxy)
             host = _ws_host(proxy) or sni
@@ -118,8 +149,9 @@ def _build_units(proxies):
             # 有域名 SNI 就按 SNI 测：GFW 拦的是 SNI，CF 边缘按 SNI/Host 路由，
             # 客户端对「IP 节点」发出的 ClientHello 里写的也是这个 SNI。
             target = sni if (sni and not _is_ip(sni)) else server
-            key = ("tls", target, port, host or "", path)
-            unit = {"kind": "tls", "target": target, "port": port, "host": host, "path": path}
+            key = ("tls", server, port, target, host or "", path)
+            unit = {"kind": "tls", "target": target, "server": server,
+                    "port": port, "host": host, "path": path}
 
         node_key[id(proxy)] = key
         if key not in seen:
@@ -260,11 +292,15 @@ class _Globalping:
                     timings = result.get("timings") or {}
                     if timings.get("tls"):
                         # TLS 能握上就说明网络层与证书/SNI 没被墙。
-                        # 唯一例外：CDN 边缘（Cloudflare 等）回 5xx——边缘永远在线，
-                        # 5xx 意味着背后的源站/Worker 已死，节点确实不可用。
-                        # 非 CDN 的代理服务器对普通 GET 回 503/500 是正常现象
-                        # （只服务 CONNECT），不能当死节点。
-                        if code is not None and int(code) >= 500 and _is_cdn_edge(result):
+                        # 两处例外（CDN 边缘永远在线，握手成功不代表节点活着）：
+                        #   ① 边缘回 5xx —— 背后的源站/Worker 已死；
+                        #   ② 边缘返回「Worker 不存在 / 源站不可达」这类页面。
+                        # 非 CDN 的代理服务器对普通 GET 回 503/404 是正常现象
+                        # （只服务 CONNECT 或只处理 WebSocket 升级），不能当死节点。
+                        if _is_cdn_edge(result) and (
+                            (code is not None and int(code) >= 500)
+                            or _edge_says_dead(result)
+                        ):
                             verdicts.append("dead")
                         else:
                             verdicts.append("ok")
@@ -332,13 +368,15 @@ def filter_reachable(proxies, cfg):
     # proxies 已按网速降序；_build_units 保持该顺序，额度不够时先测/先保住快节点。
     units, node_key = _build_units(proxies)
     n_tls = sum(1 for _, u in units if u["kind"] == "tls")
+    per_unit = Counter(node_key[id(p)] for p in proxies)
+    biggest = per_unit.most_common(1)[0][1] if per_unit else 0
     log.info(
-        "中国可达性(%s)：从 %s 家宽探测点验证 %d 个单位（TLS %d、TCP %d、ICMP %d，对应 %d 节点），"
-        "预算 %d tests、每单位最多 %d 点",
+        "中国可达性(%s)：从 %s 家宽探测点验证 %d 个单位（TLS %d、TCP %d、ICMP %d，对应 %d 节点，"
+        "最大单位覆盖 %d 个节点），预算 %d tests、每单位最多 %d 点",
         mode, gp.country, len(units), n_tls,
         sum(1 for _, u in units if u["kind"] == "tcp"),
         sum(1 for _, u in units if u["kind"] == "icmp"),
-        len(proxies), gp.hourly_budget, gp.max_probes,
+        len(proxies), biggest, gp.hourly_budget, gp.max_probes,
     )
 
     votes = {key: [] for key, _ in units}

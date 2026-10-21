@@ -44,7 +44,7 @@ sources:
 check:
   enabled: true              # 是否做测活
   method: "mihomo"           # mihomo=用内核真实测速（推荐）；tcp=仅测 TCP 端口连通
-  min_alive: 1               # 可用节点少于该值时不覆盖已有订阅（防止把好订阅写坏）
+  min_alive: 30              # 可用节点少于该值时不覆盖已有订阅（防止把好订阅写坏）
   # --- method: mihomo ---
   binary: ""                 # mihomo 可执行文件路径，留空则用 PATH 中的 mihomo
   # 第一轮：连通性 + 延迟
@@ -52,6 +52,9 @@ check:
   timeout_ms: 3000           # 单节点连通测试超时（毫秒）
   concurrency: 50            # 并发数
   max_delay_ms: 1500         # 延迟上限，超过的剔除；0=不限
+  max_per_line: 2            # 同一 server:port 最多保留几个凭据（0=不限）。
+                             # 公开源里同一台机器常挂几十个 uuid，同时失效，留多份只是
+                             # 重复占位、挤占探测额度；存活达标的节点自动放宽到 4 个。
   # 第二轮：真实下载测速（剔除下载失败或网速过低的）
   speed_url: "https://speed.cloudflare.com/__down?bytes=2000000"
   speed_bytes: 1000000       # 下载够这么多字节就够算速度
@@ -77,6 +80,10 @@ check:
     country: "CN"            # 探测点所在国家（中国大陆）
     reference_country: "US"  # 仅 safe 模式使用的复核探测点所在国家
     tag: "eyeball-network"   # 只要真实家宽探测点（机房出口与家宽体验不一致）
+    max_units: 240           # 进入国内探测的节点数上限（0=不限）。免费额度约 250 tests/h，
+                             # 超出预算的单位只能记「未知」并在 strict 下被剔除，于是留下谁
+                             # 就变成了「先测谁」而不是「谁更好」。这里按
+                             # 「连续存活次数 → 网速」截断，让额度花在最值得的候选上。
     max_probes: 3            # 每单位最多用几个探测点（第 1 轮每点 1 个，剩余额度逐轮补）
     hourly_tests: 250        # 每小时 tests 额度（无 token=250；配 GLOBALPING_TOKEN 可设 500）
     reserve_tests: 24        # 给对照组/境外复核/冷却补测预留的 tests 数
@@ -94,6 +101,14 @@ output:
   clash_file: "sub/clash.yaml"
   v2ray_file: "sub/v2ray.txt"
   status_file: "status.json"
+
+# 存活账本：记录每个节点「连续通过了几次构建」，用来优待真正长寿的节点。
+# 免费节点寿命以分钟计，单次构建筛出的「当下最快」往往几分钟后就死；
+# 能跨多轮构建存活的少数才是真金。账本随 CI 一起提交，状态持久化。
+history:
+  enabled: true
+  file: "history.json"       # 相对仓库根目录
+  trusted_streak: 3          # 连续通过几次构建算「可信」：置顶排序 + 探测额度不足时无条件保留
 
 clash:
   http_port: 7890
