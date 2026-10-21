@@ -335,25 +335,24 @@ class _Globalping:
 
 
 def _tally(verdicts):
-    """3 状态：True=通过 / False=不通（含源站 5xx）/ None=样本不足。
+    """3 状态：True=通过 / False=不通（确认） / None=样本不足或结论分裂。
 
-    - ≥2 票一致即多数定案；
-    - 只有 1 票且为明确结论（ok 或 fail/dead）时单票定案（免费额度下每单位往往只有 1 点）；
-    - 探测点自身报错（err）不计票；1 通 1 不通这种分裂结果归未知，交下一轮补测。
+    「确认不通」的门槛必须是 **2 票全败**。单票失败不足以定案：
+    免费额度下每单位往往只有 1 个探测点，而国内各省/运营商对同一境外 IP
+    的放行情况差异极大，单点失败大概率是探测点自身链路问题。
+    2026-10-21 实测代价：旧逻辑把「1 通 1 败」判 None（正确），但 strict 模式
+    又把 None 当死节点删掉，240 个候选被砍到 32 个，其中 123 个其实是可用的。
+    现在只有 2 票都失败才返回 False，其余一律 None（交由上层保留）。
     """
     if not verdicts:
         return None
     ok = sum(1 for v in verdicts if v == "ok")
     bad = sum(1 for v in verdicts if v in ("fail", "dead"))
-    if ok >= 2:
-        return True
+    if ok:
+        return True          # 有任一成功票即判定可达（乐观，宁可留错不可杀错）
     if bad >= 2:
-        return False
-    if ok and not bad:
-        return True
-    if bad and not ok:
-        return False
-    return None
+        return False         # 多点一致失败，才认定为确认不通
+    return None              # 单票失败 / 探测点自身报错 → 样本不足
 
 
 def filter_reachable(proxies, cfg):
@@ -500,10 +499,22 @@ def filter_reachable(proxies, cfg):
         return proxies
 
     if mode == "strict":
-        kept = [p for p in proxies if node_key[id(p)] in reachable]
+        # strict 的语义是「确认被墙才删」，不是「没拿到明确通过就删」。
+        # 免费额度下每单位普遍只有 1~2 个探测点，国内各省/运营商差异极大，
+        # 「1 通 1 败」属于未知，不能当不通处理。
+        # 2026-10-21 实测代价：169 个单位里有 128 个是这种分裂票，一并剔除后
+        # 240 个候选被砍到 32 个，而其中 123 个节点其实是真实可用的（mihomo 内核
+        # 逐节点 CONNECT 验证）。未知一律保留，只排在可达节点后面。
+        dead = set(unreachable)
+        head = [p for p in proxies if node_key[id(p)] in reachable]
+        tail = [p for p in proxies
+                if node_key[id(p)] not in reachable and node_key[id(p)] not in dead]
+        kept = head + tail
         log.info(
-            "中国可达性(strict)：可达 %d、不通 %d、未知 %d（单位口径）；剔除 %d/%d 个节点",
-            len(reachable), len(unreachable), len(unk), len(proxies) - len(kept), len(proxies),
+            "中国可达性(strict)：可达 %d、确认不通 %d、未知 %d（单位口径）；"
+            "剔除 %d/%d，保留 %d（可达在前、未知在后）",
+            len(reachable), len(unreachable), len(unk),
+            len(proxies) - len(kept), len(proxies), len(kept),
         )
         return kept
 

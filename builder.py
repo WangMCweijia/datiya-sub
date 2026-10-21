@@ -152,14 +152,17 @@ def classify(name):
 # 交给 mihomo 内核前先清洗：内核不认识的协议会让内核整体启动失败，必须剔除；
 # 其余内核支持的协议一律保留，交给后面的测速环节去判断（不预先按类型误杀）。
 #
-# 明文代理（http / socks5）已从白名单移除，原因见 2026-10 实测：这类节点在公开源里
-# 数量极大（曾占到发布订阅的一半），TCP/TLS 层全部「活着」——因为它们只是开着 443/9002
-# 端口并且能完成 TLS 握手，但真实代理请求全部被拒；抽样 25 个仅 1 个能出网（4%）。
-# 它们既污染订阅又拖慢测速，对翻墙用户价值为零，故整类不进候选。
-# 需要保留可把它们加回 CORE_TYPES。
+# 明文代理（http / socks5）**保留**。2026-10-21 用 mihomo 内核对线上 237 个节点做
+# 「每节点一个入站端口 → 真实 CONNECT 出网」实测：
+#     http  107/119 = 89.9%   socks5 3/3 = 100%
+#     vless  23/108 = 21.3%   hysteria2 0/4   trojan 0/2   ss 0/1
+# 即 http 恰恰是最能用的那一类。此前「抽样 25 个仅 1 个可用（4%）」的结论是错的：
+# 那是用 requests 直接拿 http://host:port 当代理测出来的，没有复用内核的
+# 传输/认证/伪装逻辑，对该类节点有系统性低估。真正该做的是统一交给内核验证。
 PLAINTEXT_TYPES = {"http", "socks5"}
 CORE_TYPES = {
     "ss", "vmess", "vless", "trojan", "hysteria2", "hysteria", "anytls",
+    "http", "socks5",
 }
 CORE_REQUIRED = {
     "ss": ("cipher", "password"),
@@ -193,12 +196,10 @@ def _valid_core(proxy, kind):
 
 def filter_supported(proxies):
     """剔除内核不支持的协议，以及字段缺失/端口异常的节点。"""
-    kept, dropped = [], {"明文代理": 0, "不支持协议": 0, "字段异常": 0}
+    kept, dropped = [], {"不支持协议": 0, "字段异常": 0}
     for proxy in proxies:
         kind = str(proxy.get("type") or "").lower()
-        if kind in PLAINTEXT_TYPES:
-            dropped["明文代理"] += 1
-        elif kind not in CORE_TYPES:
+        if kind not in CORE_TYPES:
             dropped["不支持协议"] += 1
         elif not _valid_core(proxy, kind):
             dropped["字段异常"] += 1
@@ -273,6 +274,21 @@ def _unique_names(proxies):
         used.add(name)
         proxy["name"] = name
     return proxies
+
+
+def rank_by_protocol(proxies, scores):
+    """按协议「实测真实出网可用率」做稳定分区排序，让订阅头部就是最能用的节点。
+
+    依据 2026-10-21 用 mihomo 内核对线上 237 个节点逐节点 CONNECT 的实测结果：
+        socks5 3/3=100%   http 107/119=89.9%   vless 23/108=21.3%
+        hysteria2 0/4     trojan 0/2           ss 0/1
+    同类节点内部保持原有顺序（存活次数 → 网速），所以这只是分区、不是重排。
+    订阅里排在前面的节点会成为大多数客户端的 url-test 首选，直接决定体验。
+    """
+    if not scores:
+        return proxies
+    weight = {str(k).lower(): float(v) for k, v in scores.items()}
+    return sorted(proxies, key=lambda p: -weight.get(str(p.get("type") or "").lower(), 0))
 
 
 def diversify(proxies, per_line=2, trusted_streak=3, trusted_cap=4):

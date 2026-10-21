@@ -256,6 +256,16 @@ def main():
         proxies = china.filter_reachable(proxies, china_cfg)
         china_dropped = before_china - len(proxies)
 
+    # 按实测可用率分区：http/socks5 这类在本机真实出网验证里最稳的排前面，
+    # 客户端 url-test 与手工挑选通常只取订阅头部，顺序直接决定体验。
+    protocol_score = check_cfg.get("protocol_score") or {}
+    if protocol_score:
+        before = {str(p.get("type")) for p in proxies}
+        proxies = builder.rank_by_protocol(proxies, protocol_score)
+        if proxies:
+            log.info("按实测可用率分区排序：头部协议 %s（覆盖 %s）",
+                     proxies[0].get("type"), "/".join(sorted(before)))
+
     log.info(
         "漏斗：采集 %d → 去重 %d → 清洗 %d → 测活 %d → 探测候选 %d → 国内可达 %d",
         total,

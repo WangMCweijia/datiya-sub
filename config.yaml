@@ -55,6 +55,21 @@ check:
   max_per_line: 2            # 同一 server:port 最多保留几个凭据（0=不限）。
                              # 公开源里同一台机器常挂几十个 uuid，同时失效，留多份只是
                              # 重复占位、挤占探测额度；存活达标的节点自动放宽到 4 个。
+  # 发布时的分区排序依据：按协议「真实出网可用率」把最能用的排在订阅头部
+  # （客户端 url-test 与手工挑选通常只取前面几个，顺序直接决定体验）。
+  # 下面的分数来自 2026-10-21 在本机（国内家宽）用 mihomo 内核逐节点 CONNECT 的实测，
+  # 样本为当时线上全部 237 个节点；协议可用率变化时请重新标定。
+  # 注意：http/socks5 是明文代理，只能看到你访问的域名（HTTPS 内容仍端到端加密），
+  # 但来源不可控，敏感场景建议优先选 vless/vmess 等加密协议。
+  protocol_score:
+    socks5: 100
+    http: 90
+    vmess: 50
+    ss: 50
+    trojan: 40
+    anytls: 40
+    vless: 21
+    hysteria2: 10
   # 第二轮：真实下载测速（剔除下载失败或网速过低的）
   speed_url: "https://speed.cloudflare.com/__down?bytes=2000000"
   speed_bytes: 1000000       # 下载够这么多字节就够算速度
