@@ -276,15 +276,19 @@ def _unique_names(proxies):
     return proxies
 
 
-def rank_by_protocol(proxies, scores, high_ratio=0.75):
+def rank_by_protocol(proxies, scores, high_ratio=0.75, cap=None):
     """按协议「实测真实出网可用率」分区排序，让最能用的节点先占探测额度。
 
     依据 2026-10-21 在本机（国内家宽）用 mihomo 内核逐节点真实 CONNECT 的实测：
         socks5 100%    http 84~90%    vless 10~21%    ss/vmess/trojan/anytls/hy2 ≈ 0%
-    协议差异极大，而 Globalping 的探测名额（默认 240 个候选）是稀缺资源：
+    协议差异极大，而 Globalping 的探测名额（`cap`，默认 240）是稀缺资源：
     让 0% 可用的协议去占名额，等于把额度浪费在必死节点上。
-    高可用协议最多占 high_ratio（默认 75%），其余留给其他协议，
-    避免订阅被单一协议垄断——同源节点往往同时失效，需要留点冗余。
+
+    高可用协议（≥80 分）最多占 `high_ratio × cap` 个名额，余量留给其他协议，
+    避免订阅被单一协议垄断——同源节点往往成批失效，需要留点冗余。
+
+    注意 `cap` 必须传「探测名额」而不是候选总数：候选可能有几千个，
+    拿它算配额会让配额永远大于实际名额，等于配比彻底失效（踩过一次）。
 
     节点内部顺序不变（上游已按 存活次数 → 网速 排好），这里只做分区。
     """
@@ -298,7 +302,7 @@ def rank_by_protocol(proxies, scores, high_ratio=0.75):
     high = [p for p in proxies if score(p) >= 80]
     low = [p for p in proxies if score(p) < 80]
     low.sort(key=lambda p: -score(p))         # 低分区内也按可用率高到低
-    quota = max(1, int(len(proxies) * float(high_ratio)))
+    quota = max(1, int((cap or len(proxies)) * float(high_ratio)))
     if len(high) <= quota:
         return high + low
     # 超出配额的高分节点排到最后，额度不够时优先被截掉

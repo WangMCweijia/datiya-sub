@@ -234,11 +234,14 @@ def main():
         ledger.annotate(proxies)
         # 协议分区必须在「额度截断」之前：探测名额给谁，直接决定最终能用几个。
         # 实测 0% 可用的协议占着名额，就等于把额度烧在必死节点上。
+        # 配额要按「探测名额」算而不是候选总数（候选上千个，按它算等于配额失效）。
+        cap = int((check_cfg.get("china_check") or {}).get("max_units") or 0)
         protocol_score = check_cfg.get("protocol_score") or {}
         if protocol_score:
             proxies = builder.rank_by_protocol(
                 proxies, protocol_score,
                 high_ratio=float(check_cfg.get("high_score_quota", 0.75)),
+                cap=cap,
             )
         proxies = ledger.rank(proxies, trusted_streak)
         proxies = builder.diversify(
@@ -246,7 +249,6 @@ def main():
             per_line=int(check_cfg.get("max_per_line", 2)),
             trusted_streak=trusted_streak,
         )
-        cap = int((check_cfg.get("china_check") or {}).get("max_units") or 0)
         proxies = ledger.select(proxies, cap, trusted_streak)
     else:
         log.info("已跳过连通性检测")
