@@ -115,31 +115,37 @@ def _edge_says_dead(result):
     return any(marker in blob for marker in _DEAD_PAGE_MARKERS)
 
 
-def _build_units(proxies):
+def _build_units(proxies, nodes_per_unit=10):
     """把节点折叠成去重的探测单位，保持 proxies 的先后顺序（已按网速降序）。
 
     返回 (units, node_key)：units 为 [(key, unit)]（首次出现顺序，去重），
     node_key 把每个 proxy 对象映射到它所属单位的 key。
 
-    单位身份必须包含 **server**。曾经的实现只用 (target=SNI, port, host, path) 作 key，
-    于是「同一 SNI 背后不同 IP」的节点被折成一个单位：实测发布订阅里
-    SNI=snip.edgeoneai.cc.cd 的一个单位代表 76 个节点（占订阅 32%），那一次 TLS 探测
-    通过就把 76 个互不相同的 IP 全部放行——而它们当中只有 20/84 在国内真正连得上。
-    反向同样致命：一次误判会整批删掉几十个可能可用的节点。
+    TLS 单位按 (SNI, port, Host, path) 折叠，**不按 server 拆分**，但每个单位最多
+    覆盖 nodes_per_unit 个节点。这是额度与精度的折中：
+
+    - 完全不折叠（按 server 拆）：240 个候选摊成 ~180 个单位，Globalping 免费额度
+      250 tests/h 只够每单位 1.3 个探测点，单点噪声直接决定生死。实测代价：
+      发布 186 个节点、本机内核实测真实可用仅 63 个（34%），其中 http 只有 44%。
+    - 折叠到极大单位：曾出现 SNI=snip.edgeoneai.cc.cd 的一个单位代表 76 个节点
+      （占订阅 32%），一次探测决定 76 个 IP 的生死，风险过于集中。
+    - 本实现：单位数压到几十个，每单位能拿到 3~5 个探测点做多数表决；
+      同时用 nodes_per_unit 截断，避免任何单次探测影响超过 10 个节点。
     """
     seen = set()
     units = []
     node_key = {}
+    per_unit = {}
     for proxy in proxies:
         ptype = str(proxy.get("type", "")).lower()
         server, port = proxy["server"], proxy.get("port", 443)
 
         if ptype in UDP_TYPES:
-            key = ("icmp", server)
+            base = ("icmp", server)
             unit = {"kind": "icmp", "target": server, "server": server,
                     "port": 0, "host": None, "path": None}
         elif _is_reality(proxy) or not _is_tls(proxy):
-            key = ("tcp", server, port)
+            base = ("tcp", server, port)
             unit = {"kind": "tcp", "target": server, "server": server,
                     "port": port, "host": None, "path": None}
         else:
@@ -149,9 +155,19 @@ def _build_units(proxies):
             # 有域名 SNI 就按 SNI 测：GFW 拦的是 SNI，CF 边缘按 SNI/Host 路由，
             # 客户端对「IP 节点」发出的 ClientHello 里写的也是这个 SNI。
             target = sni if (sni and not _is_ip(sni)) else server
-            key = ("tls", server, port, target, host or "", path)
+            base = ("tls", target, port, host or "", path)
             unit = {"kind": "tls", "target": target, "server": server,
                     "port": port, "host": host, "path": path}
+
+        # 分桶：同一 base 下最多堆 nodes_per_unit 个节点，超出开新桶。
+        # 这样单位总数与额度匹配（每单位能拿到多个探测点），
+        # 又保证任何一次探测的结论最多影响 nodes_per_unit 个节点。
+        state = per_unit.setdefault(base, {"idx": 0, "count": 0})
+        if state["count"] >= nodes_per_unit:
+            state["idx"] += 1
+            state["count"] = 0
+        key = base + (state["idx"],)
+        state["count"] += 1
 
         node_key[id(proxy)] = key
         if key not in seen:
@@ -365,7 +381,7 @@ def filter_reachable(proxies, cfg):
     gp = _Globalping(cfg)
 
     # proxies 已按网速降序；_build_units 保持该顺序，额度不够时先测/先保住快节点。
-    units, node_key = _build_units(proxies)
+    units, node_key = _build_units(proxies, int(cfg.get("nodes_per_unit", 10)))
     n_tls = sum(1 for _, u in units if u["kind"] == "tls")
     per_unit = Counter(node_key[id(p)] for p in proxies)
     biggest = per_unit.most_common(1)[0][1] if per_unit else 0
