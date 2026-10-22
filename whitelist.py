@@ -191,11 +191,19 @@ def strip(proxies):
     return proxies
 
 
-def load_candidates(path):
-    """读 CI 产出的候选池（本机探测用）。"""
+def load_candidates_bytes(raw):
+    """解析候选池字节流（支持 .json 与 .json.gz）。"""
+    import gzip
     import json
 
-    data = json.loads(path.read_text(encoding="utf-8"))
+    if raw[:2] == b"\x1f\x8b":
+        raw = gzip.decompress(raw)
+    data = json.loads(raw.decode("utf-8"))
     if isinstance(data, list):
         return data
     return data.get("proxies") or []
+
+
+def load_candidates(path):
+    """读本地候选池文件（本机探测用）。"""
+    return load_candidates_bytes(path.read_bytes())

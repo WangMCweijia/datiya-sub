@@ -15,7 +15,7 @@ on:
     paths-ignore:
       - "docs/**"
       # candidates.json 由构建自身产出并提交，不需要再触发一次构建
-      - "candidates.json"
+      - "candidates.json.gz"
       - ".github/workflows/audit2.yml"
       - "audit2.go"
       - "runner_audit.py"
@@ -72,7 +72,7 @@ jobs:
           [ -f history.json ] && git add -f history.json
           # candidates.json 是给本机真实测速的候选池（local_probe.py 的输入）。
           # whitelist.json 由本机 local_probe.py 直接推送，CI 只读不写，避免互相覆盖。
-          [ -f candidates.json ] && git add -f candidates.json
+          [ -f candidates.json.gz ] && git add -f candidates.json.gz
           git diff --cached --quiet || git commit -m "chore: 更新订阅 $(date -u +%Y-%m-%dT%H:%MZ)"
           git push
 

@@ -1,6 +1,7 @@
 """free.datiya.com 免费节点聚合：采集 -> 测活 -> 合并 -> 输出固定订阅。"""
 
 import argparse
+import gzip
 import json
 import logging
 import sys
@@ -209,9 +210,12 @@ def write_candidates(path, proxies, cand_cfg):
         "note": "候选池：供本机 local_probe.py 真实测速用；_fp 为连接指纹",
         "proxies": items,
     }
-    path.write_text(
-        json.dumps(payload, ensure_ascii=False, indent=1) + "\n", encoding="utf-8"
-    )
+    # 1200 个节点紧凑 JSON 约 285KB，而这份文件每轮构建都要提交一次；gzip 后约 48KB。
+    blob = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+    if str(path).endswith(".gz"):
+        path.write_bytes(gzip.compress(blob, 9))
+    else:
+        path.write_bytes(blob + b"\n")
     log.info("已写入 %s（%d 个候选，供本机真实测速）", path.name, len(items))
     return len(items)
 

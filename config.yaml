@@ -87,7 +87,7 @@ check:
   # 白名单过期/缺失/命中过少时自动回退 Globalping 探测，不会写坏订阅。
   candidates:
     enabled: true
-    file: "candidates.json"  # 相对仓库根目录
+    file: "candidates.json.gz"  # 相对仓库根目录
     max: 1200                # 候选池上限。本机给每个节点开一个入站端口，
                              # 太多会让测速变慢、也吃内存；800 个约 3 分钟测完
   whitelist:

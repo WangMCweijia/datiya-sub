@@ -96,7 +96,7 @@ def _gh(args, stdin=None, direct=False):
     )
 
 
-def fetch_candidates(repo, path=None):
+def fetch_candidates(repo, path=None, name="candidates.json.gz"):
     """优先从仓库拿 CI 最新一轮的候选池（比本地副本新）。"""
     if path:
         items = whitelist.load_candidates(Path(path))
@@ -104,32 +104,36 @@ def fetch_candidates(repo, path=None):
         return items
 
     sources = [
-        ("raw.githubusercontent", f"https://raw.githubusercontent.com/{repo}/main/candidates.json"),
-        ("ghfast 镜像", f"https://ghfast.top/https://raw.githubusercontent.com/{repo}/main/candidates.json"),
+        ("raw.githubusercontent",
+         f"https://raw.githubusercontent.com/{repo}/main/{name}"),
+        ("ghfast 镜像",
+         f"https://ghfast.top/https://raw.githubusercontent.com/{repo}/main/{name}"),
     ]
     for label, url in sources:
         try:
             resp = requests.get(url, timeout=30)
             if resp.status_code == 200:
-                data = resp.json()
-                items = data if isinstance(data, list) else data.get("proxies") or []
+                items = whitelist.load_candidates_bytes(resp.content)
                 if items:
-                    log.info("候选池来自 %s（%s，生成于 %s）", label, len(items),
-                             (data.get("generated_at") if isinstance(data, dict) else "?"))
+                    log.info("候选池来自 %s（%d 个）", label, len(items))
                     return items
             log.warning("%s 返回 %s，换下一个源", label, resp.status_code)
         except Exception as exc:
             log.warning("%s 拉取失败：%s", label, exc)
 
-    proc = _gh(["api", f"repos/{repo}/contents/candidates.json", "--jq", ".content"])
-    if proc.returncode == 0 and proc.stdout.strip():
-        raw = base64.b64decode(proc.stdout.strip()).decode("utf-8")
-        data = json.loads(raw)
-        items = data if isinstance(data, list) else data.get("proxies") or []
-        if items:
-            log.info("候选池来自 gh api（%d 个）", len(items))
-            return items
-    raise SystemExit("拿不到 candidates.json：请确认仓库里已有一轮 CI 构建，或用 --candidates 指定本地文件")
+    for direct in (True, False):
+        proc = _gh(["api", f"repos/{repo}/contents/{name}", "--jq", ".content"],
+                   direct=direct)
+        if proc.returncode == 0 and proc.stdout.strip():
+            items = whitelist.load_candidates_bytes(
+                base64.b64decode(proc.stdout.strip())
+            )
+            if items:
+                log.info("候选池来自 gh api（%d 个）", len(items))
+                return items
+    raise SystemExit(
+        "拿不到 %s：请确认仓库里已有一轮 CI 构建，或用 --candidates 指定本地文件" % name
+    )
 
 
 # --- 内核 -------------------------------------------------------------------
@@ -434,7 +438,10 @@ def main():
     rounds = 0
     while True:
         rounds += 1
-        candidates = fetch_candidates(repo, args.candidates)
+        candidates = fetch_candidates(
+            repo, args.candidates,
+            (check_cfg.get("candidates") or {}).get("file", "candidates.json.gz"),
+        )
         if args.max:
             candidates = candidates[: args.max]
         try:
