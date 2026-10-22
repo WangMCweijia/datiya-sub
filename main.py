@@ -87,13 +87,24 @@ def render_page(status, out_cfg):
         source_row = f"<tr><th>采集源</th><td>{len(sources)} 个（{detail}）</td></tr>"
     health_row = ""
     rows = (status.get("source_health") or {}).get("rows") or []
+
+    def _type_note(row):
+        # 同一源里 http 与 vless 命运完全不同，所以除了总命中率还拆协议；
+        # 样本 <5 的格子不展示（纯噪声）。
+        cells = [(kind, cell) for kind, cell in (row.get("by_type") or {}).items()
+                 if cell.get("pool", 0) >= 5]
+        cells.sort(key=lambda kv: -kv[1]["alive"])
+        return "、".join(f"{kind} {cell['alive']}/{cell['pool']}" for kind, cell in cells)
+
     if rows:
         # 只列真正供血的源（发布 > 0）：把一堆 0 的源并进来，页面就变成灌水展览了。
         live = [r for r in rows if r.get("alive")]
         dead = [r["name"] for r in rows if not r.get("alive")]
         detail = "、".join(
             f"{r['name']} {r['alive']}/{r['pool']}"
-            f"（{r['rate']:.0%}，独家 {r['own']}）"
+            f"（{r['rate']:.0%}，独家 {r['own']}"
+            + (f"；{_type_note(r)}" if _type_note(r) else "")
+            + "）"
             for r in live
         ) or "无"
         dead_note = (
@@ -101,8 +112,8 @@ def render_page(status, out_cfg):
         )
         health_row = (
             f"<tr><th>源存活</th><td>{detail}{dead_note}"
-            f"<br><span class=\"muted\">口径：发布 / 进入候选池（实测命中率），"
-            f"独家 = 去重后只有该源提供的节点数</span></td></tr>"
+            f"<br><span class=\"muted\">口径：发布 / 进入候选池（本机实测命中率），"
+            f"独家 = 去重后只有该源提供的节点数；括号内按协议拆分</span></td></tr>"
         )
     china_row = ""
     if status.get("china_check"):
@@ -495,12 +506,7 @@ def main():
 
     # ---- 源健康度：每轮构建自己产出，不再靠手工抽样脚本 ----
     health_cfg = cfg.get("source_health") or {}
-    source_rows = sources.build(
-        source_stats,
-        source_own,
-        sources.tally(cand_pool),
-        sources.tally(proxies),
-    )
+    source_rows = sources.build(source_stats, source_own, cand_pool, proxies)
     if health_cfg.get("enabled", True) and source_rows:
         summary = sources.format_rows(source_rows)
         log.info("源健康度（发布/候选）：%s", summary)

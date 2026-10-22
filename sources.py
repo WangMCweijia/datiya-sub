@@ -63,6 +63,24 @@ def tally_own(proxies):
     return counter
 
 
+def _by_type(pool_proxies, alive_proxies):
+    """按 (源, 协议) 拆开计数，返回 {源: {协议: {"pool": n, "alive": m}}}。
+
+    为什么非拆不可：同一个源里 http 和 vless 的命运是两回事。2026-10-22 抽样说
+    TopFreeProxy「40 个 0 存活」，可它在候选池里的 http 子集却有 56% 通过 ——
+    它灌的 2647 个节点绝大多数是 vless/vmess，把整体拉成 0%。只看源级总数，
+    要么误杀（把它的 http 一起砍）、要么误信（以为整源都能用）。
+    """
+    table = {}
+    for bucket, proxies in (("pool", pool_proxies), ("alive", alive_proxies)):
+        for proxy in proxies:
+            kind = str(proxy.get("type") or "?").lower()
+            for name in _names(proxy):
+                cell = table.setdefault(name, {}).setdefault(kind, {"pool": 0, "alive": 0})
+                cell[bucket] += 1
+    return table
+
+
 def build(collected, own, pool, alive):
     """合成源健康表。
 
@@ -72,15 +90,27 @@ def build(collected, own, pool, alive):
       pool      进入候选池、真正被本机测过的节点数（花了多少探测预算）
       alive     最终进入发布订阅的节点数（真供血）
     `rate = alive / pool`：花在该源上的探测预算有多少变成了可用节点。
-    单看 collected 会把 TopFreeProxy（2647 个、0 存活）当成主力源。
+    单看 collected 会把 TopFreeProxy（2647 个、抽样 0 存活）当成主力源。
     """
-    names = set(collected) | set(own) | set(pool) | set(alive)
+    pool_counts, alive_counts = tally(pool), tally(alive)
+    names = set(collected) | set(own) | set(pool_counts) | set(alive_counts)
+    types = _by_type(pool, alive)
+    names |= set(types)
     rows = []
     for name in names:
         got = int(collected.get(name, 0) or 0)
         mine = int(own.get(name, 0) or 0)
-        probed = int(pool.get(name, 0) or 0)
-        ok = int(alive.get(name, 0) or 0)
+        probed = int(pool_counts.get(name, 0) or 0)
+        ok = int(alive_counts.get(name, 0) or 0)
+        cells = types.get(name, {})
+        by_type = {
+            kind: {
+                "pool": cell["pool"],
+                "alive": cell["alive"],
+                "rate": round(cell["alive"] / cell["pool"], 3) if cell["pool"] else 0.0,
+            }
+            for kind, cell in sorted(cells.items())
+        }
         rows.append(
             {
                 "name": name,
@@ -89,6 +119,7 @@ def build(collected, own, pool, alive):
                 "pool": probed,
                 "alive": ok,
                 "rate": round(ok / probed, 3) if probed else 0.0,
+                "by_type": by_type,
             }
         )
     rows.sort(key=lambda row: (-row["alive"], -row["rate"], -row["collected"]))
