@@ -152,6 +152,10 @@ def apply(proxies, data, cfg):
     # 只发「本轮实测通过」的节点：round 是 local_probe 每轮的序号，
     # 比时间窗精确得多（一轮要测好几分钟，时间窗无法区分同一轮内外的结果）。
     latest = int((data or {}).get("probe_rounds") or 0)
+    # 老格式（升级前的 whitelist.json）没有 round 字段：这时不能强行按轮过滤，
+    # 否则所有条目都被判 stale、发布 0 个，构建只因「还没来得及重测」就红掉（踩过）。
+    has_round = any("round" in entry for entry in entries.values())
+    enforce_round = bool(latest) and has_round and cfg.get("require_latest_round", True)
 
     kept, stats = [], {"matched": 0, "dead": 0, "unstable": 0, "slow": 0,
                        "stale": 0, "unknown": 0}
@@ -164,7 +168,7 @@ def apply(proxies, data, cfg):
         if entry.get("dead"):
             stats["dead"] += 1
             continue
-        if latest and cfg.get("require_latest_round", True):
+        if enforce_round:
             if int(entry.get("round") or 0) != latest:
                 stats["stale"] += 1
                 continue
