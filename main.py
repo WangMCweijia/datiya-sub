@@ -16,6 +16,7 @@ import checker
 import china
 import history
 import prober
+import sources
 import whitelist
 from fetcher import Fetcher
 
@@ -47,15 +48,15 @@ def collect(fetcher, days):
             continue
         parsed = builder.parse_proxies(text)
         log.info("%s：解析到 %d 个节点", day, len(parsed))
-        proxies.extend(parsed)
+        proxies.extend(sources.tag(parsed, "datiya"))
         ok_days.append(day)
     return proxies, ok_days
 
 
-def collect_extra(fetcher, sources):
+def collect_extra(fetcher, sources_cfg):
     """采集附加订阅源，返回 (节点列表, {源名: 节点数})。"""
     proxies, stats = [], {}
-    for src in sources or []:
+    for src in sources_cfg or []:
         name = src.get("name") or src.get("url", "?")
         text = fetcher.fetch_text(src["url"])
         if not text:
@@ -65,7 +66,7 @@ def collect_extra(fetcher, sources):
         parsed = builder.parse_proxies(text)
         log.info("附加源 %s：解析到 %d 个节点", name, len(parsed))
         stats[name] = len(parsed)
-        proxies.extend(parsed)
+        proxies.extend(sources.tag(parsed, name))
     return proxies, stats
 
 
@@ -81,8 +82,28 @@ def render_page(status, out_cfg):
     sources = status.get("sources") or {}
     source_row = ""
     if sources:
+        # 这里含 datiya 主源（同样按源记账），所以叫「采集源」而不是「附加源」
         detail = "、".join(f"{name} {cnt}" for name, cnt in sources.items())
-        source_row = f"<tr><th>附加源</th><td>{len(sources)} 个（{detail}）</td></tr>"
+        source_row = f"<tr><th>采集源</th><td>{len(sources)} 个（{detail}）</td></tr>"
+    health_row = ""
+    rows = (status.get("source_health") or {}).get("rows") or []
+    if rows:
+        # 只列真正供血的源（发布 > 0）：把一堆 0 的源并进来，页面就变成灌水展览了。
+        live = [r for r in rows if r.get("alive")]
+        dead = [r["name"] for r in rows if not r.get("alive")]
+        detail = "、".join(
+            f"{r['name']} {r['alive']}/{r['pool']}"
+            f"（{r['rate']:.0%}，独家 {r['own']}）"
+            for r in live
+        ) or "无"
+        dead_note = (
+            f"<br><span class=\"muted\">本轮零供血：{'、'.join(dead)}</span>" if dead else ""
+        )
+        health_row = (
+            f"<tr><th>源存活</th><td>{detail}{dead_note}"
+            f"<br><span class=\"muted\">口径：发布 / 进入候选池（实测命中率），"
+            f"独家 = 去重后只有该源提供的节点数</span></td></tr>"
+        )
     china_row = ""
     if status.get("china_check"):
         china_row = (
@@ -140,6 +161,7 @@ def render_page(status, out_cfg):
 <table>
   <tr><th>候选节点</th><td>{status['collected']} 个（datiya 覆盖 {len(status['days'])} 天）</td></tr>
   {source_row}
+  {health_row}
   <tr><th>可用节点</th><td>{status['alive']} 个</td></tr>
   {proto_row}
   {line_row}
@@ -242,6 +264,9 @@ def main():
     extra, source_stats = collect_extra(fetcher, cfg.get("sources"))
     if extra:
         log.info("附加源合计 %d 个节点（%d 个源）", len(extra), len(source_stats))
+    # datiya 主源也算一个源，单独记账：它 7 天只有 98 个节点、实测 0 存活，
+    # 混进总数就看不出「谁在真供血」了。
+    source_stats = {"datiya": len(proxies), **source_stats}
     proxies.extend(extra)
     if not proxies:
         log.error("未采集到任何节点，保留原有订阅不变")
@@ -251,6 +276,8 @@ def main():
     proxies = builder.dedupe(proxies)
     deduped = len(proxies)
     log.info("去重后剩余 %d 个节点", deduped)
+    # 源的真实增量 = 去重后「只有这个源有」的节点数（跨源重复的算共享，不算谁的功劳）
+    source_own = sources.tally_own(proxies)
 
     proxies = builder.filter_supported(proxies)
     cleaned = len(proxies)
@@ -270,6 +297,9 @@ def main():
     china_dropped = 0
     wl_used, wl_detail, wl_stats = False, "未启用", {}
     wl_data = None
+    # 本轮真正写进候选池的节点（本机下一轮会测的就是它们）。源健康表要用它当分母：
+    # 拿采集数当分母会把「压根没被测过」算成失败。
+    cand_pool = []
 
     if check_cfg.get("enabled", True) and not args.no_check:
         # 白名单新鲜时**跳过境外测速**：它是三重筛选里最不准的一环，而且会误删
@@ -327,6 +357,7 @@ def main():
                     rest, check_cfg["protocol_score"],
                     high_ratio=float(check_cfg.get("high_score_quota", 0.75)),
                     cap=len(rest),
+                    source_scores=check_cfg.get("source_score"),
                 )
             rest = ledger.rank(rest, trusted_streak)
             candidate_cap = int(cand_cfg.get("max") or 0)
@@ -340,6 +371,7 @@ def main():
             write_candidates(
                 ROOT / str(cand_cfg.get("file", "candidates.json")), pool, cand_cfg
             )
+            cand_pool = pool
             proxies = publish
         else:
             if str(check_cfg.get("method", "tcp")).lower() == "mihomo":
@@ -372,6 +404,7 @@ def main():
                     proxies, protocol_score,
                     high_ratio=float(check_cfg.get("high_score_quota", 0.75)),
                     cap=candidate_cap or int(china_cfg.get("max_units") or 0),
+                    source_scores=check_cfg.get("source_score"),
                 )
             proxies = ledger.rank(proxies, trusted_streak)
             proxies = builder.diversify(
@@ -384,6 +417,7 @@ def main():
             write_candidates(
                 ROOT / str(cand_cfg.get("file", "candidates.json")), proxies, cand_cfg
             )
+            cand_pool = list(proxies)
             proxies = ledger.select(
                 proxies, int(china_cfg.get("max_units") or 0), trusted_streak
             )
@@ -458,6 +492,24 @@ def main():
     streaks = [int(p.get("_streak") or 0) for p in proxies]
     wl_age = whitelist.age_hours(wl_data) if wl_data else None
     unique_lines = len({(str(p.get("server")), p.get("port")) for p in proxies})
+
+    # ---- 源健康度：每轮构建自己产出，不再靠手工抽样脚本 ----
+    health_cfg = cfg.get("source_health") or {}
+    source_rows = sources.build(
+        source_stats,
+        source_own,
+        sources.tally(cand_pool),
+        sources.tally(proxies),
+    )
+    if health_cfg.get("enabled", True) and source_rows:
+        summary = sources.format_rows(source_rows)
+        log.info("源健康度（发布/候选）：%s", summary)
+        sources.update_history(
+            ROOT / str(health_cfg.get("file", "source_health.json")),
+            source_rows,
+            alpha=float(health_cfg.get("ewma_alpha", 0.5)),
+        )
+
     status = {
         "updated_at": meta["updated_at"],
         "source": site["base_url"],
@@ -495,6 +547,10 @@ def main():
             "probe_host": (wl_data or {}).get("probe_host"),
         },
         "sources": source_stats,
+        "source_health": {
+            "generated_at": meta["updated_at"],
+            "rows": source_rows,
+        },
         "regions": dict(
             sorted(
                 Counter(builder.classify(p["name"]) for p in proxies).items(),

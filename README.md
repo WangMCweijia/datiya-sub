@@ -49,6 +49,31 @@ sources:
 
 某个源当天抓取失败只会被跳过并记 0，不影响其它源。
 
+### 源健康度（谁在真供血）
+
+不看不知道：**源的数量多 ≠ 节点多**。采集时每个节点会带上来源标记（`_srcs`），
+构建结束后 `docs/status.json` 的 `source_health.rows` 与仓库根目录的 `source_health.json`
+会给出每个源的四列真实数据：
+
+| 列 | 含义 |
+|---|---|
+| `collected` | 本轮解析到的原始节点数（灌水量） |
+| `own` | 去重后「只有这个源有」的节点数（真实增量） |
+| `pool` | 进入候选池、真正被本机测速的节点数（花了多少探测预算） |
+| `alive` | 最终进入订阅的节点数（真供血） |
+
+`rate = alive / pool` 才是源的质量：2026-10-22 实测，某个源灌了 2647 个节点、
+40 个抽样 0 存活；另一个源只给 3319 个，却供养了订阅里 59% 的独有节点。
+只看 `collected` 会把这些**灌水源**误当成主力。
+
+所以排序时除了「协议可用率」，还会按 `check.source_score`（0~100 的源信誉分）在**同协议内**
+重排优先级：额度不够时先砍低信誉源的节点。分区判据仍只看协议分——否则某个主力源临时
+404 会把它源的高可用节点一起打落，白白饿死备份。
+
+`source_health.json` 里的 `ewma` 是各源命中率的滚动均值（`source_health.ewma_alpha` 控制
+权重，0.5 ≈ 最近 3~4 轮为主）——单轮数字波动很大（同一批节点相邻两轮 64% → 34%），
+平滑值才适合用来给源定级。
+
 ## 本机真实测速（推荐开启）
 
 前两轮筛选都不在国内：mihomo 测速跑在 GitHub Actions（美国机房），Globalping 只发一次
@@ -152,6 +177,11 @@ python main.py --verbose
 | `site.lookback_days` | 回溯天数，越大节点越多、更新越慢，建议 5~14 |
 | `site.retries` / `retry_backoff` | 站点偶尔抖动，失败重试次数与退避 |
 | `sources` | 附加的公开订阅源列表（Clash 格式），只取其中的 `proxies`；可自由增删 |
+| `source_health.enabled` / `file` | 每轮产出源健康表（写进 `status.json` 并在页面展示），以及滚动记录 `source_health.json` 的路径 |
+| `source_health.ewma_alpha` | 源命中率滚动均值的新数据权重（默认 0.5 ≈ 最近 3~4 轮为主） |
+| `check.source_score` | 各源信誉分（0~100）：同协议内按它排优先级，额度不够时先砍低信誉源。未登记的源按 50 算 |
+| `check.protocol_score` | 各协议真实可用率分（0~100）：决定分区与配额比例，`≥80` 算高可用 |
+| `check.high_score_quota` | 高可用协议最多占探测名额的比例（默认 0.9） |
 | `check.enabled` | 是否做测活 |
 | `check.method` | `mihomo`（用内核真实测速，推荐）或 `tcp`（仅测端口连通，精度低） |
 | `check.test_url` / `timeout_ms` | 第一轮连通性测试的目标地址与单节点超时（毫秒） |
@@ -168,7 +198,7 @@ python main.py --verbose
 | `check.china_check.limit` | 每个「服务器:端口」用几个探测点，免费额度约 250 次/小时，慎调大 |
 | `check.china_check.max_units` | 进入国内探测的节点数上限（默认 240，`0` 不限）。额度不够时「留下谁」会变成「先测谁」，这里按「存活次数 → 网速」截断，把额度花在最值得的候选上 |
 | `check.candidates.enabled` / `file` | 是否写出候选池 `candidates.json`（本机测速的输入） |
-| `check.candidates.max` | 候选池上限（默认 1200）。本机给每个节点开一个入站端口，太多会让测速变慢 |
+| `check.candidates.max` | 候选池上限（默认 600）。本机给每个节点开一个入站端口，太多会让测速变慢；分批 + 补测后 600 个约 5 分钟测完 |
 | `check.whitelist.enabled` | 是否使用本机实测白名单（推荐开启，见上节） |
 | `check.whitelist.max_age_hours` | 白名单超过该时长视为过期并回退 Globalping 探测（默认 2） |
 | `check.whitelist.min_match` | 白名单命中少于该数则判定脱节、回退 Globalping（默认 10） |

@@ -16,6 +16,8 @@ on:
       - "docs/**"
       # candidates.json 由构建自身产出并提交，不需要再触发一次构建
       - "candidates.json.gz"
+      # 源健康度滚动记录，由构建自身产出并提交
+      - "source_health.json"
       - ".github/workflows/audit2.yml"
       - "audit2.go"
       - "runner_audit.py"
@@ -73,6 +75,8 @@ jobs:
           # candidates.json 是给本机真实测速的候选池（local_probe.py 的输入）。
           # whitelist.json 由本机 local_probe.py 直接推送，CI 只读不写，避免互相覆盖。
           [ -f candidates.json.gz ] && git add -f candidates.json.gz
+          # source_health.json 是各源命中率的滚动记录（EWMA），跨构建累积才有意义。
+          [ -f source_health.json ] && git add -f source_health.json
           git diff --cached --quiet || git commit -m "chore: 更新订阅 $(date -u +%Y-%m-%dT%H:%MZ)"
           git push
 

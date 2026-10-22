@@ -124,16 +124,27 @@ _EMPTY = (None, "", [], {})
 
 
 def dedupe(proxies):
-    """按连接身份去重；参数相同的多份包装合并成一个节点（取字段最全的那份）。"""
+    """按连接身份去重；参数相同的多份包装合并成一个节点（取字段最全的那份）。
+
+    来源标记 `_srcs` 要**并集**而不是取第一个：跨源重复的节点知道「谁也给过它」，
+    后面按源统计存活率时才不会把共享节点全算到第一个源头上。
+    """
     order, best, merged_fields = [], {}, 0
     for proxy in proxies:
         key = conn_key(proxy)
         current = best.get(key)
         if current is None:
             best[key] = dict(proxy)
+            best[key]["_srcs"] = list(proxy.get("_srcs") or [])
             order.append(key)
             continue
+        mine = current.setdefault("_srcs", [])
+        for name in proxy.get("_srcs") or []:
+            if name not in mine:
+                mine.append(name)
         for field, value in proxy.items():
+            if field == "_srcs":
+                continue
             if current.get(field) in _EMPTY and value not in _EMPTY:
                 current[field] = value
                 merged_fields += 1
@@ -280,7 +291,7 @@ def _unique_names(proxies):
     return proxies
 
 
-def rank_by_protocol(proxies, scores, high_ratio=0.75, cap=None):
+def rank_by_protocol(proxies, scores, high_ratio=0.75, cap=None, source_scores=None):
     """按协议「实测真实出网可用率」分区排序，让最能用的节点先占探测额度。
 
     依据 2026-10-21 在本机（国内家宽）用 mihomo 内核逐节点真实 CONNECT 的实测：
@@ -294,23 +305,42 @@ def rank_by_protocol(proxies, scores, high_ratio=0.75, cap=None):
     注意 `cap` 必须传「探测名额」而不是候选总数：候选可能有几千个，
     拿它算配额会让配额永远大于实际名额，等于配比彻底失效（踩过一次）。
 
-    节点内部顺序不变（上游已按 存活次数 → 网速 排好），这里只做分区。
+    源倾斜（`source_scores`，0~100 表示该源实测存活率的相对值）：2026-10-22 按源实测
+    daily_free_vpn 38%、Au1rxx-07 17.5%、ermaozi 15%、Au1rxx-06 10%、TopFreeProxy 0/40。
+    协议只能解释一半方差 —— 「http 来自 daily_free_vpn」和「http 来自 TopFreeProxy」
+    的命运完全不同。所以分区仍按**协议原始分**（不乘源因子：否则某个主力源临时 404
+    就会把其他源的高可用节点一起打到低分区，白白饿死备份），分区内则按
+    `协议分 × 源因子` 排优先级，额度不够时先砍掉低信誉源的节点。
     """
     if not scores:
         return proxies
     weight = {str(k).lower(): float(v) for k, v in scores.items()}
+    src_weight = {str(k).lower(): float(v) / 100.0 for k, v in (source_scores or {}).items()}
 
     def score(p):
         return weight.get(str(p.get("type") or "").lower(), 0.0)
 
+    def src_factor(p):
+        if not src_weight:
+            return 1.0
+        names = [str(n).lower() for n in (p.get("_srcs") or [])]
+        # 多个源都给过这个节点时按最好的那个算（它至少有一个源在供血）
+        return max([src_weight.get(n, 0.5) for n in names] or [0.5])
+
+    def priority(p):
+        return -score(p) * src_factor(p)
+
     high = [p for p in proxies if score(p) >= 80]
     low = [p for p in proxies if score(p) < 80]
-    low.sort(key=lambda p: -score(p))         # 低分区内也按可用率高到低
+    # 分区内按「协议分 × 源因子」排（sort 稳定，同分保持上游的存活次数/网速序）
+    high.sort(key=priority)
+    low.sort(key=priority)
     quota = max(1, int((cap or len(proxies)) * float(high_ratio)))
     if len(high) <= quota:
         return high + low
     # 超出配额的高分节点排到最后，额度不够时优先被截掉
     return high[:quota] + low + high[quota:]
+
 
 
 def diversify(proxies, per_line=2, trusted_streak=3, trusted_cap=4):

@@ -19,27 +19,25 @@ sources:
   # Au1rxx/free-vpn-subscriptions：每小时更新，上游用 sing-box 对每个节点真实转发
   # HTTP 流量验证后发布（非仅 TCP 通），all-verified 为全量分片（curated 单文件按海外
   # 延迟排序、与国内可达目标错配，实测优质节点反被轮换掉，故不用）。
-  # 分片数量未来若增减：缺失的分片记 0 跳过，不影响构建。
-  - name: Au1rxx-01
-    url: "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/all-verified/clash-0001.yaml"
-  - name: Au1rxx-02
-    url: "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/all-verified/clash-0002.yaml"
-  - name: Au1rxx-03
-    url: "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/all-verified/clash-0003.yaml"
-  - name: Au1rxx-04
-    url: "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/all-verified/clash-0004.yaml"
-  - name: Au1rxx-05
-    url: "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/all-verified/clash-0005.yaml"
+  #
+  # 2026-10-22 按分片实测（每片随机 40 个，本机 mihomo 逐节点 CONNECT）：
+  #   07 → 17.5%   06 → 10%   03/04/05 → 各 2.5%   01/02 → 0%   08/09/10 → HTTP 404
+  # 分片是**全量切块**而不是按质量排序，所以低序号片并不是「最好的片」；这里只留实测
+  # 最好的两片（06/07），其余不再浪费采集与候选名额。08~10 上游已裁掉，是死链。
+  # 分片内容每小时轮换，这个排名会漂移；status.json 的 source_health 每轮自己产出
+  # 各源命中率，届时按数据再调（别照抄本节数字）。
   - name: Au1rxx-06
     url: "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/all-verified/clash-0006.yaml"
   - name: Au1rxx-07
     url: "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/all-verified/clash-0007.yaml"
-  - name: Au1rxx-08
-    url: "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/all-verified/clash-0008.yaml"
-  - name: Au1rxx-09
-    url: "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/all-verified/clash-0009.yaml"
-  - name: Au1rxx-10
-    url: "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/all-verified/clash-0010.yaml"
+
+# 源健康度：每轮构建自动产出「各源实测命中率」（发布 / 进入候选池），
+# 写进 docs/status.json 的 source_health 段与本文件指向的滚动记录。
+# 采集时节点会带上 _srcs 标记（贡献过该节点的源名，跨源重复的会有多个）。
+source_health:
+  enabled: true
+  file: "source_health.json"   # 仓库根目录，跨构建滚动（EWMA），CI 会一起提交
+  ewma_alpha: 0.5              # 新一轮权重：0.5 ≈ 最近 3~4 轮为主
 
 check:
   enabled: true              # 是否做测活
@@ -87,6 +85,20 @@ check:
   # 全押 http 风险集中；这一成的实测可用率虽然低，但能保住协议多样性。
   # 实测代价：把它调到 1.0（全给 http）可用节点会多约 20 个，但订阅变成纯 http。
   high_score_quota: 0.9
+  # 源信誉分（0~100，相对值）：同一协议里，不同源的节点命运完全不同。
+  # 2026-10-22 本机逐节点实测（每源随机 40 个，分批 + 低并发补测）：
+  #   daily_free_vpn 38%（http 子集 78.6%）  Au1rxx-07 17.5%  ermaozi 15%
+  #   Au1rxx-06 10%  TopFreeProxy 0/40（2647 个，最大灌水源）  datiya 主源 0/14
+  # 用法是「分区内排序」而不是乘进分区判据：协议分决定进哪个区（不会因某个主力源
+  # 临时 404 就把别源的高可用节点一起打落），源分决定同区内谁先占探测名额。
+  # 未列出的源按 50 算（中性），新源不必先登记。
+  source_score:
+    daily_free_vpn: 100
+    Au1rxx-07: 80
+    Au1rxx-06: 70
+    ermaozi: 60
+    TopFreeProxy: 20
+    datiya: 10
   # --- C 档：本机（国内家宽）真实代理测速白名单 ---
   # 上面两轮筛选都不在国内：mihomo 测速跑在 GitHub Actions（美国机房），Globalping 只发
   # 一次 TLS 握手。GFW 常「放握手、掐流量」，于是通过全部筛选的节点实测只有约一半真能用
