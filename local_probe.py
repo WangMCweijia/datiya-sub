@@ -210,18 +210,53 @@ def probe(candidates, exe, args, check_cfg):
                     detail = log_path.read_text(encoding="utf-8", errors="replace")
                     raise SystemExit("mihomo 启动失败：\n" + detail.strip()[:800])
 
-                log.info("第一轮：真实 CONNECT %d 个节点（并发 %d）", len(proxies), concurrency)
-                with ThreadPoolExecutor(concurrency) as pool:
-                    delays = list(
-                        pool.map(
-                            lambda p: prober._delay(base, p["name"], test_url, timeout_ms),
-                            proxies,
-                        )
-                    )
-                alive = []
-                for proxy, (_name, delay) in zip(proxies, delays):
-                    if delay:
-                        alive.append((proxy, delay))
+                # 分批扫：一次性把上千个节点同时拨出去，会把自己拨到「假死」。
+                # 实测（2026-10-22 本机）：242 个订阅节点一次并发 30 测出 107 个活（44%），
+                # 把判死的 135 个单独装一个小实例、并发 4 复测，又有 42 个活过来
+                # （合并 149 个 = 62%）——那 42 个是被上一轮的连接风暴压死的，不是死了。
+                # 免费公共代理普遍对「源 IP 的瞬时并发/频次」限流，所以既要分批，
+                # 也要对失败节点低并发复测一次；否则白名单会长期低估候选池。
+                chunk = int(check_cfg.get("chunk") or 0)
+                gap = float(check_cfg.get("chunk_gap") or 0)
+                retry_conc = int(check_cfg.get("retry_concurrency") or 4)
+
+                def sweep(items, conc, label):
+                    """按 chunk 分批跑 n 轮延迟测试，返回 {name: ms or None}。"""
+                    out = {}
+                    step = chunk if chunk > 0 else len(items) or 1
+                    for start in range(0, len(items), step):
+                        part = items[start:start + step]
+                        with ThreadPoolExecutor(max(1, conc)) as pool:
+                            out.update(
+                                dict(
+                                    pool.map(
+                                        lambda p: prober._delay(
+                                            base, p["name"], test_url, timeout_ms
+                                        ),
+                                        part,
+                                    )
+                                )
+                            )
+                        if gap and start + step < len(items):
+                            time.sleep(gap)
+                    return out
+
+                log.info("第一轮：真实 CONNECT %d 个节点（并发 %d，每批 %s）",
+                         len(proxies), concurrency, chunk or len(proxies))
+                delays = sweep(proxies, concurrency, "第一轮")
+                fails = [p for p in proxies if not delays.get(p["name"])]
+                if fails and retry_conc:
+                    log.info("第一轮补测：%d 个未通过，低并发复测（并发 %d，每批 %s）",
+                             len(fails), retry_conc, chunk or len(fails))
+                    again = sweep(fails, retry_conc, "补测")
+                    rescued = 0
+                    for p in fails:
+                        if again.get(p["name"]):
+                            delays[p["name"]] = again[p["name"]]
+                            rescued += 1
+                    log.info("第一轮补测：救回 %d 个（此前被判「不可用」）", rescued)
+
+                alive = [(p, delays[p["name"]]) for p in proxies if delays.get(p["name"])]
                 log.info("第一轮：可真实出网 %d/%d 个节点", len(alive), len(proxies))
 
                 speeds = {}
