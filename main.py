@@ -187,9 +187,17 @@ def write_candidates(path, proxies, cand_cfg):
     """
     if not cand_cfg.get("enabled", True) or not proxies:
         return 0
+    # 只带「构造代理必需」的字段：丢掉名字（本机探测会统一改名 p0001）与空值，
+    # 否则 600 个节点的 JSON 约 250KB，而这份文件每次构建都要提交一次。
     items = []
     for proxy in proxies:
-        item = {k: v for k, v in proxy.items() if not k.startswith("_")}
+        item = {
+            key: value
+            for key, value in proxy.items()
+            if not key.startswith("_")
+            and key != "name"
+            and value not in (None, "", [], {})
+        }
         item["_fp"] = builder.fingerprint(proxy)
         items.append(item)
     items.sort(key=lambda item: item["_fp"])
@@ -410,6 +418,7 @@ def main():
     ledger.commit(proxies, probe_input, trusted_streak)
 
     streaks = [int(p.get("_streak") or 0) for p in proxies]
+    wl_age = whitelist.age_hours(wl_data) if wl_data else None
     unique_lines = len({(str(p.get("server")), p.get("port")) for p in proxies})
     status = {
         "updated_at": meta["updated_at"],
@@ -441,9 +450,9 @@ def main():
                 "slow": wl_stats.get("slow", 0),
             },
             "entries": len(((wl_data or {}).get("entries") or {})),
-            "age_hours": (
-                round(whitelist.age_hours(wl_data), 2) if wl_data else None
-            ),
+            # 白名单可能缺 generated_at（文件不存在/损坏），age_hours 会返回 None，
+            # 不能直接 round：那会让整轮构建在最后一步崩掉（已踩过）。
+            "age_hours": wl_age if wl_age is None else round(wl_age, 2),
             "probe_host": (wl_data or {}).get("probe_host"),
         },
         "sources": source_stats,
