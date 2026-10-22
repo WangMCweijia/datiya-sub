@@ -82,9 +82,17 @@ def detect_repo():
     return "WangMCweijia/datiya-sub"
 
 
-def _gh(args, stdin=None):
+def _gh(args, stdin=None, direct=False):
+    """调 gh CLI。direct=True 时剥掉代理环境变量（本机代理偶发 TLS handshake timeout，
+    直连与代理交替重试才能穿过这种抖动）。"""
+    env = dict(os.environ)
+    if direct:
+        for key in ("HTTPS_PROXY", "HTTP_PROXY", "https_proxy", "http_proxy",
+                    "ALL_PROXY", "all_proxy"):
+            env.pop(key, None)
     return subprocess.run(
-        ["gh"] + args, input=stdin, text=True, capture_output=True, encoding="utf-8"
+        ["gh"] + args, input=stdin, text=True, capture_output=True,
+        encoding="utf-8", env=env,
     )
 
 
@@ -330,9 +338,10 @@ def push(payload, repo, path):
     content = base64.b64encode(
         json.dumps(payload, ensure_ascii=False, indent=1).encode("utf-8")
     ).decode()
-    for attempt in range(4):
+    for attempt in range(6):
+        direct = attempt % 2 == 0        # 偶数次强制直连，奇数次走代理
         sha = ""
-        proc = _gh(["api", f"repos/{repo}/contents/{path}", "--jq", ".sha"])
+        proc = _gh(["api", f"repos/{repo}/contents/{path}", "--jq", ".sha"], direct=direct)
         if proc.returncode == 0:
             sha = proc.stdout.strip()
         args = [
@@ -349,7 +358,7 @@ def push(payload, repo, path):
         }
         if sha:
             body["sha"] = sha
-        proc = _gh(args, stdin=json.dumps(body))
+        proc = _gh(args, stdin=json.dumps(body), direct=direct)
         if proc.returncode == 0:
             log.info("已推送 %s 到 %s", path, repo)
             return True

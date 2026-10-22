@@ -293,6 +293,7 @@ def main():
                 wl_stats.get("dead", 0),
                 wl_stats.get("unstable", 0),
                 wl_stats.get("slow", 0),
+                wl_stats.get("stale", 0),
                 wl_stats.get("unknown", 0),
             )
             if len(proxies) < int(wl_cfg.get("min_match", 10)):
@@ -481,6 +482,7 @@ def main():
                 "dead": wl_stats.get("dead", 0),
                 "unstable": wl_stats.get("unstable", 0),
                 "slow": wl_stats.get("slow", 0),
+                "stale": wl_stats.get("stale", 0),
             },
             "entries": len(((wl_data or {}).get("entries") or {})),
             # 白名单可能缺 generated_at（文件不存在/损坏），age_hours 会返回 None，

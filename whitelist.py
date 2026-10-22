@@ -94,6 +94,18 @@ def age_hours(data):
     return None
 
 
+def parse_stamp(text):
+    if not text:
+        return None
+    for fmt in ("%Y-%m-%d %H:%M:%S %z", "%Y-%m-%dT%H:%M:%S%z", "%Y-%m-%d %H:%M:%S"):
+        try:
+            when = datetime.strptime(str(text), fmt)
+        except ValueError:
+            continue
+        return when if when.tzinfo else when.replace(tzinfo=TZ)
+    return None
+
+
 def load_fresh(path, cfg):
     """返回 (data, 是否可用, 说明)。说明用于日志和 status.json。"""
     data = load(path)
@@ -132,8 +144,14 @@ def apply(proxies, data, cfg):
     entries = (data or {}).get("entries") or {}
     min_ok = int(cfg.get("min_ok_rounds", 1) or 1)
     min_kbps = float(cfg.get("min_kbps", 0) or 0)
+    # 实测时间窗：ok_rounds 是累计值，一个节点一小时前测通、现在早已失效仍是 ≥1。
+    # 免费节点寿命以分钟计，超过这个窗口没再测通的条目一律不发（本机会持续补测，
+    # 真还活着的节点几分钟内就会被重新测到并刷新 last_ok）。
+    window_h = float(cfg.get("ok_within_hours", 1) or 0)
+    ref = parse_stamp((data or {}).get("generated_at"))
 
-    kept, stats = [], {"matched": 0, "dead": 0, "unstable": 0, "slow": 0, "unknown": 0}
+    kept, stats = [], {"matched": 0, "dead": 0, "unstable": 0, "slow": 0,
+                       "stale": 0, "unknown": 0}
     for proxy in proxies:
         entry = entries.get(builder.fingerprint(proxy))
         if not entry:
@@ -143,6 +161,11 @@ def apply(proxies, data, cfg):
         if entry.get("dead"):
             stats["dead"] += 1
             continue
+        if window_h and ref:
+            last_ok = parse_stamp(entry.get("last_ok"))
+            if not last_ok or (ref - last_ok) > timedelta(hours=window_h):
+                stats["stale"] += 1
+                continue
         ok_rounds = int(entry.get("ok_rounds") or 0)
         if ok_rounds < min_ok:
             stats["unstable"] += 1
