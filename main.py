@@ -285,8 +285,8 @@ def main():
             full_pool = list(proxies)
             proxies, wl_stats = whitelist.apply(full_pool, wl_data, wl_cfg)
             log.info(
-                "白名单过滤：去重后 %d → %d（命中 %d；标记失效 %d、不稳定 %d、过慢 %d；"
-                "不在白名单的 %d 个未经验证，一律不发）",
+                "白名单过滤：去重后 %d → %d（命中 %d；标记失效 %d、不稳定 %d、"
+                "过慢 %d、超出实测窗口 %d；不在白名单的 %d 个未经验证，一律不发）",
                 deduped,
                 len(proxies),
                 wl_stats.get("matched", 0),
