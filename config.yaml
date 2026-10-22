@@ -78,6 +78,25 @@ check:
   # 全押 http 风险集中；这一成的实测可用率虽然低，但能保住协议多样性。
   # 实测代价：把它调到 1.0（全给 http）可用节点会多约 20 个，但订阅变成纯 http。
   high_score_quota: 0.9
+  # --- C 档：本机（国内家宽）真实代理测速白名单 ---
+  # 上面两轮筛选都不在国内：mihomo 测速跑在 GitHub Actions（美国机房），Globalping 只发
+  # 一次 TLS 握手。GFW 常「放握手、掐流量」，于是通过全部筛选的节点实测只有约一半真能用
+  # （169 个里 78 个）。这里把「国内能不能真代理出网」交给用户自己的国内机器：
+  # local_probe.py 拉取 candidates.json，用 mihomo 内核逐节点真实 CONNECT + 下载测速，
+  # 产出 whitelist.json 推回仓库；CI 按白名单过滤，并按本机实测网速排序。
+  # 白名单过期/缺失/命中过少时自动回退 Globalping 探测，不会写坏订阅。
+  candidates:
+    enabled: true
+    file: "candidates.json"  # 相对仓库根目录
+    max: 600                 # 候选池上限。本机给每个节点开一个入站端口，
+                             # 太多会让测速变慢、也吃内存；600 个约 5 分钟测完
+  whitelist:
+    enabled: true
+    file: "whitelist.json"
+    max_age_hours: 6         # 超过该时长视为过期，自动回退 Globalping 探测
+    min_match: 10            # 命中少于该数说明白名单与候选池脱节，回退 Globalping
+    min_ok_rounds: 1         # 至少被本机测通过几次才算可用（2=要求跨轮稳定）
+    min_kbps: 0              # 网速下限（KB/s），0=不限；本机测不出网速时不影响命中
   # 第二轮：真实下载测速（剔除下载失败或网速过低的）
   speed_url: "https://speed.cloudflare.com/__down?bytes=2000000"
   speed_bytes: 1000000       # 下载够这么多字节就够算速度

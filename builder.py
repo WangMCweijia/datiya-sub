@@ -78,13 +78,17 @@ def _ws_host(proxy):
 
 
 def _credential(proxy, kind):
-    """取节点的身份凭据：不同协议字段名不同，同一台机器的多份包装必须能对齐。"""
+    """取节点的身份凭据：不同协议字段名不同，同一台机器的多份包装必须能对齐。
+
+    明文代理必须用 `username:password` 组合：先按通用字段取 password 会把
+    「同端口不同账号」当成同一节点（同一台 http 代理常挂多个账号）。
+    """
+    if kind in PLAINTEXT_TYPES:
+        return f"{proxy.get('username') or ''}:{proxy.get('password') or ''}"
     for key in ("uuid", "password", "auth", "auth_str", "auth-str"):
         value = proxy.get(key)
         if value not in (None, ""):
             return str(value)
-    if kind in PLAINTEXT_TYPES:
-        return f"{proxy.get('username') or ''}:{proxy.get('password') or ''}"
     return ""
 
 

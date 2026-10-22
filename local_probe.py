@@ -1,0 +1,465 @@
+"""本机（国内家宽）真实代理测速：产出 whitelist.json 供 CI 过滤。
+
+为什么需要它
+------------
+CI 的两道筛选都不在国内：mihomo 测速跑在 GitHub Actions（美国机房），
+Globalping 只发一次 TLS 握手。GFW 常「放握手、掐流量」，于是「境外能连」
+与「国内能用」几乎是两件事——实测通过全部筛选的 169 个节点只有 78 个真能用。
+
+这个脚本在你自己的国内机器上，用 mihomo 内核给每个候选节点开一个独立入站端口，
+逐个真实 CONNECT `generate_204` 并走代理下载测速。判定结果与客户端实际体验一致
+（同一方法测出的 http 可用率 84%、vless 10%，与手工体验吻合）。
+
+用法
+----
+    python local_probe.py                    # 测一轮，更新本地 whitelist.json
+    python local_probe.py --push             # 测完推送到 GitHub（需 gh 已登录）
+    python local_probe.py --push --loop 1800 # 常驻：每 30 分钟测一轮并推送
+    python local_probe.py --max 50 -v        # 调试：只测 50 个候选
+
+依赖：pip install pyyaml requests
+内核：--binary 指定，或环境变量 MIHOMO_BIN，或 ./tools/mihomo.exe、./mihomo.exe、
+      PATH 中的 mihomo。run_local_probe.bat 会在缺失时自动下载。
+"""
+
+import argparse
+import base64
+import json
+import logging
+import os
+import shutil
+import subprocess
+import sys
+import tempfile
+import time
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
+
+import requests
+import yaml
+
+import builder
+import prober
+import whitelist
+
+ROOT = Path(__file__).resolve().parent
+TZ = timezone(timedelta(hours=8))
+log = logging.getLogger("datiya.local")
+
+
+def now_stamp():
+    return datetime.now(TZ).strftime("%Y-%m-%d %H:%M:%S %z")
+
+
+def parse_stamp(text):
+    if not text:
+        return None
+    for fmt in ("%Y-%m-%d %H:%M:%S %z", "%Y-%m-%dT%H:%M:%S%z"):
+        try:
+            return datetime.strptime(str(text), fmt)
+        except ValueError:
+            continue
+    return None
+
+
+# --- 候选池获取 -------------------------------------------------------------
+
+
+def detect_repo():
+    """从 git remote 猜仓库名；失败则用默认值。"""
+    try:
+        url = subprocess.check_output(
+            ["git", "remote", "get-url", "origin"], cwd=ROOT, text=True, timeout=10
+        ).strip()
+    except Exception:
+        return "WangMCweijia/datiya-sub"
+    if url.startswith("git@github.com:"):
+        url = url.split(":", 1)[1]
+    if "github.com/" in url:
+        slug = url.split("github.com/", 1)[1]
+        return slug[:-4] if slug.endswith(".git") else slug
+    return "WangMCweijia/datiya-sub"
+
+
+def _gh(args, stdin=None):
+    return subprocess.run(
+        ["gh"] + args, input=stdin, text=True, capture_output=True, encoding="utf-8"
+    )
+
+
+def fetch_candidates(repo, path=None):
+    """优先从仓库拿 CI 最新一轮的候选池（比本地副本新）。"""
+    if path:
+        items = whitelist.load_candidates(Path(path))
+        log.info("候选池来自本地文件 %s（%d 个）", path, len(items))
+        return items
+
+    sources = [
+        ("raw.githubusercontent", f"https://raw.githubusercontent.com/{repo}/main/candidates.json"),
+        ("ghfast 镜像", f"https://ghfast.top/https://raw.githubusercontent.com/{repo}/main/candidates.json"),
+    ]
+    for label, url in sources:
+        try:
+            resp = requests.get(url, timeout=30)
+            if resp.status_code == 200:
+                data = resp.json()
+                items = data if isinstance(data, list) else data.get("proxies") or []
+                if items:
+                    log.info("候选池来自 %s（%s，生成于 %s）", label, len(items),
+                             (data.get("generated_at") if isinstance(data, dict) else "?"))
+                    return items
+            log.warning("%s 返回 %s，换下一个源", label, resp.status_code)
+        except Exception as exc:
+            log.warning("%s 拉取失败：%s", label, exc)
+
+    proc = _gh(["api", f"repos/{repo}/contents/candidates.json", "--jq", ".content"])
+    if proc.returncode == 0 and proc.stdout.strip():
+        raw = base64.b64decode(proc.stdout.strip()).decode("utf-8")
+        data = json.loads(raw)
+        items = data if isinstance(data, list) else data.get("proxies") or []
+        if items:
+            log.info("候选池来自 gh api（%d 个）", len(items))
+            return items
+    raise SystemExit("拿不到 candidates.json：请确认仓库里已有一轮 CI 构建，或用 --candidates 指定本地文件")
+
+
+# --- 内核 -------------------------------------------------------------------
+
+
+def resolve_binary(explicit):
+    candidates = []
+    if explicit:
+        candidates.append(explicit)
+    if os.environ.get("MIHOMO_BIN"):
+        candidates.append(os.environ["MIHOMO_BIN"])
+    candidates += [
+        str(ROOT / "tools" / "mihomo.exe"),
+        str(ROOT / "mihomo.exe"),
+        str(ROOT / "mhcore" / "mihomo-windows-amd64.exe"),
+    ]
+    for cand in candidates:
+        if cand and Path(cand).exists():
+            return str(cand)
+    found = shutil.which("mihomo")
+    if found:
+        return found
+    raise SystemExit(
+        "未找到 mihomo 内核。请用 --binary 指定，或运行 run_local_probe.bat（会自动下载）。"
+    )
+
+
+# --- 探测 -------------------------------------------------------------------
+
+
+def probe(candidates, exe, args, check_cfg):
+    """给每个候选开独立入站端口，真实 CONNECT + 下载测速，返回 [(候选, 结果)]。"""
+    proxies = []
+    for index, item in enumerate(candidates):
+        proxy = {k: v for k, v in item.items() if not k.startswith("_")}
+        proxy["name"] = "p%04d" % index
+        proxies.append(proxy)
+    proxies = builder.filter_supported(proxies)
+    if not proxies:
+        raise SystemExit("候选池里没有内核能加载的节点")
+    log.info("候选 %d 个，内核可加载 %d 个", len(candidates), len(proxies))
+
+    test_url = args.test_url or check_cfg.get("test_url") or "https://www.gstatic.com/generate_204"
+    timeout_ms = int(args.timeout_ms or check_cfg.get("timeout_ms") or 3000)
+    concurrency = int(args.concurrency or check_cfg.get("concurrency") or 50)
+    speed_url = args.speed_url or check_cfg.get("speed_url")
+    speed_bytes = int(check_cfg.get("speed_bytes") or 1000000)
+    speed_ms = int(check_cfg.get("speed_timeout_ms") or 5000)
+    speed_conc = int(check_cfg.get("speed_concurrency") or 12)
+
+    all_ports, held = prober._alloc_ports(len(proxies) + 2)
+    controller_port, mixed_port = all_ports[0], all_ports[1]
+    ports = {p["name"]: port for p, port in zip(proxies, all_ports[2:])}
+    base = f"http://127.0.0.1:{controller_port}"
+
+    with tempfile.TemporaryDirectory() as workdir:
+        workdir = Path(workdir)
+        config_path = workdir / "config.yaml"
+        log_path = workdir / "mihomo.log"
+        try:
+            prober._write_config(config_path, proxies, controller_port, mixed_port, ports)
+        finally:
+            for sock in held:
+                sock.close()
+
+        with open(log_path, "wb") as logf:
+            proc = subprocess.Popen(
+                [exe, "-d", str(workdir), "-f", str(config_path)],
+                stdout=logf,
+                stderr=subprocess.STDOUT,
+            )
+            try:
+                if not prober._wait_api(proc, base, timeout=90.0):
+                    detail = log_path.read_text(encoding="utf-8", errors="replace")
+                    raise SystemExit("mihomo 启动失败：\n" + detail.strip()[:800])
+
+                log.info("第一轮：真实 CONNECT %d 个节点（并发 %d）", len(proxies), concurrency)
+                with ThreadPoolExecutor(concurrency) as pool:
+                    delays = list(
+                        pool.map(
+                            lambda p: prober._delay(base, p["name"], test_url, timeout_ms),
+                            proxies,
+                        )
+                    )
+                alive = []
+                for proxy, (_name, delay) in zip(proxies, delays):
+                    if delay:
+                        alive.append((proxy, delay))
+                log.info("第一轮：可真实出网 %d/%d 个节点", len(alive), len(proxies))
+
+                speeds = {}
+                if speed_url and alive:
+                    log.info("第二轮：走代理下载测速 %d 个节点（并发 %d）", len(alive), speed_conc)
+                    with ThreadPoolExecutor(speed_conc) as pool:
+                        measured = list(
+                            pool.map(
+                                lambda item: prober._measure_speed(
+                                    ports[item[0]["name"]], speed_url, speed_bytes, speed_ms
+                                ),
+                                alive,
+                            )
+                        )
+                    speeds = {item[0]["name"]: kb for item, kb in zip(alive, measured)}
+                    got = sum(1 for kb in speeds.values() if kb > 0)
+                    log.info("第二轮：%d/%d 个测出网速", got, len(alive))
+            finally:
+                proc.terminate()
+                try:
+                    proc.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    proc.kill()
+
+    results = {}
+    for proxy in proxies:
+        fp = builder.fingerprint(proxy)
+        delay = dict(delays).get(proxy["name"])
+        results[fp] = {
+            "ok": bool(delay),
+            "delay": int(delay or 0),
+            "kbps": round(float(speeds.get(proxy["name"]) or 0), 1),
+            "type": str(proxy.get("type")),
+            "line": "%s:%s" % (proxy.get("server"), proxy.get("port")),
+        }
+    return results
+
+
+class ThreadPoolExecutorSafe:
+    """ThreadPoolExecutor 的轻量包装：保证 map 结果顺序与输入一致（同标准实现）。"""
+
+    def __init__(self, workers):
+        
+        self._pool = ThreadPoolExecutor(max_workers=max(1, int(workers)))
+
+    def __enter__(self):
+        return self._pool
+
+    def __exit__(self, *exc):
+        self._pool.shutdown(wait=True)
+        return False
+
+
+# --- 合并与落盘 -------------------------------------------------------------
+
+
+def merge(old, results, keep_days, dead_after):
+    """把本轮结果并入历史：ok_rounds 累加，连续 3 轮失败标记 dead。
+
+    保留历史很重要：免费节点会抖动，单轮失败不代表死，下一轮恢复即可；
+    反之一次侥幸通过也不代表稳，ok_rounds 让 CI 能优先选真正长寿的。
+    """
+    entries = dict(old.get("entries") or {})
+    stamp = now_stamp()
+    for fp, res in results.items():
+        entry = dict(entries.get(fp) or {})
+        entry.update({"line": res["line"], "type": res["type"], "last_check": stamp})
+        if res["ok"]:
+            entry["ok_rounds"] = int(entry.get("ok_rounds") or 0) + 1
+            entry["fail_rounds"] = 0
+            entry["delay"] = res["delay"]
+            entry["kbps"] = res["kbps"]
+            entry["last_ok"] = stamp
+            entry.pop("dead", None)
+        else:
+            entry["fail_rounds"] = int(entry.get("fail_rounds") or 0) + 1
+            if entry["fail_rounds"] >= dead_after:
+                entry["dead"] = True
+        entries[fp] = entry
+
+    cutoff = datetime.now(TZ) - timedelta(days=keep_days)
+    pruned = 0
+    for fp in list(entries):
+        entry = entries[fp]
+        if entry.get("dead") or not int(entry.get("ok_rounds") or 0):
+            entries.pop(fp)
+            pruned += 1
+            continue
+        last_ok = parse_stamp(entry.get("last_ok"))
+        if last_ok and last_ok < cutoff:
+            entries.pop(fp)
+            pruned += 1
+    return entries, pruned
+
+
+def build_payload(entries, host, rounds):
+    ordered = dict(
+        sorted(
+            entries.items(),
+            key=lambda kv: (
+                -int(kv[1].get("ok_rounds") or 0),
+                -float(kv[1].get("kbps") or 0),
+                int(kv[1].get("delay") or 99999),
+            ),
+        )
+    )
+    return {
+        "version": whitelist.VERSION,
+        "generated_at": now_stamp(),
+        "probe_host": host,
+        "probe_rounds": rounds,
+        "note": "本机（国内家宽）mihomo 真实代理测速结果，仅本文件中的节点会被 CI 发布",
+        "entries": ordered,
+    }
+
+
+def push(payload, repo, path):
+    content = base64.b64encode(
+        json.dumps(payload, ensure_ascii=False, indent=1).encode("utf-8")
+    ).decode()
+    for attempt in range(4):
+        sha = ""
+        proc = _gh(["api", f"repos/{repo}/contents/{path}", "--jq", ".sha"])
+        if proc.returncode == 0:
+            sha = proc.stdout.strip()
+        args = [
+            "api",
+            "--method", "PUT",
+            f"repos/{repo}/contents/{path}",
+            "--input", "-",
+        ]
+        body = {
+            "message": "chore: 更新本机实测白名单 %s（%d 个可用）"
+            % (datetime.now(TZ).strftime("%m-%d %H:%M"), len(payload["entries"])),
+            "content": content,
+            "branch": "main",
+        }
+        if sha:
+            body["sha"] = sha
+        proc = _gh(args, stdin=json.dumps(body))
+        if proc.returncode == 0:
+            log.info("已推送 %s 到 %s", path, repo)
+            return True
+        # sha 变了（CI 同时提交）→ 重取 sha 再试
+        log.warning("推送失败（第 %d 次）：%s", attempt + 1,
+                    (proc.stderr or "").strip().splitlines()[-1][:160] if proc.stderr else "")
+        time.sleep(2 + attempt * 3)
+    log.error("推送失败，白名单只留在本地（CI 会因白名单过期而回退 Globalping）")
+    return False
+
+
+def report(payload, results, rounds):
+    entries = payload["entries"]
+    ok_now = sum(1 for res in results.values() if res["ok"])
+    total = len(results)
+    print()
+    print("=" * 62)
+    print(f"第 {rounds} 轮本机实测：{ok_now}/{total} 个候选可真实代理出网 "
+          f"（{ok_now / max(1, total) * 100:.0f}%）")
+    by_type = {}
+    for fp, res in results.items():
+        stat = by_type.setdefault(res["type"], [0, 0])
+        stat[1] += 1
+        if res["ok"]:
+            stat[0] += 1
+    print("按协议：")
+    for kind, (ok, count) in sorted(by_type.items(), key=lambda kv: -kv[1][1]):
+        print(f"  {kind:10s} {ok:3d}/{count:3d}  {ok / count * 100:5.1f}%")
+    fast = [e for e in entries.values() if float(e.get("kbps") or 0) > 0][:8]
+    if fast:
+        print("最快的几个（KB/s）：")
+        for entry in fast:
+            print(f"  {entry['kbps']:8.0f}  {entry['delay']:5d}ms  "
+                  f"{entry['type']:8s} {entry['line']}")
+    print(f"白名单总条目：{len(entries)}（含历史；CI 只发其中的节点）")
+    print("=" * 62)
+
+
+def main():
+    parser = argparse.ArgumentParser(description="本机真实代理测速，产出白名单")
+    parser.add_argument("--candidates", help="直接用本地 candidates.json，不联网拉取")
+    parser.add_argument("--repo", help="GitHub 仓库 owner/name（默认从 git remote 推断）")
+    parser.add_argument("--binary", help="mihomo 可执行文件路径")
+    parser.add_argument("--max", type=int, default=0, help="最多测几个候选（调试用）")
+    parser.add_argument("--host", default="", help="探测点标识，写进 whitelist.json")
+    parser.add_argument("--push", action="store_true", help="测完推送到 GitHub")
+    parser.add_argument("--loop", type=int, default=0, help="常驻：每 N 秒跑一轮（0=只跑一次）")
+    parser.add_argument("--keep-days", type=int, default=7, help="历史条目保留天数")
+    parser.add_argument("--dead-after", type=int, default=3, help="连续几轮失败判死")
+    parser.add_argument("--test-url", help="连通性测试地址（覆盖配置）")
+    parser.add_argument("--speed-url", help="下载测速地址（覆盖配置）")
+    parser.add_argument("--timeout-ms", type=int, help="单节点连通测试超时（毫秒）")
+    parser.add_argument("--concurrency", type=int, help="连通测试并发")
+    parser.add_argument("--verbose", "-v", action="store_true")
+    args = parser.parse_args()
+
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format="%(asctime)s %(levelname)-6s | %(message)s",
+        datefmt="%H:%M:%S",
+    )
+
+    repo = args.repo or detect_repo()
+    cfg_path = ROOT / "config.yaml"
+    check_cfg = {}
+    if cfg_path.exists():
+        check_cfg = (yaml.safe_load(cfg_path.read_text(encoding="utf-8")) or {}).get("check") or {}
+    wl_cfg = check_cfg.get("whitelist") or {}
+    wl_path = ROOT / str(wl_cfg.get("file", "whitelist.json"))
+    exe = resolve_binary(args.binary)
+    host = args.host or os.environ.get("COMPUTERNAME") or "local"
+
+    rounds = 0
+    while True:
+        rounds += 1
+        candidates = fetch_candidates(repo, args.candidates)
+        if args.max:
+            candidates = candidates[: args.max]
+        try:
+            results = probe(candidates, exe, args, check_cfg)
+        except SystemExit:
+            raise
+        except Exception as exc:
+            log.error("本轮测速异常：%s", exc)
+            if not args.loop:
+                raise
+            time.sleep(args.loop)
+            continue
+
+        old = whitelist.load(wl_path)
+        entries, pruned = merge(old, results, args.keep_days, args.dead_after)
+        payload = build_payload(entries, host, int(old.get("probe_rounds") or 0) + 1)
+        wl_path.write_text(
+            json.dumps(payload, ensure_ascii=False, indent=1) + "\n", encoding="utf-8"
+        )
+        report(payload, results, payload["probe_rounds"])
+        log.info("已写入 %s（历史清理 %d 条）", wl_path.name, pruned)
+
+        if args.push:
+            push(payload, repo, wl_path.name)
+
+        if not args.loop:
+            return 0
+        log.info("休眠 %d 秒后进入下一轮（Ctrl+C 退出）", args.loop)
+        time.sleep(args.loop)
+
+
+if __name__ == "__main__":
+    try:
+        sys.exit(main())
+    except KeyboardInterrupt:
+        print("\n已中断")
+        sys.exit(0)

@@ -15,6 +15,7 @@ import checker
 import china
 import history
 import prober
+import whitelist
 from fetcher import Fetcher
 
 log = logging.getLogger("datiya")
@@ -87,6 +88,16 @@ def render_page(status, out_cfg):
             f"<tr><th>国内不可达剔除</th><td>{status.get('china_dropped', 0)} 个"
             f"（Globalping 中国大陆探测）</td></tr>"
         )
+    wl_row = ""
+    wl = status.get("whitelist") or {}
+    if wl.get("used"):
+        rejected = wl.get("rejected") or {}
+        wl_row = (
+            f"<tr><th>国内实测</th><td>{wl.get('probe_host') or '本机'}"
+            f"真实代理测速白名单，{wl.get('age_hours') or 0:.1f} 小时前生成；"
+            f"剔除 失效 {rejected.get('dead', 0)} · 不稳定 {rejected.get('unstable', 0)}"
+            f" · 过慢 {rejected.get('slow', 0)}</td></tr>"
+        )
     proto_row = ""
     if status.get("protocols"):
         detail = "、".join(f"{kind} {count}" for kind, count in status["protocols"].items())
@@ -133,6 +144,7 @@ def render_page(status, out_cfg):
   {line_row}
   {streak_row}
   {china_row}
+  {wl_row}
   <tr><th>地区分布</th><td>{regions}</td></tr>
 </table>
 <table>
@@ -164,6 +176,36 @@ def write_outputs(out_cfg, clash_text, links, status):
     log.info("已写入 %s", clash_path.relative_to(ROOT))
     log.info("已写入 %s（%d 条链接）", v2ray_path.relative_to(ROOT), len(links))
     log.info("已写入 %s", status_path.relative_to(ROOT))
+
+
+def write_candidates(path, proxies, cand_cfg):
+    """把本轮候选池写给本机探测（local_probe.py 的输入）。
+
+    候选池必须是「白名单过滤之前」的池子：上次被本机判定不通的节点也要留在里面，
+    否则它们永远没机会翻身（免费节点恢复、运营商路由变化都很常见）。
+    按连接指纹排序，让相邻两轮的 JSON 行序尽量一致，减小仓库 diff。
+    """
+    if not cand_cfg.get("enabled", True) or not proxies:
+        return 0
+    items = []
+    for proxy in proxies:
+        item = {k: v for k, v in proxy.items() if not k.startswith("_")}
+        item["_fp"] = builder.fingerprint(proxy)
+        items.append(item)
+    items.sort(key=lambda item: item["_fp"])
+    payload = {
+        "version": 1,
+        "generated_at": datetime.now(timezone(timedelta(hours=8))).strftime(
+            "%Y-%m-%d %H:%M:%S %z"
+        ),
+        "note": "候选池：供本机 local_probe.py 真实测速用；_fp 为连接指纹",
+        "proxies": items,
+    }
+    path.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=1) + "\n", encoding="utf-8"
+    )
+    log.info("已写入 %s（%d 个候选，供本机真实测速）", path.name, len(items))
+    return len(items)
 
 
 def main():
@@ -210,6 +252,13 @@ def main():
         enabled=bool(hist_cfg.get("enabled", True)),
     )
 
+    china_cfg = check_cfg.get("china_check") or {}
+    wl_cfg = check_cfg.get("whitelist") or {}
+    cand_cfg = check_cfg.get("candidates") or {}
+    china_dropped = 0
+    wl_used, wl_detail, wl_stats = False, "未启用", {}
+    wl_data = None
+
     if check_cfg.get("enabled", True) and not args.no_check:
         if str(check_cfg.get("method", "tcp")).lower() == "mihomo":
             try:
@@ -229,19 +278,18 @@ def main():
             )
         probed = len(proxies)
         # 存活账本：先标注「连续通过次数」，再稳定优先排序（长寿节点置顶），
-        # 再做线路去冗（同一 server:port 的多份凭据只留最好的几个），
-        # 最后按 Globalping 额度截断——存活达标的节点无条件占位，不会被额度挤掉。
+        # 再做线路去冗（同一 server:port 的多份凭据只留最好的几个）。
         ledger.annotate(proxies)
-        # 协议分区必须在「额度截断」之前：探测名额给谁，直接决定最终能用几个。
+        # 协议分区必须在「名额截断」之前：名额给谁，直接决定最终能用几个。
         # 实测 0% 可用的协议占着名额，就等于把额度烧在必死节点上。
-        # 配额要按「探测名额」算而不是候选总数（候选上千个，按它算等于配额失效）。
-        cap = int((check_cfg.get("china_check") or {}).get("max_units") or 0)
+        # 配额要按「名额」算而不是按候选总数（候选上千个，按它算等于配额失效）。
+        candidate_cap = int(cand_cfg.get("max") or 0)
         protocol_score = check_cfg.get("protocol_score") or {}
         if protocol_score:
             proxies = builder.rank_by_protocol(
                 proxies, protocol_score,
                 high_ratio=float(check_cfg.get("high_score_quota", 0.75)),
-                cap=cap,
+                cap=candidate_cap or int(china_cfg.get("max_units") or 0),
             )
         proxies = ledger.rank(proxies, trusted_streak)
         proxies = builder.diversify(
@@ -249,22 +297,68 @@ def main():
             per_line=int(check_cfg.get("max_per_line", 2)),
             trusted_streak=trusted_streak,
         )
-        proxies = ledger.select(proxies, cap, trusted_streak)
+
+        # --- C 档：本机（国内家宽）真实测速白名单 ---
+        # 白名单新鲜时按它过滤、按本机实测网速排序，不再花 Globalping 额度；
+        # 过期 / 缺失 / 命中过少时自动回退下面的 Globalping 探测。
+        if wl_cfg.get("enabled", True):
+            wl_data, wl_used, wl_detail = whitelist.load_fresh(
+                ROOT / str(wl_cfg.get("file", "whitelist.json")), wl_cfg
+            )
+            log.info("本机白名单：%s", wl_detail)
+
+        # 候选池先截断再写盘：白名单只能覆盖这一批，两边口径必须一致
+        if candidate_cap:
+            proxies = ledger.select(proxies, candidate_cap, trusted_streak)
+        write_candidates(
+            ROOT / str(cand_cfg.get("file", "candidates.json")), proxies, cand_cfg
+        )
+        pool = list(proxies)
+
+        if wl_used:
+            proxies, wl_stats = whitelist.apply(pool, wl_data, wl_cfg)
+            log.info(
+                "白名单过滤：%d → %d（命中 %d；标记失效 %d、不稳定 %d、过慢 %d；"
+                "池内不在白名单的 %d 个未经验证，一律不发）",
+                len(pool),
+                len(proxies),
+                wl_stats.get("matched", 0),
+                wl_stats.get("dead", 0),
+                wl_stats.get("unstable", 0),
+                wl_stats.get("slow", 0),
+                wl_stats.get("unknown", 0),
+            )
+            if len(proxies) < int(wl_cfg.get("min_match", 10)):
+                log.warning(
+                    "白名单只命中 %d 个（低于 min_match=%s），判定与候选池脱节，"
+                    "本轮回退 Globalping 探测",
+                    len(proxies),
+                    wl_cfg.get("min_match", 10),
+                )
+                wl_used = False
+                wl_detail = "命中过少（%d 个），回退 Globalping 探测" % len(proxies)
+                proxies = pool
+        if not wl_used:
+            proxies = ledger.select(
+                proxies, int(china_cfg.get("max_units") or 0), trusted_streak
+            )
     else:
         log.info("已跳过连通性检测")
         probed = len(proxies)
 
-    # 进入国内可达性探测的候选快照。账本以它为准判断「本轮被探测并淘汰」：
-    # 被额度截断、压根没进探测的节点不算淘汰，连续存活次数保持不变（否则会死锁：
+    # 进入国内探测的候选快照。账本以它为准判断「本轮被探测并淘汰」：
+    # 被名额截断、压根没进探测的节点不算淘汰，连续存活次数保持不变（否则会死锁：
     # 没进探测 → 清零 → 下轮没有存活加成 → 永远排不上号）。
     probe_input = list(proxies)
 
-    china_cfg = check_cfg.get("china_check") or {}
-    china_dropped = 0
-    if china_cfg.get("enabled") and not args.no_check:
+    # 白名单新鲜时，国内可达性已经由本机真实测速回答过了（比 Globalping 的
+    # TLS 握手强得多），不再花 Globalping 配额，也不让两种判定互相覆盖。
+    if china_cfg.get("enabled") and not args.no_check and not wl_used:
         before_china = len(proxies)
         proxies = china.filter_reachable(proxies, china_cfg)
         china_dropped = before_china - len(proxies)
+    elif wl_used:
+        log.info("已跳过 Globalping：国内可达性由本机白名单给出")
 
     # 协议分区已在额度截断前完成（决定谁占用探测名额），这里只记录发布头部协议。
     # 不能再排一次：国内可达性过滤刚把「可达」排在了「未知」前面，重排会打乱这个顺序。
@@ -335,8 +429,23 @@ def main():
             "repeat": sum(1 for s in streaks if 1 < s < trusted_streak),
             "trusted": sum(1 for s in streaks if s >= trusted_streak),
         },
-        "china_check": bool(china_cfg.get("enabled")),
+        "china_check": bool(china_cfg.get("enabled")) and not wl_used,
         "china_dropped": china_dropped,
+        "whitelist": {
+            "used": wl_used,
+            "detail": wl_detail,
+            "matched": wl_stats.get("matched", 0),
+            "rejected": {
+                "dead": wl_stats.get("dead", 0),
+                "unstable": wl_stats.get("unstable", 0),
+                "slow": wl_stats.get("slow", 0),
+            },
+            "entries": len(((wl_data or {}).get("entries") or {})),
+            "age_hours": (
+                round(whitelist.age_hours(wl_data), 2) if wl_data else None
+            ),
+            "probe_host": (wl_data or {}).get("probe_host"),
+        },
         "sources": source_stats,
         "regions": dict(
             sorted(

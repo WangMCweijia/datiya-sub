@@ -18,9 +18,13 @@ free.datiya.com：RSS 发现最近 N 天的文章  →  抓取每天的 uploads/
         ↓
     第二轮：经每个节点真实下载测速（网速低于 min_speed_kbps 的剔除）
         ↓
-    存活账本：标注每个节点「连续通过了几次构建」→ 长寿节点置顶 → 按探测额度截断
+    存活账本：标注每个节点「连续通过了几次构建」→ 长寿节点置顶 → 按名额截断
         ↓
-    第三轮：中国大陆可达性（Globalping 从国内探测点验证，只保留国内连得上的）
+    写入 candidates.json（候选池，供本机真实测速）→ 推送到仓库
+        ↓
+    第三轮（二选一）：
+      A. 本机白名单（推荐）：whitelist.json 新鲜时按它过滤，并按本机实测网速排序
+      B. Globalping 中国大陆探测：白名单过期/缺失/命中过少时自动回退
         ↓
     发布前校验：mihomo -t 加载生成的配置，不通过则报错并保留原有订阅
         ↓
@@ -44,6 +48,59 @@ sources:
 ```
 
 某个源当天抓取失败只会被跳过并记 0，不影响其它源。
+
+## 本机真实测速（推荐开启）
+
+前两轮筛选都不在国内：mihomo 测速跑在 GitHub Actions（美国机房），Globalping 只发一次
+TLS 握手。GFW 常「放握手、掐流量」，于是「境外能连」与「国内能用」几乎是两件事——
+2026-10-21 实测：通过全部筛选的 169 个节点，在国内家宽上只有 **78 个真能代理出网（46%）**；
+而同一批节点里 http 类可用率 84%、vless 仅 10%。
+
+要让订阅里「每一个节点都能用」，只能由一台**国内机器**真实走一遍代理：
+
+```
+GitHub Actions 构建 ──写入──> candidates.json（候选池，约 600 个）
+                                    │
+你的国内电脑：python local_probe.py --push
+  · 用 mihomo 内核给每个候选开一个独立入站端口
+  · 逐个真实 CONNECT generate_204 + 走代理下载测速
+  · 结果写入 whitelist.json 并推回仓库
+                                    │
+GitHub Actions 构建 ──按白名单过滤──> 订阅（发布的全是实测可用的节点，按实测网速排序）
+```
+
+### 怎么跑
+
+Windows 上双击 `run_local_probe.bat`：首次会自动下载 mihomo 内核、装 Python 依赖，
+然后测一轮并推送 `whitelist.json`。也可以手动跑：
+
+```bash
+pip install pyyaml requests
+python local_probe.py --push              # 测一轮并推送
+python local_probe.py --push --loop 1800  # 常驻：每 30 分钟测一轮
+python local_probe.py --max 50 -v         # 调试：只测 50 个候选
+```
+
+建议挂成「每小时跑一次」（Windows 计划任务 / WorkBuddy 自动化均可）：
+
+```
+schtasks /create /tn datiya-probe /tr "D://path//to//run_local_probe.bat" /sc hourly /mo 1
+```
+
+### 白名单怎么生效、怎么失效
+
+- `whitelist.json` 带 `generated_at`：超过 `check.whitelist.max_age_hours`（默认 6 小时）
+  即视为过期，构建**自动回退 Globalping 探测**，绝不会因为本机没开机而写坏订阅；
+- 命中数低于 `min_match`（默认 10）同样回退——说明上游换了一整批节点，白名单已脱节；
+- 每个条目记 `ok_rounds`（累计测通次数）与 `fail_rounds`（连续失败次数）：
+  连续 3 轮失败才标记 `dead`，避免一次抖动就永久拉黑真正好用的节点；
+- 条目保留 7 天（`--keep-days`），所以节点短暂消失后回来还能继承历史。
+
+### 安全提示
+
+白名单里的 `http` / `socks5` 是明文代理：代理方能看到你访问的域名（HTTPS 内容仍端到端
+加密），来源不可控。登录银行、公司内网这类场景请选 `vless` / `vmess` 等加密协议。
+本机探测只做「经该节点访问 gstatic / Cloudflare 测速页」的连通性验证，不传输你的任何数据。
 
 ## 部署（GitHub Actions + Pages）
 
@@ -108,6 +165,12 @@ python main.py --verbose
 | `check.china_check.reference_country` | 仅 `safe` 模式使用的复核探测点所在国家，默认 `US` |
 | `check.china_check.limit` | 每个「服务器:端口」用几个探测点，免费额度约 250 次/小时，慎调大 |
 | `check.china_check.max_units` | 进入国内探测的节点数上限（默认 240，`0` 不限）。额度不够时「留下谁」会变成「先测谁」，这里按「存活次数 → 网速」截断，把额度花在最值得的候选上 |
+| `check.candidates.enabled` / `file` | 是否写出候选池 `candidates.json`（本机测速的输入） |
+| `check.candidates.max` | 候选池上限（默认 600）。本机给每个节点开一个入站端口，太多会让测速变慢 |
+| `check.whitelist.enabled` | 是否使用本机实测白名单（推荐开启，见上节） |
+| `check.whitelist.max_age_hours` | 白名单超过该时长视为过期并回退 Globalping 探测（默认 6） |
+| `check.whitelist.min_match` | 白名单命中少于该数则判定脱节、回退 Globalping（默认 10） |
+| `check.whitelist.min_ok_rounds` | 至少被本机测通几次才算可用（默认 1；`2` 表示要求跨轮稳定） |
 | `check.min_alive` | 可用节点少于该值时**不覆盖**已有订阅（默认 30，避免把好订阅写坏） |
 | `history.enabled` / `history.file` | 跨构建存活账本：开关与文件路径（默认仓库根 `history.json`） |
 | `history.trusted_streak` | 连续通过几次构建算「可信」（默认 3）：置顶排序 + 探测额度不足时无条件保留 |
@@ -158,6 +221,12 @@ python main.py --verbose
   接口限速或异常导致**全部**探测结果未知时会自动跳过该过滤，不会因为第三方抖动把订阅写空。
   免费额度约 250 次/小时，探测名额不够时按延迟从低到高优先探测快节点，被挤掉的只会是慢节点。
   不想用可把 `check.china_check.enabled` 设为 `false`。
+- **境外筛选的天花板**：mihomo 测速跑在 GitHub Actions（美国机房），Globalping 只做一次
+  TLS 握手，两者都不在国内。GFW 常见行为是「放握手、掐流量」——握手成功、真实数据全丢，
+  于是通过全部筛选的节点在国内仍约有一半不能用（2026-10-21 实测 169 个里 78 个可用）。
+  这不是参数问题，只能靠**本机真实测速**解决：见上文「本机真实测速」一节，
+  `whitelist.json` 新鲜时构建直接按它过滤，可用率可到 90% 以上。
+
 - **仍不能保证 100% 可用**。免费节点寿命很短，几分钟就可能失效；测活机在境外，
   与你的网络环境不同。客户端里用 url-test 组（默认的「♻️ 自动选择」）会自动挑当前最快的，
   每隔几分钟重测一次并自动切换，不会一直卡在死节点上。
