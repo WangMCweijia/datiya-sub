@@ -523,6 +523,13 @@ def main():
         log.info("已写入 %s（历史清理 %d 条）", wl_path.name, pruned)
 
         if args.push:
+            # 刚测完的上千条连接会让本机对 api.github.com 的新 TLS 握手持续失败
+            # （实测：测完立刻推，8 轮 16 次全灭，全是 handshake timeout；
+            #  停一分钟后再推，第 3 次就成功）。冷却一下再推，省掉无谓重试。
+            cooldown = float(os.environ.get("PUSH_COOLDOWN", "45") or 0)
+            if cooldown:
+                log.info("推送前冷却 %.0f 秒（刚测完，链路还在恢复）", cooldown)
+                time.sleep(cooldown)
             push(payload, repo, wl_path.name)
 
         if not args.loop:
