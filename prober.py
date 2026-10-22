@@ -281,9 +281,18 @@ def filter_working(proxies, cfg):
                     delays = dict(
                         pool.map(lambda n: _delay(base, n, test_url, timeout_ms), names)
                     )
-                alive = [p for p in proxies if delays.get(p["name"]) is not None]
+                # 把延迟挂到节点上：发布顺序要按「延迟 + 网速」综合评分排
+                # （builder.sort_by_quality），不再只用网速。`_` 前缀字段在输出前
+                # 会被 main 剥掉，不会写进订阅与候选池。
+                alive = []
+                for p in proxies:
+                    d = delays.get(p["name"])
+                    if d is None:
+                        continue
+                    p["_delay_ms"] = int(d)
+                    alive.append(p)
                 if max_delay_ms > 0:
-                    alive = [p for p in alive if delays[p["name"]] <= max_delay_ms]
+                    alive = [p for p in alive if p["_delay_ms"] <= max_delay_ms]
                 # 按延迟从低到高排序，让「更值得保留」的快节点排在前面。
                 # 第二轮会按网速重排；此处顺序也是第三轮国内可达性的探测顺序：
                 # Globalping 免费额度有限，配额耗尽后剩下的只能记为未知、在 strict

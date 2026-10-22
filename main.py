@@ -158,6 +158,17 @@ def render_page(status, out_cfg):
     else:
         intro = "由多个公开订阅源自动聚合生成"
         day_note = "（仅附加源）"
+
+    rank = status.get("rank") or {}
+    rank_row = ""
+    if rank.get("median_score") is not None:
+        rank_row = (
+            f"<tr><th>排序口径</th><td>延迟 {rank['weights']['delay']:.0%} + "
+            f"网速 {rank['weights']['speed']:.0%}（满分线 "
+            f"{rank['refs']['delay_ms']:.0f}ms / {rank['refs']['speed_kbps']:.0f}KB/s）；"
+            f"综合分中位 {rank['median_score']:.2f}"
+            f"（最好 {rank['best_score']:.2f} / 最差 {rank['worst_score']:.2f}）</td></tr>"
+        )
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -186,6 +197,7 @@ def render_page(status, out_cfg):
   {proto_row}
   {line_row}
   {streak_row}
+  {rank_row}
   {china_row}
   {wl_row}
   <tr><th>地区分布</th><td>{regions}</td></tr>
@@ -329,6 +341,9 @@ def main():
     china_cfg = check_cfg.get("china_check") or {}
     wl_cfg = check_cfg.get("whitelist") or {}
     cand_cfg = check_cfg.get("candidates") or {}
+    # 发布顺序：延迟 + 网速综合评分（见 builder.sort_by_quality）。只影响订阅里
+    # 节点的排列顺序，不淘汰节点，所以两条测活分支（白名单 / Globalping）都能用。
+    rank_cfg = check_cfg.get("rank") or {}
     china_dropped = 0
     wl_used, wl_detail, wl_stats = False, "未启用", {}
     wl_data = None
@@ -383,6 +398,10 @@ def main():
                 per_line=int(check_cfg.get("max_per_line", 2)),
                 trusted_streak=trusted_streak,
             )
+            # 发布顺序：延迟 + 网速综合评分（白名单条目里带了 _wl_delay / _wl_kbps）。
+            # 这里先排一次，是为了让写进候选池的发布集顺序也是质量序——本机下一轮按
+            # 顺序取前 N 个重测，优质节点先测更划算。最终发布顺序在漏斗末尾统一再排。
+            publish = builder.sort_by_quality(publish, rank_cfg)
             # 候选池 = 本轮发布集 + 未验证的新节点（补足到上限），让本机下一轮有东西可测。
             # 新节点按「存活次数 → 协议可用率」排序，把额度花在最可能成立的候选上。
             proven = {builder.fingerprint(p) for p in proxies}
@@ -475,8 +494,19 @@ def main():
     elif wl_used:
         log.info("已跳过 Globalping：国内可达性由本机白名单给出")
 
+    # 发布顺序在这里定稿：延迟 + 网速综合评分。
+    # 上面各步骤的排序（协议分区、存活优先、国内可达优先）服务的是「谁占探测名额」，
+    # 与「用户打开订阅看到的顺序」是两件事——名额分配完之后，展示顺序就该按质量排。
+    # 只改顺序、不淘汰节点，所以不影响漏斗任何一级的计数。
+    proxies = builder.sort_by_quality(proxies, rank_cfg)
+    log.info(
+        "发布顺序：延迟 %.0f%% + 网速 %.0f%% 综合评分（%s）",
+        float(rank_cfg.get("delay_weight", 0.5)) * 100,
+        float(rank_cfg.get("speed_weight", 0.5)) * 100,
+        builder.rank_summary(proxies, rank_cfg),
+    )
+
     # 协议分区已在额度截断前完成（决定谁占用探测名额），这里只记录发布头部协议。
-    # 不能再排一次：国内可达性过滤刚把「可达」排在了「未知」前面，重排会打乱这个顺序。
     if (check_cfg.get("protocol_score") or {}) and proxies:
         from collections import Counter as _Counter
         head = _Counter(str(p.get("type")) for p in proxies[:20])
@@ -555,6 +585,8 @@ def main():
         ),
         "unique_lines": unique_lines,
         "line_uniqueness": round(unique_lines / len(proxies), 3) if proxies else 0,
+        # 发布顺序用的综合评分口径与分布（便于核对「排序是否按预期生效」）
+        "rank": builder.rank_summary(proxies, rank_cfg),
         "streak": {
             "first": sum(1 for s in streaks if s <= 1),
             "repeat": sum(1 for s in streaks if 1 < s < trusted_streak),

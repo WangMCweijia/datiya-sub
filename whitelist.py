@@ -133,6 +133,11 @@ def load_fresh(path, cfg):
 
 
 def _sort_key(proxy):
+    """粗略兜底排序：有网速的按网速，其余按延迟。
+
+    发布时的实际顺序由 main 调用 `builder.sort_by_quality`（延迟 + 网速综合评分）定稿，
+    这里只保证「不经过发布流程的调用方」（测试、脚本）拿到的不是随机顺序。
+    """
     kbps = float(proxy.get("_wl_kbps") or 0)
     delay = int(proxy.get("_wl_delay") or 0)
     # 测出网速的排前面（快到慢）；网速未知（0）的按延迟排在其后

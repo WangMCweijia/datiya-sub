@@ -4,6 +4,7 @@ import base64
 import hashlib
 import json
 import logging
+import math
 import re
 import unicodedata
 from collections import defaultdict
@@ -341,6 +342,91 @@ def rank_by_protocol(proxies, scores, high_ratio=0.75, cap=None, source_scores=N
     # 超出配额的高分节点排到最后，额度不够时优先被截掉
     return high[:quota] + low + high[quota:]
 
+
+
+def quality_score(proxy, cfg=None):
+    """延迟 + 网速的综合分（0~1），用于发布顺序。
+
+    为什么不再「网速优先、延迟兜底」（原 `_sort_key`）：那样一个 800ms/100KB/s 的
+    节点会排在 20ms/50KB/s 前面，而点开链接的第一感受是延迟（DNS + 握手 + 首字节），
+    下载速度只在拉流/大文件时才感知得到。两维归一化后加权，才是「综合」。
+
+    归一化方式：
+      延迟 qd = min(1, delay_ref / delay)        倒数衰减，≤ ref 满分
+      网速 qs = min(1, log1p(kbps)/log1p(ref))   对数压缩，几十到几千 KB/s 跨两个数量级，
+                                                 线性会把小网速全压到 0 分附近
+    缺测的维度给中性值而不是 0 分：能 CONNECT 但下载超时的节点（本机实测 223 个通过
+    节点里只有 93 个能测出网速）不该被一票否决，也不该白拿满分。
+
+    实测字段有两套来源，按优先级读：本机探测的 `_delay_ms` / `_speed_kbps`，
+    以及白名单条目回落写入的 `_wl_delay` / `_wl_kbps`。
+    """
+    cfg = cfg or {}
+    delay = float(proxy.get("_delay_ms") or proxy.get("_wl_delay") or 0)
+    kbps = float(proxy.get("_speed_kbps") or proxy.get("_wl_kbps") or 0)
+    d_ref = max(1.0, float(cfg.get("delay_ref_ms", 800)))
+    s_ref = max(1.0, float(cfg.get("speed_ref_kbps", 150)))
+    dw = max(0.0, float(cfg.get("delay_weight", 0.5)))
+    sw = max(0.0, float(cfg.get("speed_weight", 0.5)))
+    total = dw + sw
+    if total <= 0:
+        return 0.0
+
+    qd = 0.45 if delay <= 0 else min(1.0, d_ref / delay)
+    qs = 0.35 if kbps <= 0 else min(1.0, math.log1p(kbps) / math.log1p(s_ref))
+    return (dw * qd + sw * qs) / total
+
+
+def sort_by_quality(proxies, cfg=None):
+    """按综合分从高到低排发布顺序（只改顺序，不淘汰任何节点）。
+
+    同分时依次比较：存活轮次高者优先（免费节点「昨天好用今天死」很常见，
+    分数相同时信稳定的那个）→ 延迟低者 → 原始顺序（保持上游的确定性）。
+    """
+    cfg = cfg or {}
+    if not cfg.get("enabled", True):
+        return proxies
+    # 没有任何实测数据时（--no-check / 跳过检测）保持上游原顺序，别用一堆相同的
+    # 中性分把它们按 streak 重排成看似有依据的顺序。
+    measured = ("_delay_ms", "_wl_delay", "_speed_kbps", "_wl_kbps")
+    if not any(any(key in p for key in measured) for p in proxies):
+        return proxies
+    rows = []
+    for index, proxy in enumerate(proxies):
+        delay = int(proxy.get("_delay_ms") or proxy.get("_wl_delay") or 0)
+        rows.append(
+            (
+                -quality_score(proxy, cfg),
+                -int(proxy.get("_streak") or 0),
+                delay if delay > 0 else 10**9,
+                index,
+                proxy,
+            )
+        )
+    rows.sort(key=lambda row: row[:4])
+    return [row[4] for row in rows]
+
+
+def rank_summary(proxies, cfg=None):
+    """发布集的质量分布，写进 status.json 便于核对排序是否符合预期。"""
+    cfg = cfg or {}
+    scores = sorted(quality_score(p, cfg) for p in proxies)
+    if not scores:
+        return {}
+    mid = scores[len(scores) // 2]
+    return {
+        "weights": {
+            "delay": float(cfg.get("delay_weight", 0.5)),
+            "speed": float(cfg.get("speed_weight", 0.5)),
+        },
+        "refs": {
+            "delay_ms": float(cfg.get("delay_ref_ms", 800)),
+            "speed_kbps": float(cfg.get("speed_ref_kbps", 150)),
+        },
+        "median_score": round(mid, 3),
+        "best_score": round(scores[-1], 3),
+        "worst_score": round(scores[0], 3),
+    }
 
 
 def diversify(proxies, per_line=2, trusted_streak=3, trusted_cap=4):

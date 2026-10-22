@@ -108,12 +108,32 @@ check:
     ermaozi: 60
     TopFreeProxy: 60
     datiya: 10                # 主源已停用（site.enabled=false），此分仅在恢复主源时有意义
+
+  # --- 发布顺序：延迟 + 网速综合评分 ---
+  # 原来「网速优先、延迟兜底」：一个 800ms/100KB/s 的节点会排在 20ms/50KB/s 前面，
+  # 而点开链接的第一感受是延迟（DNS+握手+首字节），网速只在拉流/大文件时感知。
+  # 现在两维各自归一化后加权（详见 builder.quality_score）：
+  #   延迟 qd = min(1, delay_ref / delay)            倒数衰减
+  #   网速 qs = min(1, log1p(kbps) / log1p(speed_ref))  对数压缩
+  # ref 取「够用线」而不是理想值，依据 2026-10-22 第 6 轮本机实测（223 个通过节点）：
+  #   延迟 p10/p50/p90 = 1202 / 1724 / 3100 ms —— 免费节点全链路 RTT 就这么高，
+  #   把 ref 设成 100ms 只会让所有节点都挤在 0 分附近，失去区分度；
+  #   网速 p10/p50/p90 = 3.1 / 16 / 92 KB/s（仅 93/223 能完整下载），50KB/s 已算中上。
+  # 缺测的维度按中性值（延迟 0.45 / 网速 0.35），既不白给满分也不一票否决。
+  # 只影响订阅里节点的排列顺序，不淘汰任何节点。
+  rank:
+    enabled: true
+    delay_weight: 0.5
+    speed_weight: 0.5
+    delay_ref_ms: 800        # ≤ 800ms 记延迟满分（实测均值 1.7s，再快的基本没有）
+    speed_ref_kbps: 150      # ≥ 150 KB/s（≈1.2Mbps，480p 流畅）记网速满分
+
   # --- C 档：本机（国内家宽）真实代理测速白名单 ---
   # 上面两轮筛选都不在国内：mihomo 测速跑在 GitHub Actions（美国机房），Globalping 只发
   # 一次 TLS 握手。GFW 常「放握手、掐流量」，于是通过全部筛选的节点实测只有约一半真能用
   # （169 个里 78 个）。这里把「国内能不能真代理出网」交给用户自己的国内机器：
   # local_probe.py 拉取 candidates.json，用 mihomo 内核逐节点真实 CONNECT + 下载测速，
-  # 产出 whitelist.json 推回仓库；CI 按白名单过滤，并按本机实测网速排序。
+  # 产出 whitelist.json 推回仓库；CI 按白名单过滤，并按「延迟 + 网速」综合分排序。
   # 白名单过期/缺失/命中过少时自动回退 Globalping 探测，不会写坏订阅。
   candidates:
     enabled: true
