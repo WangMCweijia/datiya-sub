@@ -1,5 +1,5 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-10-22 09:49:48 +0800 | 可用节点 173 个（候选 14564 个，datiya 覆盖 7 天）
+# 更新于 2026-10-22 10:06:05 +0800 | 可用节点 124 个（候选 14564 个，datiya 覆盖 7 天）
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -22,79 +22,28 @@ dns:
   - https://1.1.1.1/dns-query
   - https://dns.google/dns-query
 proxies:
-- name: 🇫🇷FR_47|2.5MB/s|R002-260618
+- alpn:
+  - h3
+  - h2
+  client-fingerprint: chrome
+  encryption: none
+  name: 🇫🇷FR_185|1.0MB/s|S004-260618
+  network: ws
   port: 443
-  server: 172.64.69.89
-  skip-cert-verify: true
-  sub_tag: R002-260618
+  server: 172.64.154.211
+  sub_tag: S004-260618
   tls: true
-  type: http
+  type: vless
   udp: true
-- name: 🇺🇸US_297|692KB/s|R002-260618
-  port: 8443
-  server: 44.229.69.166
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇫🇷FR_45|4.1MB/s|R002-260618
-  port: 443
-  server: 172.64.68.89
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_234|736KB/s|R002-260618
-  port: 8443
-  server: 44.248.167.117
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_34|743KB/s|P002-260618
-  port: 443
-  server: voteshirleysew.club
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-  sni: voteshirleysew.club
-- name: 🇺🇸US_215|726KB/s|R002-260618
-  port: 9002
-  server: 138.199.35.200
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_247|771KB/s|R002-260618
-  port: 9002
-  server: 138.199.35.204
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_257|736KB/s
-  password: ''
-  port: 9002
-  server: 138.199.35.218
-  skip-cert-verify: true
-  tls: true
-  type: http
-  username: ''
-  udp: true
-- port: 8443
-  server: 129.212.181.253
-  skip-cert-verify: true
-  tls: true
-  type: http
-  name: US - zhuhai.uk 08 [a3a9fd6427b2042d]
-  sub_tag: R002-260618
-  udp: true
+  uuid: 495c7195-85b8-498a-bf20-2ea9ce9175b5
+  ws-opts:
+    headers:
+      Host: snip.edgeoneai.cc.cd
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36
+    path: /
+  xudp: true
+  packet-encoding: xudp
+  servername: snip.edgeoneai.cc.cd
 - alpn:
   - http/1.1
   client-fingerprint: unsafe
@@ -116,13 +65,87 @@ proxies:
   xudp: true
   packet-encoding: xudp
   servername: snip.edgeoneai.cc.cd
+- client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  name: vless-1827154690
+  network: tcp
+  port: 443
+  reality-opts:
+    public-key: SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc
+    short-id: ''
+  server: 163.245.42.48
+  servername: mother-earth.fyi
+  tls: true
+  type: vless
+  udp: true
+  uuid: b9bfa54d-bc44-4592-a6d6-89a9665d286f
+- name: 🇷🇺 俄罗斯 | RUS 2
+  server: 45.128.78.178
+  port: 443
+  type: vless
+  uuid: 261160d5-0343-4b85-8c28-3d40dd681559
+  tls: true
+  flow: xtls-rprx-vision
+  reality-opts:
+    public-key: SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc
+  servername: ozon.ru
+  client-fingerprint: ios
+  network: tcp
+  udp: true
+- name: 🇩🇪DE_52|4.5MB/s|R002-260618
+  port: 80
+  server: 57.131.128.2
+  sub_tag: R002-260618
+  type: http
+  udp: true
+- client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  name: vless-1827154832
+  network: tcp
+  port: 443
+  reality-opts:
+    public-key: SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc
+    short-id: ''
+  server: edge.bookmai.com
+  servername: mother-earth.fyi
+  tls: true
+  type: vless
+  udp: true
+  uuid: b9bfa54d-bc44-4592-a6d6-89a9665d286f
+- name: 🇺🇸US_241|796KB/s|R002-260618
+  port: 443
+  server: 148.135.10.80
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸US_297|692KB/s|R002-260618
+  port: 8443
+  server: 44.229.69.166
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇳🇱NL_33|1.5MB/s|R002-260618
+  port: 443
+  server: 103.97.88.154
+  skip-cert-verify: true
+  sni: 4a8c2906c96058315dffbc2b0e7ff19b-98005bea43f9ac33.apache-iv.com
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
 - alpn:
-  - http/1.1
+  - h3
+  - h2
   client-fingerprint: chrome
-  name: 🇫🇷FR_168|360KB/s|S004-260618
+  encryption: none
+  name: 🇫🇷FR_172|189KB/s|S004-260618
   network: ws
   port: 443
-  server: 104.17.3.81
+  server: 172.67.75.172
   sub_tag: S004-260618
   tls: true
   type: vless
@@ -131,94 +154,82 @@ proxies:
   ws-opts:
     headers:
       Host: snip.edgeoneai.cc.cd
-      User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36
-    path: /fdip#TELEGRAM--MARAMBASHI--MARAMBASHI--MARAMBASHI--MARAMBASHI
-    early-data-header-name: Sec-WebSocket-Protocol
-    max-early-data: 2560
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.162 Safari/537.36
+    path: /
   xudp: true
   packet-encoding: xudp
   servername: snip.edgeoneai.cc.cd
-- name: 🇺🇸US_292|577KB/s|R002-260618
-  port: 8443
-  server: 54.190.176.228
+- name: 🇺🇸US_124|331KB/s|R002-260618
+  password: 'null'
+  port: 443
+  server: 38.28.193.188
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
   type: http
+  username: 'null'
   udp: true
-- name: 🇺🇸US_300|462KB/s|R002-260618
-  port: 8443
-  server: 35.84.133.236
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_81|800KB/s
-  password: ''
+- name: 🇷🇴RO_83|1.2MB/s|P002-260618
+  password: None
   port: 9002
-  server: 138.199.35.196
-  skip-cert-verify: true
-  tls: true
-  type: http
-  username: ''
-  udp: true
-- name: 🇺🇸US_159|766KB/s
-  password: ''
-  port: 9002
-  server: 138.199.35.205
-  skip-cert-verify: true
-  tls: true
-  type: http
-  username: ''
-  udp: true
-- name: 🇺🇸US_260|826KB/s|R002-260618
-  port: 9002
-  server: 138.199.35.213
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_137|759KB/s|R002-260618
-  port: 9002
-  server: 138.199.35.207
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_6|3.0MB/s
-  port: 9002
-  server: 138.199.35.215
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-  sub_tag: R002-260618
-- name: 🇺🇸US_72|849KB/s
-  password: ''
-  port: 9002
-  server: 138.199.35.208
-  skip-cert-verify: true
-  tls: true
-  type: http
-  username: ''
-  udp: true
-- name: 🇺🇸US_157|763KB/s|P002-260618
-  password: ''
-  port: 9002
-  server: 138.199.35.210
+  server: 193.176.84.32
   skip-cert-verify: true
   sub_tag: P002-260618
   tls: true
   type: http
-  username: ''
   udp: true
-- name: 🇺🇸US_271|402KB/s|R002-260618
+- name: 🇫🇷FR_5|4.6MB/s
   port: 443
-  server: 24.225.10.211
+  server: 51.210.167.149
   skip-cert-verify: true
+  tls: true
+  type: http
+  sub_tag: R002-260618
+  udp: true
+- name: NL_speednode_0018
+  port: 9002
+  server: 84.17.47.148
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+  sub_tag: R002-260618
+- client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  name: vless-1879607313
+  network: tcp
+  port: 9443
+  reality-opts:
+    public-key: 0hIFPaEn4RdFib8_eP8HYxMywR5izEwM3JA2W1Zo8U4
+    short-id: b390142456517acc
+  server: 212.135.38.66
+  servername: www.amazon.com
+  tls: true
+  type: vless
+  udp: true
+  uuid: 82eb8419-59f4-4d3e-9106-d05d22af615c
+- password: '8888'
+  port: 1080
+  server: 47.236.168.243
+  type: socks5
+  username: '8888'
+  name: SG - zhuhai.uk [999ce299a4a3ea3c]
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  udp: true
+- name: 🇷🇴RO_82|1.0MB/s
+  port: 9002
+  server: 193.176.84.30
+  skip-cert-verify: true
+  sni: www.bing.com
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸US_405|827KB/s|R002-260618
+  port: 443
+  server: 216.107.139.82
+  skip-cert-verify: true
+  sni: 991cc80f13caf81d3426ddebb2da7f49-92ff472ddc24e5b7.apache-iv.com
   sub_tag: R002-260618
   tls: true
   type: http
@@ -231,17 +242,61 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇮🇪IE_2|1.8MB/s|R002-260618
+- name: 🇫🇷FR_3|3.2MB/s
   port: 443
-  server: 18.200.158.139
+  server: 141.94.16.4
+  skip-cert-verify: true
+  tls: true
+  type: http
+  sub_tag: R002-260618
+  udp: true
+- name: 🇺🇸US_226|1.2MB/s|R002-260618
+  port: 8443
+  server: 44.217.145.28
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
   type: http
   udp: true
-- name: 🇫🇷FR_8|7.5MB/s|R002-260618
-  port: 6103
-  server: 87.98.174.157
+- name: 🇪🇪EE_6|1.5MB/s|R002-260618
+  password: 9jkvAVV-9ufV6IGd
+  port: 44008
+  server: chalo-ru.nexorcdn.com
+  skip-cert-verify: true
+  sni: chalo-ru.nexorcdn.com
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  username: ef37886e2aacd6fa622e3de3810299c2
+  udp: true
+- name: 🇸🇬SG_77|569KB/s|K001-260618
+  password: '1234'
+  port: 2080
+  server: 13.212.235.123
+  skip-cert-verify: true
+  sub_tag: K001-260618
+  type: http
+  username: '1234'
+  udp: true
+- name: 🇵🇱PL_7|553KB/s|R002-260618
+  port: 443
+  server: 31.186.220.204
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇨🇦CA_24|466KB/s|R002-260618
+  port: 9443
+  server: 198.44.157.19
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸US_298|469KB/s|R002-260618
+  port: 443
+  server: 96.5.129.85
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
@@ -255,51 +310,81 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: DK_speednode_0005
+- name: 🇳🇱NL_44|788KB/s|R002-260618
+  port: 443
+  server: 185.238.170.10
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇪🇪EE_13|618KB/s|R002-260618
+  password: 9jkvAVV-9ufV6IGd
+  port: 57452
+  server: chalo-ru.nexorcdn.com
+  skip-cert-verify: true
+  sni: chalo-ru.nexorcdn.com
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  username: ef37886e2aacd6fa622e3de3810299c2
+  udp: true
+- name: 🇺🇸US_225|920KB/s|R002-260618
+  port: 443
+  server: 162.217.114.50
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸US_293|837KB/s|R002-260618
+  port: 443
+  server: 121.127.34.82
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇷🇴RO_77|957KB/s|R002-260618
+  password: 'null'
   port: 9002
-  server: 158.173.154.2
+  server: 193.176.84.35
   skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-  sub_tag: R002-260618
-- name: 🇳🇱NL_90|6.2MB/s|R002-260618
-  port: 19362
-  server: 51.159.225.197
-  skip-cert-verify: true
+  sni: 193.176.84.35
   sub_tag: R002-260618
   tls: true
   type: http
+  username: 'null'
   udp: true
-- name: 🇺🇸US_55|779KB/s|R002-260618
-  port: 9002
-  server: 138.199.35.198
+- name: 🇩🇪DE_24|387KB/s|R002-260618
+  port: 8443
+  server: 77.221.136.60
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
   type: http
   udp: true
-- name: 🇺🇸US_321|700KB/s
+- name: 🇲🇽MX_1|322KB/s|R002-260618
+  port: 443
+  server: 45.134.9.41
+  skip-cert-verify: true
+  sni: 991cc80f13caf81d3426ddebb2da7f49-240d6105b6ef86f0.apache-iv.com
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇮🇱IL_1|2.1MB/s
+  port: 443
+  server: 62.90.77.30
+  skip-cert-verify: true
+  tls: true
+  type: http
+  sub_tag: R002-260618
+  udp: true
+- name: 🇺🇸US_257|736KB/s
   password: ''
   port: 9002
-  server: 138.199.35.219
-  skip-cert-verify: true
-  tls: true
-  type: http
-  username: ''
-  udp: true
-- name: 🇺🇸US_280|775KB/s|R002-260618
-  port: 9002
-  server: 138.199.35.216
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_95|707KB/s
-  password: ''
-  port: 9002
-  server: 138.199.35.199
+  server: 138.199.35.218
   skip-cert-verify: true
   tls: true
   type: http
@@ -313,6 +398,22 @@ proxies:
   tls: true
   type: http
   udp: true
+- name: 🇳🇱NL_215|825KB/s|R002-260618
+  port: 443
+  server: 185.93.106.214
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸US_296|469KB/s|R002-260618
+  port: 8090
+  server: 98.101.229.212
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
 - name: 🇨🇦CA_30|599KB/s|R002-260618
   port: 443
   server: 4.172.245.121
@@ -321,75 +422,56 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇺🇸US_231|1.3MB/s|R002-260618
-  port: 8443
-  server: 18.206.28.143
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_230|474KB/s|R002-260618
+- name: 🇨🇿CZ_1|2.2MB/s|R002-260618
   port: 443
-  server: 162.244.227.36
+  server: 193.35.104.196
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
   type: http
   udp: true
-- name: 🇩🇪DE_52|4.5MB/s|R002-260618
-  port: 80
-  server: 57.131.128.2
+- name: 🇺🇸US_10|2.3MB/s
+  password: None
+  port: 9002
+  server: 138.199.35.213
+  skip-cert-verify: true
+  tls: true
+  type: http
+  sub_tag: P002-260618
+  udp: true
+- name: 🇫🇷FR_39|1.6MB/s|R002-260618
+  port: 4443
+  server: 83.172.143.53
+  skip-cert-verify: true
   sub_tag: R002-260618
+  tls: true
   type: http
   udp: true
-- name: 🇮🇪IE_1|4.4MB/s|R002-260618
+- name: 🇺🇸US_260|826KB/s|R002-260618
+  port: 9002
+  server: 138.199.35.213
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇮🇩ID_1|715KB/s|R002-260618
   port: 443
-  server: 34.249.214.108
+  server: 178.248.73.58
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
   type: http
   udp: true
-- name: NL_speednode_0022
+- name: 🇷🇴RO_48|1.8MB/s|R002-260618
+  password: 'null'
   port: 9002
-  server: 84.17.47.149
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-  sub_tag: R002-260618
-- name: DK_speednode_0006
-  port: 9002
-  server: 158.173.154.3
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-  sub_tag: R002-260618
-- name: 🇩🇪DE_7|3.3MB/s
-  port: 9002
-  server: 158.173.154.1
-  skip-cert-verify: true
-  tls: true
-  type: http
-  sub_tag: R002-260618
-  udp: true
-- name: 🇳🇱NL_43|7.1MB/s|R002-260618
-  port: 9002
-  server: 84.17.47.123
+  server: 193.176.84.17
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
   type: http
-  udp: true
-- name: 🇳🇱NL_175|4.6MB/s|R002-260618
-  port: 9002
-  server: 84.17.47.124
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
+  username: 'null'
   udp: true
 - alpn:
   - http/1.1
@@ -413,387 +495,30 @@ proxies:
   xudp: true
   packet-encoding: xudp
   servername: snip.edgeoneai.cc.cd
-- name: 🇺🇸US_276|723KB/s|R002-260618
-  port: 9002
-  server: 138.199.35.197
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_298|469KB/s|R002-260618
-  port: 443
-  server: 96.5.129.85
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_8|3.0MB/s
-  port: 9002
-  server: 138.199.35.195
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-  sub_tag: R002-260618
-- name: 🇺🇸US_225|920KB/s|R002-260618
-  port: 443
-  server: 162.217.114.50
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_226|1.2MB/s|R002-260618
-  port: 8443
-  server: 44.217.145.28
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇭🇰HK_64|414KB/s|P002-260618
-  port: 3128
-  server: 119.28.24.235
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: NL_speednode_0019
-  port: 9002
-  server: 84.17.47.125
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-  sub_tag: R002-260618
-- name: 🇳🇱NL_176|2.2MB/s|R002-260618
-  port: 9002
-  server: 84.17.47.126
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: DK_speednode_0007
-  port: 9002
-  server: 158.173.154.4
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-  sub_tag: R002-260618
-- name: 🇩🇪DE_30|5.2MB/s|R002-260618
-  port: 443
-  server: 79.76.126.155
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇵🇱PL_20|2.3MB/s|R002-260618
-  port: 443
-  server: 91.92.250.33
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇮🇹IT_6|1.8MB/s|R002-260618
-  port: 443
-  server: 94.177.163.156
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_141|781KB/s|R002-260618
-  port: 9002
-  server: 138.199.35.212
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_511|1.4MB/s|S001-260618
-  password: ''
-  port: 38182
-  server: 69.55.49.177
-  skip-cert-verify: true
-  sub_tag: S001-260618
-  type: socks5
-  username: ''
-  udp: true
-- name: 🇳🇱NL_10|1.6MB/s
-  port: 443
-  server: 51.158.243.91
-  skip-cert-verify: true
-  tls: true
-  type: http
-  sub_tag: R002-260618
-  udp: true
-- name: NL_speednode_0017
-  port: 9002
-  server: 84.17.47.150
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-  sub_tag: R002-260618
-- name: 🇺🇸US_3|3.3MB/s
-  password: None
-  port: 8443
-  server: 44.248.167.117
-  skip-cert-verify: true
-  tls: true
-  type: http
-  sub_tag: P002-260618
-  udp: true
-- name: 🇺🇸US_139|846KB/s|P002-260618
-  password: None
-  port: 443
-  server: goedkoopgeluid.icu
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-  sni: goedkoopgeluid.icu
-- name: 🇺🇸US_43|759KB/s|R002-260618
-  port: 443
-  server: goedkoopgeluid.icu
-  skip-cert-verify: true
-  sni: goedkoopgeluid.icu
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_129|730KB/s|R002-260618
-  port: 443
-  server: purecambogiasl.live
-  skip-cert-verify: true
-  sni: purecambogiasl.live
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_206|773KB/s|R002-260618
-  password: 'null'
-  port: 443
-  server: mmgr.club
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-  sni: mmgr.club
-- name: 🇺🇸US_104|812KB/s|R002-260618
-  password: 'null'
-  port: 443
-  server: efr-marktplatz.club
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-  sni: efr-marktplatz.club
-- name: 🇺🇸US_107|821KB/s|R002-260618
-  password: 'null'
-  port: 443
-  server: voteshirleysew.club
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-  sni: voteshirleysew.club
-- name: 🇺🇸US_24|707KB/s|P002-260618
-  password: None
-  port: 443
-  server: purecambogiasl.live
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-  sni: purecambogiasl.live
-- name: 🇺🇸US_180|744KB/s|P002-260618
-  password: None
-  port: 443
-  server: mmgr.club
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-  sni: mmgr.club
-- name: 🇺🇸US_312|794KB/s|P002-260618
-  password: 'null'
-  port: 9002
-  server: 138.199.35.206
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇺🇸US_153|801KB/s|P002-260618
-  password: None
-  port: 9002
-  server: 138.199.35.208
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_274|747KB/s|R002-260618
-  password: 'null'
-  port: 9002
-  server: 138.199.35.212
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇺🇸US_196|711KB/s|R002-260618
-  password: None
-  port: 9002
-  server: 138.199.35.195
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_108|791KB/s|R002-260618
-  password: 'null'
-  port: 9002
-  server: 138.199.35.216
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇺🇸US_395|747KB/s|P002-260618
-  password: 'null'
-  port: 9002
-  server: 138.199.35.207
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇺🇸US_158|758KB/s|P002-260618
-  password: None
-  port: 9002
-  server: 138.199.35.205
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_77|780KB/s|R002-260618
-  password: 'null'
-  port: 9002
-  server: 138.199.35.210
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇺🇸US_163|850KB/s|P002-260618
-  password: None
-  port: 9002
-  server: 138.199.35.197
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_327|834KB/s|P002-260618
-  password: None
-  port: 9002
-  server: 138.199.35.206
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_116|541KB/s|P002-260618
-  password: 'null'
-  port: 9002
-  server: 138.199.35.219
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇺🇸US_385|719KB/s|P002-260618
-  password: 'null'
-  port: 9002
-  server: 138.199.35.202
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇺🇸US_319|811KB/s|P002-260618
-  password: 'null'
+- name: 🇺🇸US_6|3.0MB/s
   port: 9002
   server: 138.199.35.215
   skip-cert-verify: true
-  sub_tag: P002-260618
   tls: true
   type: http
-  username: 'null'
   udp: true
-- name: 🇺🇸US_11|2.1MB/s
-  password: 'null'
-  port: 9002
-  server: 138.199.35.202
+  sub_tag: R002-260618
+- name: 🇫🇮FI_1|2.0MB/s
+  port: 8443
+  server: 198.105.124.180
   skip-cert-verify: true
-  sni: 138.199.35.202
   tls: true
   type: http
-  username: 'null'
   sub_tag: R002-260618
   udp: true
-- name: 🇺🇸US_78|832KB/s|R002-260618
+- name: 🇺🇸US_81|800KB/s
   password: ''
   port: 9002
-  server: 138.199.35.201
+  server: 138.199.35.196
   skip-cert-verify: true
-  sub_tag: R002-260618
   tls: true
   type: http
-  udp: true
   username: ''
-- name: 🇺🇸US_186|787KB/s|R002-260618
-  port: 9002
-  server: 138.199.35.220
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_284|806KB/s|R002-260618
-  password: 'null'
-  port: 9002
-  server: 138.199.35.201
-  skip-cert-verify: true
-  sni: 138.199.35.201
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: 'null'
   udp: true
 - name: ❓Other_2|345KB/s|P002-260618
   password: 'null'
@@ -805,165 +530,40 @@ proxies:
   type: http
   username: 'null'
   udp: true
-- name: 🇺🇸US_201|775KB/s|P002-260618
-  password: None
-  port: 9002
-  server: 138.199.35.199
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_191|743KB/s|P002-260618
-  password: 'null'
-  port: 9002
-  server: 138.199.35.211
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇺🇸US_306|578KB/s|P002-260618
-  password: None
-  port: 9002
-  server: 138.199.35.218
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_44|865KB/s|P002-260618
-  password: 'null'
-  port: 9002
-  server: 138.199.35.196
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇺🇸US_253|768KB/s|P002-260618
-  password: None
-  port: 9002
-  server: 138.199.35.220
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_9|1.1MB/s
-  port: 9002
-  server: 138.199.35.217
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_60|781KB/s
-  password: ''
-  port: 9002
-  server: 138.199.35.203
-  skip-cert-verify: true
-  tls: true
-  type: http
-  username: ''
-  udp: true
-- name: 🇺🇸US_10|2.3MB/s
-  password: None
-  port: 9002
-  server: 138.199.35.213
-  skip-cert-verify: true
-  tls: true
-  type: http
-  sub_tag: P002-260618
-  udp: true
-- name: 🇺🇸US_162|799KB/s|P002-260618
-  password: None
-  port: 9002
-  server: 138.199.35.204
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_79|760KB/s|P002-260618
-  password: None
-  port: 9002
-  server: 138.199.35.198
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_164|775KB/s|P002-260618
-  password: None
-  port: 9002
-  server: 138.199.35.209
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_252|740KB/s|P002-260618
-  password: None
-  port: 9002
-  server: 138.199.35.211
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_127|797KB/s|R002-260618
-  password: 'null'
-  port: 9002
-  server: 138.199.35.214
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: US_speednode_0030
-  port: 9002
-  server: 138.199.35.214
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-  sub_tag: R002-260618
-- port: 9002
-  server: 138.199.35.209
-  skip-cert-verify: true
-  tls: true
-  type: http
-  name: US - zhuhai.uk 03 [de797585aa40aff2]
-  sub_tag: R002-260618
-  udp: true
-- name: 🇺🇸US_29|722KB/s|R002-260618
-  password: None
-  port: 9002
-  server: 138.199.35.200
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_241|796KB/s|R002-260618
+- name: 🇸🇪SE_3|2.0MB/s|R002-260618
   port: 443
-  server: 148.135.10.80
+  server: 217.210.129.243
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
   type: http
   udp: true
-- name: 🇨🇦CA_3|3.0MB/s
-  password: None
+- name: 🇦🇺AU_3|364KB/s|R002-260618
   port: 443
-  server: 35.183.131.26
+  server: 159.13.44.228
   skip-cert-verify: true
+  sub_tag: R002-260618
   tls: true
   type: http
-  sub_tag: P002-260618
+  udp: true
+- name: 🇺🇸US_68|775KB/s|R002-260618
+  port: 443
+  server: 64.98.50.100
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇩🇪DE_2|585KB/s|R002-260618
+  password: e4b72b531a2d10900519
+  port: 443
+  server: 167.172.172.190
+  skip-cert-verify: true
+  sni: a7acacbe.acsnet.co
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  username: testuser1
   udp: true
 - password: e4b72b531a2d10900519
   port: 443
@@ -975,296 +575,6 @@ proxies:
   name: US - zhuhai.uk 02 [6a976503319262a6]
   sub_tag: R002-260618
   udp: true
-- name: 🇺🇸US_111|598KB/s|R002-260618
-  port: 8090
-  server: 209.148.53.153
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- password: e4b72b531a2d10900519
-  port: 443
-  server: 147.182.216.4
-  sni: 93b6d804.acsnet.co
-  tls: true
-  type: http
-  username: testuser1
-  name: US - zhuhai.uk 04 [b98e9fd3a34456b3]
-  sub_tag: R002-260618
-  udp: true
-- name: 🇺🇸US_279|627KB/s|R002-260618
-  port: 443
-  server: 207.5.30.9
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇳🇱NL_13|2.9MB/s
-  password: 'null'
-  port: 23856
-  server: 51.159.225.196
-  skip-cert-verify: true
-  tls: true
-  type: http
-  username: 'null'
-  sub_tag: K001-260618
-  udp: true
-- name: 🇺🇸US_296|469KB/s|R002-260618
-  port: 8090
-  server: 98.101.229.212
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_181|911KB/s|P002-260618
-  password: None
-  port: 8090
-  server: 209.148.53.153
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇳🇱NL_370|1.9MB/s|P002-260618
-  password: 'null'
-  port: 443
-  server: 5.255.118.82
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇳🇱NL_366|3.3MB/s|P002-260618
-  password: None
-  port: 443
-  server: 5.255.118.82
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸US_282|548KB/s|R002-260618
-  port: 8090
-  server: 50.184.176.222
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: ❓Other_17|432KB/s|R002-260618
-  port: 443
-  server: 5.255.120.245
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: NL_speednode_0016
-  port: 9002
-  server: 84.17.47.147
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: 🇳🇱NL_122|4.4MB/s|R002-260618
-  port: 23856
-  server: 51.159.225.196
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇸🇬SG_121|247KB/s
-  password: '1234'
-  port: 2080
-  server: 13.229.91.101
-  skip-cert-verify: true
-  type: http
-  username: '1234'
-  udp: true
-- name: 🇳🇱NL_82|3.2MB/s|R002-260618
-  password: 'null'
-  port: 443
-  server: 51.158.243.91
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇸🇬SG_105|903KB/s
-  password: '1234'
-  port: 2080
-  server: 54.169.174.62
-  skip-cert-verify: true
-  type: http
-  username: '1234'
-  udp: true
-- name: 🇸🇬SG_81|581KB/s
-  password: '1234'
-  port: 2080
-  server: 13.229.89.107
-  skip-cert-verify: true
-  type: http
-  username: '1234'
-  udp: true
-- name: 🇮🇪IE_1|2.1MB/s
-  password: None
-  port: 443
-  server: 18.200.158.139
-  skip-cert-verify: true
-  tls: true
-  type: http
-  sub_tag: K001-260618
-  udp: true
-- name: 🇸🇬SG_131|578KB/s
-  password: '1234'
-  port: 2080
-  server: 13.229.57.163
-  skip-cert-verify: true
-  type: http
-  username: '1234'
-  udp: true
-- name: 🇸🇬SG_77|569KB/s|K001-260618
-  password: '1234'
-  port: 2080
-  server: 13.212.235.123
-  skip-cert-verify: true
-  sub_tag: K001-260618
-  type: http
-  username: '1234'
-  udp: true
-- name: 🇳🇱NL_385|214KB/s|R002-260618
-  port: 443
-  server: 5.255.125.188
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇳🇱NL_220|2.0MB/s|R002-260618
-  password: 'null'
-  port: 9002
-  server: 84.17.47.149
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇳🇱NL_292|2.0MB/s|P002-260618
-  password: None
-  port: 443
-  server: 157.22.183.72
-  skip-cert-verify: false
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇳🇱NL_158|7.0MB/s|R002-260618
-  password: e4b72b531a2d10900519
-  port: 443
-  server: 82.196.9.7
-  sni: 52c40907.acsnet.co
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: testuser1
-  udp: true
-- name: NL_speednode_0015
-  password: None
-  port: 9002
-  server: 84.17.47.125
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-  sub_tag: P002-260618
-- name: 🇸🇬SG_96|581KB/s
-  password: '1234'
-  port: 2080
-  server: 13.212.207.226
-  skip-cert-verify: true
-  type: http
-  username: '1234'
-  udp: true
-- name: 🇸🇬SG_94|87KB/s|K001-260618
-  password: '1234'
-  port: 2080
-  server: 13.212.14.88
-  skip-cert-verify: true
-  sub_tag: K001-260618
-  type: http
-  username: '1234'
-  udp: true
-- name: 🇸🇬SG_3|1.2MB/s
-  port: 9090
-  server: 128.199.113.85
-  skip-cert-verify: true
-  type: http
-  sub_tag: P002-260618
-  udp: true
-- name: 🇳🇱NL_161|6.1MB/s|K001-260618
-  password: e4b72b531a2d10900519
-  port: 443
-  server: 82.196.9.7
-  skip-cert-verify: true
-  sub_tag: K001-260618
-  tls: true
-  type: http
-  username: testuser1
-  udp: true
-- password: 'null'
-  port: 9002
-  server: 84.17.47.147
-  skip-cert-verify: true
-  sni: 84.17.47.147
-  tls: true
-  type: http
-  username: 'null'
-  name: NL - zhuhai.uk 02 [579b2d214c3aac52]
-  sub_tag: R002-260618
-  udp: true
-- name: 🇸🇬SG_84|579KB/s|P002-260618
-  password: '1234'
-  port: 2080
-  server: 54.251.149.207
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  type: http
-  username: '1234'
-  udp: true
-- name: ❓Other_20|902KB/s|R002-260618
-  password: '1234'
-  port: 2080
-  server: 54.255.129.221
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  type: http
-  username: '1234'
-  udp: true
-- name: 🇳🇱NL_185|867KB/s|P002-260618
-  password: 'null'
-  port: 443
-  server: 185.140.209.235
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇸🇬SG_91|244KB/s
-  password: '1234'
-  port: 2080
-  server: 13.250.6.200
-  skip-cert-verify: true
-  type: http
-  username: '1234'
-  udp: true
 - name: 🇸🇬SG_90|551KB/s|P002-260618
   password: '1234'
   port: 2080
@@ -1274,18 +584,12 @@ proxies:
   type: http
   username: '1234'
   udp: true
-- name: 🇳🇱NL_288|2.4MB/s|R002-260618
-  port: 443
-  server: 157.22.183.72
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇸🇬SG_122|378KB/s
+- name: 🇸🇬SG_84|579KB/s|P002-260618
   password: '1234'
   port: 2080
-  server: 13.212.87.168
+  server: 54.251.149.207
   skip-cert-verify: true
+  sub_tag: P002-260618
   type: http
   username: '1234'
   udp: true
@@ -1297,44 +601,226 @@ proxies:
   type: http
   username: '1234'
   udp: true
-- name: 🇵🇱PL_9|2.7MB/s|R002-260618
-  port: 443
-  server: 151.115.54.133
+- name: 🇸🇬SG_121|247KB/s
+  password: '1234'
+  port: 2080
+  server: 13.229.91.101
   skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
   type: http
+  username: '1234'
   udp: true
-- name: 🇳🇱NL_88|2.6MB/s
-  password: 'null'
-  port: 9002
-  server: 84.17.47.148
+- name: 🇸🇬SG_91|244KB/s
+  password: '1234'
+  port: 2080
+  server: 13.250.6.200
   skip-cert-verify: true
+  type: http
+  username: '1234'
+  udp: true
+- name: 🇸🇬SG_131|578KB/s
+  password: '1234'
+  port: 2080
+  server: 13.229.57.163
+  skip-cert-verify: true
+  type: http
+  username: '1234'
+  udp: true
+- http-opts:
+    headers:
+      Host:
+      - play.googleapis.com
+    method: GET
+    path:
+    - /
+  name: '🇮🇪 爱尔兰 | IRL #1'
+  network: http
+  port: 443
+  server: 3.252.104.83
+  tls: false
+  type: vless
+  udp: true
+  uuid: 7060231d-b9ba-495f-a218-bf427940cf3e
+  sub_tag: P002-260618
+- http-opts:
+    headers:
+      Host:
+      - play.googleapis.com
+    method: GET
+    path:
+    - /
+  name: '🇩🇪 德国 | DEU #3'
+  network: http
+  port: 443
+  server: 3.79.233.186
+  tls: false
+  type: vless
+  udp: true
+  uuid: 7060231d-b9ba-495f-a218-bf427940cf3e
+  sub_tag: P002-260618
+- http-opts:
+    headers:
+      Host:
+      - play.googleapis.com
+    method: GET
+    path:
+    - /
+  name: '🇸🇪 瑞典 | SWE #1'
+  network: http
+  port: 443
+  server: 51.21.247.148
+  tls: false
+  type: vless
+  udp: true
+  uuid: 7060231d-b9ba-495f-a218-bf427940cf3e
+  sub_tag: P002-260618
+- name: 🇺🇸US_206|773KB/s|R002-260618
+  password: 'null'
+  port: 443
+  server: mmgr.club
+  sub_tag: R002-260618
   tls: true
   type: http
   username: 'null'
   udp: true
-- name: 🇸🇬SG_78|251KB/s|R002-260618
-  password: '1234'
-  port: 2080
-  server: 13.212.249.115
+  sni: mmgr.club
+- password: None
+  port: 443
+  server: efr-marktplatz.club
+  tls: true
+  type: http
+  username: 'null'
+  name: US - zhuhai.uk [c156e20748bd1a2b]
+- name: 🇺🇸US_180|744KB/s|P002-260618
+  password: None
+  port: 443
+  server: mmgr.club
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+  sni: mmgr.club
+- name: 🇺🇸US_195|810KB/s|P002-260618
+  password: None
+  port: 443
+  server: zebpay.site
+  skip-cert-verify: false
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+  sni: zebpay.site
+- name: 🇺🇸US_526|347KB/s|R002-260618
+  port: 443
+  server: 137.175.22.88
   skip-cert-verify: true
   sub_tag: R002-260618
+  tls: true
   type: http
-  username: '1234'
   udp: true
-- name: 🇸🇬SG_75|575KB/s|K001-260618
-  password: '1234'
-  port: 2080
-  server: 47.129.200.52
+- name: 🇺🇸US_142|798KB/s|K001-260618
+  password: ''
+  port: 443
+  server: zebpay.site
   skip-cert-verify: true
   sub_tag: K001-260618
+  tls: true
   type: http
-  username: '1234'
+  username: ''
   udp: true
-- name: 🇩🇪DE_29|8.6MB/s|R002-260618
+  sni: zebpay.site
+- name: 🇺🇸US_144|753KB/s|P002-260618
+  password: None
   port: 443
-  server: 193.233.75.115
+  server: carolinafreigh.fun
+  skip-cert-verify: false
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+  sni: carolinafreigh.fun
+- client-fingerprint: chrome
+  encryption: none
+  name: 🇳🇱NL_429|3.9MB/s|B007-260618
+  network: xhttp
+  port: 61374
+  reality-opts:
+    public-key: QrNs0ew7snHqLfpVXS9RAhlRzgAzzGZK9fXmDcx9xHI
+    short-id: ''
+  server: nl-s-2.pythonmakemigreat.wiki
+  sub_tag: B007-260618
+  tls: true
+  type: vless
+  udp: true
+  uuid: f8d52ece-fad4-478d-875d-df6eed3befa7
+  xhttp-opts:
+    host: nl-s-1.pythonmakemigreat.wiki
+    mode: packet-up
+    path: /
+    reuse-settings:
+      max-connections: '3'
+    x-padding-bytes: 100-500
+  xudp: true
+  packet-encoding: xudp
+  servername: nl-s-2.pythonmakemigreat.wiki
+- name: 🇺🇸US_292|577KB/s|R002-260618
+  port: 8443
+  server: 54.190.176.228
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- alpn:
+  - http/1.1
+  client-fingerprint: chrome
+  encryption: none
+  name: 🇳🇱NL_447|1.5MB/s|S004-260618
+  network: ws
+  port: 443
+  server: farmmarket-production-a478.up.railway.app
+  sub_tag: S004-260618
+  tls: true
+  type: vless
+  udp: true
+  uuid: a10c5093-4f1e-4272-bb85-40aa0ae3cd0b
+  ws-opts:
+    headers:
+      Host: farmmarket-production-a478.up.railway.app
+      User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36
+    path: /ws/ddae7681-fa5a-49c5-9ca4-1c76a51a5a00
+    early-data-header-name: Sec-WebSocket-Protocol
+    max-early-data: 2560
+  xudp: true
+  packet-encoding: xudp
+  servername: farmmarket-production-a478.up.railway.app
+- name: 🇺🇸US_423|227KB/s|P002-260618
+  port: 8443
+  server: 45.150.164.18
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇩🇪DE_7|3.3MB/s
+  port: 9002
+  server: 158.173.154.1
+  skip-cert-verify: true
+  tls: true
+  type: http
+  sub_tag: R002-260618
+  udp: true
+- name: 🇳🇱NL_43|7.1MB/s|R002-260618
+  port: 9002
+  server: 84.17.47.123
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇩🇪DE_36|3.8MB/s|R002-260618
+  port: 443
+  server: 213.109.163.119
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
@@ -1349,207 +835,392 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇸🇬SG_76|880KB/s|R002-260618
-  port: 9090
-  server: 128.199.121.61
+- name: 🇳🇱NL_140|943KB/s|R002-260618
+  port: 443
+  server: 185.140.209.235
+  skip-cert-verify: true
+  sni: 482c8436a1f7c908b48a1757abb5dd79-ce85c45206570905.apache-iv.com
   sub_tag: R002-260618
+  tls: true
   type: http
   udp: true
-- name: 🇺🇸US_132|330KB/s|R002-260618
+- name: 🇳🇱NL_185|867KB/s|P002-260618
+  password: 'null'
   port: 443
-  server: 38.28.193.188
+  server: 185.140.209.235
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇩🇪DE_55|2.8MB/s|R002-260618
+  port: 443
+  server: 116.202.172.99
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
   type: http
   udp: true
-- name: 🇺🇸US_109|332KB/s|Z001-260618
+- name: 🇳🇱NL_10|1.6MB/s
   port: 443
-  server: fan.226278.xyz
-  sub_tag: Z001-260618
+  server: 51.158.243.91
+  skip-cert-verify: true
+  tls: true
+  type: http
+  sub_tag: R002-260618
+  udp: true
+- name: NL_speednode_0019
+  port: 9002
+  server: 84.17.47.125
+  skip-cert-verify: true
   tls: true
   type: http
   udp: true
-  sni: fan.226278.xyz
-- name: 🇸🇬SG_74|884KB/s|R002-260618
+  sub_tag: R002-260618
+- name: 🇳🇱NL_122|4.4MB/s|R002-260618
+  port: 23856
+  server: 51.159.225.196
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇮🇹IT_6|1.8MB/s|R002-260618
+  port: 443
+  server: 94.177.163.156
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇮🇪IE_1|2.1MB/s
   password: None
-  port: 9090
-  server: 104.248.151.93
-  sub_tag: R002-260618
-  type: http
-  udp: true
-- port: 443
-  server: 137.175.22.120
-  skip-cert-verify: true
-  tls: true
-  type: http
-  name: US - zhuhai.uk 05 [98a9d6674893355e]
-- name: 🇱🇻LV_4|2.4MB/s|R002-260618
   port: 443
-  server: 185.219.159.16
+  server: 18.200.158.139
+  skip-cert-verify: true
+  tls: true
+  type: http
+  sub_tag: K001-260618
+  udp: true
+- name: 🇮🇪IE_2|1.8MB/s|R002-260618
+  port: 443
+  server: 18.200.158.139
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
   type: http
   udp: true
-- name: 🇵🇱PL_1|2.8MB/s|P002-260618
+- name: NL_speednode_0012
+  port: 443
+  server: 185.238.168.20
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+  sub_tag: R002-260618
+- name: 🇳🇱NL_363|107KB/s|R002-260618
+  port: 443
+  server: 5.255.125.187
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸US_229|676KB/s|R002-260618
+  port: 9443
+  server: 198.44.138.27
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸US_5|3.3MB/s
   password: None
+  port: 443
+  server: 64.98.50.100
+  skip-cert-verify: true
+  tls: true
+  type: http
+  sub_tag: K001-260618
+  udp: true
+- name: 🇫🇮FI_12|1.3MB/s|R002-260618
+  port: 8080
+  server: 65.109.179.56
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇷🇴RO_31|786KB/s|P002-260618
+  password: None
+  port: 9002
+  server: 193.176.84.39
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇪🇪EE_14|1.8MB/s|R002-260618
+  password: 9jkvAVV-9ufV6IGd
+  port: 36774
+  server: chalo-ru.nexorcdn.com
+  skip-cert-verify: true
+  sni: chalo-ru.nexorcdn.com
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  username: ef37886e2aacd6fa622e3de3810299c2
+  udp: true
+- name: 🇷🇴RO_74|1.7MB/s
+  password: 'null'
+  port: 9002
+  server: 193.176.84.27
+  skip-cert-verify: true
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇫🇷FR_10|1.5MB/s|R002-260618
+  port: 8090
+  server: 82.96.128.175
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇷🇴RO_5|1.4MB/s
+  port: 9002
+  server: 193.176.84.24
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸US_247|771KB/s|R002-260618
+  port: 9002
+  server: 138.199.35.204
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇷🇺RU_2|1.5MB/s|R002-260618
+  port: 8443
+  server: 87.242.85.187
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸US_411|443KB/s|R002-260618
+  port: 443
+  server: 149.88.21.140
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇵🇱PL_20|2.3MB/s|R002-260618
+  port: 443
+  server: 91.92.250.33
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸US_339|619KB/s|R002-260618
+  port: 443
+  server: 193.239.236.134
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸US_60|781KB/s
+  password: ''
+  port: 9002
+  server: 138.199.35.203
+  skip-cert-verify: true
+  tls: true
+  type: http
+  username: ''
+  udp: true
+- name: 🇷🇴RO_93|1.5MB/s|R002-260618
+  port: 9002
+  server: 193.176.84.18
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸US_231|1.3MB/s|R002-260618
+  port: 8443
+  server: 18.206.28.143
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇵🇱PL_9|2.7MB/s|R002-260618
   port: 443
   server: 151.115.54.133
   skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇸🇬SG_59|481KB/s|K001-260618
-  password: '1234'
-  port: 2080
-  server: 54.151.242.187
-  skip-cert-verify: true
-  sub_tag: K001-260618
-  type: http
-  username: '1234'
-  udp: true
-- name: 🇸🇬SG_82|383KB/s|P002-260618
-  password: '1234'
-  port: 2080
-  server: 54.255.133.243
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  type: http
-  username: '1234'
-  udp: true
-- name: NL_speednode_0018
-  port: 9002
-  server: 84.17.47.148
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
   sub_tag: R002-260618
-- name: 🇺🇸US_124|331KB/s|R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸US_385|719KB/s|P002-260618
   password: 'null'
-  port: 443
-  server: 38.28.193.188
+  port: 9002
+  server: 138.199.35.202
   skip-cert-verify: true
-  sub_tag: R002-260618
+  sub_tag: P002-260618
   tls: true
   type: http
   username: 'null'
   udp: true
-- name: 🇸🇬SG_119|348KB/s|R002-260618
-  password: '1234'
-  port: 2080
-  server: 18.143.167.6
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  type: http
-  username: '1234'
-  udp: true
-- name: 🇫🇷FR_39|1.6MB/s|R002-260618
-  port: 4443
-  server: 83.172.143.53
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇳🇱NL_9|1.0MB/s
+- password: e4b72b531a2d10900519
   port: 443
-  server: 152.53.107.196
-  skip-cert-verify: true
+  server: 147.182.216.4
+  sni: 93b6d804.acsnet.co
   tls: true
   type: http
-- name: 🇫🇷FR_19|1.5MB/s|R002-260618
-  port: 8081
-  server: 31.32.19.111
+  username: testuser1
+  name: US - zhuhai.uk 04 [b98e9fd3a34456b3]
+  sub_tag: R002-260618
+  udp: true
+- name: 🇺🇸US_341|530KB/s|R002-260618
+  port: 443
+  server: 149.22.88.65
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
   type: http
   udp: true
-- password: 'null'
+- name: 🇺🇸US_159|766KB/s
+  password: ''
   port: 9002
-  server: 84.17.47.150
+  server: 138.199.35.205
   skip-cert-verify: true
   tls: true
   type: http
-  username: 'null'
-  name: NL - zhuhai.uk [1f7ea8820fb62000]
-  sub_tag: R002-260618
+  username: ''
   udp: true
-- password: '8888'
-  port: 1080
-  server: 47.236.168.243
-  type: socks5
-  username: '8888'
-  name: SG - zhuhai.uk [999ce299a4a3ea3c]
+- name: 🇱🇻LV_5|1.9MB/s|R002-260618
+  port: 443
+  server: 185.219.159.15
   skip-cert-verify: true
   sub_tag: R002-260618
-  udp: true
-- name: 🇩🇪DE_12|6.5MB/s|R002-260618
-  port: 11111
-  server: 103.237.102.191
-  sub_tag: R002-260618
+  tls: true
   type: http
   udp: true
-- name: 🇩🇪DE_41|5.5MB/s|R002-260618
-  password: udp-relay=true
-  port: 11111
-  server: 103.237.102.191
-  sub_tag: R002-260618
-  type: http
-  username: None
-  udp: true
-- name: 🇷🇴RO_41|1.5MB/s
+- name: US_speednode_0030
   port: 9002
-  server: 193.176.84.22
+  server: 138.199.35.214
   skip-cert-verify: true
-  sni: www.bing.com
   tls: true
   type: http
   udp: true
-- name: 🇸🇬SG_85|570KB/s|K001-260618
-  password: '1234'
-  port: 2080
-  server: 13.250.21.56
+  sub_tag: R002-260618
+- client-fingerprint: chrome
+  encryption: none
+  fingerprint: cd6e838b9bfe31cab8b3d5c858b0d6223fe84ece236c1fdb281be93c302e1e6e
+  name: ❓Other_28|156KB/s|S004-260618
+  network: ws
+  port: 443
+  server: 199.232.78.160
+  sub_tag: S004-260618
+  tls: true
+  type: vless
+  udp: true
+  uuid: XpnTeam-33
+  ws-opts:
+    headers:
+      Host: Appxdn.global.ssl.fastly.net
+      User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36
+    path: /
+  xudp: true
+  packet-encoding: xudp
+  servername: cdn.akamai.steamstatic.com
+- name: 🇺🇸US_279|627KB/s|R002-260618
+  port: 443
+  server: 207.5.30.9
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇳🇱NL_161|6.1MB/s|K001-260618
+  password: e4b72b531a2d10900519
+  port: 443
+  server: 82.196.9.7
   skip-cert-verify: true
   sub_tag: K001-260618
+  tls: true
   type: http
-  username: '1234'
+  username: testuser1
   udp: true
-- name: 🇩🇪DE_23|3.9MB/s|R002-260618
+- name: 🇦🇺AU_2|415KB/s|R002-260618
+  password: None
   port: 443
-  server: 87.106.223.158
+  server: 159.13.44.228
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
   type: http
   udp: true
-- name: 🇷🇴RO_72|1.7MB/s
+- name: 🇧🇷BR_1|2.4MB/s
+  port: 443
+  server: 134.65.17.77
+  skip-cert-verify: true
+  tls: true
+  type: http
+  sub_tag: R002-260618
+  udp: true
+- name: 🇩🇪DE_7|4.3MB/s|R002-260618
+  port: 443
+  server: 159.69.94.125
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇳🇱NL_371|4.3MB/s|R002-260618
+  port: 443
+  server: 5.255.120.238
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇷🇴RO_18|1.6MB/s|P002-260618
+  password: None
   port: 9002
   server: 193.176.84.20
   skip-cert-verify: true
-  sni: www.bing.com
+  sub_tag: P002-260618
   tls: true
   type: http
   udp: true
-- name: 🇳🇱NL_235|1.0MB/s|R002-260618
+- name: 🇺🇸US_540|467KB/s|K001-260618
+  password: None
   port: 443
-  server: 185.246.153.42
+  server: 12.202.180.10
   skip-cert-verify: true
-  sni: 482c8436a1f7c908b48a1757abb5dd79-3791fb4df2db250b.apache-iv.com
-  sub_tag: R002-260618
+  sub_tag: K001-260618
   tls: true
   type: http
+  username: ''
   udp: true
-- name: 🇫🇷FR_40|3.7MB/s|R002-260618
-  port: 443
-  server: 130.180.211.56
+- name: 🇳🇱NL_220|2.0MB/s|R002-260618
+  password: 'null'
+  port: 9002
+  server: 84.17.47.149
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
   type: http
+  username: 'null'
   udp: true
 proxy-groups:
 - name: 🚀 节点选择
@@ -1557,188 +1228,139 @@ proxy-groups:
   proxies:
   - ♻️ 自动选择
   - DIRECT
+  - 🌐 俄罗斯
   - 🌐 加拿大
   - 🌐 德国
   - 🌐 新加坡
   - 🌐 法国
+  - 🌐 澳大利亚
   - 🌐 美国
-  - 🌐 英国
   - 🌐 荷兰
-  - 🌐 香港
   - 🌐 其他
-  - 🇫🇷FR_47|2.5MB/s|R002-260618
-  - 🇺🇸US_297|692KB/s|R002-260618
-  - 🇫🇷FR_45|4.1MB/s|R002-260618
-  - 🇺🇸US_234|736KB/s|R002-260618
-  - 🇺🇸US_34|743KB/s|P002-260618
-  - 🇺🇸US_215|726KB/s|R002-260618
-  - 🇺🇸US_247|771KB/s|R002-260618
-  - 🇺🇸US_257|736KB/s
-  - US - zhuhai.uk 08 [a3a9fd6427b2042d]
+  - 🇫🇷FR_185|1.0MB/s|S004-260618
   - 🇫🇷FR_162|367KB/s|S001-260618
-  - 🇫🇷FR_168|360KB/s|S004-260618
-  - 🇺🇸US_292|577KB/s|R002-260618
-  - 🇺🇸US_300|462KB/s|R002-260618
-  - 🇺🇸US_81|800KB/s
-  - 🇺🇸US_159|766KB/s
-  - 🇺🇸US_260|826KB/s|R002-260618
-  - 🇺🇸US_137|759KB/s|R002-260618
-  - 🇺🇸US_6|3.0MB/s
-  - 🇺🇸US_72|849KB/s
-  - 🇺🇸US_157|763KB/s|P002-260618
-  - 🇺🇸US_271|402KB/s|R002-260618
-  - 🇨🇦CA_25|1.0MB/s|R002-260618
-  - 🇮🇪IE_2|1.8MB/s|R002-260618
-  - 🇫🇷FR_8|7.5MB/s|R002-260618
-  - 🇩🇪DE_19|2.3MB/s|R002-260618
-  - DK_speednode_0005
-  - 🇳🇱NL_90|6.2MB/s|R002-260618
-  - 🇺🇸US_55|779KB/s|R002-260618
-  - 🇺🇸US_321|700KB/s
-  - 🇺🇸US_280|775KB/s|R002-260618
-  - 🇺🇸US_95|707KB/s
-  - 🇺🇸US_295|577KB/s|R002-260618
-  - 🇨🇦CA_30|599KB/s|R002-260618
-  - 🇺🇸US_231|1.3MB/s|R002-260618
-  - 🇺🇸US_230|474KB/s|R002-260618
+  - vless-1827154690
+  - 🇷🇺 俄罗斯 | RUS 2
   - 🇩🇪DE_52|4.5MB/s|R002-260618
-  - 🇮🇪IE_1|4.4MB/s|R002-260618
-  - NL_speednode_0022
-  - DK_speednode_0006
+  - vless-1827154832
+  - 🇺🇸US_241|796KB/s|R002-260618
+  - 🇺🇸US_297|692KB/s|R002-260618
+  - 🇳🇱NL_33|1.5MB/s|R002-260618
+  - 🇫🇷FR_172|189KB/s|S004-260618
+  - 🇺🇸US_124|331KB/s|R002-260618
+  - 🇷🇴RO_83|1.2MB/s|P002-260618
+  - 🇫🇷FR_5|4.6MB/s
+  - NL_speednode_0018
+  - vless-1879607313
+  - SG - zhuhai.uk [999ce299a4a3ea3c]
+  - 🇷🇴RO_82|1.0MB/s
+  - 🇺🇸US_405|827KB/s|R002-260618
+  - 🇨🇦CA_25|1.0MB/s|R002-260618
+  - 🇫🇷FR_3|3.2MB/s
+  - 🇺🇸US_226|1.2MB/s|R002-260618
+  - 🇪🇪EE_6|1.5MB/s|R002-260618
+  - 🇸🇬SG_77|569KB/s|K001-260618
+  - 🇵🇱PL_7|553KB/s|R002-260618
+  - 🇨🇦CA_24|466KB/s|R002-260618
+  - 🇺🇸US_298|469KB/s|R002-260618
+  - 🇩🇪DE_19|2.3MB/s|R002-260618
+  - 🇳🇱NL_44|788KB/s|R002-260618
+  - 🇪🇪EE_13|618KB/s|R002-260618
+  - 🇺🇸US_225|920KB/s|R002-260618
+  - 🇺🇸US_293|837KB/s|R002-260618
+  - 🇷🇴RO_77|957KB/s|R002-260618
+  - 🇩🇪DE_24|387KB/s|R002-260618
+  - 🇲🇽MX_1|322KB/s|R002-260618
+  - 🇮🇱IL_1|2.1MB/s
+  - 🇺🇸US_257|736KB/s
+  - 🇺🇸US_295|577KB/s|R002-260618
+  - 🇳🇱NL_215|825KB/s|R002-260618
+  - 🇺🇸US_296|469KB/s|R002-260618
+  - 🇨🇦CA_30|599KB/s|R002-260618
+  - 🇨🇿CZ_1|2.2MB/s|R002-260618
+  - 🇺🇸US_10|2.3MB/s
+  - 🇫🇷FR_39|1.6MB/s|R002-260618
+  - 🇺🇸US_260|826KB/s|R002-260618
+  - 🇮🇩ID_1|715KB/s|R002-260618
+  - 🇷🇴RO_48|1.8MB/s|R002-260618
+  - 🇫🇷FR_157|741KB/s|S001-260618
+  - 🇺🇸US_6|3.0MB/s
+  - 🇫🇮FI_1|2.0MB/s
+  - 🇺🇸US_81|800KB/s
+  - ❓Other_2|345KB/s|P002-260618
+  - 🇸🇪SE_3|2.0MB/s|R002-260618
+  - 🇦🇺AU_3|364KB/s|R002-260618
+  - 🇺🇸US_68|775KB/s|R002-260618
+  - 🇩🇪DE_2|585KB/s|R002-260618
+  - US - zhuhai.uk 02 [6a976503319262a6]
+  - 🇸🇬SG_90|551KB/s|P002-260618
+  - 🇸🇬SG_84|579KB/s|P002-260618
+  - ❓Other_13|257KB/s
+  - 🇸🇬SG_121|247KB/s
+  - 🇸🇬SG_91|244KB/s
+  - 🇸🇬SG_131|578KB/s
+  - '🇮🇪 爱尔兰 | IRL #1'
+  - '🇩🇪 德国 | DEU #3'
+  - '🇸🇪 瑞典 | SWE #1'
+  - 🇺🇸US_206|773KB/s|R002-260618
+  - US - zhuhai.uk [c156e20748bd1a2b]
+  - 🇺🇸US_180|744KB/s|P002-260618
+  - 🇺🇸US_195|810KB/s|P002-260618
+  - 🇺🇸US_526|347KB/s|R002-260618
+  - 🇺🇸US_142|798KB/s|K001-260618
+  - 🇺🇸US_144|753KB/s|P002-260618
+  - 🇳🇱NL_429|3.9MB/s|B007-260618
+  - 🇺🇸US_292|577KB/s|R002-260618
+  - 🇳🇱NL_447|1.5MB/s|S004-260618
+  - 🇺🇸US_423|227KB/s|P002-260618
   - 🇩🇪DE_7|3.3MB/s
   - 🇳🇱NL_43|7.1MB/s|R002-260618
-  - 🇳🇱NL_175|4.6MB/s|R002-260618
-  - 🇫🇷FR_157|741KB/s|S001-260618
-  - 🇺🇸US_276|723KB/s|R002-260618
-  - 🇺🇸US_298|469KB/s|R002-260618
-  - 🇺🇸US_8|3.0MB/s
-  - 🇺🇸US_225|920KB/s|R002-260618
-  - 🇺🇸US_226|1.2MB/s|R002-260618
-  - 🇭🇰HK_64|414KB/s|P002-260618
-  - NL_speednode_0019
-  - 🇳🇱NL_176|2.2MB/s|R002-260618
-  - DK_speednode_0007
-  - 🇩🇪DE_30|5.2MB/s|R002-260618
-  - 🇵🇱PL_20|2.3MB/s|R002-260618
-  - 🇮🇹IT_6|1.8MB/s|R002-260618
-  - 🇺🇸US_141|781KB/s|R002-260618
-  - 🇺🇸US_511|1.4MB/s|S001-260618
-  - 🇳🇱NL_10|1.6MB/s
-  - NL_speednode_0017
-  - 🇺🇸US_3|3.3MB/s
-  - 🇺🇸US_139|846KB/s|P002-260618
-  - 🇺🇸US_43|759KB/s|R002-260618
-  - 🇺🇸US_129|730KB/s|R002-260618
-  - 🇺🇸US_206|773KB/s|R002-260618
-  - 🇺🇸US_104|812KB/s|R002-260618
-  - 🇺🇸US_107|821KB/s|R002-260618
-  - 🇺🇸US_24|707KB/s|P002-260618
-  - 🇺🇸US_180|744KB/s|P002-260618
-  - 🇺🇸US_312|794KB/s|P002-260618
-  - 🇺🇸US_153|801KB/s|P002-260618
-  - 🇺🇸US_274|747KB/s|R002-260618
-  - 🇺🇸US_196|711KB/s|R002-260618
-  - 🇺🇸US_108|791KB/s|R002-260618
-  - 🇺🇸US_395|747KB/s|P002-260618
-  - 🇺🇸US_158|758KB/s|P002-260618
-  - 🇺🇸US_77|780KB/s|R002-260618
-  - 🇺🇸US_163|850KB/s|P002-260618
-  - 🇺🇸US_327|834KB/s|P002-260618
-  - 🇺🇸US_116|541KB/s|P002-260618
-  - 🇺🇸US_385|719KB/s|P002-260618
-  - 🇺🇸US_319|811KB/s|P002-260618
-  - 🇺🇸US_11|2.1MB/s
-  - 🇺🇸US_78|832KB/s|R002-260618
-  - 🇺🇸US_186|787KB/s|R002-260618
-  - 🇺🇸US_284|806KB/s|R002-260618
-  - ❓Other_2|345KB/s|P002-260618
-  - 🇺🇸US_201|775KB/s|P002-260618
-  - 🇺🇸US_191|743KB/s|P002-260618
-  - 🇺🇸US_306|578KB/s|P002-260618
-  - 🇺🇸US_44|865KB/s|P002-260618
-  - 🇺🇸US_253|768KB/s|P002-260618
-  - 🇺🇸US_9|1.1MB/s
-  - 🇺🇸US_60|781KB/s
-  - 🇺🇸US_10|2.3MB/s
-  - 🇺🇸US_162|799KB/s|P002-260618
-  - 🇺🇸US_79|760KB/s|P002-260618
-  - 🇺🇸US_164|775KB/s|P002-260618
-  - 🇺🇸US_252|740KB/s|P002-260618
-  - 🇺🇸US_127|797KB/s|R002-260618
-  - US_speednode_0030
-  - US - zhuhai.uk 03 [de797585aa40aff2]
-  - 🇺🇸US_29|722KB/s|R002-260618
-  - 🇺🇸US_241|796KB/s|R002-260618
-  - 🇨🇦CA_3|3.0MB/s
-  - US - zhuhai.uk 02 [6a976503319262a6]
-  - 🇺🇸US_111|598KB/s|R002-260618
-  - US - zhuhai.uk 04 [b98e9fd3a34456b3]
-  - 🇺🇸US_279|627KB/s|R002-260618
-  - 🇳🇱NL_13|2.9MB/s
-  - 🇺🇸US_296|469KB/s|R002-260618
-  - 🇺🇸US_181|911KB/s|P002-260618
-  - 🇳🇱NL_370|1.9MB/s|P002-260618
-  - 🇳🇱NL_366|3.3MB/s|P002-260618
-  - 🇺🇸US_282|548KB/s|R002-260618
-  - ❓Other_17|432KB/s|R002-260618
-  - NL_speednode_0016
-  - 🇳🇱NL_122|4.4MB/s|R002-260618
-  - 🇸🇬SG_121|247KB/s
-  - 🇳🇱NL_82|3.2MB/s|R002-260618
-  - 🇸🇬SG_105|903KB/s
-  - 🇸🇬SG_81|581KB/s
-  - 🇮🇪IE_1|2.1MB/s
-  - 🇸🇬SG_131|578KB/s
-  - 🇸🇬SG_77|569KB/s|K001-260618
-  - 🇳🇱NL_385|214KB/s|R002-260618
-  - 🇳🇱NL_220|2.0MB/s|R002-260618
-  - 🇳🇱NL_292|2.0MB/s|P002-260618
-  - 🇳🇱NL_158|7.0MB/s|R002-260618
-  - NL_speednode_0015
-  - 🇸🇬SG_96|581KB/s
-  - 🇸🇬SG_94|87KB/s|K001-260618
-  - 🇸🇬SG_3|1.2MB/s
-  - 🇳🇱NL_161|6.1MB/s|K001-260618
-  - NL - zhuhai.uk 02 [579b2d214c3aac52]
-  - 🇸🇬SG_84|579KB/s|P002-260618
-  - ❓Other_20|902KB/s|R002-260618
-  - 🇳🇱NL_185|867KB/s|P002-260618
-  - 🇸🇬SG_91|244KB/s
-  - 🇸🇬SG_90|551KB/s|P002-260618
-  - 🇳🇱NL_288|2.4MB/s|R002-260618
-  - 🇸🇬SG_122|378KB/s
-  - ❓Other_13|257KB/s
-  - 🇵🇱PL_9|2.7MB/s|R002-260618
-  - 🇳🇱NL_88|2.6MB/s
-  - 🇸🇬SG_78|251KB/s|R002-260618
-  - 🇸🇬SG_75|575KB/s|K001-260618
-  - 🇩🇪DE_29|8.6MB/s|R002-260618
+  - 🇩🇪DE_36|3.8MB/s|R002-260618
   - 🇺🇸US_54|280KB/s|R002-260618
-  - 🇸🇬SG_76|880KB/s|R002-260618
-  - 🇺🇸US_132|330KB/s|R002-260618
-  - 🇺🇸US_109|332KB/s|Z001-260618
-  - 🇸🇬SG_74|884KB/s|R002-260618
-  - US - zhuhai.uk 05 [98a9d6674893355e]
-  - 🇱🇻LV_4|2.4MB/s|R002-260618
-  - 🇵🇱PL_1|2.8MB/s|P002-260618
-  - 🇸🇬SG_59|481KB/s|K001-260618
-  - 🇸🇬SG_82|383KB/s|P002-260618
-  - NL_speednode_0018
-  - 🇺🇸US_124|331KB/s|R002-260618
-  - 🇸🇬SG_119|348KB/s|R002-260618
-  - 🇫🇷FR_39|1.6MB/s|R002-260618
-  - 🇳🇱NL_9|1.0MB/s
-  - 🇫🇷FR_19|1.5MB/s|R002-260618
-  - NL - zhuhai.uk [1f7ea8820fb62000]
-  - SG - zhuhai.uk [999ce299a4a3ea3c]
-  - 🇩🇪DE_12|6.5MB/s|R002-260618
-  - 🇩🇪DE_41|5.5MB/s|R002-260618
-  - 🇷🇴RO_41|1.5MB/s
-  - 🇸🇬SG_85|570KB/s|K001-260618
-  - 🇩🇪DE_23|3.9MB/s|R002-260618
-  - 🇷🇴RO_72|1.7MB/s
-  - 🇳🇱NL_235|1.0MB/s|R002-260618
-  - 🇫🇷FR_40|3.7MB/s|R002-260618
+  - 🇳🇱NL_140|943KB/s|R002-260618
+  - 🇳🇱NL_185|867KB/s|P002-260618
+  - 🇩🇪DE_55|2.8MB/s|R002-260618
+  - 🇳🇱NL_10|1.6MB/s
+  - NL_speednode_0019
+  - 🇳🇱NL_122|4.4MB/s|R002-260618
+  - 🇮🇹IT_6|1.8MB/s|R002-260618
+  - 🇮🇪IE_1|2.1MB/s
+  - 🇮🇪IE_2|1.8MB/s|R002-260618
+  - NL_speednode_0012
+  - 🇳🇱NL_363|107KB/s|R002-260618
+  - 🇺🇸US_229|676KB/s|R002-260618
+  - 🇺🇸US_5|3.3MB/s
+  - 🇫🇮FI_12|1.3MB/s|R002-260618
+  - 🇷🇴RO_31|786KB/s|P002-260618
+  - 🇪🇪EE_14|1.8MB/s|R002-260618
+  - 🇷🇴RO_74|1.7MB/s
+  - 🇫🇷FR_10|1.5MB/s|R002-260618
+  - 🇷🇴RO_5|1.4MB/s
+  - 🇺🇸US_247|771KB/s|R002-260618
+  - 🇷🇺RU_2|1.5MB/s|R002-260618
+  - 🇺🇸US_411|443KB/s|R002-260618
+  - 🇵🇱PL_20|2.3MB/s|R002-260618
+  - 🇺🇸US_339|619KB/s|R002-260618
+  - 🇺🇸US_60|781KB/s
+  - 🇷🇴RO_93|1.5MB/s|R002-260618
+  - 🇺🇸US_231|1.3MB/s|R002-260618
+  - 🇵🇱PL_9|2.7MB/s|R002-260618
+  - 🇺🇸US_385|719KB/s|P002-260618
+  - US - zhuhai.uk 04 [b98e9fd3a34456b3]
+  - 🇺🇸US_341|530KB/s|R002-260618
+  - 🇺🇸US_159|766KB/s
+  - 🇱🇻LV_5|1.9MB/s|R002-260618
+  - US_speednode_0030
+  - ❓Other_28|156KB/s|S004-260618
+  - 🇺🇸US_279|627KB/s|R002-260618
+  - 🇳🇱NL_161|6.1MB/s|K001-260618
+  - 🇦🇺AU_2|415KB/s|R002-260618
+  - 🇧🇷BR_1|2.4MB/s
+  - 🇩🇪DE_7|4.3MB/s|R002-260618
+  - 🇳🇱NL_371|4.3MB/s|R002-260618
+  - 🇷🇴RO_18|1.6MB/s|P002-260618
+  - 🇺🇸US_540|467KB/s|K001-260618
+  - 🇳🇱NL_220|2.0MB/s|R002-260618
 - name: ♻️ 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -1746,179 +1368,139 @@ proxy-groups:
   tolerance: 50
   timeout: 8000
   proxies:
-  - 🇫🇷FR_47|2.5MB/s|R002-260618
-  - 🇺🇸US_297|692KB/s|R002-260618
-  - 🇫🇷FR_45|4.1MB/s|R002-260618
-  - 🇺🇸US_234|736KB/s|R002-260618
-  - 🇺🇸US_34|743KB/s|P002-260618
-  - 🇺🇸US_215|726KB/s|R002-260618
-  - 🇺🇸US_247|771KB/s|R002-260618
-  - 🇺🇸US_257|736KB/s
-  - US - zhuhai.uk 08 [a3a9fd6427b2042d]
+  - 🇫🇷FR_185|1.0MB/s|S004-260618
   - 🇫🇷FR_162|367KB/s|S001-260618
-  - 🇫🇷FR_168|360KB/s|S004-260618
-  - 🇺🇸US_292|577KB/s|R002-260618
-  - 🇺🇸US_300|462KB/s|R002-260618
-  - 🇺🇸US_81|800KB/s
-  - 🇺🇸US_159|766KB/s
-  - 🇺🇸US_260|826KB/s|R002-260618
-  - 🇺🇸US_137|759KB/s|R002-260618
-  - 🇺🇸US_6|3.0MB/s
-  - 🇺🇸US_72|849KB/s
-  - 🇺🇸US_157|763KB/s|P002-260618
-  - 🇺🇸US_271|402KB/s|R002-260618
-  - 🇨🇦CA_25|1.0MB/s|R002-260618
-  - 🇮🇪IE_2|1.8MB/s|R002-260618
-  - 🇫🇷FR_8|7.5MB/s|R002-260618
-  - 🇩🇪DE_19|2.3MB/s|R002-260618
-  - DK_speednode_0005
-  - 🇳🇱NL_90|6.2MB/s|R002-260618
-  - 🇺🇸US_55|779KB/s|R002-260618
-  - 🇺🇸US_321|700KB/s
-  - 🇺🇸US_280|775KB/s|R002-260618
-  - 🇺🇸US_95|707KB/s
-  - 🇺🇸US_295|577KB/s|R002-260618
-  - 🇨🇦CA_30|599KB/s|R002-260618
-  - 🇺🇸US_231|1.3MB/s|R002-260618
-  - 🇺🇸US_230|474KB/s|R002-260618
+  - vless-1827154690
+  - 🇷🇺 俄罗斯 | RUS 2
   - 🇩🇪DE_52|4.5MB/s|R002-260618
-  - 🇮🇪IE_1|4.4MB/s|R002-260618
-  - NL_speednode_0022
-  - DK_speednode_0006
+  - vless-1827154832
+  - 🇺🇸US_241|796KB/s|R002-260618
+  - 🇺🇸US_297|692KB/s|R002-260618
+  - 🇳🇱NL_33|1.5MB/s|R002-260618
+  - 🇫🇷FR_172|189KB/s|S004-260618
+  - 🇺🇸US_124|331KB/s|R002-260618
+  - 🇷🇴RO_83|1.2MB/s|P002-260618
+  - 🇫🇷FR_5|4.6MB/s
+  - NL_speednode_0018
+  - vless-1879607313
+  - SG - zhuhai.uk [999ce299a4a3ea3c]
+  - 🇷🇴RO_82|1.0MB/s
+  - 🇺🇸US_405|827KB/s|R002-260618
+  - 🇨🇦CA_25|1.0MB/s|R002-260618
+  - 🇫🇷FR_3|3.2MB/s
+  - 🇺🇸US_226|1.2MB/s|R002-260618
+  - 🇪🇪EE_6|1.5MB/s|R002-260618
+  - 🇸🇬SG_77|569KB/s|K001-260618
+  - 🇵🇱PL_7|553KB/s|R002-260618
+  - 🇨🇦CA_24|466KB/s|R002-260618
+  - 🇺🇸US_298|469KB/s|R002-260618
+  - 🇩🇪DE_19|2.3MB/s|R002-260618
+  - 🇳🇱NL_44|788KB/s|R002-260618
+  - 🇪🇪EE_13|618KB/s|R002-260618
+  - 🇺🇸US_225|920KB/s|R002-260618
+  - 🇺🇸US_293|837KB/s|R002-260618
+  - 🇷🇴RO_77|957KB/s|R002-260618
+  - 🇩🇪DE_24|387KB/s|R002-260618
+  - 🇲🇽MX_1|322KB/s|R002-260618
+  - 🇮🇱IL_1|2.1MB/s
+  - 🇺🇸US_257|736KB/s
+  - 🇺🇸US_295|577KB/s|R002-260618
+  - 🇳🇱NL_215|825KB/s|R002-260618
+  - 🇺🇸US_296|469KB/s|R002-260618
+  - 🇨🇦CA_30|599KB/s|R002-260618
+  - 🇨🇿CZ_1|2.2MB/s|R002-260618
+  - 🇺🇸US_10|2.3MB/s
+  - 🇫🇷FR_39|1.6MB/s|R002-260618
+  - 🇺🇸US_260|826KB/s|R002-260618
+  - 🇮🇩ID_1|715KB/s|R002-260618
+  - 🇷🇴RO_48|1.8MB/s|R002-260618
+  - 🇫🇷FR_157|741KB/s|S001-260618
+  - 🇺🇸US_6|3.0MB/s
+  - 🇫🇮FI_1|2.0MB/s
+  - 🇺🇸US_81|800KB/s
+  - ❓Other_2|345KB/s|P002-260618
+  - 🇸🇪SE_3|2.0MB/s|R002-260618
+  - 🇦🇺AU_3|364KB/s|R002-260618
+  - 🇺🇸US_68|775KB/s|R002-260618
+  - 🇩🇪DE_2|585KB/s|R002-260618
+  - US - zhuhai.uk 02 [6a976503319262a6]
+  - 🇸🇬SG_90|551KB/s|P002-260618
+  - 🇸🇬SG_84|579KB/s|P002-260618
+  - ❓Other_13|257KB/s
+  - 🇸🇬SG_121|247KB/s
+  - 🇸🇬SG_91|244KB/s
+  - 🇸🇬SG_131|578KB/s
+  - '🇮🇪 爱尔兰 | IRL #1'
+  - '🇩🇪 德国 | DEU #3'
+  - '🇸🇪 瑞典 | SWE #1'
+  - 🇺🇸US_206|773KB/s|R002-260618
+  - US - zhuhai.uk [c156e20748bd1a2b]
+  - 🇺🇸US_180|744KB/s|P002-260618
+  - 🇺🇸US_195|810KB/s|P002-260618
+  - 🇺🇸US_526|347KB/s|R002-260618
+  - 🇺🇸US_142|798KB/s|K001-260618
+  - 🇺🇸US_144|753KB/s|P002-260618
+  - 🇳🇱NL_429|3.9MB/s|B007-260618
+  - 🇺🇸US_292|577KB/s|R002-260618
+  - 🇳🇱NL_447|1.5MB/s|S004-260618
+  - 🇺🇸US_423|227KB/s|P002-260618
   - 🇩🇪DE_7|3.3MB/s
   - 🇳🇱NL_43|7.1MB/s|R002-260618
-  - 🇳🇱NL_175|4.6MB/s|R002-260618
-  - 🇫🇷FR_157|741KB/s|S001-260618
-  - 🇺🇸US_276|723KB/s|R002-260618
-  - 🇺🇸US_298|469KB/s|R002-260618
-  - 🇺🇸US_8|3.0MB/s
-  - 🇺🇸US_225|920KB/s|R002-260618
-  - 🇺🇸US_226|1.2MB/s|R002-260618
-  - 🇭🇰HK_64|414KB/s|P002-260618
-  - NL_speednode_0019
-  - 🇳🇱NL_176|2.2MB/s|R002-260618
-  - DK_speednode_0007
-  - 🇩🇪DE_30|5.2MB/s|R002-260618
-  - 🇵🇱PL_20|2.3MB/s|R002-260618
-  - 🇮🇹IT_6|1.8MB/s|R002-260618
-  - 🇺🇸US_141|781KB/s|R002-260618
-  - 🇺🇸US_511|1.4MB/s|S001-260618
-  - 🇳🇱NL_10|1.6MB/s
-  - NL_speednode_0017
-  - 🇺🇸US_3|3.3MB/s
-  - 🇺🇸US_139|846KB/s|P002-260618
-  - 🇺🇸US_43|759KB/s|R002-260618
-  - 🇺🇸US_129|730KB/s|R002-260618
-  - 🇺🇸US_206|773KB/s|R002-260618
-  - 🇺🇸US_104|812KB/s|R002-260618
-  - 🇺🇸US_107|821KB/s|R002-260618
-  - 🇺🇸US_24|707KB/s|P002-260618
-  - 🇺🇸US_180|744KB/s|P002-260618
-  - 🇺🇸US_312|794KB/s|P002-260618
-  - 🇺🇸US_153|801KB/s|P002-260618
-  - 🇺🇸US_274|747KB/s|R002-260618
-  - 🇺🇸US_196|711KB/s|R002-260618
-  - 🇺🇸US_108|791KB/s|R002-260618
-  - 🇺🇸US_395|747KB/s|P002-260618
-  - 🇺🇸US_158|758KB/s|P002-260618
-  - 🇺🇸US_77|780KB/s|R002-260618
-  - 🇺🇸US_163|850KB/s|P002-260618
-  - 🇺🇸US_327|834KB/s|P002-260618
-  - 🇺🇸US_116|541KB/s|P002-260618
-  - 🇺🇸US_385|719KB/s|P002-260618
-  - 🇺🇸US_319|811KB/s|P002-260618
-  - 🇺🇸US_11|2.1MB/s
-  - 🇺🇸US_78|832KB/s|R002-260618
-  - 🇺🇸US_186|787KB/s|R002-260618
-  - 🇺🇸US_284|806KB/s|R002-260618
-  - ❓Other_2|345KB/s|P002-260618
-  - 🇺🇸US_201|775KB/s|P002-260618
-  - 🇺🇸US_191|743KB/s|P002-260618
-  - 🇺🇸US_306|578KB/s|P002-260618
-  - 🇺🇸US_44|865KB/s|P002-260618
-  - 🇺🇸US_253|768KB/s|P002-260618
-  - 🇺🇸US_9|1.1MB/s
-  - 🇺🇸US_60|781KB/s
-  - 🇺🇸US_10|2.3MB/s
-  - 🇺🇸US_162|799KB/s|P002-260618
-  - 🇺🇸US_79|760KB/s|P002-260618
-  - 🇺🇸US_164|775KB/s|P002-260618
-  - 🇺🇸US_252|740KB/s|P002-260618
-  - 🇺🇸US_127|797KB/s|R002-260618
-  - US_speednode_0030
-  - US - zhuhai.uk 03 [de797585aa40aff2]
-  - 🇺🇸US_29|722KB/s|R002-260618
-  - 🇺🇸US_241|796KB/s|R002-260618
-  - 🇨🇦CA_3|3.0MB/s
-  - US - zhuhai.uk 02 [6a976503319262a6]
-  - 🇺🇸US_111|598KB/s|R002-260618
-  - US - zhuhai.uk 04 [b98e9fd3a34456b3]
-  - 🇺🇸US_279|627KB/s|R002-260618
-  - 🇳🇱NL_13|2.9MB/s
-  - 🇺🇸US_296|469KB/s|R002-260618
-  - 🇺🇸US_181|911KB/s|P002-260618
-  - 🇳🇱NL_370|1.9MB/s|P002-260618
-  - 🇳🇱NL_366|3.3MB/s|P002-260618
-  - 🇺🇸US_282|548KB/s|R002-260618
-  - ❓Other_17|432KB/s|R002-260618
-  - NL_speednode_0016
-  - 🇳🇱NL_122|4.4MB/s|R002-260618
-  - 🇸🇬SG_121|247KB/s
-  - 🇳🇱NL_82|3.2MB/s|R002-260618
-  - 🇸🇬SG_105|903KB/s
-  - 🇸🇬SG_81|581KB/s
-  - 🇮🇪IE_1|2.1MB/s
-  - 🇸🇬SG_131|578KB/s
-  - 🇸🇬SG_77|569KB/s|K001-260618
-  - 🇳🇱NL_385|214KB/s|R002-260618
-  - 🇳🇱NL_220|2.0MB/s|R002-260618
-  - 🇳🇱NL_292|2.0MB/s|P002-260618
-  - 🇳🇱NL_158|7.0MB/s|R002-260618
-  - NL_speednode_0015
-  - 🇸🇬SG_96|581KB/s
-  - 🇸🇬SG_94|87KB/s|K001-260618
-  - 🇸🇬SG_3|1.2MB/s
-  - 🇳🇱NL_161|6.1MB/s|K001-260618
-  - NL - zhuhai.uk 02 [579b2d214c3aac52]
-  - 🇸🇬SG_84|579KB/s|P002-260618
-  - ❓Other_20|902KB/s|R002-260618
-  - 🇳🇱NL_185|867KB/s|P002-260618
-  - 🇸🇬SG_91|244KB/s
-  - 🇸🇬SG_90|551KB/s|P002-260618
-  - 🇳🇱NL_288|2.4MB/s|R002-260618
-  - 🇸🇬SG_122|378KB/s
-  - ❓Other_13|257KB/s
-  - 🇵🇱PL_9|2.7MB/s|R002-260618
-  - 🇳🇱NL_88|2.6MB/s
-  - 🇸🇬SG_78|251KB/s|R002-260618
-  - 🇸🇬SG_75|575KB/s|K001-260618
-  - 🇩🇪DE_29|8.6MB/s|R002-260618
+  - 🇩🇪DE_36|3.8MB/s|R002-260618
   - 🇺🇸US_54|280KB/s|R002-260618
-  - 🇸🇬SG_76|880KB/s|R002-260618
-  - 🇺🇸US_132|330KB/s|R002-260618
-  - 🇺🇸US_109|332KB/s|Z001-260618
-  - 🇸🇬SG_74|884KB/s|R002-260618
-  - US - zhuhai.uk 05 [98a9d6674893355e]
-  - 🇱🇻LV_4|2.4MB/s|R002-260618
-  - 🇵🇱PL_1|2.8MB/s|P002-260618
-  - 🇸🇬SG_59|481KB/s|K001-260618
-  - 🇸🇬SG_82|383KB/s|P002-260618
-  - NL_speednode_0018
-  - 🇺🇸US_124|331KB/s|R002-260618
-  - 🇸🇬SG_119|348KB/s|R002-260618
-  - 🇫🇷FR_39|1.6MB/s|R002-260618
-  - 🇳🇱NL_9|1.0MB/s
-  - 🇫🇷FR_19|1.5MB/s|R002-260618
-  - NL - zhuhai.uk [1f7ea8820fb62000]
-  - SG - zhuhai.uk [999ce299a4a3ea3c]
-  - 🇩🇪DE_12|6.5MB/s|R002-260618
-  - 🇩🇪DE_41|5.5MB/s|R002-260618
-  - 🇷🇴RO_41|1.5MB/s
-  - 🇸🇬SG_85|570KB/s|K001-260618
-  - 🇩🇪DE_23|3.9MB/s|R002-260618
-  - 🇷🇴RO_72|1.7MB/s
-  - 🇳🇱NL_235|1.0MB/s|R002-260618
-  - 🇫🇷FR_40|3.7MB/s|R002-260618
+  - 🇳🇱NL_140|943KB/s|R002-260618
+  - 🇳🇱NL_185|867KB/s|P002-260618
+  - 🇩🇪DE_55|2.8MB/s|R002-260618
+  - 🇳🇱NL_10|1.6MB/s
+  - NL_speednode_0019
+  - 🇳🇱NL_122|4.4MB/s|R002-260618
+  - 🇮🇹IT_6|1.8MB/s|R002-260618
+  - 🇮🇪IE_1|2.1MB/s
+  - 🇮🇪IE_2|1.8MB/s|R002-260618
+  - NL_speednode_0012
+  - 🇳🇱NL_363|107KB/s|R002-260618
+  - 🇺🇸US_229|676KB/s|R002-260618
+  - 🇺🇸US_5|3.3MB/s
+  - 🇫🇮FI_12|1.3MB/s|R002-260618
+  - 🇷🇴RO_31|786KB/s|P002-260618
+  - 🇪🇪EE_14|1.8MB/s|R002-260618
+  - 🇷🇴RO_74|1.7MB/s
+  - 🇫🇷FR_10|1.5MB/s|R002-260618
+  - 🇷🇴RO_5|1.4MB/s
+  - 🇺🇸US_247|771KB/s|R002-260618
+  - 🇷🇺RU_2|1.5MB/s|R002-260618
+  - 🇺🇸US_411|443KB/s|R002-260618
+  - 🇵🇱PL_20|2.3MB/s|R002-260618
+  - 🇺🇸US_339|619KB/s|R002-260618
+  - 🇺🇸US_60|781KB/s
+  - 🇷🇴RO_93|1.5MB/s|R002-260618
+  - 🇺🇸US_231|1.3MB/s|R002-260618
+  - 🇵🇱PL_9|2.7MB/s|R002-260618
+  - 🇺🇸US_385|719KB/s|P002-260618
+  - US - zhuhai.uk 04 [b98e9fd3a34456b3]
+  - 🇺🇸US_341|530KB/s|R002-260618
+  - 🇺🇸US_159|766KB/s
+  - 🇱🇻LV_5|1.9MB/s|R002-260618
+  - US_speednode_0030
+  - ❓Other_28|156KB/s|S004-260618
+  - 🇺🇸US_279|627KB/s|R002-260618
+  - 🇳🇱NL_161|6.1MB/s|K001-260618
+  - 🇦🇺AU_2|415KB/s|R002-260618
+  - 🇧🇷BR_1|2.4MB/s
+  - 🇩🇪DE_7|4.3MB/s|R002-260618
+  - 🇳🇱NL_371|4.3MB/s|R002-260618
+  - 🇷🇴RO_18|1.6MB/s|P002-260618
+  - 🇺🇸US_540|467KB/s|K001-260618
+  - 🇳🇱NL_220|2.0MB/s|R002-260618
+- name: 🌐 俄罗斯
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+  timeout: 8000
+  proxies:
+  - 🇷🇺 俄罗斯 | RUS 2
+  - 🇷🇺RU_2|1.5MB/s|R002-260618
 - name: 🌐 加拿大
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -1927,8 +1509,8 @@ proxy-groups:
   timeout: 8000
   proxies:
   - 🇨🇦CA_25|1.0MB/s|R002-260618
+  - 🇨🇦CA_24|466KB/s|R002-260618
   - 🇨🇦CA_30|599KB/s|R002-260618
-  - 🇨🇦CA_3|3.0MB/s
 - name: 🌐 德国
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -1936,14 +1518,15 @@ proxy-groups:
   tolerance: 50
   timeout: 8000
   proxies:
-  - 🇩🇪DE_19|2.3MB/s|R002-260618
   - 🇩🇪DE_52|4.5MB/s|R002-260618
+  - 🇩🇪DE_19|2.3MB/s|R002-260618
+  - 🇩🇪DE_24|387KB/s|R002-260618
+  - 🇩🇪DE_2|585KB/s|R002-260618
+  - '🇩🇪 德国 | DEU #3'
   - 🇩🇪DE_7|3.3MB/s
-  - 🇩🇪DE_30|5.2MB/s|R002-260618
-  - 🇩🇪DE_29|8.6MB/s|R002-260618
-  - 🇩🇪DE_12|6.5MB/s|R002-260618
-  - 🇩🇪DE_41|5.5MB/s|R002-260618
-  - 🇩🇪DE_23|3.9MB/s|R002-260618
+  - 🇩🇪DE_36|3.8MB/s|R002-260618
+  - 🇩🇪DE_55|2.8MB/s|R002-260618
+  - 🇩🇪DE_7|4.3MB/s|R002-260618
 - name: 🌐 新加坡
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -1951,27 +1534,13 @@ proxy-groups:
   tolerance: 50
   timeout: 8000
   proxies:
-  - 🇸🇬SG_121|247KB/s
-  - 🇸🇬SG_105|903KB/s
-  - 🇸🇬SG_81|581KB/s
-  - 🇸🇬SG_131|578KB/s
-  - 🇸🇬SG_77|569KB/s|K001-260618
-  - 🇸🇬SG_96|581KB/s
-  - 🇸🇬SG_94|87KB/s|K001-260618
-  - 🇸🇬SG_3|1.2MB/s
-  - 🇸🇬SG_84|579KB/s|P002-260618
-  - 🇸🇬SG_91|244KB/s
-  - 🇸🇬SG_90|551KB/s|P002-260618
-  - 🇸🇬SG_122|378KB/s
-  - 🇸🇬SG_78|251KB/s|R002-260618
-  - 🇸🇬SG_75|575KB/s|K001-260618
-  - 🇸🇬SG_76|880KB/s|R002-260618
-  - 🇸🇬SG_74|884KB/s|R002-260618
-  - 🇸🇬SG_59|481KB/s|K001-260618
-  - 🇸🇬SG_82|383KB/s|P002-260618
-  - 🇸🇬SG_119|348KB/s|R002-260618
   - SG - zhuhai.uk [999ce299a4a3ea3c]
-  - 🇸🇬SG_85|570KB/s|K001-260618
+  - 🇸🇬SG_77|569KB/s|K001-260618
+  - 🇸🇬SG_90|551KB/s|P002-260618
+  - 🇸🇬SG_84|579KB/s|P002-260618
+  - 🇸🇬SG_121|247KB/s
+  - 🇸🇬SG_91|244KB/s
+  - 🇸🇬SG_131|578KB/s
 - name: 🌐 法国
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -1979,15 +1548,23 @@ proxy-groups:
   tolerance: 50
   timeout: 8000
   proxies:
-  - 🇫🇷FR_47|2.5MB/s|R002-260618
-  - 🇫🇷FR_45|4.1MB/s|R002-260618
+  - 🇫🇷FR_185|1.0MB/s|S004-260618
   - 🇫🇷FR_162|367KB/s|S001-260618
-  - 🇫🇷FR_168|360KB/s|S004-260618
-  - 🇫🇷FR_8|7.5MB/s|R002-260618
-  - 🇫🇷FR_157|741KB/s|S001-260618
+  - 🇫🇷FR_172|189KB/s|S004-260618
+  - 🇫🇷FR_5|4.6MB/s
+  - 🇫🇷FR_3|3.2MB/s
   - 🇫🇷FR_39|1.6MB/s|R002-260618
-  - 🇫🇷FR_19|1.5MB/s|R002-260618
-  - 🇫🇷FR_40|3.7MB/s|R002-260618
+  - 🇫🇷FR_157|741KB/s|S001-260618
+  - 🇫🇷FR_10|1.5MB/s|R002-260618
+- name: 🌐 澳大利亚
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+  timeout: 8000
+  proxies:
+  - 🇦🇺AU_3|364KB/s|R002-260618
+  - 🇦🇺AU_2|415KB/s|R002-260618
 - name: 🌐 美国
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -1995,101 +1572,47 @@ proxy-groups:
   tolerance: 50
   timeout: 8000
   proxies:
-  - 🇺🇸US_297|692KB/s|R002-260618
-  - 🇺🇸US_234|736KB/s|R002-260618
-  - 🇺🇸US_34|743KB/s|P002-260618
-  - 🇺🇸US_215|726KB/s|R002-260618
-  - 🇺🇸US_247|771KB/s|R002-260618
-  - 🇺🇸US_257|736KB/s
-  - US - zhuhai.uk 08 [a3a9fd6427b2042d]
-  - 🇺🇸US_292|577KB/s|R002-260618
-  - 🇺🇸US_300|462KB/s|R002-260618
-  - 🇺🇸US_81|800KB/s
-  - 🇺🇸US_159|766KB/s
-  - 🇺🇸US_260|826KB/s|R002-260618
-  - 🇺🇸US_137|759KB/s|R002-260618
-  - 🇺🇸US_6|3.0MB/s
-  - 🇺🇸US_72|849KB/s
-  - 🇺🇸US_157|763KB/s|P002-260618
-  - 🇺🇸US_271|402KB/s|R002-260618
-  - 🇺🇸US_55|779KB/s|R002-260618
-  - 🇺🇸US_321|700KB/s
-  - 🇺🇸US_280|775KB/s|R002-260618
-  - 🇺🇸US_95|707KB/s
-  - 🇺🇸US_295|577KB/s|R002-260618
-  - 🇺🇸US_231|1.3MB/s|R002-260618
-  - 🇺🇸US_230|474KB/s|R002-260618
-  - 🇺🇸US_276|723KB/s|R002-260618
-  - 🇺🇸US_298|469KB/s|R002-260618
-  - 🇺🇸US_8|3.0MB/s
-  - 🇺🇸US_225|920KB/s|R002-260618
-  - 🇺🇸US_226|1.2MB/s|R002-260618
-  - 🇺🇸US_141|781KB/s|R002-260618
-  - 🇺🇸US_511|1.4MB/s|S001-260618
-  - 🇺🇸US_3|3.3MB/s
-  - 🇺🇸US_139|846KB/s|P002-260618
-  - 🇺🇸US_43|759KB/s|R002-260618
-  - 🇺🇸US_129|730KB/s|R002-260618
-  - 🇺🇸US_206|773KB/s|R002-260618
-  - 🇺🇸US_104|812KB/s|R002-260618
-  - 🇺🇸US_107|821KB/s|R002-260618
-  - 🇺🇸US_24|707KB/s|P002-260618
-  - 🇺🇸US_180|744KB/s|P002-260618
-  - 🇺🇸US_312|794KB/s|P002-260618
-  - 🇺🇸US_153|801KB/s|P002-260618
-  - 🇺🇸US_274|747KB/s|R002-260618
-  - 🇺🇸US_196|711KB/s|R002-260618
-  - 🇺🇸US_108|791KB/s|R002-260618
-  - 🇺🇸US_395|747KB/s|P002-260618
-  - 🇺🇸US_158|758KB/s|P002-260618
-  - 🇺🇸US_77|780KB/s|R002-260618
-  - 🇺🇸US_163|850KB/s|P002-260618
-  - 🇺🇸US_327|834KB/s|P002-260618
-  - 🇺🇸US_116|541KB/s|P002-260618
-  - 🇺🇸US_385|719KB/s|P002-260618
-  - 🇺🇸US_319|811KB/s|P002-260618
-  - 🇺🇸US_11|2.1MB/s
-  - 🇺🇸US_78|832KB/s|R002-260618
-  - 🇺🇸US_186|787KB/s|R002-260618
-  - 🇺🇸US_284|806KB/s|R002-260618
-  - 🇺🇸US_201|775KB/s|P002-260618
-  - 🇺🇸US_191|743KB/s|P002-260618
-  - 🇺🇸US_306|578KB/s|P002-260618
-  - 🇺🇸US_44|865KB/s|P002-260618
-  - 🇺🇸US_253|768KB/s|P002-260618
-  - 🇺🇸US_9|1.1MB/s
-  - 🇺🇸US_60|781KB/s
-  - 🇺🇸US_10|2.3MB/s
-  - 🇺🇸US_162|799KB/s|P002-260618
-  - 🇺🇸US_79|760KB/s|P002-260618
-  - 🇺🇸US_164|775KB/s|P002-260618
-  - 🇺🇸US_252|740KB/s|P002-260618
-  - 🇺🇸US_127|797KB/s|R002-260618
-  - US_speednode_0030
-  - US - zhuhai.uk 03 [de797585aa40aff2]
-  - 🇺🇸US_29|722KB/s|R002-260618
   - 🇺🇸US_241|796KB/s|R002-260618
-  - US - zhuhai.uk 02 [6a976503319262a6]
-  - 🇺🇸US_111|598KB/s|R002-260618
-  - US - zhuhai.uk 04 [b98e9fd3a34456b3]
-  - 🇺🇸US_279|627KB/s|R002-260618
-  - 🇺🇸US_296|469KB/s|R002-260618
-  - 🇺🇸US_181|911KB/s|P002-260618
-  - 🇺🇸US_282|548KB/s|R002-260618
-  - 🇺🇸US_54|280KB/s|R002-260618
-  - 🇺🇸US_132|330KB/s|R002-260618
-  - 🇺🇸US_109|332KB/s|Z001-260618
-  - US - zhuhai.uk 05 [98a9d6674893355e]
+  - 🇺🇸US_297|692KB/s|R002-260618
   - 🇺🇸US_124|331KB/s|R002-260618
-- name: 🌐 英国
-  type: url-test
-  url: http://www.gstatic.com/generate_204
-  interval: 300
-  tolerance: 50
-  timeout: 8000
-  proxies:
-  - NL - zhuhai.uk 02 [579b2d214c3aac52]
-  - NL - zhuhai.uk [1f7ea8820fb62000]
+  - 🇺🇸US_405|827KB/s|R002-260618
+  - 🇺🇸US_226|1.2MB/s|R002-260618
+  - 🇺🇸US_298|469KB/s|R002-260618
+  - 🇺🇸US_225|920KB/s|R002-260618
+  - 🇺🇸US_293|837KB/s|R002-260618
+  - 🇺🇸US_257|736KB/s
+  - 🇺🇸US_295|577KB/s|R002-260618
+  - 🇺🇸US_296|469KB/s|R002-260618
+  - 🇺🇸US_10|2.3MB/s
+  - 🇺🇸US_260|826KB/s|R002-260618
+  - 🇺🇸US_6|3.0MB/s
+  - 🇺🇸US_81|800KB/s
+  - 🇺🇸US_68|775KB/s|R002-260618
+  - US - zhuhai.uk 02 [6a976503319262a6]
+  - 🇺🇸US_206|773KB/s|R002-260618
+  - US - zhuhai.uk [c156e20748bd1a2b]
+  - 🇺🇸US_180|744KB/s|P002-260618
+  - 🇺🇸US_195|810KB/s|P002-260618
+  - 🇺🇸US_526|347KB/s|R002-260618
+  - 🇺🇸US_142|798KB/s|K001-260618
+  - 🇺🇸US_144|753KB/s|P002-260618
+  - 🇺🇸US_292|577KB/s|R002-260618
+  - 🇺🇸US_423|227KB/s|P002-260618
+  - 🇺🇸US_54|280KB/s|R002-260618
+  - 🇺🇸US_229|676KB/s|R002-260618
+  - 🇺🇸US_5|3.3MB/s
+  - 🇺🇸US_247|771KB/s|R002-260618
+  - 🇺🇸US_411|443KB/s|R002-260618
+  - 🇺🇸US_339|619KB/s|R002-260618
+  - 🇺🇸US_60|781KB/s
+  - 🇺🇸US_231|1.3MB/s|R002-260618
+  - 🇺🇸US_385|719KB/s|P002-260618
+  - US - zhuhai.uk 04 [b98e9fd3a34456b3]
+  - 🇺🇸US_341|530KB/s|R002-260618
+  - 🇺🇸US_159|766KB/s
+  - US_speednode_0030
+  - 🇺🇸US_279|627KB/s|R002-260618
+  - 🇺🇸US_540|467KB/s|K001-260618
 - name: 🌐 荷兰
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -2097,40 +1620,23 @@ proxy-groups:
   tolerance: 50
   timeout: 8000
   proxies:
-  - 🇳🇱NL_90|6.2MB/s|R002-260618
-  - NL_speednode_0022
-  - 🇳🇱NL_43|7.1MB/s|R002-260618
-  - 🇳🇱NL_175|4.6MB/s|R002-260618
-  - NL_speednode_0019
-  - 🇳🇱NL_176|2.2MB/s|R002-260618
-  - 🇳🇱NL_10|1.6MB/s
-  - NL_speednode_0017
-  - 🇳🇱NL_13|2.9MB/s
-  - 🇳🇱NL_370|1.9MB/s|P002-260618
-  - 🇳🇱NL_366|3.3MB/s|P002-260618
-  - NL_speednode_0016
-  - 🇳🇱NL_122|4.4MB/s|R002-260618
-  - 🇳🇱NL_82|3.2MB/s|R002-260618
-  - 🇳🇱NL_385|214KB/s|R002-260618
-  - 🇳🇱NL_220|2.0MB/s|R002-260618
-  - 🇳🇱NL_292|2.0MB/s|P002-260618
-  - 🇳🇱NL_158|7.0MB/s|R002-260618
-  - NL_speednode_0015
-  - 🇳🇱NL_161|6.1MB/s|K001-260618
-  - 🇳🇱NL_185|867KB/s|P002-260618
-  - 🇳🇱NL_288|2.4MB/s|R002-260618
-  - 🇳🇱NL_88|2.6MB/s
+  - 🇳🇱NL_33|1.5MB/s|R002-260618
   - NL_speednode_0018
-  - 🇳🇱NL_9|1.0MB/s
-  - 🇳🇱NL_235|1.0MB/s|R002-260618
-- name: 🌐 香港
-  type: url-test
-  url: http://www.gstatic.com/generate_204
-  interval: 300
-  tolerance: 50
-  timeout: 8000
-  proxies:
-  - 🇭🇰HK_64|414KB/s|P002-260618
+  - 🇳🇱NL_44|788KB/s|R002-260618
+  - 🇳🇱NL_215|825KB/s|R002-260618
+  - 🇳🇱NL_429|3.9MB/s|B007-260618
+  - 🇳🇱NL_447|1.5MB/s|S004-260618
+  - 🇳🇱NL_43|7.1MB/s|R002-260618
+  - 🇳🇱NL_140|943KB/s|R002-260618
+  - 🇳🇱NL_185|867KB/s|P002-260618
+  - 🇳🇱NL_10|1.6MB/s
+  - NL_speednode_0019
+  - 🇳🇱NL_122|4.4MB/s|R002-260618
+  - NL_speednode_0012
+  - 🇳🇱NL_363|107KB/s|R002-260618
+  - 🇳🇱NL_161|6.1MB/s|K001-260618
+  - 🇳🇱NL_371|4.3MB/s|R002-260618
+  - 🇳🇱NL_220|2.0MB/s|R002-260618
 - name: 🌐 其他
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -2138,23 +1644,41 @@ proxy-groups:
   tolerance: 50
   timeout: 8000
   proxies:
-  - 🇮🇪IE_2|1.8MB/s|R002-260618
-  - DK_speednode_0005
-  - 🇮🇪IE_1|4.4MB/s|R002-260618
-  - DK_speednode_0006
-  - DK_speednode_0007
-  - 🇵🇱PL_20|2.3MB/s|R002-260618
-  - 🇮🇹IT_6|1.8MB/s|R002-260618
+  - vless-1827154690
+  - vless-1827154832
+  - 🇷🇴RO_83|1.2MB/s|P002-260618
+  - vless-1879607313
+  - 🇷🇴RO_82|1.0MB/s
+  - 🇪🇪EE_6|1.5MB/s|R002-260618
+  - 🇵🇱PL_7|553KB/s|R002-260618
+  - 🇪🇪EE_13|618KB/s|R002-260618
+  - 🇷🇴RO_77|957KB/s|R002-260618
+  - 🇲🇽MX_1|322KB/s|R002-260618
+  - 🇮🇱IL_1|2.1MB/s
+  - 🇨🇿CZ_1|2.2MB/s|R002-260618
+  - 🇮🇩ID_1|715KB/s|R002-260618
+  - 🇷🇴RO_48|1.8MB/s|R002-260618
+  - 🇫🇮FI_1|2.0MB/s
   - ❓Other_2|345KB/s|P002-260618
-  - ❓Other_17|432KB/s|R002-260618
-  - 🇮🇪IE_1|2.1MB/s
-  - ❓Other_20|902KB/s|R002-260618
+  - 🇸🇪SE_3|2.0MB/s|R002-260618
   - ❓Other_13|257KB/s
+  - '🇮🇪 爱尔兰 | IRL #1'
+  - '🇸🇪 瑞典 | SWE #1'
+  - 🇮🇹IT_6|1.8MB/s|R002-260618
+  - 🇮🇪IE_1|2.1MB/s
+  - 🇮🇪IE_2|1.8MB/s|R002-260618
+  - 🇫🇮FI_12|1.3MB/s|R002-260618
+  - 🇷🇴RO_31|786KB/s|P002-260618
+  - 🇪🇪EE_14|1.8MB/s|R002-260618
+  - 🇷🇴RO_74|1.7MB/s
+  - 🇷🇴RO_5|1.4MB/s
+  - 🇵🇱PL_20|2.3MB/s|R002-260618
+  - 🇷🇴RO_93|1.5MB/s|R002-260618
   - 🇵🇱PL_9|2.7MB/s|R002-260618
-  - 🇱🇻LV_4|2.4MB/s|R002-260618
-  - 🇵🇱PL_1|2.8MB/s|P002-260618
-  - 🇷🇴RO_41|1.5MB/s
-  - 🇷🇴RO_72|1.7MB/s
+  - 🇱🇻LV_5|1.9MB/s|R002-260618
+  - ❓Other_28|156KB/s|S004-260618
+  - 🇧🇷BR_1|2.4MB/s
+  - 🇷🇴RO_18|1.6MB/s|P002-260618
 rules:
 - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
 - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
