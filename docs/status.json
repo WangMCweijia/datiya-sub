@@ -1,49 +1,41 @@
 {
-  "updated_at": "2026-10-22 13:42:15 +0800",
+  "updated_at": "2026-10-22 14:24:32 +0800",
   "source": "https://free.datiya.com",
-  "days": [
-    "20261022",
-    "20261021",
-    "20261020",
-    "20261019",
-    "20261018",
-    "20261017",
-    "20261016"
-  ],
-  "collected": 9035,
-  "alive": 292,
-  "links": 25,
-  "probe_input": 292,
+  "site_enabled": false,
+  "days": [],
+  "collected": 8937,
+  "alive": 198,
+  "links": 16,
+  "probe_input": 240,
   "protocols": {
-    "http": 263,
-    "vless": 25,
-    "socks5": 4
+    "http": 179,
+    "vless": 16,
+    "socks5": 3
   },
-  "unique_lines": 227,
-  "line_uniqueness": 0.777,
+  "unique_lines": 153,
+  "line_uniqueness": 0.773,
   "streak": {
     "first": 0,
     "repeat": 0,
-    "trusted": 292
+    "trusted": 198
   },
-  "china_check": false,
-  "china_dropped": 0,
+  "china_check": true,
+  "china_dropped": 42,
   "whitelist": {
-    "used": true,
-    "detail": "白名单可用：476 条记录，1.6 小时前由 山东家宽 实测",
-    "matched": 435,
+    "used": false,
+    "detail": "白名单已过期（2.0 小时 > 2 小时上限），回退 Globalping 探测；请在本机运行 local_probe.py --push",
+    "matched": 0,
     "rejected": {
       "dead": 0,
       "unstable": 0,
       "slow": 0,
-      "stale": 131
+      "stale": 0
     },
     "entries": 476,
-    "age_hours": 1.6,
+    "age_hours": 2.3,
     "probe_host": "山东家宽"
   },
   "sources": {
-    "datiya": 98,
     "ermaozi": 523,
     "TopFreeProxy": 2647,
     "daily_free_vpn": 3319,
@@ -51,55 +43,55 @@
     "Au1rxx-07": 923
   },
   "source_health": {
-    "generated_at": "2026-10-22 13:42:15 +0800",
+    "generated_at": "2026-10-22 14:24:32 +0800",
     "rows": [
       {
         "name": "daily_free_vpn",
         "collected": 3319,
         "own": 2512,
-        "pool": 582,
-        "alive": 280,
-        "rate": 0.481,
+        "pool": 595,
+        "alive": 195,
+        "rate": 0.328,
         "by_type": {
           "http": {
-            "pool": 537,
-            "alive": 257,
-            "rate": 0.479
+            "pool": 341,
+            "alive": 179,
+            "rate": 0.525
           },
           "socks5": {
-            "pool": 17,
-            "alive": 4,
-            "rate": 0.235
+            "pool": 6,
+            "alive": 3,
+            "rate": 0.5
           },
           "vless": {
-            "pool": 28,
-            "alive": 19,
-            "rate": 0.679
+            "pool": 248,
+            "alive": 13,
+            "rate": 0.052
           }
         }
       },
       {
         "name": "TopFreeProxy",
         "collected": 2647,
-        "own": 1843,
-        "pool": 120,
-        "alive": 67,
-        "rate": 0.558,
+        "own": 1855,
+        "pool": 65,
+        "alive": 35,
+        "rate": 0.538,
         "by_type": {
           "http": {
-            "pool": 102,
-            "alive": 57,
-            "rate": 0.559
+            "pool": 47,
+            "alive": 29,
+            "rate": 0.617
           },
           "socks5": {
-            "pool": 2,
+            "pool": 1,
             "alive": 1,
-            "rate": 0.5
+            "rate": 1.0
           },
           "vless": {
-            "pool": 16,
-            "alive": 9,
-            "rate": 0.562
+            "pool": 17,
+            "alive": 5,
+            "rate": 0.294
           }
         }
       },
@@ -107,19 +99,19 @@
         "name": "ermaozi",
         "collected": 523,
         "own": 0,
-        "pool": 107,
-        "alive": 60,
-        "rate": 0.561,
+        "pool": 49,
+        "alive": 31,
+        "rate": 0.633,
         "by_type": {
           "http": {
-            "pool": 92,
-            "alive": 52,
-            "rate": 0.565
+            "pool": 39,
+            "alive": 26,
+            "rate": 0.667
           },
           "vless": {
-            "pool": 15,
-            "alive": 8,
-            "rate": 0.533
+            "pool": 10,
+            "alive": 5,
+            "rate": 0.5
           }
         }
       },
@@ -127,14 +119,14 @@
         "name": "Au1rxx-06",
         "collected": 1525,
         "own": 472,
-        "pool": 9,
-        "alive": 8,
-        "rate": 0.889,
+        "pool": 66,
+        "alive": 5,
+        "rate": 0.076,
         "by_type": {
           "vless": {
-            "pool": 9,
-            "alive": 8,
-            "rate": 0.889
+            "pool": 66,
+            "alive": 5,
+            "rate": 0.076
           }
         }
       },
@@ -142,43 +134,29 @@
         "name": "Au1rxx-07",
         "collected": 923,
         "own": 466,
-        "pool": 1,
+        "pool": 32,
         "alive": 1,
-        "rate": 1.0,
+        "rate": 0.031,
         "by_type": {
           "vless": {
-            "pool": 1,
+            "pool": 32,
             "alive": 1,
-            "rate": 1.0
+            "rate": 0.031
           }
         }
-      },
-      {
-        "name": "datiya",
-        "collected": 98,
-        "own": 0,
-        "pool": 0,
-        "alive": 0,
-        "rate": 0.0,
-        "by_type": {}
       }
     ]
   },
   "regions": {
-    "俄罗斯": 6,
-    "加拿大": 8,
-    "印度": 1,
-    "土耳其": 1,
-    "德国": 9,
-    "新加坡": 12,
-    "日本": 3,
-    "法国": 17,
-    "澳大利亚": 2,
-    "美国": 90,
-    "英国": 2,
-    "荷兰": 38,
-    "越南": 1,
-    "香港": 4,
-    "其他": 98
+    "俄罗斯": 3,
+    "加拿大": 3,
+    "德国": 6,
+    "新加坡": 14,
+    "日本": 2,
+    "法国": 13,
+    "美国": 75,
+    "荷兰": 24,
+    "香港": 3,
+    "其他": 55
   }
 }
