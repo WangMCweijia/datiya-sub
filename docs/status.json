@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-22 13:36:45 +0800",
+  "updated_at": "2026-10-22 13:42:15 +0800",
   "source": "https://free.datiya.com",
   "days": [
     "20261022",
@@ -30,7 +30,7 @@
   "china_dropped": 0,
   "whitelist": {
     "used": true,
-    "detail": "白名单可用：476 条记录，1.5 小时前由 山东家宽 实测",
+    "detail": "白名单可用：476 条记录，1.6 小时前由 山东家宽 实测",
     "matched": 435,
     "rejected": {
       "dead": 0,
@@ -39,7 +39,7 @@
       "stale": 131
     },
     "entries": 476,
-    "age_hours": 1.51,
+    "age_hours": 1.6,
     "probe_host": "山东家宽"
   },
   "sources": {
@@ -51,7 +51,7 @@
     "Au1rxx-07": 923
   },
   "source_health": {
-    "generated_at": "2026-10-22 13:36:45 +0800",
+    "generated_at": "2026-10-22 13:42:15 +0800",
     "rows": [
       {
         "name": "daily_free_vpn",
@@ -59,7 +59,24 @@
         "own": 2512,
         "pool": 582,
         "alive": 280,
-        "rate": 0.481
+        "rate": 0.481,
+        "by_type": {
+          "http": {
+            "pool": 537,
+            "alive": 257,
+            "rate": 0.479
+          },
+          "socks5": {
+            "pool": 17,
+            "alive": 4,
+            "rate": 0.235
+          },
+          "vless": {
+            "pool": 28,
+            "alive": 19,
+            "rate": 0.679
+          }
+        }
       },
       {
         "name": "TopFreeProxy",
@@ -67,7 +84,24 @@
         "own": 1843,
         "pool": 120,
         "alive": 67,
-        "rate": 0.558
+        "rate": 0.558,
+        "by_type": {
+          "http": {
+            "pool": 102,
+            "alive": 57,
+            "rate": 0.559
+          },
+          "socks5": {
+            "pool": 2,
+            "alive": 1,
+            "rate": 0.5
+          },
+          "vless": {
+            "pool": 16,
+            "alive": 9,
+            "rate": 0.562
+          }
+        }
       },
       {
         "name": "ermaozi",
@@ -75,7 +109,19 @@
         "own": 0,
         "pool": 107,
         "alive": 60,
-        "rate": 0.561
+        "rate": 0.561,
+        "by_type": {
+          "http": {
+            "pool": 92,
+            "alive": 52,
+            "rate": 0.565
+          },
+          "vless": {
+            "pool": 15,
+            "alive": 8,
+            "rate": 0.533
+          }
+        }
       },
       {
         "name": "Au1rxx-06",
@@ -83,7 +129,14 @@
         "own": 472,
         "pool": 9,
         "alive": 8,
-        "rate": 0.889
+        "rate": 0.889,
+        "by_type": {
+          "vless": {
+            "pool": 9,
+            "alive": 8,
+            "rate": 0.889
+          }
+        }
       },
       {
         "name": "Au1rxx-07",
@@ -91,7 +144,14 @@
         "own": 466,
         "pool": 1,
         "alive": 1,
-        "rate": 1.0
+        "rate": 1.0,
+        "by_type": {
+          "vless": {
+            "pool": 1,
+            "alive": 1,
+            "rate": 1.0
+          }
+        }
       },
       {
         "name": "datiya",
@@ -99,7 +159,8 @@
         "own": 0,
         "pool": 0,
         "alive": 0,
-        "rate": 0.0
+        "rate": 0.0,
+        "by_type": {}
       }
     ]
   },
