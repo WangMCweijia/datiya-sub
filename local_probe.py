@@ -292,9 +292,14 @@ def merge(old, results, keep_days, dead_after, round_no=0):
         # 只靠 last_ok 时间窗不行——一轮 1200 个节点要测好几分钟，窗口稍宽就会把
         # 上一轮的历史命中放进来（实测：发布 390 个，其中 208 个是上一轮的旧结果，
         # 复测只剩 59% 可用；而本轮新测的 250 个里 229 个仍可用，存活率 92%）。
+        # last_round = 最后被「测过」的轮次（通过与否都更新）；round 只在**测通**时更新。
+        # 两者必须分开：早先的实现把 round 在失败分支也刷新，于是本轮挂掉的节点
+        # 带着「round=本轮」溜过 CI 的轮次校验（实测第 4 轮 470 个条目标记成本轮，
+        # 实际测通的只有 245 个），白名单等于没过滤。
         entry.update({"line": res["line"], "type": res["type"], "last_check": stamp,
-                      "round": int(round_no)})
+                      "last_round": int(round_no)})
         if res["ok"]:
+            entry["round"] = int(round_no)
             entry["ok_rounds"] = int(entry.get("ok_rounds") or 0) + 1
             entry["fail_rounds"] = 0
             entry["delay"] = res["delay"]
@@ -347,39 +352,46 @@ def push(payload, repo, path):
     content = base64.b64encode(
         json.dumps(payload, ensure_ascii=False, indent=1).encode("utf-8")
     ).decode()
-    for attempt in range(6):
-        direct = attempt % 2 == 0        # 偶数次强制直连，奇数次走代理
+    # 到 api.github.com 的 TLS 握手在本机是**间歇性**失败的：直连和代理各有自己的
+    # 抖动窗口，所以每次「取 sha + PUT」都直连、代理各试一遍，再重复多轮。
+    # 早先 6 次各只试一种通道，实测 6 次全灭（3 次握手超时 + 3 次拿不到 sha）。
+    last_err = ""
+    for attempt in range(8):
         sha = ""
-        proc = _gh(["api", f"repos/{repo}/contents/{path}", "--jq", ".sha"], direct=direct)
-        if proc.returncode == 0:
-            sha = proc.stdout.strip()
+        for direct in (True, False):
+            proc = _gh(["api", f"repos/{repo}/contents/{path}", "--jq", ".sha"],
+                       direct=direct)
+            if proc.returncode == 0 and proc.stdout.strip():
+                sha = proc.stdout.strip()
+                break
         if not sha:
             # 取不到 sha 时绝不能直接 PUT：文件已存在而无 sha 会被 422 拒掉，
             # 白等一轮重试还不知道原因（踩过：6 次全 422 "sha wasn't supplied"）。
-            log.warning("第 %d 次：取不到 %s 的 sha，稍后重试", attempt + 1, path)
-            time.sleep(2 + attempt * 3)
+            log.warning("第 %d 轮：取不到 %s 的 sha，稍后重试", attempt + 1, path)
+            time.sleep(2 + attempt * 2)
             continue
-        args = [
-            "api",
-            "--method", "PUT",
-            f"repos/{repo}/contents/{path}",
-            "--input", "-",
-        ]
         body = {
             "message": "chore: 更新本机实测白名单 %s（%d 个可用）"
             % (datetime.now(TZ).strftime("%m-%d %H:%M"), len(payload["entries"])),
             "content": content,
             "branch": "main",
+            "sha": sha,
         }
-        body["sha"] = sha
-        proc = _gh(args, stdin=json.dumps(body), direct=direct)
-        if proc.returncode == 0:
-            log.info("已推送 %s 到 %s", path, repo)
-            return True
-        # sha 变了（CI 同时提交）→ 重取 sha 再试
-        log.warning("推送失败（第 %d 次）：%s", attempt + 1,
-                    (proc.stderr or "").strip().splitlines()[-1][:160] if proc.stderr else "")
-        time.sleep(2 + attempt * 3)
+        for direct in (True, False):
+            proc = _gh(
+                ["api", "--method", "PUT", f"repos/{repo}/contents/{path}", "--input", "-"],
+                stdin=json.dumps(body),
+                direct=direct,
+            )
+            if proc.returncode == 0:
+                log.info("已推送 %s 到 %s（第 %d 轮）", path, repo, attempt + 1)
+                return True
+            last_err = (proc.stderr or proc.stdout or "").strip()
+            if "does not match" in last_err or "sha" in last_err.lower():
+                break  # sha 过期（CI 同时提交）→ 重取 sha，换下一轮
+        log.warning("推送失败（第 %d 轮）：%s", attempt + 1,
+                    last_err.splitlines()[-1][:160] if last_err else "未知错误")
+        time.sleep(2 + attempt * 2)
     log.error("推送失败，白名单只留在本地（CI 会因白名单过期而回退 Globalping）")
     return False
 
