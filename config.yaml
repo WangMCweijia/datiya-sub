@@ -34,6 +34,17 @@ sources:
     url: "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/all-verified/clash-0006.yaml"
   - name: Au1rxx-07
     url: "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/all-verified/clash-0007.yaml"
+  # zhuhaiuk/free-nodes：只有 28 个节点，但 2026-10-22 实测本机连通率 32%（9/28），
+  # 是横向比过的十几个公开源里最高的（ermaozi 18%、daily_free_vpn 11%、其余 0~1%）。
+  # 与其他源重复 10 个、独家 18 个，属于「量小但打得很准」的源，所以只加它一个。
+  #
+  # 同轮实测被否掉的一批（抽样 70~120 个，本机 mihomo 逐节点 CONNECT）：
+  #   Anaer/Sub 1611 个 → 1%      Eternity 201 个 → 0%      ts-sf 200 个 → 0%
+  #   NoMoreWalls 131 个 → 1%     chengaopan 133 个 → 1%    free18 351 个 → 1%
+  #   Barabama 23 个 → 0%         Au1rxx stable-01~05 各 70 个 → 0~3%
+  # 节点多 ≠ 能用：这些源的节点要么早已失效，要么上游用境外视角挑的「活」，国内一律连不上。
+  - name: zhuhaiuk
+    url: "https://raw.githubusercontent.com/zhuhaiuk/free-nodes/main/clash_config.yaml"
 
 # 源健康度：每轮构建自动产出「各源实测命中率」（发布 / 进入候选池），
 # 写进 docs/status.json 的 source_health 段与本文件指向的滚动记录。
@@ -103,6 +114,7 @@ check:
   # 未列出的源按 50 算（中性），新源不必先登记。
   source_score:
     daily_free_vpn: 100
+    zhuhaiuk: 90              # 连通率最高（32%），但只有 28 个节点
     Au1rxx-07: 80
     Au1rxx-06: 70
     ermaozi: 60
@@ -149,8 +161,12 @@ check:
   # 第二轮：真实下载测速（剔除下载失败或网速过低的）
   speed_url: "https://speed.cloudflare.com/__down?bytes=2000000"
   speed_bytes: 1000000       # 下载够这么多字节就够算速度
-  speed_timeout_ms: 5000     # 单节点测速预算（毫秒）
-  speed_concurrency: 16      # 并发下载数（太高会互相抢带宽，反而测不准）
+  speed_timeout_ms: 6000     # 单节点测速预算（毫秒）。本机总出口只有 300~600KB/s，
+                             # 4 并发分摊后单节点 6 秒能下 300~900KB，够揭穿「下载失败」
+  # 并发下载数。别调高：本机到测速端点（speed.cloudflare.com）的总带宽实测只有
+  # 300~600KB/s，16 并发时每个节点只分到 20~37KB/s，测出来是一片「慢」——
+  # 发布集网速中位数曾被压到 17KB/s，不是节点差，是并发互挤。4 并发已能分辨快慢。
+  speed_concurrency: 4
   min_speed_kbps: 200        # 网速下限（KB/s），低于的剔除
   # --- 第三轮：中国大陆可达性（借助 Globalping 公开 API）---
   # TLS 层验证：从国内真实家宽探测点（eyeball-network）对节点发 HTTPS 请求，

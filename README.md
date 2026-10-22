@@ -54,6 +54,12 @@ sources:
 
 某个源当天抓取失败只会被跳过并记 0，不影响其它源。
 
+**怎么判断一个源值不值得加**：别看节点数，看「本机连得上几个」。公开源的节点数量与可用性
+基本无关——2026-10-22 抽样实测（每源 70~120 个，本机 mihomo 逐节点 CONNECT）：
+`Anaer/Sub` 1611 个 → 1%、`Eternity` 201 个 → 0%、`ts-sf` 200 个 → 0%、
+`NoMoreWalls` 131 个 → 1%、`Au1rxx/stable` 五个分片 → 0~3%，而只有 28 个节点的
+`zhuhaiuk/free-nodes` 反而有 32%。判据是**连通率**，不是规模。
+
 ### 源健康度（谁在真供血）
 
 不看不知道：**源的数量多 ≠ 节点多**。采集时每个节点会带上来源标记（`_srcs`），
@@ -235,7 +241,7 @@ python main.py --verbose
 | `check.max_delay_ms` | 第一轮延迟上限，超过的剔除；`0` 表示不限 |
 | `check.speed_url` / `speed_bytes` | 第二轮下载测速的地址与下载字节预算 |
 | `check.speed_timeout_ms` | 第二轮单节点测速时间预算（毫秒） |
-| `check.speed_concurrency` | 第二轮并发数，太高会互相抢带宽导致测不准 |
+| `check.speed_concurrency` | 第二轮并发数（默认 4）。**别调高**：测速端点在国外，本机到它的总带宽实测只有 300~600KB/s（同机到腾讯云镜像能跑 8MB/s），16 并发时每节点只分到 20~37KB/s，会把整批节点测成「一片慢」 |
 | `check.min_speed_kbps` | 网速下限（KB/s），低于的剔除 |
 | `check.concurrency` | 第一轮并发测速数 |
 | `check.china_check.enabled` | 第三轮：是否做中国大陆可达性检测（借助 Globalping 公开 API） |
