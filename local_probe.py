@@ -278,7 +278,7 @@ class ThreadPoolExecutorSafe:
 # --- 合并与落盘 -------------------------------------------------------------
 
 
-def merge(old, results, keep_days, dead_after):
+def merge(old, results, keep_days, dead_after, round_no=0):
     """把本轮结果并入历史：ok_rounds 累加，连续 3 轮失败标记 dead。
 
     保留历史很重要：免费节点会抖动，单轮失败不代表死，下一轮恢复即可；
@@ -288,7 +288,12 @@ def merge(old, results, keep_days, dead_after):
     stamp = now_stamp()
     for fp, res in results.items():
         entry = dict(entries.get(fp) or {})
-        entry.update({"line": res["line"], "type": res["type"], "last_check": stamp})
+        # round 记录「最后一次被实测是第几轮」：CI 据此只发**本轮**测通的节点。
+        # 只靠 last_ok 时间窗不行——一轮 1200 个节点要测好几分钟，窗口稍宽就会把
+        # 上一轮的历史命中放进来（实测：发布 390 个，其中 208 个是上一轮的旧结果，
+        # 复测只剩 59% 可用；而本轮新测的 250 个里 229 个仍可用，存活率 92%）。
+        entry.update({"line": res["line"], "type": res["type"], "last_check": stamp,
+                      "round": int(round_no)})
         if res["ok"]:
             entry["ok_rounds"] = int(entry.get("ok_rounds") or 0) + 1
             entry["fail_rounds"] = 0
@@ -348,6 +353,12 @@ def push(payload, repo, path):
         proc = _gh(["api", f"repos/{repo}/contents/{path}", "--jq", ".sha"], direct=direct)
         if proc.returncode == 0:
             sha = proc.stdout.strip()
+        if not sha:
+            # 取不到 sha 时绝不能直接 PUT：文件已存在而无 sha 会被 422 拒掉，
+            # 白等一轮重试还不知道原因（踩过：6 次全 422 "sha wasn't supplied"）。
+            log.warning("第 %d 次：取不到 %s 的 sha，稍后重试", attempt + 1, path)
+            time.sleep(2 + attempt * 3)
+            continue
         args = [
             "api",
             "--method", "PUT",
@@ -360,8 +371,7 @@ def push(payload, repo, path):
             "content": content,
             "branch": "main",
         }
-        if sha:
-            body["sha"] = sha
+        body["sha"] = sha
         proc = _gh(args, stdin=json.dumps(body), direct=direct)
         if proc.returncode == 0:
             log.info("已推送 %s 到 %s", path, repo)
@@ -456,8 +466,9 @@ def main():
             continue
 
         old = whitelist.load(wl_path)
-        entries, pruned = merge(old, results, args.keep_days, args.dead_after)
-        payload = build_payload(entries, host, int(old.get("probe_rounds") or 0) + 1)
+        round_no = int(old.get("probe_rounds") or 0) + 1
+        entries, pruned = merge(old, results, args.keep_days, args.dead_after, round_no)
+        payload = build_payload(entries, host, round_no)
         wl_path.write_text(
             json.dumps(payload, ensure_ascii=False, indent=1) + "\n", encoding="utf-8"
         )

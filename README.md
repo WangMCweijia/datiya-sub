@@ -92,8 +92,10 @@ schtasks /create /tn datiya-probe /tr "D://path//to//run_local_probe.bat" /sc ho
 - `whitelist.json` 带 `generated_at`：超过 `check.whitelist.max_age_hours`（默认 2 小时）
   即视为过期，构建**自动回退 Globalping 探测**，绝不会因为本机没开机而写坏订阅；
 - 命中数低于 `min_match`（默认 10）同样回退——说明上游换了一整批节点，白名单已脱节；
-- 每个条目记 `ok_rounds`（累计测通次数）与 `fail_rounds`（连续失败次数）：
-  连续 3 轮失败才标记 `dead`，避免一次抖动就永久拉黑真正好用的节点；
+- 每个条目记 `ok_rounds`（累计测通次数）、`fail_rounds`（连续失败次数）、`round`（最后
+  一次实测是第几轮）。发布只取 `round == 本轮` 的条目：免费节点衰减以十分钟计，
+  实测把上一轮的历史命中也发出去，可用率会从 92% 掉到 59%；
+- 连续 3 轮失败才标记 `dead`，避免一次抖动就永久拉黑真正好用的节点；
 - 条目保留 7 天（`--keep-days`），所以节点短暂消失后回来还能继承历史。
 
 ### 安全提示
@@ -171,7 +173,8 @@ python main.py --verbose
 | `check.whitelist.max_age_hours` | 白名单超过该时长视为过期并回退 Globalping 探测（默认 2） |
 | `check.whitelist.min_match` | 白名单命中少于该数则判定脱节、回退 Globalping（默认 10） |
 | `check.whitelist.min_ok_rounds` | 至少被本机测通几次才算可用（默认 1；`2` 表示要求跨轮稳定） |
-| `check.whitelist.ok_within_hours` | 只发「最近 N 小时内被本机测通」的节点（默认 0.5），免费节点衰减极快 |
+| `check.whitelist.require_latest_round` | 只发「本轮本机实测通过」的节点（默认开）。`ok_rounds` 是累计值，历史命中会把可用率从 92% 拉到 59% |
+| `check.whitelist.ok_within_hours` | 额外时间兜底：`last_ok` 超过该时长的条目不发（默认 0.5 小时） |
 | `check.min_alive` | 可用节点少于该值时**不覆盖**已有订阅（默认 30，避免把好订阅写坏） |
 | `history.enabled` / `history.file` | 跨构建存活账本：开关与文件路径（默认仓库根 `history.json`） |
 | `history.trusted_streak` | 连续通过几次构建算「可信」（默认 3）：置顶排序 + 探测额度不足时无条件保留 |

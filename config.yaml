@@ -49,8 +49,10 @@ check:
   binary: ""                 # mihomo 可执行文件路径，留空则用 PATH 中的 mihomo
   # 第一轮：连通性 + 延迟
   test_url: "https://www.gstatic.com/generate_204"
-  timeout_ms: 3000           # 单节点连通测试超时（毫秒）
-  concurrency: 50            # 并发数
+  timeout_ms: 5000           # 单节点连通测试超时（毫秒）。本机探测也用它：
+                             # 3 秒对晚高峰的国际链路偏严，会把「慢但能用」判死
+  concurrency: 30            # 并发数。本机探测也用它：
+                             # 50 并发会自己把自己堵住，制造假阴性
   max_delay_ms: 1500         # 延迟上限，超过的剔除；0=不限
   max_per_line: 2            # 同一 server:port 最多保留几个凭据（0=不限）。
                              # 公开源里同一台机器常挂几十个 uuid，同时失效，留多份只是
@@ -98,9 +100,10 @@ check:
                              # local_probe 每次推送都会触发一次构建（白名单模式下约 4 分钟）
     min_match: 10            # 命中少于该数说明白名单与候选池脱节，回退 Globalping
     min_ok_rounds: 1         # 至少被本机测通过几次才算可用（2=要求跨轮稳定）
-    ok_within_hours: 0.5     # 只发「最近 N 小时内被本机测通」的节点。ok_rounds 是累计值，
-                             # 一小时前测通、现在已失效的节点照样 ≥1；免费节点寿命以分钟计，
-                             # 本机会持续补测，真还活着的几分钟内就会被重新刷新 last_ok。
+    require_latest_round: true  # 只发「本轮本机实测通过」的节点。ok_rounds 是累计值，
+                             # 上一轮测通、这一轮已死的节点照样 ≥1；光靠时间窗不够——
+                             # 实测混入 208 个历史命中后，发布集可用率从 92% 掉到 59%。
+    ok_within_hours: 0.5     # 额外的时间兜底：last_ok 超过该时长的条目不发
     min_kbps: 0              # 网速下限（KB/s），0=不限；本机测不出网速时不影响命中
   # 第二轮：真实下载测速（剔除下载失败或网速过低的）
   speed_url: "https://speed.cloudflare.com/__down?bytes=2000000"

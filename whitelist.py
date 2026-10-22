@@ -149,6 +149,9 @@ def apply(proxies, data, cfg):
     # 真还活着的节点几分钟内就会被重新测到并刷新 last_ok）。
     window_h = float(cfg.get("ok_within_hours", 1) or 0)
     ref = parse_stamp((data or {}).get("generated_at"))
+    # 只发「本轮实测通过」的节点：round 是 local_probe 每轮的序号，
+    # 比时间窗精确得多（一轮要测好几分钟，时间窗无法区分同一轮内外的结果）。
+    latest = int((data or {}).get("probe_rounds") or 0)
 
     kept, stats = [], {"matched": 0, "dead": 0, "unstable": 0, "slow": 0,
                        "stale": 0, "unknown": 0}
@@ -161,6 +164,10 @@ def apply(proxies, data, cfg):
         if entry.get("dead"):
             stats["dead"] += 1
             continue
+        if latest and cfg.get("require_latest_round", True):
+            if int(entry.get("round") or 0) != latest:
+                stats["stale"] += 1
+                continue
         if window_h and ref:
             last_ok = parse_stamp(entry.get("last_ok"))
             if not last_ok or (ref - last_ok) > timedelta(hours=window_h):
