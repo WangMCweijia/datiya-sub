@@ -78,7 +78,12 @@ def render_page(status, out_cfg):
             ("v2rayN / v2rayNG", out_cfg["v2ray_file"]),
         )
     )
-    regions = "、".join(f"{k} {v}" for k, v in status["regions"].items()) or "无"
+    # 地区从 16 个扩到 100+ 之后，「地区分布」会有几十项，整行塞进去反而看不清；
+    # 只列节点最多的 12 个，其余折成一句「另 N 个地区」。
+    region_items = list((status.get("regions") or {}).items())
+    head = "、".join(f"{k} {v}" for k, v in region_items[:12])
+    rest = len(region_items) - 12
+    regions = (head + (f"，另 {rest} 个地区" if rest > 0 else "")) or "无"
     sources = status.get("sources") or {}
     source_row = ""
     if sources:
@@ -506,6 +511,17 @@ def main():
         builder.rank_summary(proxies, rank_cfg),
     )
 
+    # 统一改名：地区 | 网速 | 延迟 | 原名代表性标志。
+    # 必须排在测速与排序之后——网速/延迟是名字的一部分，测完才有值；顺序也定了，
+    # 名字里的数字才和用户看到的排列一致。改名不影响任何计数与去重（去重看连接指纹）。
+    naming_cfg = cfg.get("naming") or {}
+    proxies = builder.rename(proxies, naming_cfg)
+    if proxies:
+        log.info(
+            "节点命名：地区 | 网速 | 延迟 | 代表性标志，例如 %s",
+            "；".join(p["name"] for p in proxies[:3]),
+        )
+
     # 协议分区已在额度截断前完成（决定谁占用探测名额），这里只记录发布头部协议。
     if (check_cfg.get("protocol_score") or {}) and proxies:
         from collections import Counter as _Counter
@@ -615,12 +631,20 @@ def main():
             "generated_at": meta["updated_at"],
             "rows": source_rows,
         },
+        # 按节点数从多到少（「其他」置底）：地区和分组用的是同一套口径，
+        # 一眼就能对上订阅里的 🌐 分组。
         "regions": dict(
             sorted(
                 Counter(builder.classify(p["name"]) for p in proxies).items(),
-                key=lambda kv: (kv[0] == "其他", kv[0]),
+                key=lambda kv: (kv[0] == "其他", -kv[1], kv[0]),
             )
         ),
+        # 命名口径与样例：便于一眼核对「名字里的地区/网速/延迟」是否来自实测
+        "naming": {
+            "enabled": bool((cfg.get("naming") or {}).get("enabled", True)),
+            "format": "地区 | 网速 | 延迟 | 代表性标志",
+            "sample": [p["name"] for p in proxies[:5]],
+        },
     }
     write_outputs(out_cfg, clash_text, links, status)
     log.info("完成：%d 个可用节点", len(proxies))

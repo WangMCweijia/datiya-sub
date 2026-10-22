@@ -14,28 +14,216 @@ import yaml
 
 log = logging.getLogger("datiya.build")
 
-# 地区识别：subs 为子串匹配，codes 为独立词匹配（避免 us 命中 russia 这类误判）
-REGION_RULES = [
-    ("香港", ["香港", "hongkong", "hong kong", "hkg"], ["hk"]),
-    ("台湾", ["台湾", "台灣", "taiwan"], ["tw"]),
-    ("日本", ["日本", "japan"], ["jp"]),
-    ("新加坡", ["新加坡", "狮城", "獅城", "singapore"], ["sg"]),
-    ("韩国", ["韩国", "韓國", "korea"], ["kr"]),
-    ("美国", ["美国", "美國", "united states", "america"], ["us", "usa"]),
-    ("英国", ["英国", "英國", "united kingdom"], ["uk", "gb"]),
-    ("德国", ["德国", "德國", "germany"], ["de"]),
-    ("法国", ["法国", "法國", "france"], ["fr"]),
-    ("荷兰", ["荷兰", "荷蘭", "netherlands"], ["nl"]),
-    ("俄罗斯", ["俄罗斯", "俄羅斯", "russia"], ["ru"]),
-    ("加拿大", ["加拿大", "canada"], ["ca"]),
-    ("澳大利亚", ["澳大利亚", "澳洲", "australia"], ["au"]),
-    ("印度", ["印度", "india"], ["in"]),
-    ("土耳其", ["土耳其", "turkey"], ["tr"]),
-    ("越南", ["越南", "vietnam"], ["vn"]),
-    ("其他", [], []),
+# ---- 地区识别 ----
+# 一张表打天下：ISO 代码 → (中文名, 其它写法)。
+# 为什么不再用原来那 16 行小表：上游名字里的地区写法比它杂得多——实测线上 390 个
+# 节点里出现了 47 个不同国家码（US 92 / RO 52 / NL 35 / SG 23 / DE 19 / FR 17 …），
+# 旧表只认 16 个国家，四成节点被归进「其他」：分组塌成一个巨型「其他」，也没法用
+# 地区给节点命名（名字开头会是「其他」，等于把唯一确定的信息丢了）。
+#
+# 三档匹配，越靠前越可信：
+#   ① 国旗 emoji（区域指示符两两成对，几乎不会错）
+#   ② 中文名 / 英文全名 走子串匹配（"新加坡"、"singapore"、"united states"）
+#   ③ 短代码按**单词**匹配（"US"、"SG"），取名字里**最先出现**的那个
+#      —— 上游习惯把地区写在开头；"RO - zhuhai.uk" 里的 uk 是域名的一部分，
+#      按出现顺序取第一个才能得到 RO 而不是 GB。
+REGION_TABLE = [
+    ("HK", "香港", ("hongkong", "hong kong", "hkg", "港")),
+    ("TW", "台湾", ("台灣", "taiwan", "tpe", "台北", "taipei")),
+    ("MO", "澳门", ("澳門", "macau", "macao")),
+    ("SG", "新加坡", ("狮城", "獅城", "singapore", "sgp")),
+    ("JP", "日本", ("japan", "jpn", "东京", "東京", "大阪", "tokyo", "osaka")),
+    ("KR", "韩国", ("韓國", "korea", "首尔", "首爾", "seoul", "busan")),
+    ("CN", "中国", ("中国大陆", "china")),
+    ("US", "美国", ("美國", "united states", "america", "usa", "洛杉矶", "硅谷",
+                    "los angeles", "san jose", "seattle", "dallas", "new york")),
+    ("CA", "加拿大", ("canada", "多伦多", "蒙特利尔", "toronto", "montreal")),
+    ("GB", "英国", ("英國", "united kingdom", "britain", "england", "london", "伦敦", "倫敦")),
+    ("DE", "德国", ("德國", "germany", "frankfurt", "法兰克福")),
+    ("FR", "法国", ("法國", "france", "paris", "巴黎")),
+    ("NL", "荷兰", ("荷蘭", "netherlands", "holland", "amsterdam", "阿姆斯特丹")),
+    ("BE", "比利时", ("belgium",)),
+    ("CH", "瑞士", ("switzerland", "zurich", "苏黎世")),
+    ("AT", "奥地利", ("austria", "vienna", "维也纳")),
+    ("IT", "意大利", ("義大利", "italy", "milan", "米兰")),
+    ("ES", "西班牙", ("spain", "madrid", "马德里")),
+    ("PT", "葡萄牙", ("portugal", "lisbon", "里斯本")),
+    ("IE", "爱尔兰", ("愛爾蘭", "ireland", "dublin", "都柏林")),
+    ("SE", "瑞典", ("sweden", "stockholm", "斯德哥尔摩")),
+    ("NO", "挪威", ("norway", "oslo", "奥斯陆")),
+    ("DK", "丹麦", ("丹麥", "denmark", "copenhagen", "哥本哈根")),
+    ("FI", "芬兰", ("芬蘭", "finland", "helsinki", "赫尔辛基")),
+    ("IS", "冰岛", ("冰島", "iceland")),
+    ("PL", "波兰", ("波蘭", "poland", "warsaw", "华沙")),
+    ("CZ", "捷克", ("czech", "prague", "布拉格")),
+    ("SK", "斯洛伐克", ("slovakia",)),
+    ("HU", "匈牙利", ("hungary", "budapest", "布达佩斯")),
+    ("RO", "罗马尼亚", ("羅馬尼亞", "romania", "bucharest", "布加勒斯特")),
+    ("BG", "保加利亚", ("保加利亞", "bulgaria", "sofia", "索非亚")),
+    ("GR", "希腊", ("希臘", "greece", "athens", "雅典")),
+    ("HR", "克罗地亚", ("克羅地亞", "croatia", "zagreb")),
+    ("SI", "斯洛文尼亚", ("slovenia",)),
+    ("RS", "塞尔维亚", ("塞爾維亞", "serbia", "belgrade", "贝尔格莱德")),
+    ("BA", "波黑", ("bosnia",)),
+    ("AL", "阿尔巴尼亚", ("阿爾巴尼亞", "albania")),
+    ("MT", "马耳他", ("馬耳他", "malta")),
+    ("LU", "卢森堡", ("盧森堡", "luxembourg")),
+    ("EE", "爱沙尼亚", ("愛沙尼亞", "estonia", "tallinn", "塔林")),
+    ("LV", "拉脱维亚", ("拉脫維亞", "latvia", "riga", "里加")),
+    ("LT", "立陶宛", ("lithuania", "vilnius", "维尔纽斯")),
+    ("UA", "乌克兰", ("烏克蘭", "ukraine", "kyiv", "基辅")),
+    ("MD", "摩尔多瓦", ("moldova",)),
+    ("BY", "白俄罗斯", ("belarus", "minsk", "明斯克")),
+    ("RU", "俄罗斯", ("俄羅斯", "russia", "moscow", "莫斯科")),
+    ("TR", "土耳其", ("turkey", "istanbul", "伊斯坦布尔")),
+    ("IL", "以色列", ("israel", "tel aviv", "特拉维夫")),
+    ("AE", "阿联酋", ("阿聯酋", "emirates", "uae", "dubai", "迪拜")),
+    ("SA", "沙特", ("saudi", "riyadh")),
+    ("QA", "卡塔尔", ("卡塔爾", "qatar", "doha")),
+    ("KW", "科威特", ("kuwait",)),
+    ("BH", "巴林", ("bahrain",)),
+    ("JO", "约旦", ("約旦", "jordan", "amman")),
+    ("LB", "黎巴嫩", ("lebanon", "beirut")),
+    ("IQ", "伊拉克", ("iraq", "baghdad")),
+    ("IR", "伊朗", ("iran", "tehran")),
+    ("AM", "亚美尼亚", ("armenia", "yerevan")),
+    ("AZ", "阿塞拜疆", ("azerbaijan", "baku")),
+    ("GE", "格鲁吉亚", ("georgia", "tbilisi")),
+    ("KZ", "哈萨克斯坦", ("kazakhstan", "almaty")),
+    ("UZ", "乌兹别克斯坦", ("uzbekistan",)),
+    ("KG", "吉尔吉斯斯坦", ("kyrgyzstan",)),
+    ("MN", "蒙古", ("mongolia",)),
+    ("PK", "巴基斯坦", ("pakistan", "karachi")),
+    ("BD", "孟加拉", ("bangladesh", "dhaka")),
+    ("NP", "尼泊尔", ("nepal", "kathmandu")),
+    ("LK", "斯里兰卡", ("sri lanka", "colombo")),
+    ("MM", "缅甸", ("緬甸", "myanmar", "yangon")),
+    ("TH", "泰国", ("泰國", "thailand", "bangkok", "曼谷")),
+    ("VN", "越南", ("vietnam", "hanoi", "河内", "胡志明")),
+    ("LA", "老挝", ("laos", "vientiane")),
+    ("KH", "柬埔寨", ("cambodia", "phnom penh")),
+    ("MY", "马来西亚", ("馬來西亞", "malaysia", "kuala lumpur", "吉隆坡")),
+    ("ID", "印度尼西亚", ("印尼", "indonesia", "jakarta", "雅加达")),
+    ("PH", "菲律宾", ("菲律賓", "philippines", "manila", "马尼拉")),
+    ("BN", "文莱", ("brunei",)),
+    ("IN", "印度", ("india", "mumbai", "孟买")),
+    ("AU", "澳大利亚", ("澳大利亞", "澳洲", "australia", "sydney", "悉尼")),
+    ("NZ", "新西兰", ("新西蘭", "new zealand", "auckland", "奥克兰")),
+    ("BR", "巴西", ("brazil", "sao paulo", "圣保罗")),
+    ("AR", "阿根廷", ("argentina", "buenos aires")),
+    ("CL", "智利", ("chile", "santiago")),
+    ("PE", "秘鲁", ("秘魯", "peru", "lima")),
+    ("CO", "哥伦比亚", ("colombia", "bogota")),
+    ("VE", "委内瑞拉", ("venezuela",)),
+    ("EC", "厄瓜多尔", ("ecuador", "quito")),
+    ("UY", "乌拉圭", ("uruguay",)),
+    ("PY", "巴拉圭", ("paraguay",)),
+    ("BO", "玻利维亚", ("bolivia",)),
+    ("MX", "墨西哥", ("mexico", "墨西哥城")),
+    ("GT", "危地马拉", ("guatemala",)),
+    ("CR", "哥斯达黎加", ("costa rica",)),
+    ("PA", "巴拿马", ("巴拿馬", "panama")),
+    ("DO", "多米尼加", ("dominican",)),
+    ("PR", "波多黎各", ("puerto rico",)),
+    ("JM", "牙买加", ("jamaica",)),
+    ("TT", "特立尼达", ("trinidad",)),
+    ("ZA", "南非", ("south africa", "johannesburg")),
+    ("NG", "尼日利亚", ("nigeria", "lagos")),
+    ("KE", "肯尼亚", ("kenya", "nairobi")),
+    ("EG", "埃及", ("egypt", "cairo")),
+    ("MA", "摩洛哥", ("morocco", "casablanca")),
+    ("TN", "突尼斯", ("tunisia",)),
+    ("DZ", "阿尔及利亚", ("algeria",)),
+    ("GH", "加纳", ("ghana",)),
+    ("ET", "埃塞俄比亚", ("ethiopia",)),
+    ("TZ", "坦桑尼亚", ("tanzania",)),
+    ("UG", "乌干达", ("uganda",)),
+    ("MU", "毛里求斯", ("mauritius",)),
+    ("CM", "喀麦隆", ("cameroon",)),
+    ("SN", "塞内加尔", ("senegal",)),
+    ("CI", "科特迪瓦", ("ivory coast",)),
+    ("ZW", "津巴布韦", ("zimbabwe",)),
+    ("AO", "安哥拉", ("angola",)),
+    ("MZ", "莫桑比克", ("mozambique",)),
+    ("BW", "博茨瓦纳", ("botswana",)),
+    ("NA", "纳米比亚", ("namibia",)),
+    ("CY", "塞浦路斯", ("cyprus", "nicosia")),
 ]
 
-TOKEN_RE = re.compile(r"[a-z0-9]+")
+# 常见三字码 / 机场码：上游节点名里大量使用（RUS、NRT、LAX、SIN…），
+# 只按**单词**匹配，且只用来剥「名字开头」的地区前缀，不动中间的部分。
+ALPHA3 = {
+    "hkg": "HK", "tpe": "TW", "mac": "MO", "sin": "SG", "sgp": "SG",
+    "nrt": "JP", "hnd": "JP", "kix": "JP", "icn": "KR", "lax": "US",
+    "sjc": "US", "sea": "US", "dfw": "US", "iad": "US", "nyc": "US",
+    "usa": "US", "yyz": "CA", "lhr": "GB", "lon": "GB", "gbr": "GB",
+    "fra": "DE", "deu": "DE", "cdg": "FR", "par": "FR", "ams": "NL",
+    "nld": "NL", "bru": "BE", "zrh": "CH", "vie": "AT", "aut": "AT",
+    "mxp": "IT", "ita": "IT", "mad": "ES", "esp": "ES", "lis": "PT",
+    "prt": "PT", "dub": "IE", "irl": "IE", "arn": "SE", "swe": "SE",
+    "osl": "NO", "nor": "NO", "cph": "DK", "dnk": "DK", "hel": "FI",
+    "fin": "FI", "waw": "PL", "pol": "PL", "prg": "CZ", "cze": "CZ",
+    "bud": "HU", "hun": "HU", "otp": "RO", "rou": "RO", "sof": "BG",
+    "bgr": "BG", "ath": "GR", "grc": "GR", "zag": "HR", "hrv": "HR",
+    "beg": "RS", "srb": "RS", "bih": "BA", "tia": "AL", "alb": "AL",
+    "mla": "MT", "lux": "LU", "tal": "EE", "est": "EE", "rix": "LV",
+    "lva": "LV", "vno": "LT", "ltu": "LT", "kyi": "UA", "ukr": "UA",
+    "mda": "MD", "msq": "BY", "blr": "BY", "svo": "RU", "rus": "RU",
+    "ist": "TR", "tur": "TR", "tlv": "IL", "isr": "IL", "dxb": "AE",
+    "uae": "AE", "ruh": "SA", "sau": "SA", "kwt": "KW", "bhr": "BH",
+    "jor": "JO", "lbn": "LB", "irq": "IQ", "irn": "IR", "arm": "AM",
+    "aze": "AZ", "tbs": "GE", "kaz": "KZ", "uzb": "UZ", "kgz": "KG",
+    "mng": "MN", "pak": "PK", "bgd": "BD", "npl": "NP", "lka": "LK",
+    "mmr": "MM", "bkk": "TH", "tha": "TH", "han": "VN", "vnm": "VN",
+    "lao": "LA", "khm": "KH", "kul": "MY", "mys": "MY", "cgk": "ID",
+    "idn": "ID", "mnl": "PH", "phl": "PH", "brn": "BN", "bom": "IN",
+    "del": "IN", "ind": "IN", "chn": "CN", "syd": "AU", "aus": "AU",
+    "akl": "NZ", "nzl": "NZ", "gru": "BR", "bra": "BR", "arg": "AR",
+    "chl": "CL", "lim": "PE", "bog": "CO", "col": "CO", "mex": "MX",
+    "gtm": "GT", "cri": "CR", "pty": "PA", "dom": "DO", "sju": "PR",
+    "zaf": "ZA", "nga": "NG", "ken": "KE", "cai": "EG", "egy": "EG",
+    "mar": "MA", "tun": "TN", "dza": "DZ", "gha": "GH", "eth": "ET",
+    "tza": "TZ", "uga": "UG", "mus": "MU", "cmr": "CM", "sen": "SN",
+    "civ": "CI", "zwe": "ZW", "ago": "AO", "moz": "MZ", "bwa": "BW",
+    "nam": "NA", "cyp": "CY", "svk": "SK", "svn": "SI", "isl": "IS",
+}
+
+# 节点名里表示「地区未知」的写法；它们同样是冗余的，命名时要剥掉
+UNKNOWN_WORDS = ("un", "unknown", "other", "其他", "未知")
+
+WORD_RE = re.compile(r"[A-Za-z0-9]+")
+
+
+def _flag(code):
+    """ISO 代码 → 国旗 emoji（区域指示符 = 'A' 的码位 + 字母序号）。"""
+    return "".join(chr(0x1F1E6 + ord(ch) - 65) for ch in code)
+
+
+FLAGS = {code: _flag(code) for code, _, _ in REGION_TABLE}
+REGION_CN = {code: zh for code, zh, _ in REGION_TABLE}
+_CODES = set(REGION_CN)
+
+# 中文名与英文全名走子串匹配；≤4 字符的拉丁短码走单词匹配
+# （否则 "est" 会命中 "fastest"、"nam" 会命中 "name"）
+_ALIAS_SUB = []
+_ALIAS_WORD = {}
+for _code, _zh, _alts in REGION_TABLE:
+    _ALIAS_SUB.append((_code, _zh))
+    for _alt in _alts:
+        if _alt.isascii() and len(_alt) <= 4:
+            _ALIAS_WORD.setdefault(_alt.lower(), _code)
+        else:
+            _ALIAS_SUB.append((_code, _alt.lower()))
+
+# 命名时要剥掉的中文写法（地区名/中文别名 + "其他/未知"）。按长度倒序替换，
+# 避免短词先把长词切碎（"中国大陆" 先于 "中国"）。
+_CJK_ALIASES = sorted(
+    {zh for _, zh, _ in REGION_TABLE}
+    | {alt for _, _, alts in REGION_TABLE for alt in alts if not alt.isascii()}
+    | {"其他", "未知"},
+    key=len,
+    reverse=True,
+)
 
 
 def parse_proxies(text):
@@ -155,14 +343,47 @@ def dedupe(proxies):
     return result
 
 
+def _flag_code(text):
+    """从国旗 emoji 取 ISO 代码；没有国旗返回 None。"""
+    letters = [chr(ord(ch) - 0x1F1E6 + 65) for ch in text if 0x1F1E6 <= ord(ch) <= 0x1F1FF]
+    if len(letters) >= 2 and "".join(letters[:2]) in _CODES:
+        return "".join(letters[:2])
+    return None
+
+
+def region_code(name):
+    """节点名 → ISO 国家码（认不出来返回 None）。"""
+    text = str(name or "")
+    code = _flag_code(text)
+    if code:
+        return code
+    lowered = text.lower()
+    for code, alias in _ALIAS_SUB:
+        if alias and alias in lowered:
+            return code
+    # 短码只看前 4 个词、且要求**大写写法**（"RO - zhuhai.uk" 里的 uk、"Speed in
+    # Tokyo" 里的 in 都是小写普通词，不该被当成地区）；首个词放宽到小写
+    # （有些源整份配置就是小写）。
+    for index, token in enumerate(WORD_RE.findall(text)[:4]):
+        upper = token.upper()
+        if upper in _CODES and (token.isupper() or index == 0):
+            return upper
+        if token.lower() in ALPHA3:
+            return ALPHA3[token.lower()]
+    return None
+
+
 def classify(name):
-    """根据节点名推测地区。"""
-    lowered = str(name).lower()
-    tokens = set(TOKEN_RE.findall(lowered))
-    for region, subs, codes in REGION_RULES:
-        if any(sub in lowered for sub in subs) or (codes and tokens & set(codes)):
-            return region
-    return "其他"
+    """根据节点名推测地区（返回中文名，认不出为「其他」）。"""
+    return REGION_CN.get(region_code(name) or "", "其他")
+
+
+def region_label(name):
+    """节点名 → (国旗 emoji, 中文地区名)，用于给节点起名。"""
+    code = region_code(name)
+    if not code:
+        return "❓", "其他"
+    return FLAGS[code], REGION_CN[code]
 
 
 # 交给 mihomo 内核前先清洗：内核不认识的协议会让内核整体启动失败，必须剔除；
@@ -429,6 +650,131 @@ def rank_summary(proxies, cfg=None):
     }
 
 
+# ---- 节点命名：地区 | 网速 | 延迟 | 原名里的代表性标志 ----
+#
+# 为什么统一改名：上游名字是各家自己拼的，同一个订阅里能同时出现
+#   🇸🇬SG_131|578KB/s / RO - zhuhai.uk 05 [be5ac291e62c920d] / vless-1879607313 /
+#   UN【机场推荐：https://a9a.xyz】224 / 🏳[www.v2nodes.com] vless- #4
+# 用户看不出「哪个快、哪个在哪、哪个还是刚才那个」。改成统一格式后，名字本身
+# 就是一句话：地区 + 实测网速 + 实测延迟 + 能区分线路的原始标志。
+_SPEED_TEXT_RE = re.compile(r"\d+(?:\.\d+)?\s*[KMGTkmgt]\s*[Bb]\s*/\s*[Ss]")
+_DELAY_TEXT_RE = re.compile(r"\d+(?:\.\d+)?\s*ms(?![a-z])", re.I)
+_URL_TEXT_RE = re.compile(r"(?:https?://|www\.)[^\s\]\)】]+", re.I)
+# 括号内容基本都是推广位（【机场推荐：…】）或上游塞进来的连接指纹（[9f5d0bdf…]）
+_BRACKET_TEXT_RE = re.compile(r"【[^】]*】|\[[^\]]*\]|\([^)]*\)|（[^）]*）")
+_SEP_TEXT_RE = re.compile(r"[|/\\_+~,;:、·•]+")
+_SPACE_TEXT_RE = re.compile(r"\s+")
+_LEAD_SEP = re.compile(r"^[\s\-_—–|/+~,;:、·•#]+")
+_TAIL_SEP = re.compile(r"[\s\-_—–|/+~,;:、·•]+$")
+_UNKNOWN_TOKEN_RE = re.compile(r"\b(?:un|unknown|other)\b", re.I)
+
+
+def _plain(text):
+    """去掉 emoji 与纯符号字符（国旗、❓、🏳…），保留文字与数字。
+
+    这些符号对命名没有信息量：地区已经由 region_label 显式写出来了，
+    留着只是让名字更长。
+    """
+    return "".join(
+        ch for ch in str(text or "")
+        if unicodedata.category(ch) not in ("So", "Sk", "Cf", "Cc")
+    )
+
+
+def node_marker(proxy, limit=20):
+    """从原节点名里抽出「代表性标志」：剥掉地区、网速、延迟、推广位后剩下的部分。
+
+    实测的几种写法与结果：
+        🇸🇬SG_131|578KB/s                → 131
+        🇫🇷FR_185|1.0MB/s|S004-260618    → 185 S004-260618
+        RO - zhuhai.uk 05 [hash]         → zhuhai.uk 05
+        NL_speednode_0021                → speednode 0021
+        UN【机场推荐：https://…】224      → 224
+        🏳[www.v2nodes.com] vless- #4     → vless #4
+    只剥**开头**的地区前缀：如果全串替换，`zhuhai.uk` 里的 uk、`US-LAX` 里的 LAX
+    会被当成地区码吃掉，名字反而丢了用来区分线路的部分。
+    剥完为空时退回连接指纹前 6 位，保证名字仍能落回一台具体的机器。
+    """
+    text = _plain(proxy.get("name"))
+    text = _URL_TEXT_RE.sub(" ", text)
+    text = _BRACKET_TEXT_RE.sub(" ", text)
+    text = _SPEED_TEXT_RE.sub(" ", text)
+    text = _DELAY_TEXT_RE.sub(" ", text)
+    # 地区词（中文名与中文别名）在名字里任何位置都是冗余的，全串替换
+    for alias in _CJK_ALIASES:
+        text = text.replace(alias, " ")
+    text = _SEP_TEXT_RE.sub(" ", text)
+    text = _UNKNOWN_TOKEN_RE.sub(" ", text)
+    text = re.sub(r"-(?=\s)", " ", text)      # "vless- #4" → "vless #4"，保留 "S004-260618"
+
+    # 只剥一段开头的地区前缀（"US - xxx" / "SG_xxx" / "RUS 2"）：
+    # "US-LAX-01" 里的 LAX 是机场码，属于有用的区分标志，不能连剥两段。
+    match = WORD_RE.search(text)
+    if match and not text[: match.start()].strip(" -_|/·"):
+        token = match.group(0)
+        if token.upper() in _CODES or token.lower() in ALPHA3:
+            text = text[match.end():]
+
+    text = _TAIL_SEP.sub("", _LEAD_SEP.sub("", _SPACE_TEXT_RE.sub(" ", text)))
+    if not text:
+        return fingerprint(proxy)[:6]
+    if len(text) > limit:
+        text = _TAIL_SEP.sub("", text[:limit])
+    return text or fingerprint(proxy)[:6]
+
+
+def _speed_text(kbps):
+    """网速 → 名字里的可读写法（KB/s 或 MB/s）。"""
+    if kbps <= 0:
+        return "--"
+    if kbps < 1024:
+        return "%dKB/s" % int(kbps)
+    return "%.1fMB/s" % (kbps / 1024.0)
+
+
+def _delay_text(ms):
+    return "%dms" % ms if ms > 0 else "--"
+
+
+def display_name(proxy, cfg=None):
+    """单个节点的展示名：地区 | 网速 | 延迟 | 原名代表性标志。"""
+    cfg = cfg or {}
+    flag, region = region_label(proxy.get("name"))
+    delay = int(proxy.get("_delay_ms") or proxy.get("_wl_delay") or 0)
+    kbps = float(proxy.get("_speed_kbps") or proxy.get("_wl_kbps") or 0)
+    parts = [
+        flag + region,
+        _speed_text(kbps),
+        _delay_text(delay),
+        node_marker(proxy, limit=int(cfg.get("marker_max", 20) or 20)),
+    ]
+    # 分隔符不带空格：Clash 客户端普遍在 30~40 个字符处截断，省下的 6 个字符
+    # 正好留给「代表性标志」——那才是区分线路的部分（实测名字中位 30 字符）。
+    return "|".join(parts)
+
+
+def rename(proxies, cfg=None):
+    """把发布集的节点名统一成「地区 | 网速 | 延迟 | 代表性标志」并保证唯一。
+
+    必须在测速之后调用：网速/延迟是名字的一部分，而这两个值只有测完才有。
+    重名（同地区、同质量、同标志）时按 ` #n` 递增——mihomo 遇到重名会拒绝
+    加载整份配置，客户端表现为节点列表空白。
+    """
+    cfg = cfg or {}
+    if not cfg.get("enabled", True):
+        return proxies
+    used = set()
+    for proxy in proxies:
+        base = display_name(proxy, cfg)
+        name, index = base, 1
+        while name in used:
+            index += 1
+            name = "%s #%d" % (base, index)
+        used.add(name)
+        proxy["name"] = name
+    return proxies
+
+
 def diversify(proxies, per_line=2, trusted_streak=3, trusted_cap=4):
     """同一 `server:port` 最多保留 per_line 个凭据，提升订阅的线路多样性。
 
@@ -473,6 +819,19 @@ def build_clash(proxies, clash_cfg, meta):
     for proxy in clean:
         by_region[classify(proxy["name"])].append(proxy["name"])
 
+    # 地区认得的国家从 16 个扩到 100+ 之后，北美/欧洲的「一国一两个节点」会把
+    # 分组列表刷成几十个几乎空的小组，反而更难选。少于 min_region_nodes 的地区
+    # 并入「其他」，只让真正成规模的地区单独成组（按节点数从多到少排）。
+    min_nodes = int(clash_cfg.get("min_region_nodes", 8) or 0)
+    if min_nodes:
+        merged = []
+        for region, nodes in list(by_region.items()):
+            if region != "其他" and len(nodes) < min_nodes:
+                merged.extend(nodes)
+                del by_region[region]
+        if merged:
+            by_region["其他"] = by_region.get("其他", []) + merged
+
     region_groups = [
         {
             "name": f"🌐 {region}",
@@ -483,7 +842,9 @@ def build_clash(proxies, clash_cfg, meta):
             "timeout": test_timeout,
             "proxies": nodes,
         }
-        for region, nodes in sorted(by_region.items(), key=lambda kv: (kv[0] == "其他", kv[0]))
+        for region, nodes in sorted(
+            by_region.items(), key=lambda kv: (kv[0] == "其他", -len(kv[1]), kv[0])
+        )
     ]
 
     groups = [
