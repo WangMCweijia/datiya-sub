@@ -1,5 +1,9 @@
 # free.datiya.com 节点聚合配置
 site:
+  enabled: false             # 主源已停用：2026-10-22 实测 7 天共 98 个节点、全是
+                             # vmess/ss，随机 14 个本机逐节点 CONNECT → 0 存活；
+                             # 去重后独家节点 0 个（全部被附加源覆盖），对订阅零增量。
+                             # 关掉后只跑下面 sources 里的附加源，改回 true 即恢复。
   base_url: "https://free.datiya.com"
   rss: "/index.xml"          # 站点 RSS，用于发现每日文章日期
   lookback_days: 7           # 向前回溯几天的文章一起采集（跨天去重，节点更多）
@@ -103,7 +107,7 @@ check:
     Au1rxx-06: 70
     ermaozi: 60
     TopFreeProxy: 60
-    datiya: 10
+    datiya: 10                # 主源已停用（site.enabled=false），此分仅在恢复主源时有意义
   # --- C 档：本机（国内家宽）真实代理测速白名单 ---
   # 上面两轮筛选都不在国内：mihomo 测速跑在 GitHub Actions（美国机房），Globalping 只发
   # 一次 TLS 握手。GFW 常「放握手、掐流量」，于是通过全部筛选的节点实测只有约一半真能用

@@ -430,10 +430,17 @@ def build_clash(proxies, clash_cfg, meta):
         "proxy-groups": groups,
         "rules": _rules(),
     }
+    # 主源停用（site.enabled=false）时不能再写「datiya 覆盖 0 天」——那会让读者以为
+    # 站点还在供血，只是恰好抓不到。
+    scope = (
+        f"，datiya 覆盖 {meta['days']} 天"
+        if meta.get("site_enabled", True)
+        else "，仅附加源"
+    )
     header = (
         "# 由 datiya-sub 自动生成，请勿手动修改\n"
         f"# 更新于 {meta['updated_at']} | 可用节点 {meta['alive']} 个"
-        f"（候选 {meta['total']} 个，datiya 覆盖 {meta['days']} 天）\n"
+        f"（候选 {meta['total']} 个{scope}）\n"
     )
     body = yaml.safe_dump(
         config,

@@ -160,7 +160,11 @@ def update_history(path, rows, alpha=0.5):
             }
         )
         ewma[row["name"]] = value
-    # 本轮没出现的源保留历史（可能是临时 404），但不再影响定级
+    # 本轮没出现的源保留历史（可能是临时 404），但标 active=false 表明「本轮未供血，
+    # 读数不更新」——否则停用/长期 404 的源会永远挂着上一轮的漂亮数字当幽灵。
+    seen = {row["name"] for row in rows}
+    for name, entry in entries.items():
+        entry["active"] = name in seen
     data["updated_at"] = stamp
     data["sources"] = {k: entries[k] for k in sorted(entries)}
     try:

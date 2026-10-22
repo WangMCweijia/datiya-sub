@@ -1,12 +1,16 @@
 # datiya-sub
 
-把 [free.datiya.com](https://free.datiya.com/) 每天发布的免费节点自动聚合，输出一个**地址固定不变**的订阅，
-不用再每天换订阅链接。
+把多个公开订阅源的免费节点自动聚合，输出一个**地址固定不变**的订阅，不用再每天换订阅链接。
+
+> 主源 [free.datiya.com](https://free.datiya.com/) 已停用（`site.enabled: false`）：
+> 2026-10-22 实测它 7 天共 98 个节点、全是 vmess/ss，本机逐节点真实 CONNECT 抽样 14 个
+> **0 存活**，去重后**独家节点 0 个**（全被附加源覆盖）。现在只跑 `sources` 里的附加源；
+> 改回 `true` 即可恢复采集。
 
 ## 工作原理
 
 ```
-free.datiya.com：RSS 发现最近 N 天的文章  →  抓取每天的 uploads/YYYYMMDD-clash.yaml
+（可选，site.enabled）free.datiya.com：RSS 发现最近 N 天的文章 → 抓取 uploads/YYYYMMDD-clash.yaml
         +
 附加源：GitHub 上若干公开免费节点订阅（Clash 格式），见 config.yaml 的 sources
         ↓
@@ -174,6 +178,7 @@ python main.py --verbose
 
 | 配置项 | 说明 |
 | --- | --- |
+| `site.enabled` | 是否采集 datiya 主源（默认 `true`）。现为 `false`：实测零存活、零独家，关掉可省掉每轮 RSS 发现 + 7 天文章抓取 |
 | `site.lookback_days` | 回溯天数，越大节点越多、更新越慢，建议 5~14 |
 | `site.retries` / `retry_backoff` | 站点偶尔抖动，失败重试次数与退避 |
 | `sources` | 附加的公开订阅源列表（Clash 格式），只取其中的 `proxies`；可自由增删 |

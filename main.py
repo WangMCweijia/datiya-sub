@@ -149,6 +149,15 @@ def render_page(status, out_cfg):
             f"连续 2 轮 {streaks.get('repeat', 0)} 个 · "
             f"连续 3 轮以上 {streaks.get('trusted', 0)} 个（置顶优先）</td></tr>"
         )
+    # 主源停用后不能再写「由 free.datiya.com 每日节点聚合生成」——那句话会直接误导
+    # 读者以为是站点在供血（实际 0 个节点来自它）。
+    source = status.get("source") or ""
+    if status.get("site_enabled", True):
+        intro = f'由 <a href="{source}">{source}</a> 每日节点自动聚合生成'
+        day_note = f"（datiya 覆盖 {len(status['days'])} 天）"
+    else:
+        intro = "由多个公开订阅源自动聚合生成"
+        day_note = "（仅附加源）"
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -167,10 +176,10 @@ def render_page(status, out_cfg):
 </head>
 <body>
 <h1>固定订阅</h1>
-<p class="muted">由 <a href="{status['source']}">{status['source']}</a> 每日节点自动聚合生成，
+<p class="muted">{intro}，
 最后更新：<strong>{status['updated_at']}</strong></p>
 <table>
-  <tr><th>候选节点</th><td>{status['collected']} 个（datiya 覆盖 {len(status['days'])} 天）</td></tr>
+  <tr><th>候选节点</th><td>{status['collected']} 个{day_note}</td></tr>
   {source_row}
   {health_row}
   <tr><th>可用节点</th><td>{status['alive']} 个</td></tr>
@@ -268,16 +277,31 @@ def main():
     lookback = site.get("lookback_days", 3) if args.lookback is None else args.lookback
 
     fetcher = Fetcher(site)
-    days = fetcher.discover_days()[:lookback]
-    log.info("本次采集日期：%s", ", ".join(days) or "无")
+    # site.enabled=false：主源停用（实测零存活、零独家），只走附加源。
+    # 用「先置空再分支」而不是把 collect 包在 if 里，是为了让后面的
+    # source_stats / ok_days / status 都不必再判一次空。
+    site_on = bool(site.get("enabled", True)) and lookback > 0
+    if site_on:
+        days = fetcher.discover_days()[:lookback]
+        log.info("本次采集日期：%s", ", ".join(days) or "无")
+        proxies, ok_days = collect(fetcher, days)
+        log.info("主源 %s：合计 %d 个节点", site.get("base_url", ""), len(proxies))
+    else:
+        proxies, ok_days = [], []
+        log.info(
+            "主源 %s 已停用（site.enabled=false），本轮只用 %d 个附加源",
+            site.get("base_url", ""),
+            len(cfg.get("sources") or []),
+        )
 
-    proxies, ok_days = collect(fetcher, days)
     extra, source_stats = collect_extra(fetcher, cfg.get("sources"))
     if extra:
         log.info("附加源合计 %d 个节点（%d 个源）", len(extra), len(source_stats))
     # datiya 主源也算一个源，单独记账：它 7 天只有 98 个节点、实测 0 存活，
-    # 混进总数就看不出「谁在真供血」了。
-    source_stats = {"datiya": len(proxies), **source_stats}
+    # 混进总数就看不出「谁在真供血」了。停用后不再记这一行，否则源健康表里
+    # 会永远挂着一个 collected=0 的幽灵源。
+    if site_on:
+        source_stats = {"datiya": len(proxies), **source_stats}
     proxies.extend(extra)
     if not proxies:
         log.error("未采集到任何节点，保留原有订阅不变")
@@ -482,6 +506,7 @@ def main():
         "alive": len(proxies),
         "total": total,
         "days": len(ok_days),
+        "site_enabled": site_on,
     }
     # 订阅里不能出现 _speed_kbps / _streak 这类内部字段（mihomo 会拒绝整份配置）；
     # 但账本结算要用到它们，所以先造一份干净副本用于发布与校验。
@@ -519,6 +544,7 @@ def main():
     status = {
         "updated_at": meta["updated_at"],
         "source": site["base_url"],
+        "site_enabled": site_on,
         "days": ok_days,
         "collected": total,
         "alive": len(proxies),
