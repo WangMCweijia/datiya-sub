@@ -166,13 +166,12 @@ def render_page(status, out_cfg):
 
     rank = status.get("rank") or {}
     rank_row = ""
-    if rank.get("median_score") is not None:
+    if rank.get("median_kbps") is not None:
         rank_row = (
-            f"<tr><th>排序口径</th><td>延迟 {rank['weights']['delay']:.0%} + "
-            f"网速 {rank['weights']['speed']:.0%}（满分线 "
-            f"{rank['refs']['delay_ms']:.0f}ms / {rank['refs']['speed_kbps']:.0f}KB/s）；"
-            f"综合分中位 {rank['median_score']:.2f}"
-            f"（最好 {rank['best_score']:.2f} / 最差 {rank['worst_score']:.2f}）</td></tr>"
+            f"<tr><th>排序口径</th><td>仅按实测网速，快 → 慢"
+            f"（测出网速的 {rank['measured']}/{rank['total']} 个：中位 "
+            f"{rank['median_kbps']:.0f}KB/s、最快 {rank['best_kbps']:.0f}KB/s；"
+            f"其余为 -- 排在末尾）</td></tr>"
         )
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
@@ -346,7 +345,7 @@ def main():
     china_cfg = check_cfg.get("china_check") or {}
     wl_cfg = check_cfg.get("whitelist") or {}
     cand_cfg = check_cfg.get("candidates") or {}
-    # 发布顺序：延迟 + 网速综合评分（见 builder.sort_by_quality）。只影响订阅里
+    # 发布顺序：只按实测网速（见 builder.sort_by_speed）。只影响订阅里
     # 节点的排列顺序，不淘汰节点，所以两条测活分支（白名单 / Globalping）都能用。
     rank_cfg = check_cfg.get("rank") or {}
     china_dropped = 0
@@ -403,10 +402,10 @@ def main():
                 per_line=int(check_cfg.get("max_per_line", 2)),
                 trusted_streak=trusted_streak,
             )
-            # 发布顺序：延迟 + 网速综合评分（白名单条目里带了 _wl_delay / _wl_kbps）。
-            # 这里先排一次，是为了让写进候选池的发布集顺序也是质量序——本机下一轮按
-            # 顺序取前 N 个重测，优质节点先测更划算。最终发布顺序在漏斗末尾统一再排。
-            publish = builder.sort_by_quality(publish, rank_cfg)
+            # 预排序：只按实测网速（白名单条目里带了 _wl_kbps）。
+            # 这里先排一次，是为了让写进候选池的发布集顺序也是网速序——本机下一轮按
+            # 顺序取前 N 个重测，快的节点先测更划算。最终发布顺序在漏斗末尾统一再排。
+            publish = builder.sort_by_speed(publish, rank_cfg)
             # 候选池 = 本轮发布集 + 未验证的新节点（补足到上限），让本机下一轮有东西可测。
             # 新节点按「存活次数 → 协议可用率」排序，把额度花在最可能成立的候选上。
             proven = {builder.fingerprint(p) for p in proxies}
@@ -499,26 +498,33 @@ def main():
     elif wl_used:
         log.info("已跳过 Globalping：国内可达性由本机白名单给出")
 
-    # 发布顺序在这里定稿：延迟 + 网速综合评分。
+    # 发布顺序在这里定稿：只按实测网速从快到慢。
     # 上面各步骤的排序（协议分区、存活优先、国内可达优先）服务的是「谁占探测名额」，
-    # 与「用户打开订阅看到的顺序」是两件事——名额分配完之后，展示顺序就该按质量排。
+    # 与「用户打开订阅看到的顺序」是两件事——名额分配完之后，展示顺序就该按网速排。
     # 只改顺序、不淘汰节点，所以不影响漏斗任何一级的计数。
-    proxies = builder.sort_by_quality(proxies, rank_cfg)
+    proxies = builder.sort_by_speed(proxies, rank_cfg)
+    rank_info = builder.rank_summary(proxies)
     log.info(
-        "发布顺序：延迟 %.0f%% + 网速 %.0f%% 综合评分（%s）",
-        float(rank_cfg.get("delay_weight", 0.5)) * 100,
-        float(rank_cfg.get("speed_weight", 0.5)) * 100,
-        builder.rank_summary(proxies, rank_cfg),
+        "发布顺序：仅按实测网速（快慢）%s",
+        "；网速中位 %.0fKB/s，最好 %.0fKB/s，测出网速 %d/%d"
+        % (
+            rank_info.get("median_kbps", 0),
+            rank_info.get("best_kbps", 0),
+            rank_info.get("measured", 0),
+            rank_info.get("total", 0),
+        )
+        if rank_info
+        else "（无网速实测，保持上游顺序）",
     )
 
-    # 统一改名：地区 | 网速 | 延迟 | 原名代表性标志。
-    # 必须排在测速与排序之后——网速/延迟是名字的一部分，测完才有值；顺序也定了，
+    # 统一改名：地区 | 网速 | 原名代表性标志。
+    # 必须排在测速与排序之后——网速是名字的一部分，测完才有值；顺序也定了，
     # 名字里的数字才和用户看到的排列一致。改名不影响任何计数与去重（去重看连接指纹）。
     naming_cfg = cfg.get("naming") or {}
     proxies = builder.rename(proxies, naming_cfg)
     if proxies:
         log.info(
-            "节点命名：地区 | 网速 | 延迟 | 代表性标志，例如 %s",
+            "节点命名：地区 | 网速 | 代表性标志，例如 %s",
             "；".join(p["name"] for p in proxies[:3]),
         )
 
@@ -601,8 +607,8 @@ def main():
         ),
         "unique_lines": unique_lines,
         "line_uniqueness": round(unique_lines / len(proxies), 3) if proxies else 0,
-        # 发布顺序用的综合评分口径与分布（便于核对「排序是否按预期生效」）
-        "rank": builder.rank_summary(proxies, rank_cfg),
+        # 发布顺序用的口径与网速分布（便于核对「排序是否按预期生效」）
+        "rank": rank_info,
         "streak": {
             "first": sum(1 for s in streaks if s <= 1),
             "repeat": sum(1 for s in streaks if 1 < s < trusted_streak),
@@ -639,10 +645,10 @@ def main():
                 key=lambda kv: (kv[0] == "其他", -kv[1], kv[0]),
             )
         ),
-        # 命名口径与样例：便于一眼核对「名字里的地区/网速/延迟」是否来自实测
+        # 命名口径与样例：便于一眼核对「名字里的地区/网速」是否来自实测
         "naming": {
             "enabled": bool((cfg.get("naming") or {}).get("enabled", True)),
-            "format": "地区 | 网速 | 延迟 | 代表性标志",
+            "format": "地区|网速|代表性标志",
             "sample": [p["name"] for p in proxies[:5]],
         },
     }

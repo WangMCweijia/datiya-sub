@@ -565,61 +565,40 @@ def rank_by_protocol(proxies, scores, high_ratio=0.75, cap=None, source_scores=N
 
 
 
-def quality_score(proxy, cfg=None):
-    """延迟 + 网速的综合分（0~1），用于发布顺序。
+def speed_kbps(proxy):
+    """节点实测网速（KB/s），0 表示没测出。
 
-    为什么不再「网速优先、延迟兜底」（原 `_sort_key`）：那样一个 800ms/100KB/s 的
-    节点会排在 20ms/50KB/s 前面，而点开链接的第一感受是延迟（DNS + 握手 + 首字节），
-    下载速度只在拉流/大文件时才感知得到。两维归一化后加权，才是「综合」。
-
-    归一化方式：
-      延迟 qd = min(1, delay_ref / delay)        倒数衰减，≤ ref 满分
-      网速 qs = min(1, log1p(kbps)/log1p(ref))   对数压缩，几十到几千 KB/s 跨两个数量级，
-                                                 线性会把小网速全压到 0 分附近
-    缺测的维度给中性值而不是 0 分：能 CONNECT 但下载超时的节点（本机实测 223 个通过
-    节点里只有 93 个能测出网速）不该被一票否决，也不该白拿满分。
-
-    实测字段有两套来源，按优先级读：本机探测的 `_delay_ms` / `_speed_kbps`，
-    以及白名单条目回落写入的 `_wl_delay` / `_wl_kbps`。
+    两套来源按优先级读：本机探测回写的 `_speed_kbps`，以及白名单条目带的 `_wl_kbps`。
     """
-    cfg = cfg or {}
-    delay = float(proxy.get("_delay_ms") or proxy.get("_wl_delay") or 0)
-    kbps = float(proxy.get("_speed_kbps") or proxy.get("_wl_kbps") or 0)
-    d_ref = max(1.0, float(cfg.get("delay_ref_ms", 800)))
-    s_ref = max(1.0, float(cfg.get("speed_ref_kbps", 150)))
-    dw = max(0.0, float(cfg.get("delay_weight", 0.5)))
-    sw = max(0.0, float(cfg.get("speed_weight", 0.5)))
-    total = dw + sw
-    if total <= 0:
-        return 0.0
-
-    qd = 0.45 if delay <= 0 else min(1.0, d_ref / delay)
-    qs = 0.35 if kbps <= 0 else min(1.0, math.log1p(kbps) / math.log1p(s_ref))
-    return (dw * qd + sw * qs) / total
+    return float(proxy.get("_speed_kbps") or proxy.get("_wl_kbps") or 0)
 
 
-def sort_by_quality(proxies, cfg=None):
-    """按综合分从高到低排发布顺序（只改顺序，不淘汰任何节点）。
+def sort_by_speed(proxies, cfg=None):
+    """发布顺序：只按实测网速从快到慢（不淘汰任何节点）。
 
-    同分时依次比较：存活轮次高者优先（免费节点「昨天好用今天死」很常见，
-    分数相同时信稳定的那个）→ 延迟低者 → 原始顺序（保持上游的确定性）。
+    只认一个维度——谁测得快谁在前。不做归一化/加权：`min(1, log1p(kbps)/log1p(ref))`
+    这类压缩在单维排序里反而有害，超过 ref 的节点会全部挤成满分，1MB/s 和 160KB/s
+    排不出先后。直接比原始 kbps 才有确定的「快慢」。
+
+    没测出网速的排末尾（本机实测约 4 成节点只能 CONNECT、下载超时），它们之间按
+    存活轮次高者优先、再按原始顺序——纯粹是为了让顺序稳定可复现，不代表偏好。
+
+    `cfg.enabled=false` 或整批都没有任何网速实测时保持上游原顺序：用一堆相同的
+    0 值去重排，只会得到「看起来有依据」的假顺序。
     """
     cfg = cfg or {}
     if not cfg.get("enabled", True):
         return proxies
-    # 没有任何实测数据时（--no-check / 跳过检测）保持上游原顺序，别用一堆相同的
-    # 中性分把它们按 streak 重排成看似有依据的顺序。
-    measured = ("_delay_ms", "_wl_delay", "_speed_kbps", "_wl_kbps")
-    if not any(any(key in p for key in measured) for p in proxies):
+    if not any(speed_kbps(p) > 0 for p in proxies):
         return proxies
     rows = []
     for index, proxy in enumerate(proxies):
-        delay = int(proxy.get("_delay_ms") or proxy.get("_wl_delay") or 0)
+        kbps = speed_kbps(proxy)
         rows.append(
             (
-                -quality_score(proxy, cfg),
+                0 if kbps > 0 else 1,   # 测出网速的一律排前面
+                -kbps,
                 -int(proxy.get("_streak") or 0),
-                delay if delay > 0 else 10**9,
                 index,
                 proxy,
             )
@@ -628,35 +607,34 @@ def sort_by_quality(proxies, cfg=None):
     return [row[4] for row in rows]
 
 
-def rank_summary(proxies, cfg=None):
-    """发布集的质量分布，写进 status.json 便于核对排序是否符合预期。"""
-    cfg = cfg or {}
-    scores = sorted(quality_score(p, cfg) for p in proxies)
-    if not scores:
+def rank_summary(proxies):
+    """发布集的网速分布，写进 status.json 便于核对排序是否符合预期。
+
+    中位数只统计**测出网速的节点**：发布集里常有一半是「能 CONNECT、下载超时」的
+    `--` 节点，把它们算进来中位数会直接被拉到 0，看上去像整批都没速度，毫无信息量。
+    `measured/total` 单独给出比例，读者自己就能判断这个中位数的覆盖面。
+    """
+    values = sorted(speed_kbps(p) for p in proxies)
+    if not values:
         return {}
-    mid = scores[len(scores) // 2]
+    measured = [v for v in values if v > 0]
     return {
-        "weights": {
-            "delay": float(cfg.get("delay_weight", 0.5)),
-            "speed": float(cfg.get("speed_weight", 0.5)),
-        },
-        "refs": {
-            "delay_ms": float(cfg.get("delay_ref_ms", 800)),
-            "speed_kbps": float(cfg.get("speed_ref_kbps", 150)),
-        },
-        "median_score": round(mid, 3),
-        "best_score": round(scores[-1], 3),
-        "worst_score": round(scores[0], 3),
+        "sort_by": "speed",
+        "measured": len(measured),
+        "total": len(values),
+        "median_kbps": round(measured[len(measured) // 2], 1) if measured else 0.0,
+        "best_kbps": round(values[-1], 1),
+        "worst_kbps": round(values[0], 1),
     }
 
 
-# ---- 节点命名：地区 | 网速 | 延迟 | 原名里的代表性标志 ----
+# ---- 节点命名：地区 | 网速 | 原名里的代表性标志 ----
 #
 # 为什么统一改名：上游名字是各家自己拼的，同一个订阅里能同时出现
 #   🇸🇬SG_131|578KB/s / RO - zhuhai.uk 05 [be5ac291e62c920d] / vless-1879607313 /
 #   UN【机场推荐：https://a9a.xyz】224 / 🏳[www.v2nodes.com] vless- #4
 # 用户看不出「哪个快、哪个在哪、哪个还是刚才那个」。改成统一格式后，名字本身
-# 就是一句话：地区 + 实测网速 + 实测延迟 + 能区分线路的原始标志。
+# 就是一句话：地区 + 实测网速 + 能区分线路的原始标志。
 _SPEED_TEXT_RE = re.compile(r"\d+(?:\.\d+)?\s*[KMGTkmgt]\s*[Bb]\s*/\s*[Ss]")
 _DELAY_TEXT_RE = re.compile(r"\d+(?:\.\d+)?\s*ms(?![a-z])", re.I)
 _URL_TEXT_RE = re.compile(r"(?:https?://|www\.)[^\s\]\)】]+", re.I)
@@ -732,31 +710,28 @@ def _speed_text(kbps):
     return "%.1fMB/s" % (kbps / 1024.0)
 
 
-def _delay_text(ms):
-    return "%dms" % ms if ms > 0 else "--"
-
-
 def display_name(proxy, cfg=None):
-    """单个节点的展示名：地区 | 网速 | 延迟 | 原名代表性标志。"""
+    """单个节点的展示名：地区 | 网速 | 原名代表性标志。
+
+    不带延迟：排序只按网速，名字里再塞延迟会让「名字里靠后的数字」和「上下顺序」
+    给出两套暗示，用户反而要去比对哪个才是排序依据。
+    """
     cfg = cfg or {}
     flag, region = region_label(proxy.get("name"))
-    delay = int(proxy.get("_delay_ms") or proxy.get("_wl_delay") or 0)
-    kbps = float(proxy.get("_speed_kbps") or proxy.get("_wl_kbps") or 0)
     parts = [
         flag + region,
-        _speed_text(kbps),
-        _delay_text(delay),
+        _speed_text(speed_kbps(proxy)),
         node_marker(proxy, limit=int(cfg.get("marker_max", 20) or 20)),
     ]
-    # 分隔符不带空格：Clash 客户端普遍在 30~40 个字符处截断，省下的 6 个字符
-    # 正好留给「代表性标志」——那才是区分线路的部分（实测名字中位 30 字符）。
+    # 分隔符不带空格：Clash 客户端普遍在 30~40 个字符处截断，省下的字符留给
+    # 「代表性标志」——那才是区分线路的部分（原来中位 30 字符，去掉延迟后约 24）。
     return "|".join(parts)
 
 
 def rename(proxies, cfg=None):
-    """把发布集的节点名统一成「地区 | 网速 | 延迟 | 代表性标志」并保证唯一。
+    """把发布集的节点名统一成「地区 | 网速 | 代表性标志」并保证唯一。
 
-    必须在测速之后调用：网速/延迟是名字的一部分，而这两个值只有测完才有。
+    必须在测速之后调用：网速是名字的一部分，只有测完才有值。
     重名（同地区、同质量、同标志）时按 ` #n` 递增——mihomo 遇到重名会拒绝
     加载整份配置，客户端表现为节点列表空白。
     """

@@ -281,9 +281,9 @@ def filter_working(proxies, cfg):
                     delays = dict(
                         pool.map(lambda n: _delay(base, n, test_url, timeout_ms), names)
                     )
-                # 把延迟挂到节点上：发布顺序要按「延迟 + 网速」综合评分排
-                # （builder.sort_by_quality），不再只用网速。`_` 前缀字段在输出前
-                # 会被 main 剥掉，不会写进订阅与候选池。
+                # 把延迟挂到节点上：发布顺序不按它排（只按网速，见 builder.sort_by_speed），
+                # 但 `check.max_delay_ms` 的存活闸门要用。`_` 前缀字段在输出前会被
+                # main 剥掉，不会写进订阅与候选池。
                 alive = []
                 for p in proxies:
                     d = delays.get(p["name"])
