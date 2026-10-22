@@ -88,12 +88,14 @@ check:
   candidates:
     enabled: true
     file: "candidates.json"  # 相对仓库根目录
-    max: 600                 # 候选池上限。本机给每个节点开一个入站端口，
-                             # 太多会让测速变慢、也吃内存；600 个约 5 分钟测完
+    max: 800                 # 候选池上限。本机给每个节点开一个入站端口，
+                             # 太多会让测速变慢、也吃内存；800 个约 3 分钟测完
   whitelist:
     enabled: true
     file: "whitelist.json"
-    max_age_hours: 6         # 超过该时长视为过期，自动回退 Globalping 探测
+    max_age_hours: 2         # 超过该时长视为过期，自动回退 Globalping 探测。
+                             # 免费节点寿命以分钟计，白名单越新越准；真正决定新鲜度的是
+                             # local_probe 每次推送都会触发一次构建（白名单模式下约 4 分钟）
     min_match: 10            # 命中少于该数说明白名单与候选池脱节，回退 Globalping
     min_ok_rounds: 1         # 至少被本机测通过几次才算可用（2=要求跨轮稳定）
     min_kbps: 0              # 网速下限（KB/s），0=不限；本机测不出网速时不影响命中

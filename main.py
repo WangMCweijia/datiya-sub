@@ -268,67 +268,26 @@ def main():
     wl_data = None
 
     if check_cfg.get("enabled", True) and not args.no_check:
-        if str(check_cfg.get("method", "tcp")).lower() == "mihomo":
-            try:
-                proxies = prober.filter_working(proxies, check_cfg)
-            except Exception as exc:
-                log.error("mihomo 真实测速不可用（%s），回退为 TCP 检测", exc)
-                proxies = checker.filter_alive(
-                    proxies,
-                    timeout=check_cfg.get("tcp_timeout", 3.0),
-                    concurrency=check_cfg.get("tcp_concurrency", 200),
-                )
-        else:
-            proxies = checker.filter_alive(
-                proxies,
-                timeout=check_cfg.get("tcp_timeout", 3.0),
-                concurrency=check_cfg.get("tcp_concurrency", 200),
-            )
-        probed = len(proxies)
-        # 存活账本：先标注「连续通过次数」，再稳定优先排序（长寿节点置顶），
-        # 再做线路去冗（同一 server:port 的多份凭据只留最好的几个）。
-        ledger.annotate(proxies)
-        # 协议分区必须在「名额截断」之前：名额给谁，直接决定最终能用几个。
-        # 实测 0% 可用的协议占着名额，就等于把额度烧在必死节点上。
-        # 配额要按「名额」算而不是按候选总数（候选上千个，按它算等于配额失效）。
-        candidate_cap = int(cand_cfg.get("max") or 0)
-        protocol_score = check_cfg.get("protocol_score") or {}
-        if protocol_score:
-            proxies = builder.rank_by_protocol(
-                proxies, protocol_score,
-                high_ratio=float(check_cfg.get("high_score_quota", 0.75)),
-                cap=candidate_cap or int(china_cfg.get("max_units") or 0),
-            )
-        proxies = ledger.rank(proxies, trusted_streak)
-        proxies = builder.diversify(
-            proxies,
-            per_line=int(check_cfg.get("max_per_line", 2)),
-            trusted_streak=trusted_streak,
-        )
-
-        # --- C 档：本机（国内家宽）真实测速白名单 ---
-        # 白名单新鲜时按它过滤、按本机实测网速排序，不再花 Globalping 额度；
-        # 过期 / 缺失 / 命中过少时自动回退下面的 Globalping 探测。
+        # 白名单新鲜时**跳过境外测速**：它是三重筛选里最不准的一环，而且会误删
+        # 本机刚验证可用的节点。实测 167 个白名单节点经美国机房 mihomo 测速后只剩
+        # 124 个——被杀掉的 43 个在国内是能用的，这就是 C 档要消除的假阴性。
+        # 顺带把单次构建从约 25 分钟压到 3~5 分钟，白名单的时效才追得上节点寿命。
         if wl_cfg.get("enabled", True):
             wl_data, wl_used, wl_detail = whitelist.load_fresh(
                 ROOT / str(wl_cfg.get("file", "whitelist.json")), wl_cfg
             )
             log.info("本机白名单：%s", wl_detail)
 
-        # 候选池先截断再写盘：白名单只能覆盖这一批，两边口径必须一致
-        if candidate_cap:
-            proxies = ledger.select(proxies, candidate_cap, trusted_streak)
-        write_candidates(
-            ROOT / str(cand_cfg.get("file", "candidates.json")), proxies, cand_cfg
-        )
-        pool = list(proxies)
-
         if wl_used:
-            proxies, wl_stats = whitelist.apply(pool, wl_data, wl_cfg)
+            ledger.annotate(proxies)
+            # 完整候选池（白名单过滤之前）：候选池要写回的正是这个池子的抽样，
+            # 只写命中节点会让新节点永远没机会被测到，白名单就再也不更新了。
+            full_pool = list(proxies)
+            proxies, wl_stats = whitelist.apply(full_pool, wl_data, wl_cfg)
             log.info(
-                "白名单过滤：%d → %d（命中 %d；标记失效 %d、不稳定 %d、过慢 %d；"
-                "池内不在白名单的 %d 个未经验证，一律不发）",
-                len(pool),
+                "白名单过滤：去重后 %d → %d（命中 %d；标记失效 %d、不稳定 %d、过慢 %d；"
+                "不在白名单的 %d 个未经验证，一律不发）",
+                deduped,
                 len(proxies),
                 wl_stats.get("matched", 0),
                 wl_stats.get("dead", 0),
@@ -345,11 +304,85 @@ def main():
                 )
                 wl_used = False
                 wl_detail = "命中过少（%d 个），回退 Globalping 探测" % len(proxies)
-                proxies = pool
-        if not wl_used:
+
+        if wl_used:
+            probed = len(proxies)
+            # 发布集只做线路去冗（同 server:port 多份凭据），不做任何截断
+            publish = builder.diversify(
+                proxies,
+                per_line=int(check_cfg.get("max_per_line", 2)),
+                trusted_streak=trusted_streak,
+            )
+            # 候选池 = 本轮发布集 + 未验证的新节点（补足到上限），让本机下一轮有东西可测。
+            # 新节点按「存活次数 → 协议可用率」排序，把额度花在最可能成立的候选上。
+            proven = {builder.fingerprint(p) for p in proxies}
+            rest = [p for p in full_pool if builder.fingerprint(p) not in proven]
+            if check_cfg.get("protocol_score"):
+                rest = builder.rank_by_protocol(
+                    rest, check_cfg["protocol_score"],
+                    high_ratio=float(check_cfg.get("high_score_quota", 0.75)),
+                    cap=len(rest),
+                )
+            rest = ledger.rank(rest, trusted_streak)
+            candidate_cap = int(cand_cfg.get("max") or 0)
+            if candidate_cap:
+                need = max(0, candidate_cap - len(publish))
+                pool = publish + rest[:need]
+                log.info("候选池：发布 %d + 未验证新节点 %d（上限 %d）",
+                         len(publish), len(pool) - len(publish), candidate_cap)
+            else:
+                pool = publish
+            write_candidates(
+                ROOT / str(cand_cfg.get("file", "candidates.json")), pool, cand_cfg
+            )
+            proxies = publish
+        else:
+            if str(check_cfg.get("method", "tcp")).lower() == "mihomo":
+                try:
+                    proxies = prober.filter_working(proxies, check_cfg)
+                except Exception as exc:
+                    log.error("mihomo 真实测速不可用（%s），回退为 TCP 检测", exc)
+                    proxies = checker.filter_alive(
+                        proxies,
+                        timeout=check_cfg.get("tcp_timeout", 3.0),
+                        concurrency=check_cfg.get("tcp_concurrency", 200),
+                    )
+            else:
+                proxies = checker.filter_alive(
+                    proxies,
+                    timeout=check_cfg.get("tcp_timeout", 3.0),
+                    concurrency=check_cfg.get("tcp_concurrency", 200),
+                )
+            probed = len(proxies)
+            # 存活账本：先标注「连续通过次数」，再稳定优先排序（长寿节点置顶），
+            # 再做线路去冗（同一 server:port 的多份凭据只留最好的几个）。
+            ledger.annotate(proxies)
+            # 协议分区必须在「名额截断」之前：名额给谁，直接决定最终能用几个。
+            # 实测 0% 可用的协议占着名额，就等于把额度烧在必死节点上。
+            # 配额要按「名额」算而不是按候选总数（候选上千个，按它算等于配额失效）。
+            candidate_cap = int(cand_cfg.get("max") or 0)
+            protocol_score = check_cfg.get("protocol_score") or {}
+            if protocol_score:
+                proxies = builder.rank_by_protocol(
+                    proxies, protocol_score,
+                    high_ratio=float(check_cfg.get("high_score_quota", 0.75)),
+                    cap=candidate_cap or int(china_cfg.get("max_units") or 0),
+                )
+            proxies = ledger.rank(proxies, trusted_streak)
+            proxies = builder.diversify(
+                proxies,
+                per_line=int(check_cfg.get("max_per_line", 2)),
+                trusted_streak=trusted_streak,
+            )
+            if candidate_cap:
+                proxies = ledger.select(proxies, candidate_cap, trusted_streak)
+            write_candidates(
+                ROOT / str(cand_cfg.get("file", "candidates.json")), proxies, cand_cfg
+            )
             proxies = ledger.select(
                 proxies, int(china_cfg.get("max_units") or 0), trusted_streak
             )
+
     else:
         log.info("已跳过连通性检测")
         probed = len(proxies)

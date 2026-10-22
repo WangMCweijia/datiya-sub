@@ -59,7 +59,7 @@ TLS 握手。GFW 常「放握手、掐流量」，于是「境外能连」与「
 要让订阅里「每一个节点都能用」，只能由一台**国内机器**真实走一遍代理：
 
 ```
-GitHub Actions 构建 ──写入──> candidates.json（候选池，约 600 个）
+GitHub Actions 构建 ──写入──> candidates.json（候选池，约 800 个）
                                     │
 你的国内电脑：python local_probe.py --push
   · 用 mihomo 内核给每个候选开一个独立入站端口
@@ -89,7 +89,7 @@ schtasks /create /tn datiya-probe /tr "D://path//to//run_local_probe.bat" /sc ho
 
 ### 白名单怎么生效、怎么失效
 
-- `whitelist.json` 带 `generated_at`：超过 `check.whitelist.max_age_hours`（默认 6 小时）
+- `whitelist.json` 带 `generated_at`：超过 `check.whitelist.max_age_hours`（默认 2 小时）
   即视为过期，构建**自动回退 Globalping 探测**，绝不会因为本机没开机而写坏订阅；
 - 命中数低于 `min_match`（默认 10）同样回退——说明上游换了一整批节点，白名单已脱节；
 - 每个条目记 `ok_rounds`（累计测通次数）与 `fail_rounds`（连续失败次数）：
@@ -166,9 +166,9 @@ python main.py --verbose
 | `check.china_check.limit` | 每个「服务器:端口」用几个探测点，免费额度约 250 次/小时，慎调大 |
 | `check.china_check.max_units` | 进入国内探测的节点数上限（默认 240，`0` 不限）。额度不够时「留下谁」会变成「先测谁」，这里按「存活次数 → 网速」截断，把额度花在最值得的候选上 |
 | `check.candidates.enabled` / `file` | 是否写出候选池 `candidates.json`（本机测速的输入） |
-| `check.candidates.max` | 候选池上限（默认 600）。本机给每个节点开一个入站端口，太多会让测速变慢 |
+| `check.candidates.max` | 候选池上限（默认 800）。本机给每个节点开一个入站端口，太多会让测速变慢 |
 | `check.whitelist.enabled` | 是否使用本机实测白名单（推荐开启，见上节） |
-| `check.whitelist.max_age_hours` | 白名单超过该时长视为过期并回退 Globalping 探测（默认 6） |
+| `check.whitelist.max_age_hours` | 白名单超过该时长视为过期并回退 Globalping 探测（默认 2） |
 | `check.whitelist.min_match` | 白名单命中少于该数则判定脱节、回退 Globalping（默认 10） |
 | `check.whitelist.min_ok_rounds` | 至少被本机测通几次才算可用（默认 1；`2` 表示要求跨轮稳定） |
 | `check.min_alive` | 可用节点少于该值时**不覆盖**已有订阅（默认 30，避免把好订阅写坏） |
