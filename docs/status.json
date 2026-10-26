@@ -1,36 +1,37 @@
 {
-  "updated_at": "2026-10-26 05:16:01 +0800",
+  "updated_at": "2026-10-26 08:50:22 +0800",
   "source": "https://free.datiya.com",
   "site_enabled": false,
   "days": [],
-  "collected": 4921,
-  "alive": 234,
-  "links": 0,
+  "collected": 5580,
+  "alive": 236,
+  "links": 2,
   "probe_input": 240,
   "protocols": {
-    "http": 229,
-    "socks5": 5
+    "http": 225,
+    "socks5": 9,
+    "vless": 2
   },
-  "unique_lines": 148,
-  "line_uniqueness": 0.632,
+  "unique_lines": 153,
+  "line_uniqueness": 0.648,
   "rank": {
     "sort_by": "speed",
-    "measured": 234,
-    "total": 234,
-    "median_kbps": 987.5,
-    "best_kbps": 9508.3,
-    "worst_kbps": 208.5
+    "measured": 236,
+    "total": 236,
+    "median_kbps": 735.4,
+    "best_kbps": 5405.8,
+    "worst_kbps": 210.7
   },
   "streak": {
-    "first": 14,
+    "first": 3,
     "repeat": 1,
-    "trusted": 219
+    "trusted": 232
   },
   "china_check": true,
-  "china_dropped": 6,
+  "china_dropped": 4,
   "whitelist": {
     "used": false,
-    "detail": "白名单已过期（84.3 小时 > 2 小时上限），回退 Globalping 探测；请在本机运行 local_probe.py --push",
+    "detail": "白名单已过期（87.8 小时 > 2 小时上限），回退 Globalping 探测；请在本机运行 local_probe.py --push",
     "matched": 0,
     "rejected": {
       "dead": 0,
@@ -39,40 +40,40 @@
       "stale": 0
     },
     "entries": 575,
-    "age_hours": 84.64,
+    "age_hours": 88.21,
     "probe_host": "WANG-OFFICE"
   },
   "sources": {
     "ermaozi": 410,
     "TopFreeProxy": 2616,
-    "daily_free_vpn": 1859,
-    "Au1rxx-06": 0,
+    "daily_free_vpn": 2259,
+    "Au1rxx-06": 267,
     "Au1rxx-07": 0,
-    "zhuhaiuk": 36
+    "zhuhaiuk": 28
   },
   "source_health": {
-    "generated_at": "2026-10-26 05:16:01 +0800",
+    "generated_at": "2026-10-26 08:50:22 +0800",
     "rows": [
       {
         "name": "daily_free_vpn",
-        "collected": 1859,
-        "own": 1498,
-        "pool": 589,
+        "collected": 2259,
+        "own": 1762,
+        "pool": 592,
         "alive": 230,
-        "rate": 0.39,
+        "rate": 0.389,
         "by_type": {
           "http": {
-            "pool": 339,
-            "alive": 225,
-            "rate": 0.664
+            "pool": 354,
+            "alive": 221,
+            "rate": 0.624
           },
           "socks5": {
-            "pool": 5,
-            "alive": 5,
+            "pool": 9,
+            "alive": 9,
             "rate": 1.0
           },
           "vless": {
-            "pool": 245,
+            "pool": 229,
             "alive": 0,
             "rate": 0.0
           }
@@ -81,18 +82,23 @@
       {
         "name": "TopFreeProxy",
         "collected": 2616,
-        "own": 2051,
-        "pool": 63,
-        "alive": 35,
-        "rate": 0.556,
+        "own": 2034,
+        "pool": 62,
+        "alive": 36,
+        "rate": 0.581,
         "by_type": {
           "http": {
-            "pool": 54,
-            "alive": 35,
-            "rate": 0.648
+            "pool": 52,
+            "alive": 34,
+            "rate": 0.654
+          },
+          "socks5": {
+            "pool": 2,
+            "alive": 2,
+            "rate": 1.0
           },
           "vless": {
-            "pool": 9,
+            "pool": 8,
             "alive": 0,
             "rate": 0.0
           }
@@ -101,18 +107,18 @@
       {
         "name": "ermaozi",
         "collected": 410,
-        "own": 98,
-        "pool": 37,
-        "alive": 15,
-        "rate": 0.405,
+        "own": 81,
+        "pool": 33,
+        "alive": 14,
+        "rate": 0.424,
         "by_type": {
           "http": {
-            "pool": 25,
-            "alive": 15,
-            "rate": 0.6
+            "pool": 26,
+            "alive": 14,
+            "rate": 0.538
           },
           "vless": {
-            "pool": 12,
+            "pool": 7,
             "alive": 0,
             "rate": 0.0
           }
@@ -120,27 +126,33 @@
       },
       {
         "name": "zhuhaiuk",
-        "collected": 36,
-        "own": 12,
-        "pool": 14,
-        "alive": 8,
-        "rate": 0.571,
+        "collected": 28,
+        "own": 7,
+        "pool": 11,
+        "alive": 6,
+        "rate": 0.545,
         "by_type": {
           "http": {
-            "pool": 14,
-            "alive": 8,
-            "rate": 0.571
+            "pool": 11,
+            "alive": 6,
+            "rate": 0.545
           }
         }
       },
       {
         "name": "Au1rxx-06",
-        "collected": 0,
-        "own": 0,
-        "pool": 0,
-        "alive": 0,
-        "rate": 0.0,
-        "by_type": {}
+        "collected": 267,
+        "own": 189,
+        "pool": 11,
+        "alive": 2,
+        "rate": 0.182,
+        "by_type": {
+          "vless": {
+            "pool": 11,
+            "alive": 2,
+            "rate": 0.182
+          }
+        }
       },
       {
         "name": "Au1rxx-07",
@@ -154,40 +166,39 @@
     ]
   },
   "regions": {
-    "美国": 110,
-    "罗马尼亚": 42,
-    "荷兰": 22,
-    "法国": 9,
-    "新加坡": 8,
-    "德国": 7,
-    "加拿大": 5,
+    "美国": 100,
+    "罗马尼亚": 41,
+    "荷兰": 26,
+    "新加坡": 12,
+    "法国": 10,
+    "德国": 9,
     "意大利": 4,
-    "波兰": 4,
-    "日本": 3,
+    "日本": 4,
+    "爱沙尼亚": 4,
+    "波兰": 3,
     "爱尔兰": 3,
     "丹麦": 2,
     "俄罗斯": 2,
+    "捷克": 2,
     "澳大利亚": 2,
+    "香港": 2,
     "印度": 1,
+    "台湾": 1,
     "拉脱维亚": 1,
-    "捷克": 1,
     "泰国": 1,
     "立陶宛": 1,
     "芬兰": 1,
-    "英国": 1,
-    "越南": 1,
-    "香港": 1,
-    "其他": 2
+    "其他": 4
   },
   "naming": {
     "enabled": true,
     "format": "地区|网速|代表性标志",
     "sample": [
-      "🇫🇷法国|9.3MB/s|25 R002-260618",
-      "🇫🇷法国|7.7MB/s|126 P002-260618",
-      "🇺🇸美国|7.3MB/s|zhuhai.uk 04",
-      "🇺🇸美国|7.3MB/s|298 R002-260618",
-      "🇺🇸美国|6.0MB/s|317 R002-260618"
+      "🇫🇷法国|5.3MB/s|132 P002-260618",
+      "🇫🇷法国|5.2MB/s|96 R002-260618",
+      "🇫🇷法国|4.7MB/s|97 R002-260618",
+      "🇺🇸美国|4.5MB/s|385 R002-260618",
+      "🇺🇸美国|3.1MB/s|312 P002-260618"
     ]
   }
 }
