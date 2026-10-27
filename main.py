@@ -183,11 +183,18 @@ def render_page(status, out_cfg):
                 f"存活 ≥{vet_days:g} 天且网速 ≥{vet_kbps:g}KB/s 的节点前置，"
                 f"其余按实测网速快 → 慢"
             )
+        # 网速下限生效时列表里已经没有 `--`，再写「其余为 -- 排在末尾」是自相矛盾
+        floor_now = float(((status.get("whitelist") or {}).get("min_kbps")) or 0)
+        tail_txt = (
+            "测不出速度的已按网速下限剔除）"
+            if floor_now
+            else "其余为 -- 排在末尾）"
+        )
         rank_row = (
             f"<tr><th>排序口径</th><td>{rule}"
             f"（测出网速的 {rank['measured']}/{rank['total']} 个：中位 "
             f"{rank['median_kbps']:.0f}KB/s、最快 {rank['best_kbps']:.0f}KB/s；"
-            f"其余为 -- 排在末尾）</td></tr>"
+            f"{tail_txt}</td></tr>"
         )
         if vet_days > 0 and vet_kbps > 0:
             rank_row += (
