@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-10-27 12:04:14 +0800",
+  "updated_at": "2026-10-27 12:26:18 +0800",
   "source": "https://free.datiya.com",
   "site_enabled": false,
   "days": [],
-  "collected": 7334,
+  "collected": 7714,
   "alive": 173,
   "links": 22,
   "probe_input": 173,
@@ -15,23 +15,28 @@
   "unique_lines": 150,
   "line_uniqueness": 0.867,
   "rank": {
-    "sort_by": "speed",
+    "sort_by": "veteran_then_speed",
     "measured": 60,
     "total": 173,
     "median_kbps": 146.3,
     "best_kbps": 8971.9,
-    "worst_kbps": 0.0
+    "worst_kbps": 0.0,
+    "veterans": 0,
+    "veteran_days": 3.0,
+    "veteran_kbps": 1024.0,
+    "median_age_h": 12.4,
+    "oldest_age_h": 33.4
   },
   "streak": {
     "first": 6,
-    "repeat": 21,
-    "trusted": 146
+    "repeat": 0,
+    "trusted": 167
   },
   "china_check": false,
   "china_dropped": 0,
   "whitelist": {
     "used": true,
-    "detail": "白名单可用：512 条记录，0.0 小时前由 WANG-OFFICE 实测",
+    "detail": "白名单可用：512 条记录，0.4 小时前由 WANG-OFFICE 实测",
     "matched": 264,
     "rejected": {
       "dead": 0,
@@ -40,24 +45,24 @@
       "stale": 91
     },
     "entries": 512,
-    "age_hours": 0.02,
+    "age_hours": 0.39,
     "probe_host": "WANG-OFFICE"
   },
   "sources": {
     "ermaozi": 455,
     "TopFreeProxy": 3164,
     "daily_free_vpn": 1902,
-    "Au1rxx-06": 1764,
-    "Au1rxx-07": 16,
+    "Au1rxx-06": 1788,
+    "Au1rxx-07": 372,
     "zhuhaiuk": 33
   },
   "source_health": {
-    "generated_at": "2026-10-27 12:04:14 +0800",
+    "generated_at": "2026-10-27 12:26:18 +0800",
     "rows": [
       {
         "name": "daily_free_vpn",
         "collected": 1902,
-        "own": 1400,
+        "own": 1380,
         "pool": 487,
         "alive": 141,
         "rate": 0.29,
@@ -82,7 +87,7 @@
       {
         "name": "ermaozi",
         "collected": 455,
-        "own": 100,
+        "own": 99,
         "pool": 157,
         "alive": 40,
         "rate": 0.255,
@@ -107,7 +112,7 @@
       {
         "name": "TopFreeProxy",
         "collected": 3164,
-        "own": 2725,
+        "own": 2724,
         "pool": 104,
         "alive": 23,
         "rate": 0.221,
@@ -131,23 +136,38 @@
       },
       {
         "name": "Au1rxx-06",
-        "collected": 1764,
-        "own": 952,
-        "pool": 24,
-        "alive": 13,
-        "rate": 0.542,
+        "collected": 1788,
+        "own": 895,
+        "pool": 21,
+        "alive": 11,
+        "rate": 0.524,
         "by_type": {
           "vless": {
-            "pool": 24,
-            "alive": 13,
-            "rate": 0.542
+            "pool": 21,
+            "alive": 11,
+            "rate": 0.524
+          }
+        }
+      },
+      {
+        "name": "Au1rxx-07",
+        "collected": 372,
+        "own": 213,
+        "pool": 12,
+        "alive": 7,
+        "rate": 0.583,
+        "by_type": {
+          "vless": {
+            "pool": 12,
+            "alive": 7,
+            "rate": 0.583
           }
         }
       },
       {
         "name": "zhuhaiuk",
         "collected": 33,
-        "own": 18,
+        "own": 17,
         "pool": 26,
         "alive": 7,
         "rate": 0.269,
@@ -168,15 +188,6 @@
             "rate": 0.25
           }
         }
-      },
-      {
-        "name": "Au1rxx-07",
-        "collected": 16,
-        "own": 14,
-        "pool": 0,
-        "alive": 0,
-        "rate": 0.0,
-        "by_type": {}
       }
     ]
   },
@@ -186,11 +197,11 @@
     "德国": 18,
     "法国": 15,
     "新加坡": 11,
-    "拉脱维亚": 4,
     "日本": 4,
     "香港": 4,
     "加拿大": 3,
     "意大利": 3,
+    "拉脱维亚": 3,
     "爱沙尼亚": 3,
     "俄罗斯": 2,
     "印度尼西亚": 2,
@@ -203,17 +214,17 @@
     "爱尔兰": 1,
     "瑞典": 1,
     "韩国": 1,
-    "其他": 20
+    "其他": 21
   },
   "naming": {
     "enabled": true,
     "format": "地区|网速|代表性标志",
     "sample": [
-      "🇭🇰香港|8.8MB/s|1",
-      "🇭🇰香港|5.7MB/s|55 R002-260618",
-      "🇭🇰香港|2.5MB/s|4 P002-260618",
-      "🇺🇸美国|1.7MB/s|282 S001-260618",
-      "🇳🇱荷兰|1.3MB/s|speednode 0024"
+      "🇭🇰香港|8.8MB/s|~9h|1",
+      "🇭🇰香港|5.7MB/s|~9h|55 R002-260618",
+      "🇭🇰香港|2.5MB/s|~21h|4 P002-260618",
+      "🇺🇸美国|1.7MB/s|~18h|282 S001-260618",
+      "🇳🇱荷兰|1.3MB/s|~15h|speednode 0024"
     ]
   }
 }
