@@ -334,16 +334,42 @@ class ThreadPoolExecutorSafe:
 # --- 合并与落盘 -------------------------------------------------------------
 
 
-def merge(old, results, keep_days, dead_after, round_no=0):
+def _backfill_first_ok(stamp, rounds, interval_h):
+    """老条目没有 first_ok 时倒推一个起点。
+
+    只有 1 轮测通时起点就是本轮（真实时间，不标推算）；多轮时按
+    「(已测通轮数 - 1) × 轮间隔」往前推。推算出来的起点会被标 first_ok_est，
+    订阅名字里带 `~` 提醒读者这是估的。
+    """
+    if rounds <= 1 or interval_h <= 0:
+        return stamp
+    when = parse_stamp(stamp)
+    if not when:
+        return stamp
+    back = when - timedelta(hours=(rounds - 1) * interval_h)
+    return back.strftime("%Y-%m-%d %H:%M:%S %z")
+
+
+def merge(old, results, keep_days, dead_after, round_no=0, interval_h=3.0):
     """把本轮结果并入历史：ok_rounds 累加，连续 3 轮失败标记 dead。
 
     保留历史很重要：免费节点会抖动，单轮失败不代表死，下一轮恢复即可；
     反之一次侥幸通过也不代表稳，ok_rounds 让 CI 能优先选真正长寿的。
+
+    `first_ok` 是「这一段连续存活」的起点：订阅名字里的存活时长、以及
+    「老黄牛优先」排序都读它。只在测通时写，被判死（dead）后才重置。
     """
     entries = dict(old.get("entries") or {})
     stamp = now_stamp()
     for fp, res in results.items():
         entry = dict(entries.get(fp) or {})
+        # 被判死之后又活过来：上一段连续存活已经结束，起点必须重置，
+        # 否则中断的那几天会被算进存活时长（名字里就成了假的「活了 5 天」）。
+        was_dead = bool(entry.get("dead"))
+        # 回填起点要用**本轮之前**的轮数与上次测通时间：entry 马上就要被本轮结果覆盖，
+        # 拿覆盖后的值倒推会少算一轮（first_ok 每轮往前漂一个间隔，越漂越早）。
+        prev_rounds = int(entry.get("ok_rounds") or 0)
+        prev_last_ok = entry.get("last_ok")
         # round 记录「最后一次被实测是第几轮」：CI 据此只发**本轮**测通的节点。
         # 只靠 last_ok 时间窗不行——一轮 1200 个节点要测好几分钟，窗口稍宽就会把
         # 上一轮的历史命中放进来（实测：发布 390 个，其中 208 个是上一轮的旧结果，
@@ -362,6 +388,21 @@ def merge(old, results, keep_days, dead_after, round_no=0):
             entry["kbps"] = res["kbps"]
             entry["last_ok"] = stamp
             entry.pop("dead", None)
+            if was_dead:
+                entry.pop("first_ok", None)
+                entry.pop("first_ok_est", None)
+            if not entry.get("first_ok"):
+                if was_dead or prev_rounds <= 0 or not prev_last_ok:
+                    # 全新的连续段：本轮就是真实起点。
+                    entry["first_ok"] = stamp
+                else:
+                    # 升级前的老条目：用「上次测通时间 - (已测通轮数-1) × 间隔」倒推。
+                    # 只测通过一次时倒推结果就是上次测通时间，属于真实值，不标推算。
+                    entry["first_ok"] = _backfill_first_ok(
+                        prev_last_ok, prev_rounds, float(interval_h or 0)
+                    )
+                    if prev_rounds > 1:
+                        entry["first_ok_est"] = True
         else:
             entry["fail_rounds"] = int(entry.get("fail_rounds") or 0) + 1
             if entry["fail_rounds"] >= dead_after:
@@ -589,7 +630,13 @@ def main():
 
         old = whitelist.load(wl_path)
         round_no = int(old.get("probe_rounds") or 0) + 1
-        entries, pruned = merge(old, results, args.keep_days, args.dead_after, round_no)
+        # 轮间隔只用来给「升级前的老条目」倒推存活起点，取计划任务的周期（默认 3 小时）。
+        interval_h = float(
+            (check_cfg.get("whitelist") or {}).get("round_interval_hours", 3) or 3
+        )
+        entries, pruned = merge(
+            old, results, args.keep_days, args.dead_after, round_no, interval_h
+        )
         payload = build_payload(entries, host, round_no)
         # newline="\n" 不能省：Windows 上文本模式会把每个 \n 翻成 \r\n，而 CI（Linux）
         # 和 GitHub 上的 blob 都是 LF。不统一的话本地 182KB 的文件在仓库里被当成

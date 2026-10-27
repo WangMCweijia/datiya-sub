@@ -167,12 +167,29 @@ def render_page(status, out_cfg):
     rank = status.get("rank") or {}
     rank_row = ""
     if rank.get("median_kbps") is not None:
+        # 老黄牛这一层的门槛写在页面上，读者才知道「排在前面的不是最快的那个」为什么。
+        vet_days = float(rank.get("veteran_days") or 0)
+        vet_kbps = float(rank.get("veteran_kbps") or 0)
+        rule = "仅按实测网速，快 → 慢"
+        if vet_days > 0 and vet_kbps > 0:
+            rule = (
+                f"存活 ≥{vet_days:g} 天且网速 ≥{vet_kbps:g}KB/s 的节点前置，"
+                f"其余按实测网速快 → 慢"
+            )
         rank_row = (
-            f"<tr><th>排序口径</th><td>仅按实测网速，快 → 慢"
+            f"<tr><th>排序口径</th><td>{rule}"
             f"（测出网速的 {rank['measured']}/{rank['total']} 个：中位 "
             f"{rank['median_kbps']:.0f}KB/s、最快 {rank['best_kbps']:.0f}KB/s；"
             f"其余为 -- 排在末尾）</td></tr>"
         )
+        if vet_days > 0 and vet_kbps > 0:
+            rank_row += (
+                f"<tr><th>存活</th><td>名字里第二个数字是已存活时长（首次测通至今，"
+                f"带 ~ 为按探测轮次推算）；当前达标老黄牛 "
+                f"<strong>{rank.get('veterans', 0)}</strong> 个，存活中位 "
+                f"{float(rank.get('median_age_h') or 0):.0f} 小时、"
+                f"最久 {float(rank.get('oldest_age_h') or 0):.0f} 小时</td></tr>"
+            )
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -503,15 +520,19 @@ def main():
     # 与「用户打开订阅看到的顺序」是两件事——名额分配完之后，展示顺序就该按网速排。
     # 只改顺序、不淘汰节点，所以不影响漏斗任何一级的计数。
     proxies = builder.sort_by_speed(proxies, rank_cfg)
-    rank_info = builder.rank_summary(proxies)
+    rank_info = builder.rank_summary(proxies, rank_cfg)
     log.info(
-        "发布顺序：仅按实测网速（快慢）%s",
-        "；网速中位 %.0fKB/s，最好 %.0fKB/s，测出网速 %d/%d"
+        "发布顺序：老黄牛（存活 ≥%s 天且 ≥%sKB/s）前置 %d 个，其余按实测网速降序%s",
+        rank_cfg.get("veteran_days", 0),
+        rank_cfg.get("veteran_kbps", 0),
+        rank_info.get("veterans", 0),
+        "；网速中位 %.0fKB/s，最好 %.0fKB/s，测出网速 %d/%d，存活中位 %.0fh"
         % (
             rank_info.get("median_kbps", 0),
             rank_info.get("best_kbps", 0),
             rank_info.get("measured", 0),
             rank_info.get("total", 0),
+            rank_info.get("median_age_h", 0),
         )
         if rank_info
         else "（无网速实测，保持上游顺序）",
@@ -524,7 +545,7 @@ def main():
     proxies = builder.rename(proxies, naming_cfg)
     if proxies:
         log.info(
-            "节点命名：地区 | 网速 | 代表性标志，例如 %s",
+            "节点命名：地区 | 网速 | 已存活 | 代表性标志，例如 %s",
             "；".join(p["name"] for p in proxies[:3]),
         )
 
@@ -563,6 +584,9 @@ def main():
         "site_enabled": site_on,
         "wl_age": whitelist.age_hours(wl_data) if (wl_used and wl_data) else None,
         "wl_host": (wl_data or {}).get("probe_host") if wl_used else None,
+        # 排序口径要写进订阅头：读者需要知道「排在最前的是为什么排最前」。
+        "veteran_days": rank_cfg.get("veteran_days", 0),
+        "veteran_kbps": rank_cfg.get("veteran_kbps", 0),
     }
     # 订阅里不能出现 _speed_kbps / _streak 这类内部字段（mihomo 会拒绝整份配置）；
     # 但账本结算要用到它们，所以先造一份干净副本用于发布与校验。

@@ -8,11 +8,14 @@ import math
 import re
 import unicodedata
 from collections import defaultdict
+from datetime import datetime, timedelta, timezone
 from urllib.parse import quote
 
 import yaml
 
 log = logging.getLogger("datiya.build")
+
+TZ = timezone(timedelta(hours=8))
 
 # ---- 地区识别 ----
 # 一张表打天下：ISO 代码 → (中文名, 其它写法)。
@@ -575,12 +578,117 @@ def speed_kbps(proxy):
     return float(proxy.get("_wl_kbps") or proxy.get("_speed_kbps") or 0)
 
 
+# ---- 存活时长 ---------------------------------------------------------------
+#
+# 「这个节点活了多久」与「它现在多快」是两件独立的事，而免费代理的共同毛病是
+# **快但短命**：刚测出 8MB/s、十分钟后就没了。名字里只有网速时，用户只能反复试错；
+# 补上存活时长后才有可能自己判断「8MB/s 但只有 6 小时」和「1.5MB/s 已经活了 5 天」
+# 哪个更值得留。
+#
+# 起点只有一个口径：**首次被测通到现在**。断线重连会重置（账本里条目被标死清理后
+# 重新出现，first_ok 重新写），所以它表示的是「这一段连续可用的历史」。
+_STAMP_FORMATS = (
+    "%Y-%m-%d %H:%M:%S %z",
+    "%Y-%m-%dT%H:%M:%S%z",
+    "%Y-%m-%d %H:%M:%S",
+)
+
+# 两本账各有各的盲区，同时看：
+#   `_wl_first_ok` 本机白名单写的首次测通时间（3 小时一轮，最贴近「国内还能不能用」）；
+#   `_hist_first`  CI 存活账本写的首次出现时间（2 小时一轮，覆盖本机没开机的时段）。
+_AGE_FIELDS = ("_wl_first_ok", "_hist_first")
+
+
+def parse_stamp(value):
+    """解析账本里的时间戳（两种记录格式都认），失败返回 None。"""
+    if not value:
+        return None
+    for fmt in _STAMP_FORMATS:
+        try:
+            when = datetime.strptime(str(value), fmt)
+        except (TypeError, ValueError):
+            continue
+        return when if when.tzinfo else when.replace(tzinfo=TZ)
+    return None
+
+
+def hours_since(value, now=None):
+    """时间戳 → 距今多少小时；空值/坏值返回 None（区分「0 小时」与「没记录」）。"""
+    when = parse_stamp(value)
+    if not when:
+        return None
+    delta = ((now or datetime.now(TZ)) - when).total_seconds() / 3600.0
+    # 本机时钟回拨时会出现负数，按 0 处理（别让名字里出现「-3h」）
+    return delta if delta >= 0 else 0.0
+
+
+def node_age_hours(proxy, now=None):
+    """节点已存活多少小时；没有任何记录返回 0。
+
+    两本账都有时取**更早**的那个：节点先被谁看见都算它活着，只看一本会把
+    「CI 两小时前就发现了、本机刚测到」的节点记成 0 小时。
+    """
+    values = [
+        hours
+        for hours in (hours_since(proxy.get(f), now) for f in _AGE_FIELDS)
+        if hours is not None
+    ]
+    if values:
+        return max(values)
+    # 升级前的老白名单没有 first_ok，只有「累计测通轮数」，按轮间隔倒推一个近似值，
+    # 名字里带 `~` 表示这是推算的（见 age_estimated）。
+    try:
+        return max(0.0, float(proxy.get("_age_est_h") or 0))
+    except (TypeError, ValueError):
+        return 0.0
+
+
+def age_estimated(proxy):
+    """存活时长是否为推算值（两本账都没有真实起点时间戳）。"""
+    return (
+        not any(proxy.get(f) for f in _AGE_FIELDS)
+        and float(proxy.get("_age_est_h") or 0) > 0
+    )
+
+
+def _age_text(hours, estimated=False):
+    """存活时长 → 名字里的可读写法：`7d` / `36h`。天数不带小数，省字符。
+
+    名字长度是硬约束（Clash 客户端普遍 30~40 字符截断），所以单位取最短的
+    `d`/`h`，不写「天」「小时」。
+    """
+    prefix = "~" if estimated else ""
+    if hours >= 24:
+        return "%s%dd" % (prefix, int(hours // 24))
+    return "%s%dh" % (prefix, int(hours))
+
+
+def is_veteran(proxy, cfg=None):
+    """「老黄牛」：存活够久**且**够快，两者缺一不可。
+
+    只按存活排会把一堆几十 KB/s 的老僵尸顶上来（它们之所以活得久，恰恰因为没人用）；
+    只按网速排又会奖励「刚上线、几分钟后就死」的节点。`veteran_days`/`veteran_kbps`
+    任一为 0 表示不启用这条优先级。
+    """
+    cfg = cfg or {}
+    days = float(cfg.get("veteran_days", 0) or 0)
+    kbps = float(cfg.get("veteran_kbps", 0) or 0)
+    if days <= 0 or kbps <= 0:
+        return False
+    return node_age_hours(proxy) >= days * 24 and speed_kbps(proxy) >= kbps
+
+
 def sort_by_speed(proxies, cfg=None):
-    """发布顺序：只按实测网速从快到慢（不淘汰任何节点）。
+    """发布顺序：派生死守「老黄牛」在前，其余只按实测网速从快到慢（不淘汰任何节点）。
 
     只认一个维度——谁测得快谁在前。不做归一化/加权：`min(1, log1p(kbps)/log1p(ref))`
     这类压缩在单维排序里反而有害，超过 ref 的节点会全部挤成满分，1MB/s 和 160KB/s
     排不出先后。直接比原始 kbps 才有确定的「快慢」。
+
+    唯一的分层是「老黄牛」（存活 ≥ veteran_days 且网速 ≥ veteran_kbps）：它们整体
+    前置，层内仍按网速降序。理由见 is_veteran——稳定性和速度都达标的节点，比一个
+    刚测出更高网速、可能十分钟后就消失的节点更值得放在用户第一个看到的位置。
+    这一层只改顺序，不淘汰、不改名字里的数字。
 
     没测出网速的排末尾（本机实测约 4 成节点只能 CONNECT、下载超时），它们之间按
     存活轮次高者优先、再按原始顺序——纯粹是为了让顺序稳定可复现，不代表偏好。
@@ -598,47 +706,69 @@ def sort_by_speed(proxies, cfg=None):
         kbps = speed_kbps(proxy)
         rows.append(
             (
-                0 if kbps > 0 else 1,   # 测出网速的一律排前面
+                0 if is_veteran(proxy, cfg) else 1,  # 老黄牛整体前置
+                0 if kbps > 0 else 1,                # 测出网速的一律排前面
                 -kbps,
                 -int(proxy.get("_streak") or 0),
                 index,
                 proxy,
             )
         )
-    rows.sort(key=lambda row: row[:4])
-    return [row[4] for row in rows]
+    rows.sort(key=lambda row: row[:5])
+    return [row[5] for row in rows]
 
 
-def rank_summary(proxies):
-    """发布集的网速分布，写进 status.json 便于核对排序是否符合预期。
+
+def rank_summary(proxies, cfg=None):
+    """发布集的网速分布与存活分布，写进 status.json 便于核对排序是否符合预期。
 
     中位数只统计**测出网速的节点**：发布集里常有一半是「能 CONNECT、下载超时」的
     `--` 节点，把它们算进来中位数会直接被拉到 0，看上去像整批都没速度，毫无信息量。
     `measured/total` 单独给出比例，读者自己就能判断这个中位数的覆盖面。
+
+    `veterans` 是「存活 ≥ veteran_days 且网速 ≥ veteran_kbps」的节点数。它是 0
+    并不代表功能坏了——免费节点的连续存活本来就只有小时级，这个数要跑上几天才会动。
     """
+    cfg = cfg or {}
     values = sorted(speed_kbps(p) for p in proxies)
     if not values:
         return {}
     measured = [v for v in values if v > 0]
+    veterans = sum(1 for p in proxies if is_veteran(p, cfg))
+    ages = sorted(node_age_hours(p) for p in proxies)
+    # sort_by 反映**配置**而不是「本次是否真有老黄牛」：门槛刚上线的头三天一定
+    # 一个都不达标，若这时写成 "speed"，读者会以为功能没开。
+    veteran_on = float(cfg.get("veteran_days", 0) or 0) > 0 and float(
+        cfg.get("veteran_kbps", 0) or 0
+    ) > 0
     return {
-        "sort_by": "speed",
+        "sort_by": "veteran_then_speed" if veteran_on else "speed",
         "measured": len(measured),
         "total": len(values),
         "median_kbps": round(measured[len(measured) // 2], 1) if measured else 0.0,
         "best_kbps": round(values[-1], 1),
         "worst_kbps": round(values[0], 1),
+        "veterans": veterans,
+        "veteran_days": float(cfg.get("veteran_days", 0) or 0),
+        "veteran_kbps": float(cfg.get("veteran_kbps", 0) or 0),
+        "median_age_h": round(ages[len(ages) // 2], 1) if ages else 0.0,
+        "oldest_age_h": round(ages[-1], 1) if ages else 0.0,
     }
 
 
-# ---- 节点命名：地区 | 网速 | 原名里的代表性标志 ----
+# ---- 节点命名：地区 | 网速 | 已存活 | 原名里的代表性标志 ----
 #
 # 为什么统一改名：上游名字是各家自己拼的，同一个订阅里能同时出现
 #   🇸🇬SG_131|578KB/s / RO - zhuhai.uk 05 [be5ac291e62c920d] / vless-1879607313 /
 #   UN【机场推荐：https://a9a.xyz】224 / 🏳[www.v2nodes.com] vless- #4
 # 用户看不出「哪个快、哪个在哪、哪个还是刚才那个」。改成统一格式后，名字本身
-# 就是一句话：地区 + 实测网速 + 能区分线路的原始标志。
+# 就是一句话：地区 + 实测网速 + 已存活多久 + 能区分线路的原始标志。
 _SPEED_TEXT_RE = re.compile(r"\d+(?:\.\d+)?\s*[KMGTkmgt]\s*[Bb]\s*/\s*[Ss]")
 _DELAY_TEXT_RE = re.compile(r"\d+(?:\.\d+)?\s*ms(?![a-z])", re.I)
+# 我们自己上一轮写进名字的存活段（`|36h` / `|7d` / `|~1d`）。
+# 正常情况下每轮都从上游原始名重新起名，不会碰到；但候选池、镜像订阅、手动回灌
+# 都可能把「已改名」的节点送回来，不剥就会变成 `地区|网速|36h|36h 原标志`。
+_AGE_SEGMENT_RE = re.compile(r"\|~?\d+[dh](?=\||\s|$)")
 _URL_TEXT_RE = re.compile(r"(?:https?://|www\.)[^\s\]\)】]+", re.I)
 # 括号内容基本都是推广位（【机场推荐：…】）或上游塞进来的连接指纹（[9f5d0bdf…]）
 _BRACKET_TEXT_RE = re.compile(r"【[^】]*】|\[[^\]]*\]|\([^)]*\)|（[^）]*）")
@@ -679,6 +809,7 @@ def node_marker(proxy, limit=20):
     text = _URL_TEXT_RE.sub(" ", text)
     text = _BRACKET_TEXT_RE.sub(" ", text)
     text = _SPEED_TEXT_RE.sub(" ", text)
+    text = _AGE_SEGMENT_RE.sub("", text)
     text = _DELAY_TEXT_RE.sub(" ", text)
     # 地区词（中文名与中文别名）在名字里任何位置都是冗余的，全串替换
     for alias in _CJK_ALIASES:
@@ -704,7 +835,7 @@ def node_marker(proxy, limit=20):
 
 
 def _speed_source_line(meta):
-    """订阅头部的一句话：名字里那些网速数字到底是谁测的。
+    """订阅头部的说明：网速数字是谁测的 + 存活标记怎么读 + 排序规则。
 
     这件事必须写清楚，因为两种来源的可信度差着量级（2026-10-25 对 240 个节点
     做全量比对，机房标注与本机实测的 Spearman 相关系数只有 +0.107）。放在头部
@@ -712,15 +843,30 @@ def _speed_source_line(meta):
     """
     age = meta.get("wl_age")
     if age is None:
-        return (
+        head = (
             "网速=机房估算（本机实测白名单不可用/已过期）：带 ~ 的数字仅供量级参考，"
-            "不能当承诺；顺序也由它决定，挑节点请以自己的实测为准"
+            "不能当承诺；挑节点请以自己的实测为准"
         )
-    host = meta.get("wl_host") or "本机"
-    return (
-        "网速=本机实测（%s，%.1f 小时前）：名字里的数字就是从这条线走代理测到的"
-        "可持续吞吐，排序也按它" % (host, float(age))
+    else:
+        host = meta.get("wl_host") or "本机"
+        head = (
+            "网速=本机实测（%s，%.1f 小时前）：名字里的第一个数字就是从这条线走代理"
+            "测到的可持续吞吐" % (host, float(age))
+        )
+    # 存活标记单独一行：它和网速是两套口径，混在一句里读者会以为「36h」是时长单位错。
+    days = float(meta.get("veteran_days") or 0)
+    kbps = float(meta.get("veteran_kbps") or 0)
+    age_line = (
+        "存活=首次测通至今（第二个数字，如 7d/36h；带 ~ 的是按探测轮次数推算）"
     )
+    if days > 0 and kbps > 0:
+        age_line += "；存活 ≥%g 天且网速 ≥%gKB/s 的节点整体排在最前，其余按网速降序" % (
+            days,
+            kbps,
+        )
+    else:
+        age_line += "；顺序只按网速降序"
+    return head + "\n# " + age_line
 
 
 def _speed_text(kbps, approx=False):
@@ -739,10 +885,13 @@ def _speed_text(kbps, approx=False):
 
 
 def display_name(proxy, cfg=None):
-    """单个节点的展示名：地区 | 网速 | 原名代表性标志。
+    """单个节点的展示名：地区 | 网速 | 已存活 | 原名代表性标志。
 
-    不带延迟：排序只按网速，名字里再塞延迟会让「名字里靠后的数字」和「上下顺序」
-    给出两套暗示，用户反而要去比对哪个才是排序依据。
+    不带延迟：排序只按网速（+老黄牛前置），名字里再塞延迟会让「名字里靠后的数字」
+    和「上下顺序」给出两套暗示，用户反而要去比对哪个才是排序依据。
+
+    存活这一段（`7d` / `36h`，推算值带 `~`）唯独值得占位：只看网速，用户没法区分
+    「8MB/s 但刚上线」和「1.5MB/s 已稳了五天」，而后者往往才是能长期用的那条。
     """
     cfg = cfg or {}
     flag, region = region_label(proxy.get("name"))
@@ -750,20 +899,19 @@ def display_name(proxy, cfg=None):
     speed = speed_kbps(proxy)
     # 只有白名单（本机真实探测）给出的数才配当「承诺」写进名字；机房测的加 `~`。
     approx = bool(cfg.get("mark_untrusted", True)) and speed > 0 and local_kbps <= 0
-    parts = [
-        flag + region,
-        _speed_text(speed, approx=approx),
-        node_marker(proxy, limit=int(cfg.get("marker_max", 20) or 20)),
-    ]
+    parts = [flag + region, _speed_text(speed, approx=approx)]
+    if cfg.get("age_in_name", True):
+        parts.append(_age_text(node_age_hours(proxy), age_estimated(proxy)))
+    parts.append(node_marker(proxy, limit=int(cfg.get("marker_max", 20) or 20)))
     # 分隔符不带空格：Clash 客户端普遍在 30~40 个字符处截断，省下的字符留给
     # 「代表性标志」——那才是区分线路的部分（原来中位 30 字符，去掉延迟后约 24）。
     return "|".join(parts)
 
 
 def rename(proxies, cfg=None):
-    """把发布集的节点名统一成「地区 | 网速 | 代表性标志」并保证唯一。
+    """把发布集的节点名统一成「地区 | 网速 | 已存活 | 代表性标志」并保证唯一。
 
-    必须在测速之后调用：网速是名字的一部分，只有测完才有值。
+    必须在测速与存活账本标注**之后**调用：网速和存活时长都是名字的一部分。
     重名（同地区、同质量、同标志）时按 ` #n` 递增——mihomo 遇到重名会拒绝
     加载整份配置，客户端表现为节点列表空白。
     """

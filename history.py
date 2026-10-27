@@ -79,11 +79,23 @@ class Ledger:
             return 0
 
     def annotate(self, proxies):
-        """给每个节点挂上 _streak（存活次数），供后续排序/展示使用。"""
+        """给每个节点挂上 `_streak`（连续存活次数）与 `_hist_first`（首次出现时间）。
+
+        `_hist_first` 是本项目里「存活时长」的 CI 侧来源（另一侧是本机白名单的
+        `first_ok`）。必须用真实时间戳：构建由 cron（每 2 小时）与 push 共同触发，
+        轮间隔并不固定，拿「次数 × 间隔」换算会把「一小时连跑五轮」算成一天。
+        """
         if not self.enabled:
             return proxies
         for proxy in proxies:
-            proxy["_streak"] = self.streak(proxy)
+            rec = self.data["nodes"].get(builder.fingerprint(proxy)) or {}
+            try:
+                proxy["_streak"] = int(rec.get("streak") or 0)
+            except (TypeError, ValueError):
+                proxy["_streak"] = 0
+            first = rec.get("first_seen")
+            if first:
+                proxy["_hist_first"] = first
         return proxies
 
     def rank(self, proxies, trusted_streak=3):
@@ -127,7 +139,16 @@ class Ledger:
             fpr = builder.fingerprint(proxy)
             published_ids.add(fpr)
             rec = nodes.setdefault(fpr, {})
-            rec["streak"] = int(rec.get("streak") or 0) + 1
+            streak = int(rec.get("streak") or 0)
+            # 存活起点：streak 从 0 起算（新节点，或淘汰后重新回归）时写下当前时间。
+            # 老账本没有这个字段时补 last_seen（上一轮发布的时间）而不是 now：
+            # 一个已经连续存活 5 轮的节点真实起点一定早于上一轮，用 now 会让它
+            # 白白丢掉全部历史；用 last_seen 只是「偏保守」，不会凭空夸大。
+            if streak <= 0 or not rec.get("first_seen"):
+                rec["first_seen"] = (
+                    rec.get("last_seen") if streak > 0 and rec.get("last_seen") else stamp
+                )
+            rec["streak"] = streak + 1
             rec["last_seen"] = stamp
             rec["name"] = str(proxy.get("name") or "")[:80]
             rec["kind"] = str(proxy.get("type") or "")
@@ -136,8 +157,7 @@ class Ledger:
             speed = proxy.get("_speed_kbps")
             if isinstance(speed, (int, float)):
                 rec["speed_kbps"] = round(float(speed), 1)
-            streak = rec["streak"]
-            if streak >= trusted_streak:
+            if rec["streak"] >= trusted_streak:
                 rec["trusted_since"] = rec.get("trusted_since") or stamp
 
         dropped = 0
@@ -148,6 +168,10 @@ class Ledger:
             rec = nodes.get(fpr)
             if rec and int(rec.get("streak") or 0) > 0:
                 rec["streak"] = 0
+                # 断了一次就不再是「这一段连续存活」了，起点必须清掉，
+                # 否则复活后会把中断期也算进存活时长（名字里就成了假的「活了 5 天」）。
+                rec.pop("first_seen", None)
+                rec.pop("trusted_since", None)
                 rec["last_fail"] = stamp
                 dropped += 1
 

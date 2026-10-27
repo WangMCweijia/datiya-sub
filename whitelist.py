@@ -143,6 +143,30 @@ def _sort_key(proxy):
     return (0 if kbps > 0 else 1, -kbps)
 
 
+def estimate_age_hours(entry, cfg):
+    """没有真实首次测通时间戳时，用「累计测通轮数 × 轮间隔」倒推存活时长。
+
+    为什么需要这个兜底：本功能上线前的白名单条目只有 `ok_rounds`，没有 `first_ok`。
+    不推算的话全部节点都显示 0h、老黄牛优先级永远不触发，得等三天数据攒出来才有
+    意义。推算值在名字里带 `~`（见 builder.age_estimated），读者能一眼分辨。
+
+    口径警告：`ok_rounds` 是**累计**测通轮数而非连续，中间断过的节点推算值会偏大，
+    所以它只配当「至少活了这么久」的量级参考。轮间隔取本机探测周期
+    （`round_interval_hours`，与计划任务一致）。
+    """
+    hours = builder.hours_since(entry.get("first_ok"))
+    if hours is not None:
+        return hours
+    interval = float(cfg.get("round_interval_hours", 3) or 0)
+    if interval <= 0:
+        return None
+    rounds = int(entry.get("ok_rounds") or 0)
+    base = builder.hours_since(entry.get("last_ok"))
+    if base is None or rounds <= 0:
+        return None
+    return base + (rounds - 1) * interval
+
+
 def apply(proxies, data, cfg):
     """按白名单过滤并按实测质量排序，返回 (节点列表, 统计)。"""
     entries = (data or {}).get("entries") or {}
@@ -192,6 +216,16 @@ def apply(proxies, data, cfg):
         proxy["_wl_kbps"] = kbps
         proxy["_wl_delay"] = int(entry.get("delay") or 0)
         proxy["_wl_rounds"] = ok_rounds
+        # 存活起点：本机**首次测通**的时间（连续段）。账本把连续失败的条目标死并清掉，
+        # 节点重新出现时 first_ok 重新写，所以它天然表示「这一段连续可用的历史」，
+        # 不会把「死了三天又活过来」算成「活了三天」。
+        first_ok = entry.get("first_ok")
+        if first_ok and not entry.get("first_ok_est"):
+            proxy["_wl_first_ok"] = first_ok
+        else:
+            estimated = estimate_age_hours(entry, cfg)
+            if estimated:
+                proxy["_age_est_h"] = estimated
         kept.append(proxy)
 
     kept.sort(key=_sort_key)
@@ -201,7 +235,7 @@ def apply(proxies, data, cfg):
 def strip(proxies):
     """剥掉白名单专用内部字段（不能写进订阅）。"""
     for proxy in proxies:
-        for key in ("_wl_kbps", "_wl_delay", "_wl_rounds"):
+        for key in ("_wl_kbps", "_wl_delay", "_wl_rounds", "_wl_first_ok", "_age_est_h"):
             proxy.pop(key, None)
     return proxies
 
