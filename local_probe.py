@@ -385,6 +385,25 @@ def build_payload(entries, host, rounds):
     }
 
 
+_PUSH_ATTEMPTS = 12
+
+
+def _is_sha_conflict(err):
+    """判断是不是「sha 过期」这种需要重取 sha 的错误。
+
+    别写成 `"sha" in err.lower()`：**"handshake" 里就含 "sha"**（handSHAke），
+    于是每次 `TLS handshake timeout` 都被当成 sha 冲突 → 直接 break 掉内层循环，
+    代理通道那一半尝试全被跳过。实测下来等于把 8 轮重试砍成 8 次单通道尝试。
+    """
+    low = err.lower()
+    return "does not match" in low or "sha wasn't supplied" in low
+
+
+def _push_backoff(attempt):
+    """退避 2,5,8,11,14,17,18,18…（秒）。总计约 165 秒，覆盖测速刚结束那段握手抖动。"""
+    return min(2 + attempt * 3, 18)
+
+
 def push(payload, repo, path):
     content = base64.b64encode(
         json.dumps(payload, ensure_ascii=False, indent=1).encode("utf-8")
@@ -393,7 +412,7 @@ def push(payload, repo, path):
     # 抖动窗口，所以每次「取 sha + PUT」都直连、代理各试一遍，再重复多轮。
     # 早先 6 次各只试一种通道，实测 6 次全灭（3 次握手超时 + 3 次拿不到 sha）。
     last_err = ""
-    for attempt in range(8):
+    for attempt in range(_PUSH_ATTEMPTS):
         sha = ""
         for direct in (True, False):
             proc = _gh(["api", f"repos/{repo}/contents/{path}", "--jq", ".sha"],
@@ -405,7 +424,7 @@ def push(payload, repo, path):
             # 取不到 sha 时绝不能直接 PUT：文件已存在而无 sha 会被 422 拒掉，
             # 白等一轮重试还不知道原因（踩过：6 次全 422 "sha wasn't supplied"）。
             log.warning("第 %d 轮：取不到 %s 的 sha，稍后重试", attempt + 1, path)
-            time.sleep(2 + attempt * 2)
+            time.sleep(_push_backoff(attempt))
             continue
         body = {
             "message": "chore: 更新本机实测白名单 %s（%d 个可用）"
@@ -424,11 +443,11 @@ def push(payload, repo, path):
                 log.info("已推送 %s 到 %s（第 %d 轮）", path, repo, attempt + 1)
                 return True
             last_err = (proc.stderr or proc.stdout or "").strip()
-            if "does not match" in last_err or "sha" in last_err.lower():
+            if _is_sha_conflict(last_err):
                 break  # sha 过期（CI 同时提交）→ 重取 sha，换下一轮
         log.warning("推送失败（第 %d 轮）：%s", attempt + 1,
                     last_err.splitlines()[-1][:160] if last_err else "未知错误")
-        time.sleep(2 + attempt * 2)
+        time.sleep(_push_backoff(attempt))
     log.error("推送失败，白名单只留在本地（CI 会因白名单过期而回退 Globalping）")
     return False
 
@@ -487,12 +506,20 @@ def main():
     parser.add_argument("--timeout-ms", type=int, help="单节点连通测试超时（毫秒）")
     parser.add_argument("--concurrency", type=int, help="连通测试并发")
     parser.add_argument("--verbose", "-v", action="store_true")
+    parser.add_argument("--log-file", help="同时把日志写进文件（计划任务里 stdout 重定向不可靠）")
     args = parser.parse_args()
 
+    handlers = [logging.StreamHandler()]
+    if args.log_file:
+        # 计划任务里必须自己落盘：进程被外部终止时，重定向的 stdout/stderr 可能整段丢失
+        # （实测一次 0xC000013A 强杀后，日志停在最后一次 stderr 写入，连 bat 的收尾 echo 都没了）。
+        Path(args.log_file).parent.mkdir(parents=True, exist_ok=True)
+        handlers.append(logging.FileHandler(args.log_file, encoding="utf-8"))
     logging.basicConfig(
         level=logging.DEBUG if args.verbose else logging.INFO,
         format="%(asctime)s %(levelname)-6s | %(message)s",
         datefmt="%H:%M:%S",
+        handlers=handlers,
     )
 
     repo = args.repo or detect_repo()
