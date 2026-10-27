@@ -622,33 +622,49 @@ def hours_since(value, now=None):
     return delta if delta >= 0 else 0.0
 
 
-def node_age_hours(proxy, now=None):
-    """节点已存活多少小时；没有任何记录返回 0。
-
-    两本账都有时取**更早**的那个：节点先被谁看见都算它活着，只看一本会把
-    「CI 两小时前就发现了、本机刚测到」的节点记成 0 小时。
-    """
-    values = [
-        hours
-        for hours in (hours_since(proxy.get(f), now) for f in _AGE_FIELDS)
-        if hours is not None
-    ]
-    if values:
-        return max(values)
-    # 升级前的老白名单没有 first_ok，只有「累计测通轮数」，按轮间隔倒推一个近似值，
-    # 名字里带 `~` 表示这是推算的（见 age_estimated）。
+def _age_estimate_h(proxy):
+    """白名单侧按「累计测通轮数 × 轮间隔」推算的存活小时数（没有就 0）。"""
     try:
         return max(0.0, float(proxy.get("_age_est_h") or 0))
     except (TypeError, ValueError):
         return 0.0
 
 
-def age_estimated(proxy):
-    """存活时长是否为推算值（两本账都没有真实起点时间戳）。"""
-    return (
-        not any(proxy.get(f) for f in _AGE_FIELDS)
-        and float(proxy.get("_age_est_h") or 0) > 0
-    )
+def node_age_hours(proxy, now=None):
+    """节点已存活多少小时；没有任何记录返回 0。
+
+    所有来源取**最大**（=最早的那个起点），因为每个来源给的都是**下界或估计**：
+      `_wl_first_ok` 本机真实首次测通（最准）；
+      `_hist_first`   CI 首次发布（老账本是回填的 last_seen，只会偏晚）；
+      `_age_est_h`    白名单按累计测通轮数推算（可能偏早几小时）。
+    只取其中一个会把「CI 两小时前就发现了、本机刚测到」的节点记成 0 小时。
+    """
+    values = [
+        hours
+        for hours in (hours_since(proxy.get(f), now) for f in _AGE_FIELDS)
+        if hours is not None
+    ]
+    estimate = _age_estimate_h(proxy)
+    if estimate > 0:
+        values.append(estimate)
+    return max(values) if values else 0.0
+
+
+def age_estimated(proxy, now=None):
+    """展示的存活时长是否来自推算（而不是真实首次测通时间戳）。
+
+    比较的是**最终取值来自哪个来源**：白名单按轮数推算出的 33h 若压过了 CI 刚回填
+    的 1h，那名字里就该带 `~`——否则读者会把推算值当实测起点。
+    """
+    estimate = _age_estimate_h(proxy)
+    if estimate <= 0:
+        return False
+    real = [
+        hours
+        for hours in (hours_since(proxy.get(f), now) for f in _AGE_FIELDS)
+        if hours is not None
+    ]
+    return not real or estimate > max(real)
 
 
 def _age_text(hours, estimated=False):
