@@ -61,6 +61,25 @@ sources:
 `NoMoreWalls` 131 个 → 1%、`Au1rxx/stable` 五个分片 → 0~3%，而只有 28 个节点的
 `zhuhaiuk/free-nodes` 反而有 32%。判据是**连通率**，不是规模。
 
+2026-10-27 又横向测了 17 个源（同一内核、同一测速端点，每源 30 个样本），结论一样：
+
+| 源 | 连通率 | 每 30 样本产出 ≥100KB/s | 备注 |
+|---|---|---|---|
+| `LeilaoMi/…-Optimized`（新加） | **56.6%** | **6.0** | 129 个节点，独家 58 个 |
+| `zhuhaiuk/free-nodes` | 43.3% | 4.0 | 只有 33 个节点 |
+| `Au1rxx-07` | 23.3% | 6.0 | |
+| `daily_free_vpn` | 13.3% | 2.0 | 波动大，历史最高曾 38% |
+| `Au1rxx-06` | 10.0% | 2.0 | 节点最多但命中率低 |
+| `ermaozi` | 6.7% | 1.0 | |
+| `TopFreeProxy` | 0% | 0 | 3158 条线路，抽样全灭（http 子集另有表现） |
+| `peasoft` / `lanzm` / `freenodess` | 3~20% | 0 | 连得上但下不动 |
+| `free18` / `Eternity` / `chengaopan` / `xyfqzy` / `tonykong` | 3~33% | 0~1 | 体量太小或全灭 |
+
+`mfuu/FreeProxies` 有 86 个独家节点，但只有 10 个连通、0 个达标，且它的 `sub.yaml` 在 IPv6
+节点名里嵌了未转义引号，整份 YAML 解析失败（要容错解析才读得出来）。`crossxx-labs/free-proxy`
+虽然 1800+ star，仓库里却没有节点文件，只有引流页——订阅每 4 小时过期，且必须在网页上手动
+点开，无法自动化。
+
 ### 源健康度（谁在真供血）
 
 不看不知道：**源的数量多 ≠ 节点多**。采集时每个节点会带上来源标记（`_srcs`），
@@ -290,7 +309,7 @@ python main.py --verbose
 | `check.china_check.limit` | 每个「服务器:端口」用几个探测点，免费额度约 250 次/小时，慎调大 |
 | `check.china_check.max_units` | 进入国内探测的节点数上限（默认 240，`0` 不限）。额度不够时「留下谁」会变成「先测谁」，这里按「存活次数 → 网速」截断，把额度花在最值得的候选上 |
 | `check.candidates.enabled` / `file` | 是否写出候选池 `candidates.json`（本机测速的输入） |
-| `check.candidates.max` | 候选池上限（默认 600）。本机给每个节点开一个入站端口，太多会让测速变慢；分批 + 补测后 600 个约 5 分钟测完 |
+| `check.candidates.max` | 候选池上限（默认 1000）。本机给每个节点开一个入站端口，太多会让测速变慢；分批 + 补测后 600 个约 8 分钟、1000 个约 13 分钟。**这个值是发布量的真正瓶颈**：改大到 1000 后，新加的 `LeilaoMi` 达标节点进池数从 8/28 升到 14/28 |
 | `check.whitelist.enabled` | 是否使用本机实测白名单（推荐开启，见上节） |
 | `check.whitelist.max_age_hours` | 白名单超过该时长视为过期并回退 Globalping 探测（默认 2） |
 | `check.whitelist.min_match` | 白名单命中少于该数则判定脱节、回退 Globalping（默认 10） |

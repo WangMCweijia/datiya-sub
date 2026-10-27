@@ -45,6 +45,35 @@ sources:
   # 节点多 ≠ 能用：这些源的节点要么早已失效，要么上游用境外视角挑的「活」，国内一律连不上。
   - name: zhuhaiuk
     url: "https://raw.githubusercontent.com/zhuhaiuk/free-nodes/main/clash_config.yaml"
+  # LeilaoMi/AutoMergePublicNodes-Optimized：**2026-10-27 全量实测，唯一值得新增的源**。
+  # 129 个节点，本机 mihomo 逐节点真实 CONNECT 通过 73 个（56.6%，横向比过的所有源里最高），
+  # 测出网速 55 个，≥100KB/s 28 个；与现有 6 源重叠 71 个、独家 58 个
+  # （独家且 ≥100KB/s 的 10 个，最快 1194KB/s）。
+  #
+  # **别指望它大幅增加发布量**：2026-10-27 16:26 做过同白名单对照构建（唯一变量是加不加它），
+  # 含它是 31 个、不含它是 29 个 —— 每轮净贡献 1~2 个。原因有三层，每一层都在打折：
+  #   ① 它 55% 的节点与现有源重复（它就是聚合源，只是聚合范围更宽）；
+  #   ② 独家节点里 ss/trojan 那 43 个**永远进不了候选池**（协议分把低分协议饿死，见下面
+  #      rank_by_protocol 的说明），能进池的只有 64 个 http + 22 个 vless；
+  #   ③ 进了池还要过「本轮测通 → 测出网速 → ≥100KB/s」三道闸。
+  # 仍然留着它：它是唯一连通率 >50% 的源，且不占探测时间（129 个体量很小），
+  # 属于「零成本、长期可能变好」的一票。真正把发布量从 16 拉到 31 的是 candidates.max。
+  #
+  # 只取 output/verified.yaml（上游已用真实转发验证过），不用 output/global.yaml：
+  # 后者 300 个节点实测连通率 13.3%、每 30 样本仅 1 个达标，是未筛的全量。
+  # 更新频率实测约每 6~8 小时一次（一天 3~4 次）。
+  - name: LeilaoMi
+    url: "https://raw.githubusercontent.com/LeilaoMi/AutoMergePublicNodes-Optimized/main/output/verified.yaml"
+  # 同批实测被否掉的（每源抽样 30 个，同一内核同一端点）：
+  #   mfuu/FreeProxies  独家 67 个但只 10 个连通、0 个达标（且 sub.yaml 的 IPv6
+  #                     节点名里嵌了未转义引号，整份 YAML 解析失败，需容错解析）
+  #   xyfqzy            全站 6 个节点，独家 1 个、0 个达标
+  #   tonykongcn        全站 5 个节点
+  #   freenodess        连通 0~3.3%
+  #   lanzm/MetaFetch   连通 3.3%，0 个测出网速
+  #   crossxx-labs/free-proxy（1841 star）  仓库里没有节点文件，只有引流页；
+  #                     订阅每 4 小时过期、必须在网页上手动点开 → 无法自动化
+  #   ninja / Surfboard / mheidari  是 base64 的 v2ray 链接，本项目解析器只吃 Clash 格式
 
 # 源健康度：每轮构建自动产出「各源实测命中率」（发布 / 进入候选池），
 # 写进 docs/status.json 的 source_health 段与本文件指向的滚动记录。
@@ -116,10 +145,12 @@ check:
   # 就把别源的高可用节点一起打落），源分决定同区内谁先占探测名额。
   # 未列出的源按 50 算（中性），新源不必先登记。
   source_score:
-    daily_free_vpn: 100
+    LeilaoMi: 95              # 2026-10-27 全量实测连通率 56.6%（73/129），历史最高，
+                              # 高于 zhuhaiuk 的 43.3%、Au1rxx-07 的 23.3%
     zhuhaiuk: 90              # 连通率最高（32%），但只有 28 个节点
     Au1rxx-07: 80
     Au1rxx-06: 70
+    daily_free_vpn: 100
     ermaozi: 60
     TopFreeProxy: 60
     datiya: 10                # 主源已停用（site.enabled=false），此分仅在恢复主源时有意义
@@ -153,10 +184,17 @@ check:
   candidates:
     enabled: true
     file: "candidates.json.gz"  # 相对仓库根目录
-    max: 600                 # 候选池上限。本机给每个节点开一个入站端口，
+    max: 1000                # 候选池上限。本机给每个节点开一个入站端口，
                              # 太多会让测速变慢、也吃内存。分批 + 补测之后单轮成本
-                             # 大约是「节点数 / 并发 × 单节点耗时」，600 个约 5~7 分钟；
-                             # 候选 1200 时补测一跑就是 10 分钟以上，订阅还没更新就过期了
+                             # 大约是「节点数 / 并发 × 单节点耗时」。
+                             # 2026-10-27 实测（同一份白名单，唯一变量是这个值）：
+                             #   600  → 可出网 146/600，发布 16 个，单轮 8 分 07 秒
+                             #   1000 → 可出网 172/1000，发布 31 个，单轮 15 分 30 秒
+                             # 发布量接近翻倍，代价是探测多花 7 分钟。计划任务 3 小时一轮，
+                             # 完全放得下。再往上（1200+）边际收益不明：1000 个候选里
+                             # 只有 172 个能出网、63 个测出网速，说明瓶颈已经转到
+                             # 「免费节点本身能用的就这么多」，不是名额。
+    # 
   whitelist:
     enabled: true
     file: "whitelist.json"
