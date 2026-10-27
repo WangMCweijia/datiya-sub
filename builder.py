@@ -516,7 +516,51 @@ def _unique_names(proxies):
     return proxies
 
 
-def rank_by_protocol(proxies, scores, high_ratio=0.75, cap=None, source_scores=None):
+def _protocol_key(proxy):
+    """协议名归一化（小写、缺失记 unknown），分组与查分共用同一个口径。"""
+    return str(proxy.get("type") or "").lower() or "unknown"
+
+
+def _round_robin_head(low, per_proto, weight):
+    """在低分区里给每个协议切出一小段「探索名额」，放到最前面。
+
+    **为什么必须这么做**：低分区内部按 `协议分 × 源因子` 排序，而协议分是固定的
+    （vless 15 > ss/trojan/hysteria2 5），只要 vless 的数量足够多（实测 4000+ 条），
+    ss/trojan/hy2 就永远排在后面、永远进不了候选名额。这不是「它们被评估后淘汰了」，
+    而是「根本没被评估过」——一旦出现以 ss/trojan 为主的优质源，会被静默丢掉。
+
+    **代价与取舍**：这些探索位会挤掉同等数量的 vless 名额，而历史实测 ss/trojan 可用率
+    ≈0%，所以纯轮转是在拿确定收益换不确定的可能性。因此只给「每个协议 per_proto 个」
+    的极小额度（默认 2），而不是按协议均分名额：主流分配仍由协议分决定，只有这一小撮
+    是用来**校验「低分协议是否真的一无是处」**的样本。额度设 0 即恢复旧的纯协议分排序。
+
+    组内顺序仍按 `优先级`（源因子），所以同一个协议里，来自高信誉源的节点先进。
+    """
+    if per_proto <= 0:
+        return low
+    groups = defaultdict(list)
+    for proxy in low:          # low 进来时已按优先级排好序
+        groups[_protocol_key(proxy)].append(proxy)
+    if len(groups) < 2:        # 只有一个协议，「轮转」没有意义
+        return low
+    # 轮转顺序：协议分高的先取（vless 先于 ss），同分时大组先（先把手里的样本用掉），
+    # 最后按协议名兜底，保证同一份输入每次得到同一个顺序（可复现、diff 稳定）。
+    order = sorted(groups, key=lambda key: (-weight.get(key, 0.0), -len(groups[key]), key))
+    head, taken = [], set()
+    for index in range(int(per_proto)):
+        for key in order:
+            members = groups[key]
+            if index < len(members):
+                head.append(members[index])
+                taken.add(id(members[index]))
+    if not head:
+        return low
+    tail = [proxy for proxy in low if id(proxy) not in taken]
+    return head + tail
+
+
+def rank_by_protocol(proxies, scores, high_ratio=0.75, cap=None, source_scores=None,
+                     explore_per_proto=0):
     """按协议「实测真实出网可用率」分区排序，让最能用的节点先占探测额度。
 
     依据 2026-10-21 在本机（国内家宽）用 mihomo 内核逐节点真实 CONNECT 的实测：
@@ -536,6 +580,9 @@ def rank_by_protocol(proxies, scores, high_ratio=0.75, cap=None, source_scores=N
     的命运完全不同。所以分区仍按**协议原始分**（不乘源因子：否则某个主力源临时 404
     就会把其他源的高可用节点一起打到低分区，白白饿死备份），分区内则按
     `协议分 × 源因子` 排优先级，额度不够时先砍掉低信誉源的节点。
+
+    `explore_per_proto`：低分区每个协议保底的探索名额（见 `_round_robin_head`）。
+    默认 0（不启用），线上由 `check.protocol_explore_per_type` 配置。
     """
     if not scores:
         return proxies
@@ -543,7 +590,7 @@ def rank_by_protocol(proxies, scores, high_ratio=0.75, cap=None, source_scores=N
     src_weight = {str(k).lower(): float(v) / 100.0 for k, v in (source_scores or {}).items()}
 
     def score(p):
-        return weight.get(str(p.get("type") or "").lower(), 0.0)
+        return weight.get(_protocol_key(p), 0.0)
 
     def src_factor(p):
         if not src_weight:
@@ -560,6 +607,7 @@ def rank_by_protocol(proxies, scores, high_ratio=0.75, cap=None, source_scores=N
     # 分区内按「协议分 × 源因子」排（sort 稳定，同分保持上游的存活次数/网速序）
     high.sort(key=priority)
     low.sort(key=priority)
+    low = _round_robin_head(low, int(explore_per_proto or 0), weight)
     quota = max(1, int((cap or len(proxies)) * float(high_ratio)))
     if len(high) <= quota:
         return high + low

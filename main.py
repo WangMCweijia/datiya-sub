@@ -463,6 +463,7 @@ def main():
                     high_ratio=float(check_cfg.get("high_score_quota", 0.75)),
                     cap=len(rest),
                     source_scores=check_cfg.get("source_score"),
+                    explore_per_proto=int(check_cfg.get("protocol_explore_per_type") or 0),
                 )
             rest = ledger.rank(rest, trusted_streak)
             candidate_cap = int(cand_cfg.get("max") or 0)
@@ -510,6 +511,7 @@ def main():
                     high_ratio=float(check_cfg.get("high_score_quota", 0.75)),
                     cap=candidate_cap or int(china_cfg.get("max_units") or 0),
                     source_scores=check_cfg.get("source_score"),
+                    explore_per_proto=int(check_cfg.get("protocol_explore_per_type") or 0),
                 )
             proxies = ledger.rank(proxies, trusted_streak)
             proxies = builder.diversify(
