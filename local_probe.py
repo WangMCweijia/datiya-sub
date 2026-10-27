@@ -47,6 +47,24 @@ ROOT = Path(__file__).resolve().parent
 TZ = timezone(timedelta(hours=8))
 log = logging.getLogger("datiya.local")
 
+_LOG_MAX_BYTES = 20 * 1024 * 1024
+
+# 计划任务用 pythonw.exe 跑（没有控制台），子进程默认会各自弹一个黑窗。
+# CREATE_NO_WINDOW 让 gh 和 mihomo 都不闪窗；非 Windows 上这个常量为 0。
+_NO_WINDOW = getattr(subprocess, "CREATE_NO_WINDOW", 0)
+
+
+def _rotate_log(path):
+    """日志超过 20MB 就滚成 .1。计划任务每 3 小时跑一轮，一年能涨到几十 MB。"""
+    try:
+        if path.exists() and path.stat().st_size > _LOG_MAX_BYTES:
+            backup = path.with_name(path.name + ".1")
+            if backup.exists():
+                backup.unlink()
+            path.rename(backup)
+    except OSError:
+        pass  # 日志滚不动不值得让整轮测速失败
+
 
 def now_stamp():
     return datetime.now(TZ).strftime("%Y-%m-%d %H:%M:%S %z")
@@ -92,7 +110,7 @@ def _gh(args, stdin=None, direct=False):
             env.pop(key, None)
     return subprocess.run(
         ["gh"] + args, input=stdin, text=True, capture_output=True,
-        encoding="utf-8", env=env,
+        encoding="utf-8", env=env, creationflags=_NO_WINDOW,
     )
 
 
@@ -206,6 +224,7 @@ def probe(candidates, exe, args, check_cfg):
                 [exe, "-d", str(workdir), "-f", str(config_path)],
                 stdout=logf,
                 stderr=subprocess.STDOUT,
+                creationflags=_NO_WINDOW,
             )
             try:
                 if not prober._wait_api(proc, base, timeout=90.0):
@@ -509,12 +528,28 @@ def main():
     parser.add_argument("--log-file", help="同时把日志写进文件（计划任务里 stdout 重定向不可靠）")
     args = parser.parse_args()
 
+    log_path = Path(args.log_file) if args.log_file else None
+    if log_path:
+        log_path.parent.mkdir(parents=True, exist_ok=True)
+        _rotate_log(log_path)
+
+    # pythonw.exe（计划任务用）没有控制台，sys.stdout / sys.stderr 是 None，
+    # report() 里的 print() 会直接抛 AttributeError。把它们接到日志文件上：
+    # 既让 print 安全，又让那份人读的测速摘要留在同一个文件里。
+    console_less = sys.stdout is None or sys.stderr is None
+    sink = None
+    if console_less:
+        sink = open(log_path or os.devnull, "a", encoding="utf-8", buffering=1)
+        if sys.stdout is None:
+            sys.stdout = sink
+        if sys.stderr is None:
+            sys.stderr = sink
+
     handlers = [logging.StreamHandler()]
-    if args.log_file:
-        # 计划任务里必须自己落盘：进程被外部终止时，重定向的 stdout/stderr 可能整段丢失
-        # （实测一次 0xC000013A 强杀后，日志停在最后一次 stderr 写入，连 bat 的收尾 echo 都没了）。
-        Path(args.log_file).parent.mkdir(parents=True, exist_ok=True)
-        handlers.append(logging.FileHandler(args.log_file, encoding="utf-8"))
+    if log_path and not console_less:
+        # FileHandler 只在有控制台时才加：pythonw 下 stderr 已经指向同一个文件，
+        # 再加一个 handler 会让每行日志重复两遍。
+        handlers.append(logging.FileHandler(log_path, encoding="utf-8"))
     logging.basicConfig(
         level=logging.DEBUG if args.verbose else logging.INFO,
         format="%(asctime)s %(levelname)-6s | %(message)s",

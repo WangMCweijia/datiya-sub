@@ -35,6 +35,17 @@ _WARMUP_BYTES = 256 * 1024
 # 稳态窗口下限（秒）。低于这个长度的采样对抖动太敏感，宁可多下几百 KB 也要测准。
 _MIN_STEADY_S = 1.0
 
+# 稳态窗口的**验收**门槛（比上面的目标小）：窗口里至少要有这么多字节、这么久，
+# 这个速率才可信。达不到就退回首字节口径。设这两条是因为一个真实的翻车：
+# 慢节点在 8 秒预算快用完时才凑够 256KB 热身，steady_base 刚设好就被超时分支 break，
+# 分母变成 0.01 秒 —— 订阅里因此冒出 `316.1MB/s`、`212.6MB/s` 这种不可能的数字。
+_VERIFY_WINDOW_BYTES = 256 * 1024
+_VERIFY_WINDOW_S = 0.5
+
+# 速率上限（KB/s）。本机到任何免费节点的实测天花板约 12MB/s；超过 100MB/s
+# 只可能是计时出了错，宁可判 0（名字显示 --）也不要让假值排到最前面。
+_RATE_CAP_KBPS = 100 * 1024
+
 
 def _alloc_ports(count):
     """分配 count 个互不相同的空闲端口，返回 (端口列表, 持有中的 socket 列表)。
@@ -292,15 +303,28 @@ def _measure_speed(port, url, budget_bytes, budget_ms):
         return 0.0
     if received <= 0 or first_byte_at is None:
         return 0.0
-    if steady_base and (received - steady_base[0]) > 0:
+    end = time.monotonic()
+    steady_ok = (
+        steady_base is not None
+        and (received - steady_base[0]) >= _VERIFY_WINDOW_BYTES
+        and (end - steady_base[1]) >= _VERIFY_WINDOW_S
+    )
+    if steady_ok:
         base_bytes, base_at = steady_base
     else:
-        # 连热身窗口都没跑完：只能退回首字节口径，但至少不含握手
+        # 稳态窗口没验收通过（热身刚结束就超时 / 下得太少）：退回首字节口径。
+        # 分母至少是整段下载时间，不会被 0.01 秒放大成几百 MB/s。
         base_bytes, base_at = 0, first_byte_at
-    elapsed = time.monotonic() - base_at
+    elapsed = end - base_at
     if elapsed <= 0:
         return 0.0
-    return (received - base_bytes) / elapsed / 1024
+    kbps = (received - base_bytes) / elapsed / 1024
+    if kbps > _RATE_CAP_KBPS:
+        # 退回全段平均再判一次：仍然离谱就说明这次采样本身无效。
+        kbps = received / max(1e-6, end - first_byte_at) / 1024
+        if kbps > _RATE_CAP_KBPS:
+            return 0.0
+    return kbps
 
 
 def _speed_filter(proxies, ports, cfg):
