@@ -27,6 +27,14 @@ import yaml
 
 log = logging.getLogger("datiya.probe")
 
+# 稳态测速要丢掉的慢启动窗口（字节）。64KB 太小、1MB 太大：
+# 公共代理实测前 200~400KB 的速率只有稳态的一半左右，取 256KB 既跨过慢启动
+# 又不会把「只能跑 100KB/s」的节点整个吞掉。
+_WARMUP_BYTES = 256 * 1024
+
+# 稳态窗口下限（秒）。低于这个长度的采样对抖动太敏感，宁可多下几百 KB 也要测准。
+_MIN_STEADY_S = 1.0
+
 
 def _alloc_ports(count):
     """分配 count 个互不相同的空闲端口，返回 (端口列表, 持有中的 socket 列表)。
@@ -151,39 +159,155 @@ def _delay(base, name, test_url, timeout_ms):
     return name, None
 
 
+# 测速端点的候选清单（第一个不够快就换下一个）。判据是「直连能不能跑满」：
+# 2026-10-25 本机直连实测 dl.google.com 24 700 KB/s、speed.cloudflare.com 308~446 KB/s。
+# 这个差距只影响**直连那一段**（经代理访问时两端都在境外，差距没这么大），所以
+# 换端点不是提速的关键，但它决定了预跑与机房侧测量的上限，且明文 HTTP + 大文件 +
+# 不跳转能避免 TLS-in-TLS 握手和 302 被算进速率。
+DEFAULT_SPEED_URLS = [
+    "http://dl.google.com/dl/android/studio/install/2023.1.1.28/"
+    "android-studio-2023.1.1.28-windows.exe",
+    "https://speed.cloudflare.com/__down?bytes=50000000",
+]
+
+
+def _speed_urls(cfg):
+    """从配置里取测速端点候选：优先 speed_urls（列表），兼容旧的 speed_url（单条）。"""
+    urls = [u for u in (cfg.get("speed_urls") or []) if u]
+    if not urls:
+        single = cfg.get("speed_url")
+        if single:
+            return [single]
+        return list(DEFAULT_SPEED_URLS)
+    return urls
+
+
+def _direct_session():
+    """不读环境变量的 Session，专供「必须直连」的测量。
+
+    跑在用户自己的机器上时（local_probe），系统里通常装着 Clash/v2ray，
+    会导出 `HTTP_PROXY`；CI 沙盒同样会注入。`requests` 默认 `trust_env=True`
+    会把这些代理用上，于是「直连预跑端点」实际变成「经用户代理访问端点」：
+    测出来的既不是这条线的能力，也不是节点的能力，整条因果链就断了。
+    更糟的是代理本身不可用时全部端点都被判失败，这一轮的测速会被静默跳过
+    （2026-10-27 实测：沙盒注入的 127.0.0.1:57548 连不上，
+    所有端点 `RemoteDisconnected`，speed_url 退回 None）。
+    """
+    session = requests.Session()
+    session.trust_env = False
+    return session
+
+
+def _pick_speed_url(urls, per_url_s=4.0):
+    """直连预跑一遍候选端点，挑「小窗口内下得最多」的那个。
+
+    只测 4 秒、不经过任何代理：目的是排除「端点自身就慢」这种系统性误差。
+    全部不可达时返回第一个，交给调用方按既定流程失败告警。
+    """
+    best, best_bytes = None, -1
+    for url in urls:
+        got = 0
+        try:
+            with _direct_session().get(
+                url,
+                stream=True,
+                timeout=(4, per_url_s),
+                headers={"User-Agent": "Mozilla/5.0"},
+            ) as resp:
+                if resp.status_code != 200:
+                    log.warning("测速端点 %s 返回 %s，跳过", url, resp.status_code)
+                    continue
+                start = time.monotonic()
+                for chunk in resp.iter_content(65536):
+                    got += len(chunk)
+                    if time.monotonic() - start >= per_url_s:
+                        break
+        except requests.RequestException as exc:
+            log.warning("测速端点 %s 直连失败（%s），跳过", url, type(exc).__name__)
+            continue
+        if got > best_bytes:
+            best, best_bytes = url, got
+    if best:
+        log.info(
+            "测速端点选定 %s（直连 4 秒下了 %.1f MB ≈ %.0f KB/s）",
+            best,
+            best_bytes / 1e6,
+            best_bytes / per_url_s / 1024,
+        )
+        return best
+    return urls[0] if urls else None
+
+
 def _measure_speed(port, url, budget_bytes, budget_ms):
-    """第二轮：经本地端口真实下载，返回 KB/s（失败返回 0）。"""
+    """第二轮：经本地端口真实下载，返回 KB/s（失败返回 0）。
+
+    只算**稳态速率**，两条都和旧口径不同：
+
+    1. 计时从**首字节到达**开始，不含 TCP+TLS 握手。旧实现把握手算进分母，
+       而公共代理的 CONNECT 握手实测 0.8~3.6 秒，6 秒预算里白白扣掉一大截，
+       越慢的节点被扣得越狠，快慢被压缩到一起。
+    2. 丢掉前 `_WARMUP_BYTES` 的慢启动窗口再计时。TCP 慢启动 + 代理转发缓冲
+       让我们看到的前几百 KB 几乎必然偏慢，那一段不代表可持续吞吐。
+
+    代价是「只连得上、下不了多少」的节点会得到 0，这正是我们要区分的那一类。
+    """
     proxy = f"http://127.0.0.1:{port}"
-    start = time.monotonic()
+    started = time.monotonic()
     received = 0
+    first_byte_at = None
+    warm_bytes = min(_WARMUP_BYTES, max(1, budget_bytes // 4))
+    steady_base = None      # (bytes, mono) 稳态窗口起点
+    # trust_env=False：显式 proxies 虽然优先，但环境里的 NO_PROXY 仍可能把
+    # 127.0.0.1 排除在代理之外，那样就是「直连测速」，测的是本机带宽不是节点带宽。
+    session = _direct_session()
     try:
-        with requests.get(
+        with session.get(
             url,
             proxies={"http": proxy, "https": proxy},
             stream=True,
             timeout=(5, max(1.0, budget_ms / 1000)),
+            headers={"User-Agent": "Mozilla/5.0"},
         ) as resp:
             if resp.status_code != 200:
                 return 0.0
-            for chunk in resp.iter_content(16384):
+            for chunk in resp.iter_content(65536):
+                if not chunk:
+                    continue
+                now = time.monotonic()
+                if first_byte_at is None:
+                    first_byte_at = now
                 received += len(chunk)
-                if received >= budget_bytes:
+                if steady_base is None and received >= warm_bytes:
+                    steady_base = (received, now)
+                # 字节预算不是为了省流量，是为了别在快节点上白等；但**稳态窗口
+                # 不足 1 秒时就提前收工，测出来的数会被慢启动拖低**（合成 5000KB/s
+                # 流实测只测出 3573KB/s，-29%）。所以两个条件都满足才停。
+                if received >= budget_bytes and (
+                    steady_base is None or (now - steady_base[1]) >= _MIN_STEADY_S
+                ):
                     break
-                if (time.monotonic() - start) * 1000 >= budget_ms:
+                if (now - started) * 1000 >= budget_ms:
                     break
     except requests.RequestException:
         return 0.0
-    elapsed = time.monotonic() - start
-    if received <= 0 or elapsed <= 0:
+    if received <= 0 or first_byte_at is None:
         return 0.0
-    return received / elapsed / 1024
+    if steady_base and (received - steady_base[0]) > 0:
+        base_bytes, base_at = steady_base
+    else:
+        # 连热身窗口都没跑完：只能退回首字节口径，但至少不含握手
+        base_bytes, base_at = 0, first_byte_at
+    elapsed = time.monotonic() - base_at
+    if elapsed <= 0:
+        return 0.0
+    return (received - base_bytes) / elapsed / 1024
 
 
 def _speed_filter(proxies, ports, cfg):
     """第二轮：真实下载测速，剔除下载失败或网速过低的节点。"""
     if not proxies:
         return proxies
-    url = cfg.get("speed_url")
+    url = _pick_speed_url(_speed_urls(cfg))
     if not url:
         return proxies
 

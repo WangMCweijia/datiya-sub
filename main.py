@@ -553,12 +553,16 @@ def main():
         return 1
 
     now = datetime.now(timezone(timedelta(hours=8)))
+    # 网速口径要跟着订阅一起发出去：只有白名单真的用上了，名字里的数字才是
+    # 「这条线实测」；回退到机房探测时必须让读者知道那些数只是估算。
     meta = {
         "updated_at": now.strftime("%Y-%m-%d %H:%M:%S %z"),
         "alive": len(proxies),
         "total": total,
         "days": len(ok_days),
         "site_enabled": site_on,
+        "wl_age": whitelist.age_hours(wl_data) if (wl_used and wl_data) else None,
+        "wl_host": (wl_data or {}).get("probe_host") if wl_used else None,
     }
     # 订阅里不能出现 _speed_kbps / _streak 这类内部字段（mihomo 会拒绝整份配置）；
     # 但账本结算要用到它们，所以先造一份干净副本用于发布与校验。

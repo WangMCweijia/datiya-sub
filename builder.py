@@ -568,9 +568,11 @@ def rank_by_protocol(proxies, scores, high_ratio=0.75, cap=None, source_scores=N
 def speed_kbps(proxy):
     """节点实测网速（KB/s），0 表示没测出。
 
-    两套来源按优先级读：本机探测回写的 `_speed_kbps`，以及白名单条目带的 `_wl_kbps`。
+    两套来源按优先级读：**本机探测**回写的 `_wl_kbps` 优先，其次才是机房探测的
+    `_speed_kbps`。顺序不能反——机房测的是「节点自身有多少带宽」，本机测的是
+    「从你这条线能跑多快」，后者才是用户能感知的那个数；两者实测相关性只有 0.1 左右。
     """
-    return float(proxy.get("_speed_kbps") or proxy.get("_wl_kbps") or 0)
+    return float(proxy.get("_wl_kbps") or proxy.get("_speed_kbps") or 0)
 
 
 def sort_by_speed(proxies, cfg=None):
@@ -701,13 +703,39 @@ def node_marker(proxy, limit=20):
     return text or fingerprint(proxy)[:6]
 
 
-def _speed_text(kbps):
-    """网速 → 名字里的可读写法（KB/s 或 MB/s）。"""
+def _speed_source_line(meta):
+    """订阅头部的一句话：名字里那些网速数字到底是谁测的。
+
+    这件事必须写清楚，因为两种来源的可信度差着量级（2026-10-25 对 240 个节点
+    做全量比对，机房标注与本机实测的 Spearman 相关系数只有 +0.107）。放在头部
+    而不是散落在名字里，是为了让「这批数字能不能当承诺看」一眼可判。
+    """
+    age = meta.get("wl_age")
+    if age is None:
+        return (
+            "网速=机房估算（本机实测白名单不可用/已过期）：带 ~ 的数字仅供量级参考，"
+            "不能当承诺；顺序也由它决定，挑节点请以自己的实测为准"
+        )
+    host = meta.get("wl_host") or "本机"
+    return (
+        "网速=本机实测（%s，%.1f 小时前）：名字里的数字就是从这条线走代理测到的"
+        "可持续吞吐，排序也按它" % (host, float(age))
+    )
+
+
+def _speed_text(kbps, approx=False):
+    """网速 → 名字里的可读写法（KB/s 或 MB/s）。
+
+    `approx=True` 时加 `~` 前缀，表示这是**机房测出来的参考值**，不是从你这条线
+    实测的。两者的差距实测很大（2026-10-25，240 个节点全量比对：标注 7.2MB/s 的
+    节点从本机实测只有 31KB/s，标注与实测的 Spearman 相关系数仅 +0.107）。
+    """
+    prefix = "~" if approx else ""
     if kbps <= 0:
         return "--"
     if kbps < 1024:
-        return "%dKB/s" % int(kbps)
-    return "%.1fMB/s" % (kbps / 1024.0)
+        return "%s%dKB/s" % (prefix, int(kbps))
+    return "%s%.1fMB/s" % (prefix, kbps / 1024.0)
 
 
 def display_name(proxy, cfg=None):
@@ -718,9 +746,13 @@ def display_name(proxy, cfg=None):
     """
     cfg = cfg or {}
     flag, region = region_label(proxy.get("name"))
+    local_kbps = float(proxy.get("_wl_kbps") or 0)
+    speed = speed_kbps(proxy)
+    # 只有白名单（本机真实探测）给出的数才配当「承诺」写进名字；机房测的加 `~`。
+    approx = bool(cfg.get("mark_untrusted", True)) and speed > 0 and local_kbps <= 0
     parts = [
         flag + region,
-        _speed_text(speed_kbps(proxy)),
+        _speed_text(speed, approx=approx),
         node_marker(proxy, limit=int(cfg.get("marker_max", 20) or 20)),
     ]
     # 分隔符不带空格：Clash 客户端普遍在 30~40 个字符处截断，省下的字符留给
@@ -815,6 +847,10 @@ def build_clash(proxies, clash_cfg, meta):
             "interval": interval,
             "tolerance": 50,
             "timeout": test_timeout,
+            # lazy：没被选中就不测。8 个 url-test 组 × 全量成员，每 5 分钟要发近 500 个
+            # 探测请求穿过这些公共代理；在一条只有几百 KB/s 的线路上，健康检查本身
+            # 就在抢用户带宽，还会让代理方按频次限流。懒加载把这份噪声降到零。
+            "lazy": True,
             "proxies": nodes,
         }
         for region, nodes in sorted(
@@ -822,11 +858,41 @@ def build_clash(proxies, clash_cfg, meta):
         )
     ]
 
+    # 负载均衡组：把发布顺序最前（实测最快）的 N 个节点按目标域名分散开。
+    # 用 consistent-hashing 而不是 round-robin：同一域名固定落在同一节点，
+    # 登录态/会话不会在节点间漂移。
+    # 收益要说实话——2026-10-25 本机实测：12 条连接分散到 12 个中等节点合计
+    # 4 732KB/s，全压在 1 个节点 3 882KB/s，只有 1.2 倍。原因是免费代理的瓶颈在
+    # **单条连接的吞吐**（每条 300~600KB/s），而不是节点总带宽（一个节点开 12 条
+    # 连接能跑出 3.8MB/s）。它真正的价值是「某个节点中途挂了不至于全断」。
+    balance_nodes = int(clash_cfg.get("balance_nodes", 24) or 0)
+    fast = names[:balance_nodes] if balance_nodes > 0 else []
+    balance_group = None
+    if len(fast) >= 3:
+        balance_group = {
+            "name": "⚡ 负载均衡",
+            "type": "load-balance",
+            "strategy": "consistent-hashing",
+            "url": test_url,
+            "interval": interval,
+            "lazy": True,
+            "timeout": test_timeout,
+            "proxies": fast,
+        }
+
+    # 顺序即默认项：第一个是默认选中。自动选择放第一位（行为与旧版一致，风险最小），
+    # 负载均衡排第二，需要时手动切——实测收益只有 1.2 倍（12 条连接分散到 12 个
+    # 中等节点 4 732KB/s vs 全压在 1 个节点 3 882KB/s），真正决定快慢的仍是
+    # 「节点的单连接吞吐」，别把它当银弹。
+    select_members = ["♻️ 自动选择", "DIRECT"]
+    if balance_group:
+        select_members.insert(1, balance_group["name"])
     groups = [
         {
             "name": "🚀 节点选择",
             "type": "select",
-            "proxies": ["♻️ 自动选择", "DIRECT"] + [g["name"] for g in region_groups] + names,
+            "proxies": select_members
+            + [g["name"] for g in region_groups] + names,
         },
         {
             "name": "♻️ 自动选择",
@@ -835,9 +901,14 @@ def build_clash(proxies, clash_cfg, meta):
             "interval": interval,
             "tolerance": 50,
             "timeout": test_timeout,
-            "proxies": names,
+            "lazy": True,
+            # 自动选择只在「测出过网速的头部节点」里挑：全部 240 个成员一起测时，
+            # 它按 TTFB 选出来的常是「延迟低但带宽只有 20KB/s」的节点。
+            "proxies": names[: max(24, balance_nodes)] if balance_nodes > 0 else names,
         },
     ]
+    if balance_group:
+        groups.append(balance_group)
     groups.extend(region_groups)
 
     config = {
@@ -847,6 +918,13 @@ def build_clash(proxies, clash_cfg, meta):
         "mode": "rule",
         "log-level": "info",
         "external-controller": clash_cfg.get("external_controller", "127.0.0.1:9090"),
+        # 内核级提速（对每个连接都生效，与节点质量无关）：
+        # tcp-concurrent：DNS 返回多个 IP 时并发连、取最快，省掉「先试一个不通的 IP」。
+        # unified-delay：延迟统计扣掉握手里的固定开销，测出来的数值才可比。
+        # 注意 **不要**加 global-client-fingerprint：mihomo 1.19 已移除该键，
+        # 加载时直接报 error（实测 v1.19.33），指纹只能写在每个 proxy 上。
+        "tcp-concurrent": True,
+        "unified-delay": True,
         "dns": _dns_config(),
         "proxies": clean,
         "proxy-groups": groups,
@@ -859,10 +937,12 @@ def build_clash(proxies, clash_cfg, meta):
         if meta.get("site_enabled", True)
         else "，仅附加源"
     )
+    speed_line = _speed_source_line(meta)
     header = (
         "# 由 datiya-sub 自动生成，请勿手动修改\n"
         f"# 更新于 {meta['updated_at']} | 可用节点 {meta['alive']} 个"
         f"（候选 {meta['total']} 个{scope}）\n"
+        + (f"# {speed_line}\n" if speed_line else "")
     )
     body = yaml.safe_dump(
         config,
@@ -875,14 +955,40 @@ def build_clash(proxies, clash_cfg, meta):
 
 
 def _dns_config():
+    """DNS：fake-ip + 国内解析，**不配 fallback**。
+
+    旧配置里 `fallback` 指向 https://1.1.1.1/dns-query 和 https://dns.google/dns-query。
+    2026-10-25 在本机实测这两个 DoH：1.1.1.1 连续 5 秒无响应、dns.google 20 秒超时。
+    fallback 一旦被触发就要干等它超时，而 fake-ip 模式下这个等待落在**每条新连接的解析**上，
+    表现就是「打开一个没缓存过的站点，先卡 5~20 秒」——这比节点本身慢更伤体验。
+
+    fake-ip 模式下代理流量的域名由远端（代理服务器侧）解析，本地并不需要
+    「国内 DNS 被污染 → 换 DoH 再问一遍」这套逻辑，fallback 纯属负担。
+
+    补上 proxy-server-nameserver：节点域名必须用国内 DNS 快速解析，
+    否则会落到上面那条不可达的 fallback 上，首连就慢。
+    """
     return {
         "enable": True,
         "ipv6": False,
         "enhanced-mode": "fake-ip",
         "fake-ip-range": "198.18.0.1/16",
-        "fake-ip-filter": ["*.lan", "*.local", "localhost.ptlogin2.qq.com"],
+        "fake-ip-filter": [
+            "*.lan",
+            "*.local",
+            "*.localhost",
+            "localhost.ptlogin2.qq.com",
+            "+.msftconnecttest.com",
+            "+.msftncsi.com",
+            "time.*.com",
+            "ntp.*.com",
+        ],
+        # 内核自己的引导解析（解析 nameserver 里的域名用）
+        "default-nameserver": ["223.5.5.5", "119.29.29.29"],
+        # 直连流量的解析：国内公共 DNS，任一可用即可
         "nameserver": ["223.5.5.5", "119.29.29.29"],
-        "fallback": ["https://1.1.1.1/dns-query", "https://dns.google/dns-query"],
+        # 节点（server 字段是域名时）的解析：同样走国内，避免绕远
+        "proxy-server-nameserver": ["223.5.5.5", "119.29.29.29"],
     }
 
 

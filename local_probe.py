@@ -179,7 +179,9 @@ def probe(candidates, exe, args, check_cfg):
     test_url = args.test_url or check_cfg.get("test_url") or "https://www.gstatic.com/generate_204"
     timeout_ms = int(args.timeout_ms or check_cfg.get("timeout_ms") or 3000)
     concurrency = int(args.concurrency or check_cfg.get("concurrency") or 50)
-    speed_url = args.speed_url or check_cfg.get("speed_url")
+    # 端点先按「本机直连能不能跑满」预跑一遍再选定：白名单的全部意义就是
+    # 「从国内这条线能跑多快」，端点自己只有 300KB/s 的话，测出来全是一片慢。
+    speed_url = args.speed_url or prober._pick_speed_url(prober._speed_urls(check_cfg))
     speed_bytes = int(check_cfg.get("speed_bytes") or 1000000)
     speed_ms = int(check_cfg.get("speed_timeout_ms") or 5000)
     speed_conc = int(check_cfg.get("speed_concurrency") or 12)
@@ -448,9 +450,20 @@ def report(payload, results, rounds):
     print("按协议：")
     for kind, (ok, count) in sorted(by_type.items(), key=lambda kv: -kv[1][1]):
         print(f"  {kind:10s} {ok:3d}/{count:3d}  {ok / count * 100:5.1f}%")
-    fast = [e for e in entries.values() if float(e.get("kbps") or 0) > 0][:8]
+    # 只看本轮、并且**必须排序**：entries 是累计表（含历史轮次），
+    # 直接取前 8 个打印出来的是字典插入顺序，第一行可能是某个 47KB/s 的老条目，
+    # 让人误判「这一轮没测出快的」。
+    fast = sorted(
+        (
+            entry
+            for entry in entries.values()
+            if float(entry.get("kbps") or 0) > 0
+            and int(entry.get("round") or 0) == int(rounds)
+        ),
+        key=lambda entry: -float(entry.get("kbps") or 0),
+    )[:8]
     if fast:
-        print("最快的几个（KB/s）：")
+        print("本轮最快的几个（KB/s）：")
         for entry in fast:
             print(f"  {entry['kbps']:8.0f}  {entry['delay']:5d}ms  "
                   f"{entry['type']:8s} {entry['line']}")
@@ -516,8 +529,13 @@ def main():
         round_no = int(old.get("probe_rounds") or 0) + 1
         entries, pruned = merge(old, results, args.keep_days, args.dead_after, round_no)
         payload = build_payload(entries, host, round_no)
+        # newline="\n" 不能省：Windows 上文本模式会把每个 \n 翻成 \r\n，而 CI（Linux）
+        # 和 GitHub 上的 blob 都是 LF。不统一的话本地 182KB 的文件在仓库里被当成
+        # 「整文件重写」，既污染 diff 又让 push_rest.py 的哈希比对全部报警。
         wl_path.write_text(
-            json.dumps(payload, ensure_ascii=False, indent=1) + "\n", encoding="utf-8"
+            json.dumps(payload, ensure_ascii=False, indent=1) + "\n",
+            encoding="utf-8",
+            newline="\n",
         )
         report(payload, results, payload["probe_rounds"])
         log.info("已写入 %s（历史清理 %d 条）", wl_path.name, pruned)
