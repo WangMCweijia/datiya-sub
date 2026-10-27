@@ -201,8 +201,8 @@ def render_page(status, out_cfg):
                 f"<tr><th>存活</th><td>名字里第二个数字是已存活时长（首次测通至今，"
                 f"带 ~ 为按探测轮次推算）；当前达标老黄牛 "
                 f"<strong>{rank.get('veterans', 0)}</strong> 个，存活中位 "
-                f"{float(rank.get('median_age_h') or 0):.0f} 小时、"
-                f"最久 {float(rank.get('oldest_age_h') or 0):.0f} 小时</td></tr>"
+                f"{float(rank.get('median_age_h') or 0):.1f} 小时、"
+                f"最久 {float(rank.get('oldest_age_h') or 0):.1f} 小时</td></tr>"
             )
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
@@ -556,7 +556,7 @@ def main():
         rank_cfg.get("veteran_days", 0),
         rank_cfg.get("veteran_kbps", 0),
         rank_info.get("veterans", 0),
-        "；网速中位 %.0fKB/s，最好 %.0fKB/s，测出网速 %d/%d，存活中位 %.0fh"
+        "；网速中位 %.0fKB/s，最好 %.0fKB/s，测出网速 %d/%d，存活中位 %.1fh"
         % (
             rank_info.get("median_kbps", 0),
             rank_info.get("best_kbps", 0),

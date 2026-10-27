@@ -672,10 +672,16 @@ def _age_text(hours, estimated=False):
 
     名字长度是硬约束（Clash 客户端普遍 30~40 字符截断），所以单位取最短的
     `d`/`h`，不写「天」「小时」。
+
+    不足 1 小时写 `<1h` 而不是 `0h`：`0h` 看起来像「取值为 0 的 bug」，实际含义是
+    「刚测通、还没满一小时」。候选池扩容后每轮都会有一批新节点落在这个区间，
+    是**正常且最常见**的取值之一，不能让它显示成故障的样子。
     """
     prefix = "~" if estimated else ""
     if hours >= 24:
         return "%s%dd" % (prefix, int(hours // 24))
+    if hours < 1:
+        return "%s<1h" % prefix
     return "%s%dh" % (prefix, int(hours))
 
 
