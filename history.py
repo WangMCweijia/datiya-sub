@@ -175,6 +175,17 @@ class Ledger:
                 rec["last_fail"] = stamp
                 dropped += 1
 
+        # 老账本（存活时长功能上线前）没有 first_seen。给**仍然连续存活**（streak>0）
+        # 的记录补上 last_seen：那是它最后一次发布的真实时间，当起点只是偏保守，
+        # 不会像「补 now」那样把一段长寿历史整段抹掉。
+        # 只用 last_seen 而不按 streak 推算跨度：CI 由 cron（每 2 小时）与 push 共同
+        # 触发，轮间隔并不固定，「次数 × 间隔」会把「一小时连跑五轮」算成一天。
+        # 真正更早的起点由本机白名单侧（3 小时一轮，可推算）提供，见 builder.node_age_hours。
+        for rec in nodes.values():
+            if not rec.get("first_seen") and rec.get("last_seen"):
+                if int(rec.get("streak") or 0) > 0:
+                    rec["first_seen"] = rec["last_seen"]
+
         keep_cutoff = now - timedelta(days=MAX_AGE_DAYS)
         new_cutoff = now - timedelta(hours=STALE_HOURS_NEW)
         fail_cutoff = now - timedelta(days=STALE_DAYS_FAIL)
