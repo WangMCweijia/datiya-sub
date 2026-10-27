@@ -27,23 +27,19 @@ import yaml
 
 log = logging.getLogger("datiya.probe")
 
-# 稳态测速要丢掉的慢启动窗口（字节）。64KB 太小、1MB 太大：
-# 公共代理实测前 200~400KB 的速率只有稳态的一半左右，取 256KB 既跨过慢启动
-# 又不会把「只能跑 100KB/s」的节点整个吞掉。
-_WARMUP_BYTES = 256 * 1024
+# 速率不能只看「首字节到结束」的平均值，也不能只看一个短窗口：本机 mihomo 的入站
+# 会把上游刚到的数据成块吐给客户端，某个 0.1 秒窗口里能读出 300MB/s 这种不可能的值
+# （200Mbps 家宽跑不出 35MB/s）。所以改成**末段多采样求中位数**：
+_RATE_WINDOW_S = 2.5       # 只看最后这段窗口，天然排除 TCP 慢启动
+_RATE_MIN_DT = 0.15        # 相邻样本间隔下限，避免 10ms 抖动样本自乘出假值
+_RATE_MIN_SAMPLES = 3      # 少于这个数的样本不足以下结论，退回首字节口径
 
-# 稳态窗口下限（秒）。低于这个长度的采样对抖动太敏感，宁可多下几百 KB 也要测准。
-_MIN_STEADY_S = 1.0
+# 单节点下载的硬上限（字节）。快节点按 3 秒计时会拉走几十 MB，
+# 必须有个止损点，否则一轮测速的流量按 GB 计。
+_HARD_MAX_BYTES = 12 * 1024 * 1024
 
-# 稳态窗口的**验收**门槛（比上面的目标小）：窗口里至少要有这么多字节、这么久，
-# 这个速率才可信。达不到就退回首字节口径。设这两条是因为一个真实的翻车：
-# 慢节点在 8 秒预算快用完时才凑够 256KB 热身，steady_base 刚设好就被超时分支 break，
-# 分母变成 0.01 秒 —— 订阅里因此冒出 `316.1MB/s`、`212.6MB/s` 这种不可能的数字。
-_VERIFY_WINDOW_BYTES = 256 * 1024
-_VERIFY_WINDOW_S = 0.5
-
-# 速率上限（KB/s）。本机到任何免费节点的实测天花板约 12MB/s；超过 100MB/s
-# 只可能是计时出了错，宁可判 0（名字显示 --）也不要让假值排到最前面。
+# 速率上限（KB/s）。超过 100MB/s 只可能是计时出了错，宁可判 0（名字显示 --）
+# 也不要让假值排到最前面。
 _RATE_CAP_KBPS = 100 * 1024
 
 
@@ -252,22 +248,23 @@ def _pick_speed_url(urls, per_url_s=4.0):
 def _measure_speed(port, url, budget_bytes, budget_ms):
     """第二轮：经本地端口真实下载，返回 KB/s（失败返回 0）。
 
-    只算**稳态速率**，两条都和旧口径不同：
+    只算**可持续速率**，三条都和最早那版不同：
 
     1. 计时从**首字节到达**开始，不含 TCP+TLS 握手。旧实现把握手算进分母，
        而公共代理的 CONNECT 握手实测 0.8~3.6 秒，6 秒预算里白白扣掉一大截，
        越慢的节点被扣得越狠，快慢被压缩到一起。
-    2. 丢掉前 `_WARMUP_BYTES` 的慢启动窗口再计时。TCP 慢启动 + 代理转发缓冲
-       让我们看到的前几百 KB 几乎必然偏慢，那一段不代表可持续吞吐。
+    2. 只取**末段 `_RATE_WINDOW_S` 窗口**内的样本，天然排除 TCP 慢启动。
+    3. 窗口内按 `_RATE_MIN_DT` 切成若干段，取**中位数**而不是平均。
+       本机 mihomo 入站会把上游刚到的数据成块吐出，某个 0.1 秒窗口能算出
+       300MB/s（200Mbps 家宽根本跑不到），平均值压不住这种突发，中位数可以。
 
     代价是「只连得上、下不了多少」的节点会得到 0，这正是我们要区分的那一类。
     """
     proxy = f"http://127.0.0.1:{port}"
     started = time.monotonic()
+    samples = []            # [(mono, 累计字节)]，用来算末段中位速率
     received = 0
     first_byte_at = None
-    warm_bytes = min(_WARMUP_BYTES, max(1, budget_bytes // 4))
-    steady_base = None      # (bytes, mono) 稳态窗口起点
     # trust_env=False：显式 proxies 虽然优先，但环境里的 NO_PROXY 仍可能把
     # 127.0.0.1 排除在代理之外，那样就是「直连测速」，测的是本机带宽不是节点带宽。
     session = _direct_session()
@@ -288,14 +285,12 @@ def _measure_speed(port, url, budget_bytes, budget_ms):
                 if first_byte_at is None:
                     first_byte_at = now
                 received += len(chunk)
-                if steady_base is None and received >= warm_bytes:
-                    steady_base = (received, now)
-                # 字节预算不是为了省流量，是为了别在快节点上白等；但**稳态窗口
-                # 不足 1 秒时就提前收工，测出来的数会被慢启动拖低**（合成 5000KB/s
-                # 流实测只测出 3573KB/s，-29%）。所以两个条件都满足才停。
-                if received >= budget_bytes and (
-                    steady_base is None or (now - steady_base[1]) >= _MIN_STEADY_S
-                ):
+                samples.append((now, received))
+                # 字节预算 + 时长双条件：字节够了但还没攒够一个完整窗口就先别停，
+                # 否则分母被压短、数被抬高（早期就是这样测出 316MB/s 的）。
+                if received >= budget_bytes and (now - first_byte_at) >= _RATE_WINDOW_S + 0.5:
+                    break
+                if received >= _HARD_MAX_BYTES:
                     break
                 if (now - started) * 1000 >= budget_ms:
                     break
@@ -304,27 +299,41 @@ def _measure_speed(port, url, budget_bytes, budget_ms):
     if received <= 0 or first_byte_at is None:
         return 0.0
     end = time.monotonic()
-    steady_ok = (
-        steady_base is not None
-        and (received - steady_base[0]) >= _VERIFY_WINDOW_BYTES
-        and (end - steady_base[1]) >= _VERIFY_WINDOW_S
-    )
-    if steady_ok:
-        base_bytes, base_at = steady_base
-    else:
-        # 稳态窗口没验收通过（热身刚结束就超时 / 下得太少）：退回首字节口径。
-        # 分母至少是整段下载时间，不会被 0.01 秒放大成几百 MB/s。
-        base_bytes, base_at = 0, first_byte_at
-    elapsed = end - base_at
-    if elapsed <= 0:
-        return 0.0
-    kbps = (received - base_bytes) / elapsed / 1024
-    if kbps > _RATE_CAP_KBPS:
-        # 退回全段平均再判一次：仍然离谱就说明这次采样本身无效。
-        kbps = received / max(1e-6, end - first_byte_at) / 1024
-        if kbps > _RATE_CAP_KBPS:
+
+    kbps = _median_rate_kbps(samples)
+    if kbps is None:
+        # 样本不足（慢节点在预算内只下了几百 KB）：退回首字节口径，
+        # 分母是整段下载时间，不会被 0.01 秒放大。
+        elapsed = end - first_byte_at
+        if elapsed <= 0:
             return 0.0
+        kbps = received / elapsed / 1024
+    if kbps > _RATE_CAP_KBPS:
+        return 0.0
     return kbps
+
+
+def _median_rate_kbps(samples, window_s=None, min_dt=None, min_samples=None):
+    """末段窗口内分段速率的中位数（KB/s）。样本不足返回 None。"""
+    window_s = _RATE_WINDOW_S if window_s is None else window_s
+    min_dt = _RATE_MIN_DT if min_dt is None else min_dt
+    min_samples = _RATE_MIN_SAMPLES if min_samples is None else min_samples
+    if not samples:
+        return None
+    t_end = samples[-1][0]
+    seg = [s for s in samples if s[0] >= t_end - window_s]
+    if len(seg) < 2:
+        return None
+    rates = []
+    last_t, last_b = seg[0]
+    for t, b in seg[1:]:
+        if t - last_t >= min_dt:
+            rates.append((b - last_b) / (t - last_t))
+            last_t, last_b = t, b
+    if len(rates) < min_samples:
+        return None
+    rates.sort()
+    return rates[len(rates) // 2] / 1024
 
 
 def _speed_filter(proxies, ports, cfg):
