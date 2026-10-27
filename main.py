@@ -130,11 +130,18 @@ def render_page(status, out_cfg):
     wl = status.get("whitelist") or {}
     if wl.get("used"):
         rejected = wl.get("rejected") or {}
+        floor = wl.get("min_kbps") or 0
+        floor_txt = (
+            f"；网速下限 {floor:g}KB/s（测不出速度的同样剔除）"
+            if floor and not wl.get("floor_bypassed")
+            else ""
+        )
         wl_row = (
             f"<tr><th>国内实测</th><td>{wl.get('probe_host') or '本机'}"
             f"真实代理测速白名单，{wl.get('age_hours') or 0:.1f} 小时前生成；"
             f"剔除 失效 {rejected.get('dead', 0)} · 不稳定 {rejected.get('unstable', 0)}"
-            f" · 过慢 {rejected.get('slow', 0)}</td></tr>"
+            f" · 过慢 {rejected.get('slow', 0)}"
+            f" · 测不出速度 {rejected.get('unmeasured', 0)}{floor_txt}</td></tr>"
         )
     proto_row = ""
     if status.get("protocols"):
@@ -360,7 +367,12 @@ def main():
     )
 
     china_cfg = check_cfg.get("china_check") or {}
-    wl_cfg = check_cfg.get("whitelist") or {}
+    wl_cfg = dict(check_cfg.get("whitelist") or {})
+    # 网速下限只留一个口径：`check.min_speed_kbps`（白名单与境外测速两条路径共用）。
+    # 两处各写一个数字的结果是「改了白名单那个，回退到 Globalping 时又换了一套标准」，
+    # 用户看到的节点集合会随「白名单是否新鲜」跳变，很难解释。
+    if not wl_cfg.get("min_kbps"):
+        wl_cfg["min_kbps"] = check_cfg.get("min_speed_kbps", 0)
     cand_cfg = check_cfg.get("candidates") or {}
     # 发布顺序：只按实测网速（见 builder.sort_by_speed）。只影响订阅里
     # 节点的排列顺序，不淘汰节点，所以两条测活分支（白名单 / Globalping）都能用。
@@ -391,25 +403,36 @@ def main():
             proxies, wl_stats = whitelist.apply(full_pool, wl_data, wl_cfg)
             log.info(
                 "白名单过滤：去重后 %d → %d（命中 %d；标记失效 %d、不稳定 %d、"
-                "过慢 %d、超出实测窗口 %d；不在白名单的 %d 个未经验证，一律不发）",
+                "过慢 %d、测不出网速 %d、超出实测窗口 %d；不在白名单的 %d 个未经验证，"
+                "一律不发）",
                 deduped,
                 len(proxies),
                 wl_stats.get("matched", 0),
                 wl_stats.get("dead", 0),
                 wl_stats.get("unstable", 0),
                 wl_stats.get("slow", 0),
+                wl_stats.get("unmeasured", 0),
                 wl_stats.get("stale", 0),
                 wl_stats.get("unknown", 0),
             )
-            if len(proxies) < int(wl_cfg.get("min_match", 10)):
+            if wl_stats.get("floor_bypassed"):
+                log.warning(
+                    "网速下限 %sKB/s 本轮未生效（达标节点过少，判定测速环节异常）",
+                    wl_cfg.get("min_kbps"),
+                )
+            # min_match 判的是「白名单与候选池是否脱节」，所以比的是**命中数**，
+            # 不是网速过滤后的发布数——否则下限一收紧，正常的一轮也会被误判成
+            # 「脱节」并回退到 35 分钟的 Globalping 探测。
+            if wl_stats.get("matched", 0) < int(wl_cfg.get("min_match", 10)):
                 log.warning(
                     "白名单只命中 %d 个（低于 min_match=%s），判定与候选池脱节，"
                     "本轮回退 Globalping 探测",
-                    len(proxies),
+                    wl_stats.get("matched", 0),
                     wl_cfg.get("min_match", 10),
                 )
                 wl_used = False
-                wl_detail = "命中过少（%d 个），回退 Globalping 探测" % len(proxies)
+                wl_detail = "命中过少（%d 个），回退 Globalping 探测" % wl_stats.get(
+                    "matched", 0)
 
         if wl_used:
             probed = len(proxies)
@@ -565,15 +588,32 @@ def main():
         len(proxies),
     )
 
-    if len(proxies) < int(check_cfg.get("min_alive", 30)):
+    # 发布数下限有两套口径，必须分开：
+    #   · 默认 min_alive(30)：防的是「采集/探测环节故障」，比如源站挂了、内核起不来；
+    #   · 因网速下限主动筛掉时用 min_speed_keep(5)：节点少是**筛出来的结果**，
+    #     不是故障。用 30 去卡它，会让「按 100KB/s 过滤」这一整轮白跑——
+    #     筛后剩 7 个 → 判不合格 → 保留旧订阅 → 用户看到的还是那一批慢节点。
+    floor_cut = int(wl_stats.get("slow", 0)) + int(wl_stats.get("unmeasured", 0))
+    alive_floor = int(check_cfg.get("min_alive", 30))
+    if floor_cut and int(wl_cfg.get("min_kbps") or 0) > 0:
+        alive_floor = min(alive_floor, int(check_cfg.get("min_speed_keep", 5)))
+    if len(proxies) < alive_floor:
         log.error(
             "可用节点仅 %d 个，低于阈值 %s，保留原有订阅不变",
             len(proxies),
-            check_cfg.get("min_alive", 30),
+            alive_floor,
         )
         return 1
 
     now = datetime.now(timezone(timedelta(hours=8)))
+    # 本轮实际生效的网速下限：白名单兜底（floor_bypassed）时等于 0，头部就不该
+    # 声称「已剔除」——否则读者会以为列表里没有 `--`，实际有。
+    if wl_used:
+        active_floor = 0.0 if wl_stats.get("floor_bypassed") else float(
+            wl_cfg.get("min_kbps") or 0
+        )
+    else:
+        active_floor = float(check_cfg.get("min_speed_kbps") or 0)
     # 网速口径要跟着订阅一起发出去：只有白名单真的用上了，名字里的数字才是
     # 「这条线实测」；回退到机房探测时必须让读者知道那些数只是估算。
     meta = {
@@ -587,6 +627,7 @@ def main():
         # 排序口径要写进订阅头：读者需要知道「排在最前的是为什么排最前」。
         "veteran_days": rank_cfg.get("veteran_days", 0),
         "veteran_kbps": rank_cfg.get("veteran_kbps", 0),
+        "min_kbps": active_floor,
     }
     # 订阅里不能出现 _speed_kbps / _streak 这类内部字段（mihomo 会拒绝整份配置）；
     # 但账本结算要用到它们，所以先造一份干净副本用于发布与校验。
@@ -652,8 +693,13 @@ def main():
                 "dead": wl_stats.get("dead", 0),
                 "unstable": wl_stats.get("unstable", 0),
                 "slow": wl_stats.get("slow", 0),
+                # 测不出网速（kbps=0）的单独计数：它和「慢」不是一回事——
+                # 实测这类节点 77% 是「204 探测能过、一下载大文件就被上游掐断」。
+                "unmeasured": wl_stats.get("unmeasured", 0),
                 "stale": wl_stats.get("stale", 0),
             },
+            "min_kbps": active_floor,
+            "floor_bypassed": bool(wl_stats.get("floor_bypassed")),
             "entries": len(((wl_data or {}).get("entries") or {})),
             # 白名单可能缺 generated_at（文件不存在/损坏），age_hours 会返回 None，
             # 不能直接 round：那会让整轮构建在最后一步崩掉（已踩过）。

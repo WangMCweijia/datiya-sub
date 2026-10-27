@@ -172,6 +172,9 @@ def apply(proxies, data, cfg):
     entries = (data or {}).get("entries") or {}
     min_ok = int(cfg.get("min_ok_rounds", 1) or 1)
     min_kbps = float(cfg.get("min_kbps", 0) or 0)
+    # 兜底红线：低于这个数量说明「网速环节本身坏了」（端点挂了/内核测不动），
+    # 这时宁可发一批带 `--` 的节点，也不能发空订阅。设 0 关闭兜底。
+    min_keep = int(cfg.get("min_keep", 20) or 0)
     # 实测时间窗：ok_rounds 是累计值，一个节点一小时前测通、现在早已失效仍是 ≥1。
     # 免费节点寿命以分钟计，超过这个窗口没再测通的条目一律不发（本机会持续补测，
     # 真还活着的节点几分钟内就会被重新测到并刷新 last_ok）。
@@ -186,7 +189,8 @@ def apply(proxies, data, cfg):
     enforce_round = bool(latest) and has_round and cfg.get("require_latest_round", True)
 
     kept, stats = [], {"matched": 0, "dead": 0, "unstable": 0, "slow": 0,
-                       "stale": 0, "unknown": 0}
+                       "unmeasured": 0, "stale": 0, "unknown": 0,
+                       "floor_bypassed": False}
     for proxy in proxies:
         entry = entries.get(builder.fingerprint(proxy))
         if not entry:
@@ -210,9 +214,6 @@ def apply(proxies, data, cfg):
             stats["unstable"] += 1
             continue
         kbps = float(entry.get("kbps") or 0)
-        if min_kbps and kbps and kbps < min_kbps:
-            stats["slow"] += 1
-            continue
         proxy["_wl_kbps"] = kbps
         proxy["_wl_delay"] = int(entry.get("delay") or 0)
         proxy["_wl_rounds"] = ok_rounds
@@ -228,8 +229,44 @@ def apply(proxies, data, cfg):
                 proxy["_age_est_h"] = estimated
         kept.append(proxy)
 
+    kept = _apply_speed_floor(kept, min_kbps, min_keep, stats)
     kept.sort(key=_sort_key)
     return kept, stats
+
+
+def _apply_speed_floor(proxies, min_kbps, min_keep, stats):
+    """剔掉实测网速低于 `min_kbps` 的节点；**测不出网速（kbps=0）同样剔除**。
+
+    旧实现写的是 `if min_kbps and kbps and kbps < min_kbps`，中间那个 `and kbps`
+    把 0 值整个豁免了。后果是：本机能 CONNECT、但下载测速拿不到速度的节点被原样
+    发布，名字里只能写 `--`（2026-10-27 线上 173 个节点里有 113 个是这种）。
+    而 `--` 恰恰是最不该发的——同日对 13 个零速节点逐个归因：
+      · 77% 是「204 探测能过、一下载大文件就被上游掐断」（mihomo 入站回 502/404）；
+      · 23% 是当场掉线，或真只有 46~102KB/s。
+    也就是说这些节点不是「没测到」，是「测了就下不动」。
+
+    兜底：过滤后不足 `min_keep` 个时判定「测速环节失效」，放弃下限并记
+    `floor_bypassed`，避免端点挂掉的那一轮发出空订阅。
+    """
+    if not min_kbps or not proxies:
+        return proxies
+    passed = [p for p in proxies if float(p.get("_wl_kbps") or 0) >= min_kbps]
+    if min_keep and len(passed) < min_keep:
+        stats["floor_bypassed"] = True
+        log.warning(
+            "网速下限 %gKB/s 只留下 %d 个（低于 min_keep=%d），判定测速环节异常，"
+            "本轮放弃网速过滤（会包含 `--` 节点）",
+            min_kbps, len(passed), min_keep,
+        )
+        return proxies
+    for proxy in proxies:
+        kbps = float(proxy.get("_wl_kbps") or 0)
+        if kbps >= min_kbps:
+            continue
+        # 分开记：0 值是「测不出」，不是「慢」，两者的处置方式不同
+        # （前者要么这条线路废、要么测速环节废；后者是单纯不值得发）。
+        stats["unmeasured" if kbps <= 0 else "slow"] += 1
+    return passed
 
 
 def strip(proxies):

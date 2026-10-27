@@ -882,6 +882,11 @@ def _speed_source_line(meta):
         )
     else:
         age_line += "；顺序只按网速降序"
+    floor = float(meta.get("min_kbps") or 0)
+    if floor > 0:
+        # 下限必须写进头部：读者看到「节点数变少了」得能立刻明白是主动筛的，
+        # 而不是以为采集挂了。测不出速度（`--`）的同样被这条下限挡掉。
+        age_line += "；低于 %gKB/s 或测不出速度的节点已剔除" % floor
     return head + "\n# " + age_line
 
 
