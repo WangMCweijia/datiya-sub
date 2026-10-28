@@ -1,6 +1,6 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-10-28 12:17:11 +0800 | 可用节点 39 个（候选 5697 个，仅附加源）
-# 网速=本机实测（WANG-OFFICE，0.0 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
+# 更新于 2026-10-28 15:22:35 +0800 | 可用节点 26 个（候选 6069 个，仅附加源）
+# 网速=本机实测（WANG-OFFICE，0.1 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
 # 存活=首次测通至今（第二个数字，如 7d/36h；带 ~ 的是按探测轮次数推算）；存活 ≥3 天且网速 ≥1024KB/s 的节点整体排在最前，其余按网速降序；低于 100KB/s 或测不出速度的节点已剔除
 port: 7890
 socks-port: 7891
@@ -34,84 +34,29 @@ dns:
   - 223.5.5.5
   - 119.29.29.29
 proxies:
-- name: 🇰🇷韩国|4.9MB/s|<1h|zhuhai.uk 05
-  type: vless
-  server: 152.69.226.63
-  port: 25555
-  uuid: 27c5483f-17f4-48ae-9a04-def53d88440d
-  network: ws
-  ws-opts:
-    path: /
-- name: 🇭🇰香港|3.6MB/s|<1h|2
-  port: 31343
-  server: 120.232.204.58
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: 🇺🇸美国|2.1MB/s|~1d|2
+- name: 🇺🇸美国|748KB/s|~1d|2
   port: 8443
   server: 154.81.36.92
   skip-cert-verify: true
   tls: true
   type: http
-- client-fingerprint: firefox
-  flow: xtls-rprx-vision
-  name: ❓其他|1.6MB/s|3h|vless-1934374885
-  network: tcp
-  port: 443
-  reality-opts:
-    public-key: osmv_68hih_V_A_ptwQj_TVmdj8ayt_chDCZdj1DrS4
-    short-id: f1a5e1d9
-  server: 94.183.229.105
-  servername: fast.letsconnectpoint.com
-  tls: true
-  type: vless
-  udp: true
-  uuid: 4b1be712-774c-4b65-8491-a3339e124a70
-- client-fingerprint: edge
-  grpc-opts:
-    grpc-mode: gun
-    grpc-service-name: f345a414c040
-  network: grpc
-  port: 443
-  reality-opts:
-    public-key: GJzag9Wrvz_bO9AQaA-Oq0P1kV9btmxxAdzPV-uQB18
-    short-id: 09d0a94a1c6fc9d5
-  server: 8fc752g.fi3.h1clayd.click
-  servername: 8fc752g.fi3.h1clayd.click
-  tls: true
-  type: vless
-  udp: true
-  uuid: 056405e8-de9f-4d0d-8145-956f13cc34da
-  name: 🇩🇪德国|1.1MB/s|19h|8
-  encryption: none
-  sub_tag: S001-260618
-  xudp: true
-  packet-encoding: xudp
-- name: 🇯🇵日本|1.1MB/s|<1h|1
+- name: 🇯🇵日本|672KB/s|3h|1
   port: 40583
   server: 120.232.204.58
   skip-cert-verify: true
   tls: true
   type: http
-- client-fingerprint: safari
-  name: ❓其他|1.1MB/s|20h|vless-1929113325
-  network: tcp
-  port: 25895
-  reality-opts:
-    public-key: jOVKSP-bS9OkILJ8Epz8hadh6qhavCrOiJYeF0NCn0k
-    short-id: a73f0410d728c823
-  server: ee.h1cloud.net
-  servername: www.samsung.com
+- name: 🇭🇰香港|570KB/s|3h|2
+  port: 31343
+  server: 120.232.204.58
+  skip-cert-verify: true
   tls: true
-  type: vless
-  udp: true
-  uuid: f90b7d43-69e2-4b46-a672-8029bc6796a2
+  type: http
 - alpn:
   - h3
   auth-str: dongtaiwang.com
   down: 55 Mbps
-  name: ❓其他|990KB/s|18h|084eaa
+  name: ❓其他|481KB/s|21h|084eaa
   port: 24667
   protocol: udp
   server: 62.210.70.191
@@ -119,54 +64,41 @@ proxies:
   sni: bing.com
   type: hysteria
   up: 11 Mbps
-  auth_str: dongtaiwang.com
-  udp: true
-- name: 🇱🇻拉脱维亚|965KB/s|~1d|cbbb67
-  server: 195.123.213.28
-  port: 443
-  type: vless
-  uuid: 02fcc1a4-ee90-4970-8bbb-4ffaa8109d24
-  tls: true
-  flow: xtls-rprx-vision
-  reality-opts:
-    public-key: NMgy1XgCSXExOg6Tg8xG9lCWttMF6sjdpB41lZy6FWo
-    short-id: 5c256336e3b673fa
-  servername: www.cloudflare.com
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
-- name: 🇳🇱荷兰|811KB/s|~1d|7
-  port: 443
-  server: 5.255.118.82
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: 🇳🇱荷兰|780KB/s|~1d|11 P002-260618
-  password: 'null'
-  port: 443
-  server: 5.255.118.82
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- client-fingerprint: ios
-  name: ❓其他|743KB/s|19h|vless-1925223193
-  network: tcp
-  port: 443
-  reality-opts:
-    public-key: nNe5Y8_G7L0_VO5lqlee3h5UmRH4RXjaRYGCDUkbQz4
-    short-id: 2892e611785bafd1
-  server: 263651t.fi3.h1clayd.click
-  servername: 263651t.fi3.h1clayd.click
-  tls: true
-  type: vless
-  udp: true
-  uuid: 056405e8-de9f-4d0d-8145-956f13cc34da
 - client-fingerprint: firefox
   flow: xtls-rprx-vision
-  name: ❓其他|480KB/s|3h|vless-1932656551
+  name: ❓其他|461KB/s|<1h|vless-1935621151
+  network: raw
+  port: 2063
+  reality-opts:
+    public-key: MMpt_jWc4J3oySBdf5sPDVRkiWlZmOObth6A1scM9BM
+    short-id: ''
+  server: 31.77.13.22
+  servername: rusbid.de
+  tls: true
+  type: vless
+  udp: true
+  uuid: b18d5990-96eb-4587-a386-7f8ef7591e6a
+- name: 🇺🇸美国|394KB/s|~1d|1 R002-260618
+  port: 443
+  server: 137.175.22.96
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: ❓其他|319KB/s|<1h|vless-1935807346
+  network: tcp
+  port: 37095
+  server: kr002.zestapp778.com
+  servername: kr002.zestapp778.com
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: e9a8144e-5237-488a-afb1-9ca3d8d54c80
+- client-fingerprint: firefox
+  flow: xtls-rprx-vision
+  name: ❓其他|310KB/s|6h|vless-1932656551
   network: tcp
   port: 2063
   reality-opts:
@@ -178,151 +110,131 @@ proxies:
   type: vless
   udp: true
   uuid: b18d5990-96eb-4587-a386-7f8ef7591e6a
-- name: ❓其他|417KB/s|19h|vless-1929291616
-  server: se1-cl3.vless-fiberstasis.top
-  port: 443
-  type: vless
-  uuid: 4b1be712-774c-4b65-8491-a3339e124a70
-  udp: true
-  tls: true
-  servername: se1-cl3.vless-fiberstasis.top
-  skip-cert-verify: true
+- client-fingerprint: firefox
+  flow: xtls-rprx-vision
+  name: ❓其他|298KB/s|<1h|vless-1935617271
+  network: tcp
+  port: 2063
   reality-opts:
-    public-key: qJja_3vaCxm3As6alnqjpIIThwGm4e4m_MOluQBNFgo
-    short-id: 11d37dd92940329e
-  client-fingerprint: firefox
-  network: grpc
-  grpc-opts:
-    grpc-service-name: grpc-se-3
+    public-key: MMpt_jWc4J3oySBdf5sPDVRkiWlZmOObth6A1scM9BM
+    short-id: ''
+  server: 31.77.13.22
+  servername: rusbid.de
+  tls: true
+  type: vless
+  udp: true
+  uuid: b18d5990-96eb-4587-a386-7f8ef7591e6a
+- client-fingerprint: firefox
+  name: ❓其他|261KB/s|6h|vless-1932656526
+  network: tcp
+  port: 443
+  reality-opts:
+    public-key: MPNMomAMn_lu9YMYjD2jAQWrI-rTM4hj9Jgg9d6qzTA
+    short-id: 50ad5564
+  server: 186.246.9.29
+  servername: wordpress.com
+  tls: true
+  type: vless
+  udp: true
+  uuid: b2847c3b-5278-4b06-9c66-bc919d2dfec7
+- client-fingerprint: chrome
+  name: ❓其他|259KB/s|<1h|vless-1935806355
+  network: tcp
+  port: 25895
+  reality-opts:
+    public-key: jOVKSP-bS9OkILJ8Epz8hadh6qhavCrOiJYeF0NCn0k
+    short-id: a73f0410d728c823
+  server: 79.182.39.233
+  servername: www.samsung.com
+  tls: true
+  type: vless
+  udp: true
+  uuid: f90b7d43-69e2-4b46-a672-8029bc6796a2
 - alterId: 0
   cipher: auto
-  name: ❓其他|347KB/s|3h|vmess-1934374877
+  name: ❓其他|239KB/s|6h|vmess-1934374877
   network: ws
   port: 10086
   server: 120.48.133.162
   type: vmess
   udp: true
   uuid: f81d0fc9-c6b0-4dab-a270-6e697e0a367f
-- client-fingerprint: chrome
-  name: ❓其他|344KB/s|<1h|vless-1932784118
-  network: tcp
-  port: 25895
-  reality-opts:
-    public-key: jOVKSP-bS9OkILJ8Epz8hadh6qhavCrOiJYeF0NCn0k
-    short-id: a73f0410d728c823
-  server: 79.182.39.232
-  servername: www.samsung.com
-  tls: true
-  type: vless
+- alterId: 0
+  cipher: auto
+  name: ❓其他|233KB/s|6h|vmess-1932230391
+  network: ws
+  port: 10086
+  server: 120.48.133.162
+  type: vmess
   udp: true
-  uuid: f90b7d43-69e2-4b46-a672-8029bc6796a2
-- name: 🇫🇮芬兰|335KB/s|19h|vless-1927184299
-  server: 77.42.12.225
-  port: 443
-  type: vless
-  uuid: 056405e8-de9f-4d0d-8145-956f13cc34da
-  udp: true
-  tls: true
-  servername: 8fc752g.fi3.h1clayd.click
-  skip-cert-verify: true
-  reality-opts:
-    public-key: GJzag9Wrvz_bO9AQaA-Oq0P1kV9btmxxAdzPV-uQB18
-    short-id: 09d0a94a1c6fc9d5
-  client-fingerprint: firefox
-  network: grpc
-  grpc-opts:
-    grpc-service-name: f345a414c040
+  uuid: a8d931b0-6c27-428b-8d86-c20efea3dba7
 - client-fingerprint: firefox
   flow: xtls-rprx-vision
-  name: ❓其他|319KB/s|<1h|vless-1934374904
+  name: ❓其他|226KB/s|6h|vless-1934374885
   network: tcp
   port: 443
   reality-opts:
-    public-key: v36yrZJ-5Zikx9eh_SXaoDS2GuobOA4_WLagBVO0vxk
-    short-id: a9c3f7e2
-  server: 5.180.21.86
-  servername: kazakhstan.letsconnectpoint.com
+    public-key: osmv_68hih_V_A_ptwQj_TVmdj8ayt_chDCZdj1DrS4
+    short-id: f1a5e1d9
+  server: 94.183.229.105
+  servername: fast.letsconnectpoint.com
+  tls: true
+  type: vless
+  udp: true
+  uuid: 4b1be712-774c-4b65-8491-a3339e124a70
+- client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  name: ❓其他|224KB/s|<1h|vless-1935796427
+  network: tcp
+  port: 8443
+  reality-opts:
+    public-key: J5j_EwGWM1vgrApg31dnnu5cwMP-OgfJYYwl3kn9zFg
+    short-id: ''
+  server: 85.198.85.55
+  servername: api.max.ru
+  tls: true
+  type: vless
+  udp: true
+  uuid: 7e1dc732-1691-4699-8517-e3ca53887978
+- client-fingerprint: qq
+  flow: xtls-rprx-vision
+  name: ❓其他|177KB/s|6h|vless-1934374906
+  network: tcp
+  port: 443
+  reality-opts:
+    public-key: osmv_68hih_V_A_ptwQj_TVmdj8ayt_chDCZdj1DrS4
+    short-id: f1a5e1d9
+  server: fast.letsconnectpoint.com
+  servername: fast.letsconnectpoint.com
   tls: true
   type: vless
   udp: true
   uuid: 4b1be712-774c-4b65-8491-a3339e124a70
 - client-fingerprint: firefox
-  flow: xtls-rprx-vision
+  name: ❓其他|174KB/s|<1h|vless-1935615269
   network: tcp
-  port: 443
-  server: 50.7.36.29
-  servername: ekb.eg
-  tls: true
-  type: vless
-  udp: true
-  uuid: cd3bb7d9-7df3-4644-ac05-c260990ac277
-  name: 🇦🇹奥地利|318KB/s|~1d|2
-  skip-cert-verify: true
-- name: 🇹🇼台湾|299KB/s|7h|TWN
-  server: er8u54dh.df6h451rh.xin
-  port: 443
-  type: anytls
-  password: 0324fbc29561
-  udp: true
-  sni: px.ads.linkedin.com
-  skip-cert-verify: true
-- client-fingerprint: chrome
-  flow: xtls-rprx-vision
-  name: ❓其他|283KB/s|<1h|vless-1934645432
-  network: tcp
-  port: 443
+  port: 25362
   reality-opts:
-    public-key: myIjvlXZS0rm1eg4q2w5WsQBuj80i2rBA0HpRGCUg1w
-    short-id: 86d1efde
-  server: ru.letsconnectpoint.com
-  servername: ru.letsconnectpoint.com
+    public-key: hFee7zTreqlv_wccK_8zxN5v23hj9u-DshByvGf-KAA
+    short-id: 23732d14a527990d
+  server: 79.182.39.75
+  servername: www.chip.de
   tls: true
   type: vless
   udp: true
-  uuid: 4b1be712-774c-4b65-8491-a3339e124a70
-- name: 🇷🇺俄罗斯|255KB/s|<1h|1
-  password: None
-  port: 1446
-  server: 46.29.166.134
+  uuid: 36fb6650-8a50-42b5-9f66-06538806f32c
+- name: 🇳🇱荷兰|172KB/s|~2d|11 P002-260618
+  password: 'null'
+  port: 443
+  server: 5.255.118.82
   skip-cert-verify: true
+  sub_tag: P002-260618
   tls: true
   type: http
-- client-fingerprint: chrome
-  name: ❓其他|236KB/s|19h|vless-1931194881
-  network: tcp
-  port: 443
-  reality-opts:
-    public-key: nNe5Y8_G7L0_VO5lqlee3h5UmRH4RXjaRYGCDUkbQz4
-    short-id: 2892e611785bafd1
-  server: 196.196.204.174
-  servername: 263651t.fi3.h1clayd.click
-  tls: true
-  type: vless
+  username: 'null'
   udp: true
-  uuid: 056405e8-de9f-4d0d-8145-956f13cc34da
-- name: 🇳🇱荷兰|224KB/s|~1d|speednode 0027
-  password: None
-  port: 9002
-  server: 84.17.47.123
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- client-fingerprint: chrome
-  name: ❓其他|206KB/s|3h|vless-1933840534
-  network: tcp
-  port: 25548
-  reality-opts:
-    public-key: lceynvFy326oU4ew9OPR7079m-L5ZcFELgCl0sqxU2M
-    short-id: bceb5b2197b76818
-  server: pl5.h1cloud.net
-  servername: www.cloudflare.com
-  tls: true
-  type: vless
-  udp: true
-  uuid: 5a519754-a673-4462-83f6-5eb25d2af141
-- name: 🇳🇱荷兰|195KB/s|<1h|vless-1934646444
-  server: 74.0.48.173
+- name: ❓其他|162KB/s|<1h|vless-1932277343
+  server: nl-all.vless-bitrhythmia.top
   port: 443
   type: vless
   uuid: 4b1be712-774c-4b65-8491-a3339e124a70
@@ -337,35 +249,27 @@ proxies:
   network: grpc
   grpc-opts:
     grpc-service-name: grpc-nl-stream
-- client-fingerprint: qq
-  flow: xtls-rprx-vision
-  name: ❓其他|193KB/s|3h|vless-1934374906
+- name: ❓其他|156KB/s|<1h|vless-1935807350
   network: tcp
-  port: 443
-  reality-opts:
-    public-key: osmv_68hih_V_A_ptwQj_TVmdj8ayt_chDCZdj1DrS4
-    short-id: f1a5e1d9
-  server: fast.letsconnectpoint.com
-  servername: fast.letsconnectpoint.com
+  port: 18580
+  server: us007.zestapp778.com
+  servername: us007.zestapp778.com
+  skip-cert-verify: false
   tls: true
   type: vless
   udp: true
-  uuid: 4b1be712-774c-4b65-8491-a3339e124a70
-- client-fingerprint: firefox
-  flow: xtls-rprx-vision
-  name: ❓其他|191KB/s|3h|vless-1927724262
+  uuid: e9a8144e-5237-488a-afb1-9ca3d8d54c80
+- name: ❓其他|154KB/s|<1h|vless-1935621142
   network: tcp
-  port: 443
-  reality-opts:
-    public-key: l1mx_plNc2oiWxJCcZLh3SGfFU-5QxYpgQ__Ea59WEg
-    short-id: 4a7b1c8d
-  server: tau1.freerunet.online
-  servername: tau1.freerunet.online
+  port: 46362
+  server: in002.zestapp778.com
+  servername: in002.zestapp778.com
+  skip-cert-verify: false
   tls: true
   type: vless
   udp: true
-  uuid: ca14493b-b984-4ffb-bc0e-9cb5da969e15
-- name: 🇷🇺俄罗斯|184KB/s|<1h|6
+  uuid: e9a8144e-5237-488a-afb1-9ca3d8d54c80
+- name: 🇷🇺俄罗斯|150KB/s|3h|6
   server: 188.72.103.4
   port: 443
   type: vless
@@ -392,120 +296,45 @@ proxies:
     x-padding-placement: query
   udp: true
 - client-fingerprint: chrome
-  name: '❓其他|173KB/s|3h|vless #28'
-  network: ws
-  port: 443
-  server: cf.090227.xyz
-  servername: ccc.010304.xyz
-  tls: true
-  type: vless
-  uuid: d342d11e-d224-4463-b982-532309285094
-  ws-opts:
-    headers:
-      Host: ccc.010304.xyz
-    path: /fp=chrome
-- client-fingerprint: firefox
-  name: ❓其他|171KB/s|3h|vless-1932656526
+  flow: xtls-rprx-vision
+  name: ❓其他|145KB/s|<1h|vless-1935797443
   network: tcp
-  port: 443
+  port: 25021
   reality-opts:
-    public-key: MPNMomAMn_lu9YMYjD2jAQWrI-rTM4hj9Jgg9d6qzTA
-    short-id: 50ad5564
-  server: 186.246.9.29
-  servername: wordpress.com
+    public-key: od79bUkYtqQtsGrrTdhmkDflx5c9al4vqxwWApvc-Dg
+    short-id: 17fa3af0924c88b3
+  server: tr2.h1cloud.net
+  servername: www.samsung.com
   tls: true
   type: vless
   udp: true
-  uuid: b2847c3b-5278-4b06-9c66-bc919d2dfec7
-- name: 🇧🇷巴西|169KB/s|<1h|1
-  password: None
+  uuid: 2446e2e2-1ce3-4502-9050-1dd32bacc68c
+- flow: xtls-rprx-vision
+  name: ❓其他|127KB/s|~1d|vless-1929108260
+  network: tcp
   port: 443
-  server: 134.65.17.77
+  server: 50.7.36.29
+  servername: ekb.eg
+  skip-cert-verify: true
+  tls: true
+  type: vless
+  udp: true
+  uuid: cd3bb7d9-7df3-4644-ac05-c260990ac277
+- network: ws
+  port: 25555
+  server: 152.69.226.63
+  type: vless
+  uuid: 27c5483f-17f4-48ae-9a04-def53d88440d
+  ws-opts:
+    path: /
+  name: 🇰🇷韩国|102KB/s|3h|zhuhai.uk 05
+- name: 🇺🇸美国|100KB/s|~1d|speednode 0039
+  port: 8443
+  server: 44.248.167.117
   skip-cert-verify: true
   tls: true
   type: http
-- name: 🇷🇺俄罗斯|167KB/s|<1h|ProxyPool RUS
-  server: 45.9.12.110
-  port: 443
-  type: vless
-  uuid: 4b1be712-774c-4b65-8491-a3339e124a70
-  tls: true
-  flow: xtls-rprx-vision
-  reality-opts:
-    public-key: myIjvlXZS0rm1eg4q2w5WsQBuj80i2rBA0HpRGCUg1w
-    short-id: 86d1efde
-  servername: ru.letsconnectpoint.com
-  client-fingerprint: firefox
-  network: tcp
   udp: true
-  sub_tag: S001-260618
-- client-fingerprint: firefox
-  name: ❓其他|161KB/s|<1h|vless-1933859852
-  network: tcp
-  port: 25172
-  reality-opts:
-    public-key: Xr55Hig_JTeUluiGfSnma6zMHG2Uv5Xu30ZODGF5xGA
-    short-id: f09ac427e1abd14b
-  server: 79.182.39.45
-  servername: www.cloudflare.com
-  tls: true
-  type: vless
-  udp: true
-  uuid: 5a519754-a673-4462-83f6-5eb25d2af141
-- client-fingerprint: firefox
-  name: ❓其他|150KB/s|<1h|vless-1927724258
-  network: tcp
-  port: 25387
-  reality-opts:
-    public-key: _nrnGiJUdyeLv2afSwe6P4j02AMayY34WFMjUJp5Kwc
-    short-id: 9608a9c65d315d52
-  server: se3.h1cloud.net
-  servername: www.cloudflare.com
-  tls: true
-  type: vless
-  udp: true
-  uuid: 5a519754-a673-4462-83f6-5eb25d2af141
-- name: 🇧🇷巴西|150KB/s|<1h|0affa8
-  server: br001.zestapp778.com
-  port: 15040
-  type: vless
-  uuid: e9a8144e-5237-488a-afb1-9ca3d8d54c80
-  tls: true
-  servername: br.zestapp778.com
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
-  skip-cert-verify: false
-- name: 🇷🇺俄罗斯|142KB/s|7h|2
-  server: 171.22.119.74
-  port: 8447
-  type: vless
-  uuid: 6aed42ba-cd2d-4671-87d9-c949b6876888
-  tls: false
-  network: tcp
-  udp: true
-- alterId: 0
-  cipher: auto
-  name: ❓其他|102KB/s|3h|vmess-1932230391
-  network: ws
-  port: 10086
-  server: 120.48.133.162
-  type: vmess
-  udp: true
-  uuid: a8d931b0-6c27-428b-8d86-c20efea3dba7
-- client-fingerprint: firefox
-  name: ❓其他|100KB/s|3h|vless-1933859855
-  network: tcp
-  port: 25548
-  reality-opts:
-    public-key: lceynvFy326oU4ew9OPR7079m-L5ZcFELgCl0sqxU2M
-    short-id: bceb5b2197b76818
-  server: 79.182.39.35
-  servername: www.cloudflare.com
-  tls: true
-  type: vless
-  udp: true
-  uuid: 5a519754-a673-4462-83f6-5eb25d2af141
 proxy-groups:
 - name: 🚀 节点选择
   type: select
@@ -514,45 +343,32 @@ proxy-groups:
   - ⚡ 负载均衡
   - DIRECT
   - 🌐 其他
-  - 🇰🇷韩国|4.9MB/s|<1h|zhuhai.uk 05
-  - 🇭🇰香港|3.6MB/s|<1h|2
-  - 🇺🇸美国|2.1MB/s|~1d|2
-  - ❓其他|1.6MB/s|3h|vless-1934374885
-  - 🇩🇪德国|1.1MB/s|19h|8
-  - 🇯🇵日本|1.1MB/s|<1h|1
-  - ❓其他|1.1MB/s|20h|vless-1929113325
-  - ❓其他|990KB/s|18h|084eaa
-  - 🇱🇻拉脱维亚|965KB/s|~1d|cbbb67
-  - 🇳🇱荷兰|811KB/s|~1d|7
-  - 🇳🇱荷兰|780KB/s|~1d|11 P002-260618
-  - ❓其他|743KB/s|19h|vless-1925223193
-  - ❓其他|480KB/s|3h|vless-1932656551
-  - ❓其他|417KB/s|19h|vless-1929291616
-  - ❓其他|347KB/s|3h|vmess-1934374877
-  - ❓其他|344KB/s|<1h|vless-1932784118
-  - 🇫🇮芬兰|335KB/s|19h|vless-1927184299
-  - ❓其他|319KB/s|<1h|vless-1934374904
-  - 🇦🇹奥地利|318KB/s|~1d|2
-  - 🇹🇼台湾|299KB/s|7h|TWN
-  - ❓其他|283KB/s|<1h|vless-1934645432
-  - 🇷🇺俄罗斯|255KB/s|<1h|1
-  - ❓其他|236KB/s|19h|vless-1931194881
-  - 🇳🇱荷兰|224KB/s|~1d|speednode 0027
-  - ❓其他|206KB/s|3h|vless-1933840534
-  - 🇳🇱荷兰|195KB/s|<1h|vless-1934646444
-  - ❓其他|193KB/s|3h|vless-1934374906
-  - ❓其他|191KB/s|3h|vless-1927724262
-  - 🇷🇺俄罗斯|184KB/s|<1h|6
-  - '❓其他|173KB/s|3h|vless #28'
-  - ❓其他|171KB/s|3h|vless-1932656526
-  - 🇧🇷巴西|169KB/s|<1h|1
-  - 🇷🇺俄罗斯|167KB/s|<1h|ProxyPool RUS
-  - ❓其他|161KB/s|<1h|vless-1933859852
-  - ❓其他|150KB/s|<1h|vless-1927724258
-  - 🇧🇷巴西|150KB/s|<1h|0affa8
-  - 🇷🇺俄罗斯|142KB/s|7h|2
-  - ❓其他|102KB/s|3h|vmess-1932230391
-  - ❓其他|100KB/s|3h|vless-1933859855
+  - 🇺🇸美国|748KB/s|~1d|2
+  - 🇯🇵日本|672KB/s|3h|1
+  - 🇭🇰香港|570KB/s|3h|2
+  - ❓其他|481KB/s|21h|084eaa
+  - ❓其他|461KB/s|<1h|vless-1935621151
+  - 🇺🇸美国|394KB/s|~1d|1 R002-260618
+  - ❓其他|319KB/s|<1h|vless-1935807346
+  - ❓其他|310KB/s|6h|vless-1932656551
+  - ❓其他|298KB/s|<1h|vless-1935617271
+  - ❓其他|261KB/s|6h|vless-1932656526
+  - ❓其他|259KB/s|<1h|vless-1935806355
+  - ❓其他|239KB/s|6h|vmess-1934374877
+  - ❓其他|233KB/s|6h|vmess-1932230391
+  - ❓其他|226KB/s|6h|vless-1934374885
+  - ❓其他|224KB/s|<1h|vless-1935796427
+  - ❓其他|177KB/s|6h|vless-1934374906
+  - ❓其他|174KB/s|<1h|vless-1935615269
+  - 🇳🇱荷兰|172KB/s|~2d|11 P002-260618
+  - ❓其他|162KB/s|<1h|vless-1932277343
+  - ❓其他|156KB/s|<1h|vless-1935807350
+  - ❓其他|154KB/s|<1h|vless-1935621142
+  - 🇷🇺俄罗斯|150KB/s|3h|6
+  - ❓其他|145KB/s|<1h|vless-1935797443
+  - ❓其他|127KB/s|~1d|vless-1929108260
+  - 🇰🇷韩国|102KB/s|3h|zhuhai.uk 05
+  - 🇺🇸美国|100KB/s|~1d|speednode 0039
 - name: ♻️ 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -561,30 +377,30 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - 🇰🇷韩国|4.9MB/s|<1h|zhuhai.uk 05
-  - 🇭🇰香港|3.6MB/s|<1h|2
-  - 🇺🇸美国|2.1MB/s|~1d|2
-  - ❓其他|1.6MB/s|3h|vless-1934374885
-  - 🇩🇪德国|1.1MB/s|19h|8
-  - 🇯🇵日本|1.1MB/s|<1h|1
-  - ❓其他|1.1MB/s|20h|vless-1929113325
-  - ❓其他|990KB/s|18h|084eaa
-  - 🇱🇻拉脱维亚|965KB/s|~1d|cbbb67
-  - 🇳🇱荷兰|811KB/s|~1d|7
-  - 🇳🇱荷兰|780KB/s|~1d|11 P002-260618
-  - ❓其他|743KB/s|19h|vless-1925223193
-  - ❓其他|480KB/s|3h|vless-1932656551
-  - ❓其他|417KB/s|19h|vless-1929291616
-  - ❓其他|347KB/s|3h|vmess-1934374877
-  - ❓其他|344KB/s|<1h|vless-1932784118
-  - 🇫🇮芬兰|335KB/s|19h|vless-1927184299
-  - ❓其他|319KB/s|<1h|vless-1934374904
-  - 🇦🇹奥地利|318KB/s|~1d|2
-  - 🇹🇼台湾|299KB/s|7h|TWN
-  - ❓其他|283KB/s|<1h|vless-1934645432
-  - 🇷🇺俄罗斯|255KB/s|<1h|1
-  - ❓其他|236KB/s|19h|vless-1931194881
-  - 🇳🇱荷兰|224KB/s|~1d|speednode 0027
+  - 🇺🇸美国|748KB/s|~1d|2
+  - 🇯🇵日本|672KB/s|3h|1
+  - 🇭🇰香港|570KB/s|3h|2
+  - ❓其他|481KB/s|21h|084eaa
+  - ❓其他|461KB/s|<1h|vless-1935621151
+  - 🇺🇸美国|394KB/s|~1d|1 R002-260618
+  - ❓其他|319KB/s|<1h|vless-1935807346
+  - ❓其他|310KB/s|6h|vless-1932656551
+  - ❓其他|298KB/s|<1h|vless-1935617271
+  - ❓其他|261KB/s|6h|vless-1932656526
+  - ❓其他|259KB/s|<1h|vless-1935806355
+  - ❓其他|239KB/s|6h|vmess-1934374877
+  - ❓其他|233KB/s|6h|vmess-1932230391
+  - ❓其他|226KB/s|6h|vless-1934374885
+  - ❓其他|224KB/s|<1h|vless-1935796427
+  - ❓其他|177KB/s|6h|vless-1934374906
+  - ❓其他|174KB/s|<1h|vless-1935615269
+  - 🇳🇱荷兰|172KB/s|~2d|11 P002-260618
+  - ❓其他|162KB/s|<1h|vless-1932277343
+  - ❓其他|156KB/s|<1h|vless-1935807350
+  - ❓其他|154KB/s|<1h|vless-1935621142
+  - 🇷🇺俄罗斯|150KB/s|3h|6
+  - ❓其他|145KB/s|<1h|vless-1935797443
+  - ❓其他|127KB/s|~1d|vless-1929108260
 - name: ⚡ 负载均衡
   type: load-balance
   strategy: consistent-hashing
@@ -593,30 +409,30 @@ proxy-groups:
   lazy: true
   timeout: 8000
   proxies:
-  - 🇰🇷韩国|4.9MB/s|<1h|zhuhai.uk 05
-  - 🇭🇰香港|3.6MB/s|<1h|2
-  - 🇺🇸美国|2.1MB/s|~1d|2
-  - ❓其他|1.6MB/s|3h|vless-1934374885
-  - 🇩🇪德国|1.1MB/s|19h|8
-  - 🇯🇵日本|1.1MB/s|<1h|1
-  - ❓其他|1.1MB/s|20h|vless-1929113325
-  - ❓其他|990KB/s|18h|084eaa
-  - 🇱🇻拉脱维亚|965KB/s|~1d|cbbb67
-  - 🇳🇱荷兰|811KB/s|~1d|7
-  - 🇳🇱荷兰|780KB/s|~1d|11 P002-260618
-  - ❓其他|743KB/s|19h|vless-1925223193
-  - ❓其他|480KB/s|3h|vless-1932656551
-  - ❓其他|417KB/s|19h|vless-1929291616
-  - ❓其他|347KB/s|3h|vmess-1934374877
-  - ❓其他|344KB/s|<1h|vless-1932784118
-  - 🇫🇮芬兰|335KB/s|19h|vless-1927184299
-  - ❓其他|319KB/s|<1h|vless-1934374904
-  - 🇦🇹奥地利|318KB/s|~1d|2
-  - 🇹🇼台湾|299KB/s|7h|TWN
-  - ❓其他|283KB/s|<1h|vless-1934645432
-  - 🇷🇺俄罗斯|255KB/s|<1h|1
-  - ❓其他|236KB/s|19h|vless-1931194881
-  - 🇳🇱荷兰|224KB/s|~1d|speednode 0027
+  - 🇺🇸美国|748KB/s|~1d|2
+  - 🇯🇵日本|672KB/s|3h|1
+  - 🇭🇰香港|570KB/s|3h|2
+  - ❓其他|481KB/s|21h|084eaa
+  - ❓其他|461KB/s|<1h|vless-1935621151
+  - 🇺🇸美国|394KB/s|~1d|1 R002-260618
+  - ❓其他|319KB/s|<1h|vless-1935807346
+  - ❓其他|310KB/s|6h|vless-1932656551
+  - ❓其他|298KB/s|<1h|vless-1935617271
+  - ❓其他|261KB/s|6h|vless-1932656526
+  - ❓其他|259KB/s|<1h|vless-1935806355
+  - ❓其他|239KB/s|6h|vmess-1934374877
+  - ❓其他|233KB/s|6h|vmess-1932230391
+  - ❓其他|226KB/s|6h|vless-1934374885
+  - ❓其他|224KB/s|<1h|vless-1935796427
+  - ❓其他|177KB/s|6h|vless-1934374906
+  - ❓其他|174KB/s|<1h|vless-1935615269
+  - 🇳🇱荷兰|172KB/s|~2d|11 P002-260618
+  - ❓其他|162KB/s|<1h|vless-1932277343
+  - ❓其他|156KB/s|<1h|vless-1935807350
+  - ❓其他|154KB/s|<1h|vless-1935621142
+  - 🇷🇺俄罗斯|150KB/s|3h|6
+  - ❓其他|145KB/s|<1h|vless-1935797443
+  - ❓其他|127KB/s|~1d|vless-1929108260
 - name: 🌐 其他
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -625,45 +441,32 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - ❓其他|1.6MB/s|3h|vless-1934374885
-  - ❓其他|1.1MB/s|20h|vless-1929113325
-  - ❓其他|990KB/s|18h|084eaa
-  - ❓其他|743KB/s|19h|vless-1925223193
-  - ❓其他|480KB/s|3h|vless-1932656551
-  - ❓其他|417KB/s|19h|vless-1929291616
-  - ❓其他|347KB/s|3h|vmess-1934374877
-  - ❓其他|344KB/s|<1h|vless-1932784118
-  - ❓其他|319KB/s|<1h|vless-1934374904
-  - ❓其他|283KB/s|<1h|vless-1934645432
-  - ❓其他|236KB/s|19h|vless-1931194881
-  - ❓其他|206KB/s|3h|vless-1933840534
-  - ❓其他|193KB/s|3h|vless-1934374906
-  - ❓其他|191KB/s|3h|vless-1927724262
-  - '❓其他|173KB/s|3h|vless #28'
-  - ❓其他|171KB/s|3h|vless-1932656526
-  - ❓其他|161KB/s|<1h|vless-1933859852
-  - ❓其他|150KB/s|<1h|vless-1927724258
-  - ❓其他|102KB/s|3h|vmess-1932230391
-  - ❓其他|100KB/s|3h|vless-1933859855
-  - 🇰🇷韩国|4.9MB/s|<1h|zhuhai.uk 05
-  - 🇭🇰香港|3.6MB/s|<1h|2
-  - 🇺🇸美国|2.1MB/s|~1d|2
-  - 🇩🇪德国|1.1MB/s|19h|8
-  - 🇯🇵日本|1.1MB/s|<1h|1
-  - 🇱🇻拉脱维亚|965KB/s|~1d|cbbb67
-  - 🇳🇱荷兰|811KB/s|~1d|7
-  - 🇳🇱荷兰|780KB/s|~1d|11 P002-260618
-  - 🇳🇱荷兰|224KB/s|~1d|speednode 0027
-  - 🇳🇱荷兰|195KB/s|<1h|vless-1934646444
-  - 🇫🇮芬兰|335KB/s|19h|vless-1927184299
-  - 🇦🇹奥地利|318KB/s|~1d|2
-  - 🇹🇼台湾|299KB/s|7h|TWN
-  - 🇷🇺俄罗斯|255KB/s|<1h|1
-  - 🇷🇺俄罗斯|184KB/s|<1h|6
-  - 🇷🇺俄罗斯|167KB/s|<1h|ProxyPool RUS
-  - 🇷🇺俄罗斯|142KB/s|7h|2
-  - 🇧🇷巴西|169KB/s|<1h|1
-  - 🇧🇷巴西|150KB/s|<1h|0affa8
+  - ❓其他|481KB/s|21h|084eaa
+  - ❓其他|461KB/s|<1h|vless-1935621151
+  - ❓其他|319KB/s|<1h|vless-1935807346
+  - ❓其他|310KB/s|6h|vless-1932656551
+  - ❓其他|298KB/s|<1h|vless-1935617271
+  - ❓其他|261KB/s|6h|vless-1932656526
+  - ❓其他|259KB/s|<1h|vless-1935806355
+  - ❓其他|239KB/s|6h|vmess-1934374877
+  - ❓其他|233KB/s|6h|vmess-1932230391
+  - ❓其他|226KB/s|6h|vless-1934374885
+  - ❓其他|224KB/s|<1h|vless-1935796427
+  - ❓其他|177KB/s|6h|vless-1934374906
+  - ❓其他|174KB/s|<1h|vless-1935615269
+  - ❓其他|162KB/s|<1h|vless-1932277343
+  - ❓其他|156KB/s|<1h|vless-1935807350
+  - ❓其他|154KB/s|<1h|vless-1935621142
+  - ❓其他|145KB/s|<1h|vless-1935797443
+  - ❓其他|127KB/s|~1d|vless-1929108260
+  - 🇺🇸美国|748KB/s|~1d|2
+  - 🇺🇸美国|394KB/s|~1d|1 R002-260618
+  - 🇺🇸美国|100KB/s|~1d|speednode 0039
+  - 🇯🇵日本|672KB/s|3h|1
+  - 🇭🇰香港|570KB/s|3h|2
+  - 🇳🇱荷兰|172KB/s|~2d|11 P002-260618
+  - 🇷🇺俄罗斯|150KB/s|3h|6
+  - 🇰🇷韩国|102KB/s|3h|zhuhai.uk 05
 rules:
 - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
 - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
