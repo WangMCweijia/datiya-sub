@@ -508,7 +508,7 @@ def push(payload, repo, path):
         log.warning("推送失败（第 %d 轮）：%s", attempt + 1,
                     last_err.splitlines()[-1][:160] if last_err else "未知错误")
         time.sleep(_push_backoff(attempt))
-    log.error("推送失败，白名单只留在本地（CI 会因白名单过期而回退 Globalping）")
+    log.error("推送失败，白名单只留在本地（CI 会因白名单过期而暂停更新，保留上一版订阅）")
     return False
 
 

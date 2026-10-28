@@ -4,6 +4,7 @@ import argparse
 import gzip
 import json
 import logging
+import os
 import sys
 from collections import Counter
 from datetime import datetime, timedelta, timezone
@@ -36,6 +37,35 @@ def setup_logging(verbose):
 def load_config(path):
     with open(path, encoding="utf-8") as handle:
         return yaml.safe_load(handle)
+
+
+def _whitelist_hold(wl_cfg, wl_data, reason):
+    """白名单不可用时默认「不发」——保留上一版订阅，而不是回退机房测速。
+
+    2026-10-28 踩过：本机 18:15 之后断电，白名单过了 4 小时有效期，CI 按旧逻辑
+    回退 Globalping（境外机房）测速，连续两轮（23:01 / 05:08）发出中位 8.9MB/s、
+    最快 80MB/s 的节点。本机复测那批「标称最快 30 个」：只有 1 个能出网、43.9KB/s，
+    标称/实测中位 875 倍。机房测的是「节点到机房的带宽」，与本机可达性的秩相关
+    只有 +0.107，两种数不能混用——所以宁可订阅停在几小时前那一版，也不发假数字。
+
+    只有「白名单文件缺失 / 无条目」继续走 Globalping：那时没有可保留的上一版，
+    新仓库也需要先有东西可发。把 `whitelist.on_stale` 设成 `globalping` 可恢复旧行为。
+
+    返回 True 表示本轮应当直接结束（不写任何产物）。
+    """
+    if str(wl_cfg.get("on_stale", "hold") or "hold").lower() != "hold":
+        return False
+    if not wl_data or not (wl_data.get("entries") or {}):
+        return False
+    log.error(
+        "白名单不可用（%s）→ 按 whitelist.on_stale=hold 保留上一版订阅，本轮不发布；"
+        "本机跑一次 local_probe.py --push 即可恢复更新",
+        reason,
+    )
+    if os.environ.get("GITHUB_ACTIONS"):
+        # Actions 里会变成一条 annotation，不用翻日志也能看见「为什么今天没更新」
+        print("::warning title=订阅已暂停更新::%s" % reason)
+    return True
 
 
 def collect(fetcher, days):
@@ -401,6 +431,9 @@ def main():
                 ROOT / str(wl_cfg.get("file", "whitelist.json")), wl_cfg
             )
             log.info("本机白名单：%s", wl_detail)
+            # 过期/损坏 → 直接收工（保留上一版订阅），不再回退到机房测速。
+            if not wl_used and _whitelist_hold(wl_cfg, wl_data, wl_detail):
+                return 0
 
         if wl_used:
             ledger.annotate(proxies)
@@ -431,15 +464,17 @@ def main():
             # 不是网速过滤后的发布数——否则下限一收紧，正常的一轮也会被误判成
             # 「脱节」并回退到 35 分钟的 Globalping 探测。
             if wl_stats.get("matched", 0) < int(wl_cfg.get("min_match", 10)):
-                log.warning(
-                    "白名单只命中 %d 个（低于 min_match=%s），判定与候选池脱节，"
-                    "本轮回退 Globalping 探测",
+                reason = "命中过少（%d 个 < min_match=%s），白名单与候选池脱节" % (
                     wl_stats.get("matched", 0),
                     wl_cfg.get("min_match", 10),
                 )
+                log.warning("%s", reason)
+                # 白名单是新鲜的、只是和采集池对不上，说明该重跑本机探测而不是
+                # 换成机房口径——后者发出去的网速国内用户一个都跑不到。
+                if _whitelist_hold(wl_cfg, wl_data, reason):
+                    return 0
                 wl_used = False
-                wl_detail = "命中过少（%d 个），回退 Globalping 探测" % wl_stats.get(
-                    "matched", 0)
+                wl_detail = reason + "，回退 Globalping 探测"
 
         if wl_used:
             probed = len(proxies)
