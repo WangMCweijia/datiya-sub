@@ -1,6 +1,6 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-10-28 17:54:11 +0800 | 可用节点 25 个（候选 5574 个，仅附加源）
-# 网速=本机实测（WANG-OFFICE，2.6 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
+# 更新于 2026-10-28 18:22:25 +0800 | 可用节点 42 个（候选 5574 个，仅附加源）
+# 网速=本机实测（WANG-OFFICE，0.0 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
 # 存活=首次测通至今（第二个数字，如 7d/36h；带 ~ 的是按探测轮次数推算）；存活 ≥3 天且网速 ≥256KB/s 的节点整体排在最前，其余按网速降序；低于 100KB/s 或测不出速度的节点已剔除
 port: 7890
 socks-port: 7891
@@ -34,19 +34,13 @@ dns:
   - 223.5.5.5
   - 119.29.29.29
 proxies:
-- name: 🇺🇸美国|748KB/s|~1d|2
-  port: 8443
-  server: 154.81.36.92
-  skip-cert-verify: true
-  tls: true
-  type: http
-- name: 🇯🇵日本|672KB/s|5h|1
+- name: 🇯🇵日本|5.1MB/s|6h|1
   port: 40583
   server: 120.232.204.58
   skip-cert-verify: true
   tls: true
   type: http
-- name: 🇭🇰香港|570KB/s|5h|2
+- name: 🇭🇰香港|1.5MB/s|6h|2
   port: 31343
   server: 120.232.204.58
   skip-cert-verify: true
@@ -56,7 +50,7 @@ proxies:
   - h3
   auth-str: dongtaiwang.com
   down: 55 Mbps
-  name: ❓其他|481KB/s|23h|084eaa
+  name: ❓其他|1.4MB/s|1d|084eaa
   port: 24667
   protocol: udp
   server: 62.210.70.191
@@ -64,10 +58,176 @@ proxies:
   sni: bing.com
   type: hysteria
   up: 11 Mbps
+- auth: 4b1be712-774c-4b65-8491-a3339e124a70
+  name: 🇫🇷法国|1.2MB/s|9h|1
+  password: 4b1be712-774c-4b65-8491-a3339e124a70
+  port: 443
+  server: fr2-cl3.happy-glonaris.top
+  skip-cert-verify: true
+  sni: fr2-cl3.happy-glonaris.top
+  tls: false
+  type: hysteria2
+- name: 🇳🇱荷兰|1.2MB/s|~1d|17 R002-260618
+  password: 'null'
+  port: 23856
+  server: 51.159.225.196
+  skip-cert-verify: true
+  sni: 51.159.225.196
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- client-fingerprint: qq
+  flow: xtls-rprx-vision
+  name: ❓其他|1.1MB/s|3h|vless-1935806314
+  network: raw
+  port: 443
+  reality-opts:
+    public-key: osmv_68hih_V_A_ptwQj_TVmdj8ayt_chDCZdj1DrS4
+    short-id: f1a5e1d9
+  server: fast.letsconnectpoint.com
+  servername: fast.letsconnectpoint.com
+  tls: true
+  type: vless
+  udp: true
+  uuid: 4b1be712-774c-4b65-8491-a3339e124a70
+- client-fingerprint: qq
+  flow: xtls-rprx-vision
+  name: ❓其他|877KB/s|9h|vless-1934374906
+  network: tcp
+  port: 443
+  reality-opts:
+    public-key: osmv_68hih_V_A_ptwQj_TVmdj8ayt_chDCZdj1DrS4
+    short-id: f1a5e1d9
+  server: fast.letsconnectpoint.com
+  servername: fast.letsconnectpoint.com
+  tls: true
+  type: vless
+  udp: true
+  uuid: 4b1be712-774c-4b65-8491-a3339e124a70
+- client-fingerprint: chrome
+  name: '❓其他|839KB/s|9h|vless #28'
+  network: ws
+  port: 443
+  server: cf.090227.xyz
+  servername: ccc.010304.xyz
+  tls: true
+  type: vless
+  uuid: d342d11e-d224-4463-b982-532309285094
+  ws-opts:
+    headers:
+      Host: ccc.010304.xyz
+    path: /fp=chrome
+- name: ❓其他|707KB/s|9h|hysteria2-1934510068
+  password: 10be1dad-9952-4c5e-aa30-db435f69b727
+  port: 4444
+  server: pl3.nexfile.net
+  skip-cert-verify: false
+  sni: pl3.nexfile.net
+  type: hysteria2
+- name: 🇩🇪德国|392KB/s|~2d|1 R002-260618
+  port: 8443
+  server: 77.221.136.60
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|385KB/s|~2d|15 R002-260618
+  port: 443
+  server: 137.175.22.72
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- flow: xtls-rprx-vision
+  name: ❓其他|374KB/s|~1d|vless-1929108260
+  network: tcp
+  port: 443
+  server: 50.7.36.29
+  servername: ekb.eg
+  skip-cert-verify: true
+  tls: true
+  type: vless
+  udp: true
+  uuid: cd3bb7d9-7df3-4644-ac05-c260990ac277
+- client-fingerprint: chrome
+  name: ❓其他|334KB/s|3h|vless-1935806355
+  network: tcp
+  port: 25895
+  reality-opts:
+    public-key: jOVKSP-bS9OkILJ8Epz8hadh6qhavCrOiJYeF0NCn0k
+    short-id: a73f0410d728c823
+  server: 79.182.39.233
+  servername: www.samsung.com
+  tls: true
+  type: vless
+  udp: true
+  uuid: f90b7d43-69e2-4b46-a672-8029bc6796a2
+- name: 🇺🇸美国|329KB/s|~2d|26 R002-260618
+  port: 443
+  server: 137.175.22.98
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|321KB/s|1d|20 K001-260618
+  password: ''
+  port: 443
+  server: zebpay.site
+  skip-cert-verify: true
+  sub_tag: K001-260618
+  tls: true
+  type: http
+  username: ''
+  udp: true
+  sni: zebpay.site
+- name: ❓其他|306KB/s|~2d|49 P002-260618
+  password: 'null'
+  port: 443
+  server: 5.255.118.82
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇹🇼台湾|301KB/s|<1h|zhuhai.uk
+  type: anytls
+  server: er8u54dh.df6h451rh.xin
+  port: 443
+  password: 0324fbc29561
+  udp: true
+  skip-cert-verify: true
+- client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  name: ❓其他|298KB/s|<1h|vless-1936420073
+  network: tcp
+  port: 2089
+  reality-opts:
+    public-key: oRmj7gTi5H2oIClNYxxgOjqp8-j5kFYtGFU8CNuMj34
+    short-id: deccc6fac1ddb0ff
+  server: 213.152.180.55
+  servername: www.apple.com
+  tls: true
+  type: vless
+  udp: true
+  uuid: 38d3d211-cc9f-491a-a8ab-9a5be57bb712
+- name: 🇺🇸美国|288KB/s|1d|16 R002-260618
+  port: 443
+  server: 137.175.22.29
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
 - client-fingerprint: firefox
   flow: xtls-rprx-vision
-  name: ❓其他|461KB/s|2h|vless-1935621151
-  network: raw
+  name: ❓其他|226KB/s|3h|vless-1935617271
+  network: tcp
   port: 2063
   reality-opts:
     public-key: MMpt_jWc4J3oySBdf5sPDVRkiWlZmOObth6A1scM9BM
@@ -78,19 +238,85 @@ proxies:
   type: vless
   udp: true
   uuid: b18d5990-96eb-4587-a386-7f8ef7591e6a
-- name: ❓其他|319KB/s|2h|vless-1935807346
-  network: tcp
-  port: 37095
-  server: kr002.zestapp778.com
-  servername: kr002.zestapp778.com
-  skip-cert-verify: false
+- client-fingerprint: chrome
+  name: ❓其他|214KB/s|6h|vless-1929490302
+  network: raw
+  port: 443
+  reality-opts:
+    public-key: 5KZVzOFqMgdL47--JzLlg5HmPlAYp-cmQsXxkTXngS0
+    short-id: 8d50d3a4df71468c
+  server: f36f5ft.us4.h1clayd.click
+  servername: f36f5ft.us4.h1clayd.click
   tls: true
   type: vless
   udp: true
-  uuid: e9a8144e-5237-488a-afb1-9ca3d8d54c80
+  uuid: 5a519754-a673-4462-83f6-5eb25d2af141
+- client-fingerprint: chrome
+  name: ❓其他|190KB/s|<1h|vless-1920345506
+  network: tcp
+  port: 443
+  reality-opts:
+    public-key: t_aj99mkcVXDY_7xI9RhWyEY3khupiGiDsGKEJ7EajM
+    short-id: 5590a9bae52e0586
+  server: 66.154.101.36
+  servername: www.tesla.com
+  tls: true
+  type: vless
+  udp: true
+  uuid: c166ca49-4af0-416d-8411-2100f7bde9fe
+- client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  name: ❓其他|186KB/s|<1h|vless-1936420047
+  network: tcp
+  port: 2091
+  reality-opts:
+    public-key: 1N6AW5YuEwBoYcZK5KuugDzBHsa0NKZMT8QI-EmyL0k
+    short-id: 08a4b1f473932632
+  server: 213.152.165.198
+  servername: www.apple.com
+  tls: true
+  type: vless
+  udp: true
+  uuid: 6a26029d-5639-473a-9234-3e80d0633d7d
+- name: 🇹🇼台湾|185KB/s|13h|TWN
+  server: er8u54dh.df6h451rh.xin
+  port: 443
+  type: anytls
+  password: 0324fbc29561
+  udp: true
+  sni: px.ads.linkedin.com
+  skip-cert-verify: true
+- name: ❓其他|177KB/s|1d|@DeltaKroneckerGithu
+  server: 177.7.51.29
+  port: 8443
+  type: vless
+  uuid: c6b1b2d0-ed5e-48ce-99e6-112ff330030d
+  udp: true
+  flow: xtls-rprx-vision
+  tls: true
+  servername: www.apple.com
+  skip-cert-verify: true
+  reality-opts:
+    public-key: laG5BxoSbdRozpauATNFBPPTwhuDuu0JFl_SCP2ZQlU
+    short-id: 14fbf992
+  client-fingerprint: chrome
+- client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  port: 443
+  reality-opts:
+    public-key: q3UXFUE5yYxNE4ugLUnYdpc9WRtR-sjsDTrKsiqzDHE
+  server: nl-central.v8x2b.lol
+  servername: nl-central.v8x2b.lol
+  skip-cert-verify: false
+  sni: nl-central.v8x2b.lol
+  tls: true
+  type: vless
+  udp: true
+  uuid: 846cedee-2a52-0002-a0b9-11850ead6a8b
+  name: 🇳🇱荷兰|176KB/s|9h|26c334
 - client-fingerprint: firefox
   flow: xtls-rprx-vision
-  name: ❓其他|310KB/s|8h|vless-1932656551
+  name: ❓其他|173KB/s|9h|vless-1932656551
   network: tcp
   port: 2063
   reality-opts:
@@ -104,8 +330,8 @@ proxies:
   uuid: b18d5990-96eb-4587-a386-7f8ef7591e6a
 - client-fingerprint: firefox
   flow: xtls-rprx-vision
-  name: ❓其他|298KB/s|2h|vless-1935617271
-  network: tcp
+  name: ❓其他|169KB/s|3h|vless-1935621151
+  network: raw
   port: 2063
   reality-opts:
     public-key: MMpt_jWc4J3oySBdf5sPDVRkiWlZmOObth6A1scM9BM
@@ -116,180 +342,30 @@ proxies:
   type: vless
   udp: true
   uuid: b18d5990-96eb-4587-a386-7f8ef7591e6a
-- client-fingerprint: firefox
-  name: ❓其他|261KB/s|8h|vless-1932656526
-  network: tcp
-  port: 443
-  reality-opts:
-    public-key: MPNMomAMn_lu9YMYjD2jAQWrI-rTM4hj9Jgg9d6qzTA
-    short-id: 50ad5564
-  server: 186.246.9.29
-  servername: wordpress.com
-  tls: true
-  type: vless
-  udp: true
-  uuid: b2847c3b-5278-4b06-9c66-bc919d2dfec7
 - client-fingerprint: chrome
-  name: ❓其他|259KB/s|2h|vless-1935806355
-  network: tcp
-  port: 25895
-  reality-opts:
-    public-key: jOVKSP-bS9OkILJ8Epz8hadh6qhavCrOiJYeF0NCn0k
-    short-id: a73f0410d728c823
-  server: 79.182.39.233
-  servername: www.samsung.com
-  tls: true
-  type: vless
-  udp: true
-  uuid: f90b7d43-69e2-4b46-a672-8029bc6796a2
-- alterId: 0
-  cipher: auto
-  name: ❓其他|239KB/s|8h|vmess-1934374877
-  network: ws
-  port: 10086
-  server: 120.48.133.162
-  type: vmess
-  udp: true
-  uuid: f81d0fc9-c6b0-4dab-a270-6e697e0a367f
-- alterId: 0
-  cipher: auto
-  name: ❓其他|233KB/s|8h|vmess-1932230391
-  network: ws
-  port: 10086
-  server: 120.48.133.162
-  type: vmess
-  udp: true
-  uuid: a8d931b0-6c27-428b-8d86-c20efea3dba7
-- client-fingerprint: firefox
   flow: xtls-rprx-vision
-  name: ❓其他|226KB/s|8h|vless-1934374885
-  network: tcp
-  port: 443
-  reality-opts:
-    public-key: osmv_68hih_V_A_ptwQj_TVmdj8ayt_chDCZdj1DrS4
-    short-id: f1a5e1d9
-  server: 94.183.229.105
-  servername: fast.letsconnectpoint.com
-  tls: true
-  type: vless
-  udp: true
-  uuid: 4b1be712-774c-4b65-8491-a3339e124a70
-- client-fingerprint: firefox
-  flow: xtls-rprx-vision
-  name: ❓其他|224KB/s|2h|vless-1935804884
+  name: ❓其他|165KB/s|~1d|vless-1929911895
   network: tcp
   port: 8443
   reality-opts:
-    public-key: J5j_EwGWM1vgrApg31dnnu5cwMP-OgfJYYwl3kn9zFg
-    short-id: ''
-  server: 85.198.85.55
-  servername: api.max.ru
+    public-key: laG5BxoSbdRozpauATNFBPPTwhuDuu0JFl_SCP2ZQlU
+    short-id: 14fbf992
+  server: 177.7.51.29
+  servername: www.apple.com
   tls: true
   type: vless
   udp: true
-  uuid: 7e1dc732-1691-4699-8517-e3ca53887978
-- client-fingerprint: qq
-  flow: xtls-rprx-vision
-  name: ❓其他|177KB/s|8h|vless-1934374906
-  network: tcp
-  port: 443
-  reality-opts:
-    public-key: osmv_68hih_V_A_ptwQj_TVmdj8ayt_chDCZdj1DrS4
-    short-id: f1a5e1d9
-  server: fast.letsconnectpoint.com
-  servername: fast.letsconnectpoint.com
-  tls: true
-  type: vless
-  udp: true
-  uuid: 4b1be712-774c-4b65-8491-a3339e124a70
-- client-fingerprint: firefox
-  name: ❓其他|174KB/s|2h|vless-1935615269
-  network: tcp
-  port: 25362
-  reality-opts:
-    public-key: hFee7zTreqlv_wccK_8zxN5v23hj9u-DshByvGf-KAA
-    short-id: 23732d14a527990d
-  server: 79.182.39.75
-  servername: www.chip.de
-  tls: true
-  type: vless
-  udp: true
-  uuid: 36fb6650-8a50-42b5-9f66-06538806f32c
-- name: ❓其他|172KB/s|~2d|49 P002-260618
-  password: 'null'
-  port: 443
-  server: 5.255.118.82
+  uuid: c6b1b2d0-ed5e-48ce-99e6-112ff330030d
+- name: 🇳🇱荷兰|155KB/s|~2d|5
+  port: 9002
+  server: 84.17.47.146
   skip-cert-verify: true
-  sub_tag: P002-260618
   tls: true
   type: http
-  username: 'null'
-  udp: true
-- name: ❓其他|162KB/s|2h|vless-1932277343
-  server: nl-all.vless-bitrhythmia.top
-  port: 443
-  type: vless
-  uuid: 4b1be712-774c-4b65-8491-a3339e124a70
-  udp: true
-  tls: true
-  servername: nl-all.vless-bitrhythmia.top
-  skip-cert-verify: true
-  reality-opts:
-    public-key: WJrP73M7px11xkHKhmEMKnaqUR-DPZnKbR2m_N3TwEE
-    short-id: 724d6cab
-  client-fingerprint: firefox
-  network: grpc
-  grpc-opts:
-    grpc-service-name: grpc-nl-stream
-- name: ❓其他|156KB/s|2h|vless-1936406286
-  network: tcp
-  port: 18580
-  server: us007.zestapp778.com
-  servername: us007.zestapp778.com
-  skip-cert-verify: false
-  tls: true
-  type: vless
-  udp: true
-  uuid: e9a8144e-5237-488a-afb1-9ca3d8d54c80
-- name: ❓其他|154KB/s|2h|vless-1935621142
-  network: tcp
-  port: 46362
-  server: in002.zestapp778.com
-  servername: in002.zestapp778.com
-  skip-cert-verify: false
-  tls: true
-  type: vless
-  udp: true
-  uuid: e9a8144e-5237-488a-afb1-9ca3d8d54c80
-- name: 🇷🇺俄罗斯|150KB/s|5h|6
-  server: 188.72.103.4
-  port: 443
-  type: vless
-  uuid: 9737cc16-7266-45ce-94d9-6e05a45e0b9c
-  tls: true
-  alpn:
-  - h2
-  servername: ru.nnight.cfd
-  client-fingerprint: firefox
-  network: xhttp
-  xhttp-opts:
-    path: /api/v4/media/session/poll
-    host: ru.nnight.cfd
-    mode: packet-up
-    seq-key: offset
-    seq-placement: query
-    uplink-data-key: X-Playback-Token
-    uplink-data-placement: header
-    uplink-http-method: GET
-    x-padding-bytes: 48-320
-    x-padding-key: q
-    x-padding-method: tokenish
-    x-padding-obfs-mode: true
-    x-padding-placement: query
   udp: true
 - client-fingerprint: chrome
   flow: xtls-rprx-vision
-  name: ❓其他|145KB/s|2h|vless-1935797443
+  name: ❓其他|135KB/s|3h|vless-1935797443
   network: tcp
   port: 25021
   reality-opts:
@@ -301,32 +377,125 @@ proxies:
   type: vless
   udp: true
   uuid: 2446e2e2-1ce3-4502-9050-1dd32bacc68c
-- flow: xtls-rprx-vision
-  name: ❓其他|127KB/s|~1d|vless-1929108260
+- name: 🇭🇰香港|125KB/s|~2d|zhuhai.uk 02
+  type: http
+  server: 119.28.24.235
+  port: 3128
+  tls: true
+  skip-cert-verify: true
+- client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  name: ❓其他|123KB/s|9h|vless-1931195664
   network: tcp
   port: 443
-  server: 50.7.36.29
-  servername: ekb.eg
-  skip-cert-verify: true
+  reality-opts:
+    public-key: q3UXFUE5yYxNE4ugLUnYdpc9WRtR-sjsDTrKsiqzDHE
+    short-id: ''
+  server: nl-central.v8x2b.lol
+  servername: nl-central.v8x2b.lol
   tls: true
   type: vless
   udp: true
-  uuid: cd3bb7d9-7df3-4644-ac05-c260990ac277
-- network: ws
-  port: 25555
-  server: 152.69.226.63
+  uuid: 846cedee-2a52-0002-a0b9-11850ead6a8b
+- client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  name: ❓其他|122KB/s|<1h|vless-1936420074
+  network: tcp
+  port: 2091
+  reality-opts:
+    public-key: 1N6AW5YuEwBoYcZK5KuugDzBHsa0NKZMT8QI-EmyL0k
+    short-id: 08a4b1f473932632
+  server: 213.152.180.104
+  servername: www.apple.com
+  tls: true
   type: vless
-  uuid: 27c5483f-17f4-48ae-9a04-def53d88440d
-  ws-opts:
-    path: /
-  name: 🇰🇷韩国|102KB/s|5h|zhuhai.uk 05
-- name: 🇺🇸美国|100KB/s|~2d|speednode 0039
-  port: 8443
-  server: 44.248.167.117
+  udp: true
+  uuid: ce17d29c-3587-4d8c-b09d-e03437df8bbd
+- name: 🇫🇷法国|121KB/s|~1d|35 R002-260618
+  password: None
+  port: 443
+  server: fan.132031.xyz
   skip-cert-verify: true
+  sub_tag: R002-260618
   tls: true
   type: http
   udp: true
+  sni: fan.132031.xyz
+- client-fingerprint: chrome
+  name: ❓其他|111KB/s|<1h|vless-1926742095
+  network: raw
+  port: 443
+  reality-opts:
+    public-key: t_aj99mkcVXDY_7xI9RhWyEY3khupiGiDsGKEJ7EajM
+    short-id: 5590a9bae52e0586
+  server: 66.154.101.36
+  servername: www.tesla.com
+  tls: true
+  type: vless
+  udp: true
+  uuid: c166ca49-4af0-416d-8411-2100f7bde9fe
+- port: 1090
+  server: 121.169.46.116
+  type: socks5
+  name: 🇰🇷韩国|107KB/s|1d|zhuhai.uk 04
+- client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  name: ❓其他|106KB/s|<1h|vless-1936420119
+  network: tcp
+  port: 2091
+  reality-opts:
+    public-key: 1N6AW5YuEwBoYcZK5KuugDzBHsa0NKZMT8QI-EmyL0k
+    short-id: 08a4b1f473932632
+  server: 213.152.180.55
+  servername: www.apple.com
+  tls: true
+  type: vless
+  udp: true
+  uuid: ce17d29c-3587-4d8c-b09d-e03437df8bbd
+- client-fingerprint: chrome
+  name: ❓其他|105KB/s|1d|vless-1931194881
+  network: tcp
+  port: 443
+  reality-opts:
+    public-key: nNe5Y8_G7L0_VO5lqlee3h5UmRH4RXjaRYGCDUkbQz4
+    short-id: 2892e611785bafd1
+  server: 196.196.204.174
+  servername: 263651t.fi3.h1clayd.click
+  tls: true
+  type: vless
+  udp: true
+  uuid: 056405e8-de9f-4d0d-8145-956f13cc34da
+- name: 🇳🇱荷兰|104KB/s|~2d|4 R002-260618
+  password: 'null'
+  port: 443
+  server: 51.158.243.91
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇨🇳中国|103KB/s|<1h|> US 2
+  type: vless
+  server: jp.sofast.live
+  port: 52683
+  uuid: 399b6b23-cc40-4831-a494-61948e2df133
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- client-fingerprint: firefox
+  name: ❓其他|102KB/s|3h|vless-1935807341
+  network: tcp
+  port: 25445
+  reality-opts:
+    public-key: wkpC2kKl2gNMM6uOP-K1__k70YUKS8c5t7aFW_PF7UM
+    short-id: e891838a8cb32dbf
+  server: 164.37.224.228
+  servername: www.cloudflare.com
+  tls: true
+  type: vless
+  udp: true
+  uuid: 5a519754-a673-4462-83f6-5eb25d2af141
 proxy-groups:
 - name: 🚀 节点选择
   type: select
@@ -335,31 +504,48 @@ proxy-groups:
   - ⚡ 负载均衡
   - DIRECT
   - 🌐 其他
-  - 🇺🇸美国|748KB/s|~1d|2
-  - 🇯🇵日本|672KB/s|5h|1
-  - 🇭🇰香港|570KB/s|5h|2
-  - ❓其他|481KB/s|23h|084eaa
-  - ❓其他|461KB/s|2h|vless-1935621151
-  - ❓其他|319KB/s|2h|vless-1935807346
-  - ❓其他|310KB/s|8h|vless-1932656551
-  - ❓其他|298KB/s|2h|vless-1935617271
-  - ❓其他|261KB/s|8h|vless-1932656526
-  - ❓其他|259KB/s|2h|vless-1935806355
-  - ❓其他|239KB/s|8h|vmess-1934374877
-  - ❓其他|233KB/s|8h|vmess-1932230391
-  - ❓其他|226KB/s|8h|vless-1934374885
-  - ❓其他|224KB/s|2h|vless-1935804884
-  - ❓其他|177KB/s|8h|vless-1934374906
-  - ❓其他|174KB/s|2h|vless-1935615269
-  - ❓其他|172KB/s|~2d|49 P002-260618
-  - ❓其他|162KB/s|2h|vless-1932277343
-  - ❓其他|156KB/s|2h|vless-1936406286
-  - ❓其他|154KB/s|2h|vless-1935621142
-  - 🇷🇺俄罗斯|150KB/s|5h|6
-  - ❓其他|145KB/s|2h|vless-1935797443
-  - ❓其他|127KB/s|~1d|vless-1929108260
-  - 🇰🇷韩国|102KB/s|5h|zhuhai.uk 05
-  - 🇺🇸美国|100KB/s|~2d|speednode 0039
+  - 🇯🇵日本|5.1MB/s|6h|1
+  - 🇭🇰香港|1.5MB/s|6h|2
+  - ❓其他|1.4MB/s|1d|084eaa
+  - 🇫🇷法国|1.2MB/s|9h|1
+  - 🇳🇱荷兰|1.2MB/s|~1d|17 R002-260618
+  - ❓其他|1.1MB/s|3h|vless-1935806314
+  - ❓其他|877KB/s|9h|vless-1934374906
+  - '❓其他|839KB/s|9h|vless #28'
+  - ❓其他|707KB/s|9h|hysteria2-1934510068
+  - 🇩🇪德国|392KB/s|~2d|1 R002-260618
+  - 🇺🇸美国|385KB/s|~2d|15 R002-260618
+  - ❓其他|374KB/s|~1d|vless-1929108260
+  - ❓其他|334KB/s|3h|vless-1935806355
+  - 🇺🇸美国|329KB/s|~2d|26 R002-260618
+  - 🇺🇸美国|321KB/s|1d|20 K001-260618
+  - ❓其他|306KB/s|~2d|49 P002-260618
+  - 🇹🇼台湾|301KB/s|<1h|zhuhai.uk
+  - ❓其他|298KB/s|<1h|vless-1936420073
+  - 🇺🇸美国|288KB/s|1d|16 R002-260618
+  - ❓其他|226KB/s|3h|vless-1935617271
+  - ❓其他|214KB/s|6h|vless-1929490302
+  - ❓其他|190KB/s|<1h|vless-1920345506
+  - ❓其他|186KB/s|<1h|vless-1936420047
+  - 🇹🇼台湾|185KB/s|13h|TWN
+  - ❓其他|177KB/s|1d|@DeltaKroneckerGithu
+  - 🇳🇱荷兰|176KB/s|9h|26c334
+  - ❓其他|173KB/s|9h|vless-1932656551
+  - ❓其他|169KB/s|3h|vless-1935621151
+  - ❓其他|165KB/s|~1d|vless-1929911895
+  - 🇳🇱荷兰|155KB/s|~2d|5
+  - ❓其他|135KB/s|3h|vless-1935797443
+  - 🇭🇰香港|125KB/s|~2d|zhuhai.uk 02
+  - ❓其他|123KB/s|9h|vless-1931195664
+  - ❓其他|122KB/s|<1h|vless-1936420074
+  - 🇫🇷法国|121KB/s|~1d|35 R002-260618
+  - ❓其他|111KB/s|<1h|vless-1926742095
+  - 🇰🇷韩国|107KB/s|1d|zhuhai.uk 04
+  - ❓其他|106KB/s|<1h|vless-1936420119
+  - ❓其他|105KB/s|1d|vless-1931194881
+  - 🇳🇱荷兰|104KB/s|~2d|4 R002-260618
+  - 🇨🇳中国|103KB/s|<1h|> US 2
+  - ❓其他|102KB/s|3h|vless-1935807341
 - name: ♻️ 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -368,30 +554,30 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - 🇺🇸美国|748KB/s|~1d|2
-  - 🇯🇵日本|672KB/s|5h|1
-  - 🇭🇰香港|570KB/s|5h|2
-  - ❓其他|481KB/s|23h|084eaa
-  - ❓其他|461KB/s|2h|vless-1935621151
-  - ❓其他|319KB/s|2h|vless-1935807346
-  - ❓其他|310KB/s|8h|vless-1932656551
-  - ❓其他|298KB/s|2h|vless-1935617271
-  - ❓其他|261KB/s|8h|vless-1932656526
-  - ❓其他|259KB/s|2h|vless-1935806355
-  - ❓其他|239KB/s|8h|vmess-1934374877
-  - ❓其他|233KB/s|8h|vmess-1932230391
-  - ❓其他|226KB/s|8h|vless-1934374885
-  - ❓其他|224KB/s|2h|vless-1935804884
-  - ❓其他|177KB/s|8h|vless-1934374906
-  - ❓其他|174KB/s|2h|vless-1935615269
-  - ❓其他|172KB/s|~2d|49 P002-260618
-  - ❓其他|162KB/s|2h|vless-1932277343
-  - ❓其他|156KB/s|2h|vless-1936406286
-  - ❓其他|154KB/s|2h|vless-1935621142
-  - 🇷🇺俄罗斯|150KB/s|5h|6
-  - ❓其他|145KB/s|2h|vless-1935797443
-  - ❓其他|127KB/s|~1d|vless-1929108260
-  - 🇰🇷韩国|102KB/s|5h|zhuhai.uk 05
+  - 🇯🇵日本|5.1MB/s|6h|1
+  - 🇭🇰香港|1.5MB/s|6h|2
+  - ❓其他|1.4MB/s|1d|084eaa
+  - 🇫🇷法国|1.2MB/s|9h|1
+  - 🇳🇱荷兰|1.2MB/s|~1d|17 R002-260618
+  - ❓其他|1.1MB/s|3h|vless-1935806314
+  - ❓其他|877KB/s|9h|vless-1934374906
+  - '❓其他|839KB/s|9h|vless #28'
+  - ❓其他|707KB/s|9h|hysteria2-1934510068
+  - 🇩🇪德国|392KB/s|~2d|1 R002-260618
+  - 🇺🇸美国|385KB/s|~2d|15 R002-260618
+  - ❓其他|374KB/s|~1d|vless-1929108260
+  - ❓其他|334KB/s|3h|vless-1935806355
+  - 🇺🇸美国|329KB/s|~2d|26 R002-260618
+  - 🇺🇸美国|321KB/s|1d|20 K001-260618
+  - ❓其他|306KB/s|~2d|49 P002-260618
+  - 🇹🇼台湾|301KB/s|<1h|zhuhai.uk
+  - ❓其他|298KB/s|<1h|vless-1936420073
+  - 🇺🇸美国|288KB/s|1d|16 R002-260618
+  - ❓其他|226KB/s|3h|vless-1935617271
+  - ❓其他|214KB/s|6h|vless-1929490302
+  - ❓其他|190KB/s|<1h|vless-1920345506
+  - ❓其他|186KB/s|<1h|vless-1936420047
+  - 🇹🇼台湾|185KB/s|13h|TWN
 - name: ⚡ 负载均衡
   type: load-balance
   strategy: consistent-hashing
@@ -400,30 +586,30 @@ proxy-groups:
   lazy: true
   timeout: 8000
   proxies:
-  - 🇺🇸美国|748KB/s|~1d|2
-  - 🇯🇵日本|672KB/s|5h|1
-  - 🇭🇰香港|570KB/s|5h|2
-  - ❓其他|481KB/s|23h|084eaa
-  - ❓其他|461KB/s|2h|vless-1935621151
-  - ❓其他|319KB/s|2h|vless-1935807346
-  - ❓其他|310KB/s|8h|vless-1932656551
-  - ❓其他|298KB/s|2h|vless-1935617271
-  - ❓其他|261KB/s|8h|vless-1932656526
-  - ❓其他|259KB/s|2h|vless-1935806355
-  - ❓其他|239KB/s|8h|vmess-1934374877
-  - ❓其他|233KB/s|8h|vmess-1932230391
-  - ❓其他|226KB/s|8h|vless-1934374885
-  - ❓其他|224KB/s|2h|vless-1935804884
-  - ❓其他|177KB/s|8h|vless-1934374906
-  - ❓其他|174KB/s|2h|vless-1935615269
-  - ❓其他|172KB/s|~2d|49 P002-260618
-  - ❓其他|162KB/s|2h|vless-1932277343
-  - ❓其他|156KB/s|2h|vless-1936406286
-  - ❓其他|154KB/s|2h|vless-1935621142
-  - 🇷🇺俄罗斯|150KB/s|5h|6
-  - ❓其他|145KB/s|2h|vless-1935797443
-  - ❓其他|127KB/s|~1d|vless-1929108260
-  - 🇰🇷韩国|102KB/s|5h|zhuhai.uk 05
+  - 🇯🇵日本|5.1MB/s|6h|1
+  - 🇭🇰香港|1.5MB/s|6h|2
+  - ❓其他|1.4MB/s|1d|084eaa
+  - 🇫🇷法国|1.2MB/s|9h|1
+  - 🇳🇱荷兰|1.2MB/s|~1d|17 R002-260618
+  - ❓其他|1.1MB/s|3h|vless-1935806314
+  - ❓其他|877KB/s|9h|vless-1934374906
+  - '❓其他|839KB/s|9h|vless #28'
+  - ❓其他|707KB/s|9h|hysteria2-1934510068
+  - 🇩🇪德国|392KB/s|~2d|1 R002-260618
+  - 🇺🇸美国|385KB/s|~2d|15 R002-260618
+  - ❓其他|374KB/s|~1d|vless-1929108260
+  - ❓其他|334KB/s|3h|vless-1935806355
+  - 🇺🇸美国|329KB/s|~2d|26 R002-260618
+  - 🇺🇸美国|321KB/s|1d|20 K001-260618
+  - ❓其他|306KB/s|~2d|49 P002-260618
+  - 🇹🇼台湾|301KB/s|<1h|zhuhai.uk
+  - ❓其他|298KB/s|<1h|vless-1936420073
+  - 🇺🇸美国|288KB/s|1d|16 R002-260618
+  - ❓其他|226KB/s|3h|vless-1935617271
+  - ❓其他|214KB/s|6h|vless-1929490302
+  - ❓其他|190KB/s|<1h|vless-1920345506
+  - ❓其他|186KB/s|<1h|vless-1936420047
+  - 🇹🇼台湾|185KB/s|13h|TWN
 - name: 🌐 其他
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -432,31 +618,48 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - ❓其他|481KB/s|23h|084eaa
-  - ❓其他|461KB/s|2h|vless-1935621151
-  - ❓其他|319KB/s|2h|vless-1935807346
-  - ❓其他|310KB/s|8h|vless-1932656551
-  - ❓其他|298KB/s|2h|vless-1935617271
-  - ❓其他|261KB/s|8h|vless-1932656526
-  - ❓其他|259KB/s|2h|vless-1935806355
-  - ❓其他|239KB/s|8h|vmess-1934374877
-  - ❓其他|233KB/s|8h|vmess-1932230391
-  - ❓其他|226KB/s|8h|vless-1934374885
-  - ❓其他|224KB/s|2h|vless-1935804884
-  - ❓其他|177KB/s|8h|vless-1934374906
-  - ❓其他|174KB/s|2h|vless-1935615269
-  - ❓其他|172KB/s|~2d|49 P002-260618
-  - ❓其他|162KB/s|2h|vless-1932277343
-  - ❓其他|156KB/s|2h|vless-1936406286
-  - ❓其他|154KB/s|2h|vless-1935621142
-  - ❓其他|145KB/s|2h|vless-1935797443
-  - ❓其他|127KB/s|~1d|vless-1929108260
-  - 🇺🇸美国|748KB/s|~1d|2
-  - 🇺🇸美国|100KB/s|~2d|speednode 0039
-  - 🇯🇵日本|672KB/s|5h|1
-  - 🇭🇰香港|570KB/s|5h|2
-  - 🇷🇺俄罗斯|150KB/s|5h|6
-  - 🇰🇷韩国|102KB/s|5h|zhuhai.uk 05
+  - ❓其他|1.4MB/s|1d|084eaa
+  - ❓其他|1.1MB/s|3h|vless-1935806314
+  - ❓其他|877KB/s|9h|vless-1934374906
+  - '❓其他|839KB/s|9h|vless #28'
+  - ❓其他|707KB/s|9h|hysteria2-1934510068
+  - ❓其他|374KB/s|~1d|vless-1929108260
+  - ❓其他|334KB/s|3h|vless-1935806355
+  - ❓其他|306KB/s|~2d|49 P002-260618
+  - ❓其他|298KB/s|<1h|vless-1936420073
+  - ❓其他|226KB/s|3h|vless-1935617271
+  - ❓其他|214KB/s|6h|vless-1929490302
+  - ❓其他|190KB/s|<1h|vless-1920345506
+  - ❓其他|186KB/s|<1h|vless-1936420047
+  - ❓其他|177KB/s|1d|@DeltaKroneckerGithu
+  - ❓其他|173KB/s|9h|vless-1932656551
+  - ❓其他|169KB/s|3h|vless-1935621151
+  - ❓其他|165KB/s|~1d|vless-1929911895
+  - ❓其他|135KB/s|3h|vless-1935797443
+  - ❓其他|123KB/s|9h|vless-1931195664
+  - ❓其他|122KB/s|<1h|vless-1936420074
+  - ❓其他|111KB/s|<1h|vless-1926742095
+  - ❓其他|106KB/s|<1h|vless-1936420119
+  - ❓其他|105KB/s|1d|vless-1931194881
+  - ❓其他|102KB/s|3h|vless-1935807341
+  - 🇯🇵日本|5.1MB/s|6h|1
+  - 🇭🇰香港|1.5MB/s|6h|2
+  - 🇭🇰香港|125KB/s|~2d|zhuhai.uk 02
+  - 🇫🇷法国|1.2MB/s|9h|1
+  - 🇫🇷法国|121KB/s|~1d|35 R002-260618
+  - 🇳🇱荷兰|1.2MB/s|~1d|17 R002-260618
+  - 🇳🇱荷兰|176KB/s|9h|26c334
+  - 🇳🇱荷兰|155KB/s|~2d|5
+  - 🇳🇱荷兰|104KB/s|~2d|4 R002-260618
+  - 🇩🇪德国|392KB/s|~2d|1 R002-260618
+  - 🇺🇸美国|385KB/s|~2d|15 R002-260618
+  - 🇺🇸美国|329KB/s|~2d|26 R002-260618
+  - 🇺🇸美国|321KB/s|1d|20 K001-260618
+  - 🇺🇸美国|288KB/s|1d|16 R002-260618
+  - 🇹🇼台湾|301KB/s|<1h|zhuhai.uk
+  - 🇹🇼台湾|185KB/s|13h|TWN
+  - 🇰🇷韩国|107KB/s|1d|zhuhai.uk 04
+  - 🇨🇳中国|103KB/s|<1h|> US 2
 rules:
 - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
 - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
