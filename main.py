@@ -453,25 +453,49 @@ def main():
             # 这里先排一次，是为了让写进候选池的发布集顺序也是网速序——本机下一轮按
             # 顺序取前 N 个重测，快的节点先测更划算。最终发布顺序在漏斗末尾统一再排。
             publish = builder.sort_by_speed(publish, rank_cfg)
-            # 候选池 = 本轮发布集 + 未验证的新节点（补足到上限），让本机下一轮有东西可测。
-            # 新节点按「存活次数 → 协议可用率」排序，把额度花在最可能成立的候选上。
+            # 候选池 = 本轮发布集 + 白名单已验证的老节点 + 未验证的新节点（补足到上限）。
+            # 三层的顺序不能颠倒：
+            #   ① publish  —— 本轮正在发布的，必须下一轮复测（否则自己也变 stale）；
+            #   ② verified —— 白名单里测通过、但本轮因轮次/网速/名额掉出去的老节点。
+            #      它们不占位就永远没机会重测，只能被判 stale，见 builder.split_verified；
+            #   ③ fresh    —— 从没测过的节点，按协议分区排（低分协议的探索名额靠它）。
+            # verified 拿 `verified_ratio` 的配额，余量给 fresh：既保证老节点滚动复测，
+            # 也不让候选池退化成「只有老面孔」、新血进不来。
             proven = {builder.fingerprint(p) for p in proxies}
             rest = [p for p in full_pool if builder.fingerprint(p) not in proven]
+            candidate_cap = int(cand_cfg.get("max") or 0)
+            verified_ratio = float(cand_cfg.get("verified_ratio", 0) or 0)
+            verified, fresh = builder.split_verified(
+                rest, (wl_data or {}).get("entries") or {}
+            )
             if check_cfg.get("protocol_score"):
-                rest = builder.rank_by_protocol(
-                    rest, check_cfg["protocol_score"],
+                fresh = builder.rank_by_protocol(
+                    fresh, check_cfg["protocol_score"],
                     high_ratio=float(check_cfg.get("high_score_quota", 0.75)),
-                    cap=len(rest),
+                    cap=len(fresh),
                     source_scores=check_cfg.get("source_score"),
                     explore_per_proto=int(check_cfg.get("protocol_explore_per_type") or 0),
                 )
-            rest = ledger.rank(rest, trusted_streak)
-            candidate_cap = int(cand_cfg.get("max") or 0)
+            verified = ledger.rank(verified, trusted_streak)
+            fresh = ledger.rank(fresh, trusted_streak)
             if candidate_cap:
                 need = max(0, candidate_cap - len(publish))
-                pool = publish + rest[:need]
-                log.info("候选池：发布 %d + 未验证新节点 %d（上限 %d）",
-                         len(publish), len(pool) - len(publish), candidate_cap)
+                # ratio=0 时退化为「老节点全保」，只在新老之间不设上限（旧行为）
+                quota = int(round(need * verified_ratio)) if verified_ratio > 0 else need
+                take_verified = verified[: max(0, min(quota, need))]
+                take_fresh = fresh[: max(0, need - len(take_verified))]
+                pool = publish + take_verified + take_fresh
+                log.info(
+                    "候选池：发布 %d + 已验证老节点 %d/%d + 新节点 %d/%d（上限 %d）",
+                    len(publish), len(take_verified), len(verified),
+                    len(take_fresh), len(fresh), candidate_cap,
+                )
+                if len(verified) > len(take_verified):
+                    log.info(
+                        "候选池：%d 个已验证老节点因配额没排上（verified_ratio=%.2f），"
+                        "它们本轮不会被重测",
+                        len(verified) - len(take_verified), verified_ratio,
+                    )
             else:
                 pool = publish
             write_candidates(

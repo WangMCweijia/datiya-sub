@@ -733,6 +733,52 @@ def _age_text(hours, estimated=False):
     return "%s%dh" % (prefix, int(hours))
 
 
+def split_verified(proxies, entries, min_ok_rounds=1):
+    """把待探测节点分成「白名单已验证」与「从未验证」两组，前者按最近测通排序。
+
+    **为什么必须分开**：候选池名额原本只有一个排序依据（协议分 × 源因子），白名单里
+    已经实测通过的老节点和几千个从没测过的新节点混在一起竞争，低分协议、低权重源的
+    老节点会被直接挤出名额。后果是连锁的：
+
+        老节点没进候选池 → 本轮不会被重测 → 白名单里的 `round` 停在旧值
+        → CI 判 stale 下线 → 下一轮更没有理由保它 → 存活时长永远攒不起来。
+
+    实测（2026-10-28）：826 条白名单只有 288 个进了候选池，110 个被 stale 拒掉，
+    发布集里最老的节点只有 49.6 小时，`veterans` 恒为 0——不是没有长寿节点，
+    是没有任何节点能连续几轮留在池子里。
+
+    排序只用一个信号：**距上次测通多近**。它同时编码了「还活着」和「已被验证」，
+    且不必给 kbps=0 开特例（零速也可能是瞬时假阴性，同样值得复测）。同样的新鲜度下
+    网速快的在前，让「很可能重新达标」的先占用探测时间。
+
+    新鲜度按 **半小时一桶** 比较，桶内才看网速：直接比原始小时数的话，两条只差 1 秒的
+    `last_ok` 就能决定先后（`hours_since` 每次调用取一次 now，还有微秒噪声），
+    900KB/s 和 60KB/s 的差别会被这 1 秒完全压掉。
+
+    返回 (verified, fresh)。verified 内部已排好序，调用方按配额截断即可。
+    """
+    entries = entries or {}
+    min_ok = int(min_ok_rounds or 0)
+    now = datetime.now(TZ)          # 全批共用一个 now，避免逐条取时钟产生假新鲜度差
+    scored, fresh = [], []
+    for proxy in proxies:
+        entry = entries.get(fingerprint(proxy))
+        if not entry or int(entry.get("ok_rounds") or 0) < min_ok:
+            fresh.append(proxy)
+            continue
+        # 没有 last_ok 的老条目排在最后，但仍在 verified 组里（它毕竟被测通过）
+        age = hours_since(entry.get("last_ok"), now)
+        bucket = int(age * 2) if age is not None else 10 ** 9
+        scored.append((
+            bucket,
+            -float(entry.get("kbps") or 0),
+            len(scored),
+            proxy,
+        ))
+    scored.sort(key=lambda row: (row[0], row[1], row[2]))
+    return [row[3] for row in scored], fresh
+
+
 def is_veteran(proxy, cfg=None):
     """「老黄牛」：存活够久**且**够快，两者缺一不可。
 
