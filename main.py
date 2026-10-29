@@ -171,7 +171,8 @@ def render_page(status, out_cfg):
             f"真实代理测速白名单，{wl.get('age_hours') or 0:.1f} 小时前生成；"
             f"剔除 失效 {rejected.get('dead', 0)} · 不稳定 {rejected.get('unstable', 0)}"
             f" · 过慢 {rejected.get('slow', 0)}"
-            f" · 测不出速度 {rejected.get('unmeasured', 0)}{floor_txt}</td></tr>"
+            f" · 测不出速度 {rejected.get('unmeasured', 0)}"
+            f" · 只能明文 {rejected.get('no_https', 0)}{floor_txt}</td></tr>"
         )
     proto_row = ""
     if status.get("protocols"):
@@ -410,6 +411,10 @@ def main():
     # 用户看到的节点集合会随「白名单是否新鲜」跳变，很难解释。
     if not wl_cfg.get("min_kbps"):
         wl_cfg["min_kbps"] = check_cfg.get("min_speed_kbps", 0)
+    # HTTPS 闸门同理只留一个开关：本机探测按 `check.https_check` 测不测，
+    # 发布侧按 `check.whitelist.require_https`（未显式设置时跟随前者）筛不筛。
+    wl_cfg.setdefault("require_https", check_cfg.get("https_check", True))
+    wl_cfg.setdefault("https_fail_rounds", check_cfg.get("https_fail_rounds", 2))
     cand_cfg = check_cfg.get("candidates") or {}
     # 发布顺序：只按实测网速（见 builder.sort_by_speed）。只影响订阅里
     # 节点的排列顺序，不淘汰节点，所以两条测活分支（白名单 / Globalping）都能用。
@@ -443,8 +448,8 @@ def main():
             proxies, wl_stats = whitelist.apply(full_pool, wl_data, wl_cfg)
             log.info(
                 "白名单过滤：去重后 %d → %d（命中 %d；标记失效 %d、不稳定 %d、"
-                "过慢 %d、测不出网速 %d、超出实测窗口 %d；不在白名单的 %d 个未经验证，"
-                "一律不发）",
+                "过慢 %d、测不出网速 %d、只能明文 %d、超出实测窗口 %d；"
+                "不在白名单的 %d 个未经验证，一律不发）",
                 deduped,
                 len(proxies),
                 wl_stats.get("matched", 0),
@@ -452,6 +457,7 @@ def main():
                 wl_stats.get("unstable", 0),
                 wl_stats.get("slow", 0),
                 wl_stats.get("unmeasured", 0),
+                wl_stats.get("no_https", 0),
                 wl_stats.get("stale", 0),
                 wl_stats.get("unknown", 0),
             )
@@ -661,7 +667,11 @@ def main():
     #   · 因网速下限主动筛掉时用 min_speed_keep(5)：节点少是**筛出来的结果**，
     #     不是故障。用 30 去卡它，会让「按 100KB/s 过滤」这一整轮白跑——
     #     筛后剩 7 个 → 判不合格 → 保留旧订阅 → 用户看到的还是那一批慢节点。
-    floor_cut = int(wl_stats.get("slow", 0)) + int(wl_stats.get("unmeasured", 0))
+    # 「只能明文」也属于**主动筛掉**（不是探测故障），所以同样算进 floor_cut，
+    # 否则某轮 HTTPS 闸门筛得多时会被 min_alive=30 拦下、保留旧订阅，闸门等于没生效
+    # —— 与网速下限踩过的是同一个坑。
+    floor_cut = (int(wl_stats.get("slow", 0)) + int(wl_stats.get("unmeasured", 0))
+                 + int(wl_stats.get("no_https", 0)))
     alive_floor = int(check_cfg.get("min_alive", 30))
     if floor_cut and int(wl_cfg.get("min_kbps") or 0) > 0:
         alive_floor = min(alive_floor, int(check_cfg.get("min_speed_keep", 5)))
@@ -764,6 +774,8 @@ def main():
                 # 测不出网速（kbps=0）的单独计数：它和「慢」不是一回事——
                 # 实测这类节点 77% 是「204 探测能过、一下载大文件就被上游掐断」。
                 "unmeasured": wl_stats.get("unmeasured", 0),
+                # 「能代理明文、打不开 https」：名字里可能写着几 MB/s，用户点开网页转圈。
+                "no_https": wl_stats.get("no_https", 0),
                 "stale": wl_stats.get("stale", 0),
             },
             "min_kbps": active_floor,

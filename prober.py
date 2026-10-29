@@ -166,6 +166,54 @@ def _delay(base, name, test_url, timeout_ms):
     return name, None
 
 
+HTTPS_CHECK_URL = "https://www.gstatic.com/generate_204"
+
+
+def https_gate_filter(proxies, verdicts, min_pass=2):
+    """按每个节点的 HTTPS 判定筛节点，返回 (kept, dropped, applied)。
+
+    `verdicts` 是 `{节点名: 是否能用 HTTPS}`。为什么要单独一道闸门：
+    第一轮只验证「CONNECT 到目标端口 + 明文 HTTP 能通」，测速用的又是明文大文件，
+    所以一个**只肯转发明文、不接 CONNECT/TLS** 的节点能同时通过两关，在订阅里
+    显示 4MB/s，而用户拿它打不开任何 https 页面（2026-10-29 实测：线上 84 条线路里
+    有 14 条只能明文，标注速度最高 4506KB/s）。
+
+    防御：如果几乎没有节点通过，那更可能是检查端点/内核本身出问题（DNS 挂了、
+    靶站不可达），这时放弃闸门而不是把整池清空——与 `whitelist.min_keep` 同一思路，
+    绝不能因为一次外部故障把好订阅写坏。
+    """
+    if not proxies or not verdicts:
+        return proxies, [], False
+    passed = sum(1 for p in proxies if verdicts.get(p["name"]))
+    if passed < max(1, int(min_pass)):
+        log.warning(
+            "HTTPS 闸门：只有 %d/%d 个节点能用 HTTPS，判定检查端点异常，本轮跳过闸门",
+            passed, len(proxies),
+        )
+        return proxies, [], False
+    kept, dropped = [], []
+    for proxy in proxies:
+        (kept if verdicts.get(proxy["name"]) else dropped).append(proxy)
+    log.info("HTTPS 闸门：%d/%d 个节点可用（剔除只能转发明文的 %d 个）",
+             len(kept), len(proxies), len(dropped))
+    return kept, dropped, True
+
+
+def _https_gate(base, proxies, cfg):
+    """逐个节点跑一次 https 的 generate_204，返回 {节点名: bool}。"""
+    if not proxies:
+        return {}
+    url = cfg.get("https_check_url") or HTTPS_CHECK_URL
+    timeout_ms = int(cfg.get("https_check_timeout_ms") or 8000)
+    concurrency = int(cfg.get("https_check_concurrency") or 16)
+    log.info("第三轮：HTTPS 闸门 %d 个节点（检查 %s）", len(proxies), url)
+    with ThreadPoolExecutor(max_workers=max(1, concurrency)) as pool:
+        results = list(pool.map(
+            lambda p: _delay(base, p["name"], url, timeout_ms), proxies
+        ))
+    return {name: bool(delay) for name, delay in results}
+
+
 # 测速端点的候选清单（第一个不够快就换下一个）。判据是「直连能不能跑满」：
 # 2026-10-25 本机直连实测 dl.google.com 24 700 KB/s、speed.cloudflare.com 308~446 KB/s。
 # 这个差距只影响**直连那一段**（经代理访问时两端都在境外，差距没这么大），所以
@@ -462,7 +510,12 @@ def filter_working(proxies, cfg):
                     f"，且延迟 ≤ {max_delay_ms}ms" if max_delay_ms > 0 else "",
                 )
 
-                return _speed_filter(alive, ports, cfg)
+                kept = _speed_filter(alive, ports, cfg)
+                if not cfg.get("https_check", True):
+                    return kept
+                verdicts = _https_gate(base, kept, cfg)
+                kept, _dropped, _applied = https_gate_filter(kept, verdicts)
+                return kept
             finally:
                 proc.terminate()
                 try:

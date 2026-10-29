@@ -45,6 +45,15 @@ sources:
   # 节点多 ≠ 能用：这些源的节点要么早已失效，要么上游用境外视角挑的「活」，国内一律连不上。
   - name: zhuhaiuk
     url: "https://raw.githubusercontent.com/zhuhaiuk/free-nodes/main/clash_config.yaml"
+  # 同一个仓库的第二个分片（extra_clash_config.yaml，3 个 vless）。2026-10-29 本机实测：
+  # 31 个去重节点里 CONNECT 18 个、≥100KB/s 13 个、测出者中位 2674KB/s、最快 7695KB/s
+  # （单个节点用 mihomo + 客户端 TLS 复核过 10.7MB/s，不是计时错误）。
+  # 单独引它是因为原分片里有 4 个「白名单没有的新面孔」（CZ 4.7MB/s、FR-02 3.6MB/s、
+  # EE-01 1.4MB/s、NO 112KB/s）都在这 3 个里。
+  # 注：nodes.txt / extra_nodes.txt 只是上面两个 yaml 的 base64 镜像，内容无新增，
+  # 我们的 parser 也不吃 base64 行，别重复引。
+  - name: zhuhaiuk-extra
+    url: "https://raw.githubusercontent.com/zhuhaiuk/free-nodes/main/extra_clash_config.yaml"
   # LeilaoMi/AutoMergePublicNodes-Optimized：**2026-10-27 全量实测，唯一值得新增的源**。
   # 129 个节点，本机 mihomo 逐节点真实 CONNECT 通过 73 个（56.6%，横向比过的所有源里最高），
   # 测出网速 55 个，≥100KB/s 28 个；与现有 6 源重叠 71 个、独家 58 个
@@ -167,6 +176,7 @@ check:
     LeilaoMi: 95              # 2026-10-27 全量实测连通率 56.6%（73/129），历史最高，
                               # 高于 zhuhaiuk 的 43.3%、Au1rxx-07 的 23.3%
     zhuhaiuk: 90              # 连通率最高（32%），但只有 28 个节点
+    zhuhaiuk-extra: 90        # 同仓库第二个分片，实测质量同上（3 个 vless，1 个 4.7MB/s）
     Au1rxx-07: 80
     Au1rxx-06: 70
     daily_free_vpn: 100
@@ -283,6 +293,24 @@ check:
   # 是**端点**的瓶颈，不是线路的。端点换成大文件后 8 并发每路仍有 3MB/s 余量，
   # 不会互相挤压，而并发翻倍直接把 600 个候选的单轮耗时砍半。
   speed_concurrency: 8
+  # --- HTTPS 闸门：只转发明文 HTTP 的节点一个都不发 ---
+  # 前两轮验的是「CONNECT 建隧道 + 明文 HTTP 大文件下载」。这两关都过，仍然可能
+  # 打不开任何网页：一部分免费节点只肯转发明文、不接 CONNECT/TLS。2026-10-29 实测
+  # 线上 84 条线路里 14 条（17%）属于这种，标注速度最高 4506KB/s —— 排在前面的
+  # 节点点开就是转圈，比发一个 `--` 更糟。
+  # 做法：对本轮**测出网速**的节点再打一次 https 的 generate_204（失败低并发补测
+  # 一次），结果记进白名单条目的 `https`/`https_round`，发布时只认本轮结论。
+  # 代价约 +10~20 秒/轮。全部节点都过不了时判定「检查端点异常」并跳过闸门，
+  # 不会因为靶站抽风把整份白名单清空。
+  https_check: true
+  https_check_url: "https://www.gstatic.com/generate_204"
+  https_check_timeout_ms: 8000  # 比第一轮的 5000 宽松：闸门只判「能不能用 HTTPS」，
+                                # 慢一点也算能用，不该和延迟闸门抢同一个标准
+  https_check_concurrency: 16
+  # 连续失败几轮才拦。**不能设 1**：免费节点抖动剧烈，2026-10-29 对 4 个判定不通的
+  # 节点做隔离复测，同一节点三次结果是「通/通/不通」，第三次连明文对照都一起失败
+  # ——是节点自己在挂，不是闸门判错。1 会把大量好节点误杀。
+  https_fail_rounds: 2
   min_speed_kbps: 100        # 网速下限（KB/s）：名字里达不到这个速度的节点直接不发。
                              # 白名单模式与境外测速模式共用这一个口径。
                              # **测不出网速（订阅里显示 `--`）的同样剔除**：2026-10-27

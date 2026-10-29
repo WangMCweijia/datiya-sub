@@ -241,8 +241,10 @@ def probe(candidates, exe, args, check_cfg):
                 gap = float(check_cfg.get("chunk_gap") or 0)
                 retry_conc = int(check_cfg.get("retry_concurrency") or 4)
 
-                def sweep(items, conc, label):
+                def sweep(items, conc, label, url=None, tmo=None):
                     """按 chunk 分批跑 n 轮延迟测试，返回 {name: ms or None}。"""
+                    target = url or test_url
+                    limit = int(tmo or timeout_ms)
                     out = {}
                     step = chunk if chunk > 0 else len(items) or 1
                     for start in range(0, len(items), step):
@@ -252,7 +254,7 @@ def probe(candidates, exe, args, check_cfg):
                                 dict(
                                     pool.map(
                                         lambda p: prober._delay(
-                                            base, p["name"], test_url, timeout_ms
+                                            base, p["name"], target, limit
                                         ),
                                         part,
                                     )
@@ -295,6 +297,49 @@ def probe(candidates, exe, args, check_cfg):
                     speeds = {item[0]["name"]: kb for item, kb in zip(alive, measured)}
                     got = sum(1 for kb in speeds.values() if kb > 0)
                     log.info("第二轮：%d/%d 个测出网速", got, len(alive))
+
+                # 第三轮：HTTPS 闸门。前两轮验的是「CONNECT + 明文 204」和**
+                # 明文大文件下载**，两关都过不代表浏览器能用：只肯转发明文、
+                # 不接 CONNECT/TLS 的节点照样能拿高分（2026-10-29 实测线上 84 条
+                # 线路里 14 条只能明文，标注速度最高 4506KB/s）。所以对测出网速的
+                # 节点再打一次 https 的 generate_204，不通的记 `https=0`，
+                # 由 whitelist.apply 拦在发布前。
+                #
+                # 只测有网速的节点：kbps=0 的本来就发不出去（见网速下限），
+                # 没必要为它们多花探测时间。
+                https_verdict = {}
+                if check_cfg.get("https_check", True):
+                    priced = [i[0] for i in alive if speeds.get(i[0]["name"], 0) > 0]
+                    if priced:
+                        https_url = check_cfg.get("https_check_url") or prober.HTTPS_CHECK_URL
+                        https_tmo = int(check_cfg.get("https_check_timeout_ms") or 8000)
+                        https_conc = int(check_cfg.get("https_check_concurrency") or 16)
+                        verdict = sweep(priced, https_conc, "HTTPS", https_url, https_tmo)
+                        bad = [p for p in priced if not verdict.get(p["name"])]
+                        if bad and retry_conc:
+                            # 单轮失败可能只是瞬时抖动（TLS 握手超时、靶站抽风），
+                            # 低并发补测一次再判——与第一轮同一个理由。
+                            again = sweep(bad, retry_conc, "HTTPS 补测", https_url, https_tmo)
+                            rescued = 0
+                            for p in bad:
+                                if again.get(p["name"]):
+                                    verdict[p["name"]] = again[p["name"]]
+                                    rescued += 1
+                            if rescued:
+                                log.info("第三轮补测：救回 %d 个", rescued)
+                        ok_n = sum(1 for p in priced if verdict.get(p["name"]))
+                        log.info("第三轮：HTTPS 可用 %d/%d 个节点", ok_n, len(priced))
+                        if ok_n == 0:
+                            # 全军覆没几乎一定是检查端点本身不可用（DNS/靶站/内核），
+                            # 这时按它筛等于清空白名单，宁可这轮不筛。
+                            log.warning(
+                                "第三轮：所有节点都过不了 HTTPS，判定检查端点异常，"
+                                "本轮不按 HTTPS 筛节点"
+                            )
+                        else:
+                            https_verdict = {
+                                p["name"]: bool(verdict.get(p["name"])) for p in priced
+                            }
             finally:
                 proc.terminate()
                 try:
@@ -306,12 +351,16 @@ def probe(candidates, exe, args, check_cfg):
     for proxy in proxies:
         fp = builder.fingerprint(proxy)
         delay = dict(delays).get(proxy["name"])
+        verdict = https_verdict.get(proxy["name"])
         results[fp] = {
             "ok": bool(delay),
             "delay": int(delay or 0),
             "kbps": round(float(speeds.get(proxy["name"]) or 0), 1),
             "type": str(proxy.get("type")),
             "line": "%s:%s" % (proxy.get("server"), proxy.get("port")),
+            # None = 本轮没测（没网速 / 闸门被跳过），0/1 = 测过且不通过/通过。
+            # 必须区分「没测」与「不通」：前者要沿用上一轮的结论，后者要拦住不发。
+            "https": None if verdict is None else int(bool(verdict)),
         }
     return results
 
@@ -380,6 +429,19 @@ def merge(old, results, keep_days, dead_after, round_no=0, interval_h=3.0):
         # 实际测通的只有 245 个），白名单等于没过滤。
         entry.update({"line": res["line"], "type": res["type"], "last_check": stamp,
                       "last_round": int(round_no)})
+        # HTTPS 判定带轮次：whitelist.apply 只认「本轮测的」那一条，
+        # 否则一条几轮前的不通记录会把它永久拦在发布之外，而它可能早就修好了。
+        # 同时维护**连续失败轮数**：免费节点抖动剧烈（实测同一节点连测三次
+        # 「通/通/不通」，连明文对照都一起失败），单轮失败就拦会误杀一堆好节点，
+        # 所以发布侧要求连续失败 `https_fail_rounds` 轮才拦（见 whitelist.apply）。
+        verdict = res.get("https")
+        if verdict is not None:
+            entry["https"] = int(verdict)
+            entry["https_round"] = int(round_no)
+            if int(verdict):
+                entry.pop("https_fail_streak", None)
+            else:
+                entry["https_fail_streak"] = int(entry.get("https_fail_streak") or 0) + 1
         if res["ok"]:
             entry["round"] = int(round_no)
             entry["ok_rounds"] = int(entry.get("ok_rounds") or 0) + 1

@@ -191,7 +191,7 @@ def apply(proxies, data, cfg):
     enforce_round = bool(latest) and has_round and cfg.get("require_latest_round", True)
 
     kept, stats = [], {"matched": 0, "dead": 0, "unstable": 0, "slow": 0,
-                       "unmeasured": 0, "stale": 0, "unknown": 0,
+                       "unmeasured": 0, "stale": 0, "no_https": 0, "unknown": 0,
                        "floor_bypassed": False}
     for proxy in proxies:
         entry = entries.get(builder.fingerprint(proxy))
@@ -215,6 +215,20 @@ def apply(proxies, data, cfg):
         if ok_rounds < min_ok:
             stats["unstable"] += 1
             continue
+        # HTTPS 闸门：只认**本轮**测出来的结论（https_round == latest），并且
+        # 要求**连续**失败 `https_fail_rounds` 轮才拦。
+        # 这类节点能建隧道、能下明文大文件，名字里可能写着 4MB/s，但用户点开任何
+        # https 页面都是转圈。为什么要「连续」：免费节点抖动剧烈——2026-10-29 对 4 个
+        # 判定不通的节点做隔离复测，同一个节点三次结果分别是「通/通/不通」，第三次连
+        # 明文对照都一起失败（是节点本身在挂，不是闸门判错）。单轮失败就拦会误杀。
+        # 用轮次而不是永久标记，是为了让「上游后来修好了」的节点下一轮能自动回来。
+        if cfg.get("require_https", True) and entry.get("https") is not None:
+            streak = int(entry.get("https_fail_streak") or 0)
+            if (not int(entry.get("https"))
+                    and int(entry.get("https_round") or -1) == latest
+                    and streak >= int(cfg.get("https_fail_rounds", 2) or 1)):
+                stats["no_https"] += 1
+                continue
         kbps = float(entry.get("kbps") or 0)
         proxy["_wl_kbps"] = kbps
         proxy["_wl_delay"] = int(entry.get("delay") or 0)
