@@ -1,6 +1,6 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-10-29 18:22:52 +0800 | 可用节点 8 个（候选 6971 个，仅附加源）
-# 网速=本机实测（WANG-OFFICE，0.0 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
+# 更新于 2026-10-29 21:05:26 +0800 | 可用节点 8 个（候选 6275 个，仅附加源）
+# 网速=本机实测（WANG-OFFICE，2.7 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
 # 存活=首次测通至今（第二个数字，如 7d/36h；带 ~ 的是按探测轮次数推算）；存活 ≥3 天且网速 ≥256KB/s 的节点整体排在最前，其余按网速降序；低于 100KB/s 或测不出速度的节点已剔除
 # 分享链接（v2ray.txt）只覆盖 1/8 个节点（anytls 1）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
 port: 7890
@@ -35,7 +35,7 @@ dns:
   - 223.5.5.5
   - 119.29.29.29
 proxies:
-- name: 🇺🇸美国|376KB/s|~2d|114 R002-260618
+- name: 🇺🇸美国|376KB/s|~3d|120 R002-260618
   port: 443
   server: 38.28.193.188
   skip-cert-verify: true
@@ -51,33 +51,27 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇹🇼台湾|217KB/s|1d|TWN
-  password: 0324fbc29561
+- password: 0324fbc29561
   port: 443
   server: 684616s4.df6h451rh.xin
   skip-cert-verify: true
   sni: px.ads.linkedin.com
   type: anytls
   udp: true
-- name: 🇸🇪瑞典|181KB/s|~2d|3
-  port: 443
+  name: 🇹🇼台湾|217KB/s|1d|TWN
+  alpn:
+  - http/1.1
+  client-fingerprint: chrome
+  sub_tag: R002-260618
+- port: 443
   server: 217.210.129.243
   skip-cert-verify: true
   tls: true
   type: http
+  name: 🇸🇪瑞典|181KB/s|~3d|3
   sub_tag: R002-260618
   udp: true
-- name: 🇺🇸美国|179KB/s|15h|340 R002-260618
-  password: sni=\"goedkoopgeluid.icu\"
-  port: 443
-  server: goedkoopgeluid.icu
-  sni: goedkoopgeluid.icu
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: None
-  udp: true
-- name: 🇳🇱荷兰|165KB/s|~2d|144 R002-260618
+- name: 🇳🇱荷兰|165KB/s|~2d|140 R002-260618
   password: 'null'
   port: 9002
   server: 84.17.47.147
@@ -88,6 +82,14 @@ proxies:
   type: http
   username: 'null'
   udp: true
+- name: 🇩🇪德国|117KB/s|~3d|19 R002-260618
+  port: 443
+  server: 87.106.223.158
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
 - name: 🇷🇴罗马尼亚|104KB/s|2d|2 R002-260618
   port: 9002
   server: 193.176.84.22
@@ -96,7 +98,7 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇳🇱荷兰|104KB/s|~2d|149 R002-260618
+- name: 🇳🇱荷兰|104KB/s|~2d|146 R002-260618
   port: 9002
   server: 84.17.47.126
   skip-cert-verify: true
@@ -112,14 +114,14 @@ proxy-groups:
   - ⚡ 负载均衡
   - DIRECT
   - 🌐 其他
-  - 🇺🇸美国|376KB/s|~2d|114 R002-260618
+  - 🇺🇸美国|376KB/s|~3d|120 R002-260618
   - 🇷🇺俄罗斯|296KB/s|~2d|2 R002-260618
   - 🇹🇼台湾|217KB/s|1d|TWN
-  - 🇸🇪瑞典|181KB/s|~2d|3
-  - 🇺🇸美国|179KB/s|15h|340 R002-260618
-  - 🇳🇱荷兰|165KB/s|~2d|144 R002-260618
+  - 🇸🇪瑞典|181KB/s|~3d|3
+  - 🇳🇱荷兰|165KB/s|~2d|140 R002-260618
+  - 🇩🇪德国|117KB/s|~3d|19 R002-260618
   - 🇷🇴罗马尼亚|104KB/s|2d|2 R002-260618
-  - 🇳🇱荷兰|104KB/s|~2d|149 R002-260618
+  - 🇳🇱荷兰|104KB/s|~2d|146 R002-260618
 - name: ♻️ 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -128,14 +130,14 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - 🇺🇸美国|376KB/s|~2d|114 R002-260618
+  - 🇺🇸美国|376KB/s|~3d|120 R002-260618
   - 🇷🇺俄罗斯|296KB/s|~2d|2 R002-260618
   - 🇹🇼台湾|217KB/s|1d|TWN
-  - 🇸🇪瑞典|181KB/s|~2d|3
-  - 🇺🇸美国|179KB/s|15h|340 R002-260618
-  - 🇳🇱荷兰|165KB/s|~2d|144 R002-260618
+  - 🇸🇪瑞典|181KB/s|~3d|3
+  - 🇳🇱荷兰|165KB/s|~2d|140 R002-260618
+  - 🇩🇪德国|117KB/s|~3d|19 R002-260618
   - 🇷🇴罗马尼亚|104KB/s|2d|2 R002-260618
-  - 🇳🇱荷兰|104KB/s|~2d|149 R002-260618
+  - 🇳🇱荷兰|104KB/s|~2d|146 R002-260618
 - name: ⚡ 负载均衡
   type: load-balance
   strategy: consistent-hashing
@@ -144,14 +146,14 @@ proxy-groups:
   lazy: true
   timeout: 8000
   proxies:
-  - 🇺🇸美国|376KB/s|~2d|114 R002-260618
+  - 🇺🇸美国|376KB/s|~3d|120 R002-260618
   - 🇷🇺俄罗斯|296KB/s|~2d|2 R002-260618
   - 🇹🇼台湾|217KB/s|1d|TWN
-  - 🇸🇪瑞典|181KB/s|~2d|3
-  - 🇺🇸美国|179KB/s|15h|340 R002-260618
-  - 🇳🇱荷兰|165KB/s|~2d|144 R002-260618
+  - 🇸🇪瑞典|181KB/s|~3d|3
+  - 🇳🇱荷兰|165KB/s|~2d|140 R002-260618
+  - 🇩🇪德国|117KB/s|~3d|19 R002-260618
   - 🇷🇴罗马尼亚|104KB/s|2d|2 R002-260618
-  - 🇳🇱荷兰|104KB/s|~2d|149 R002-260618
+  - 🇳🇱荷兰|104KB/s|~2d|146 R002-260618
 - name: 🌐 其他
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -160,13 +162,13 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - 🇺🇸美国|376KB/s|~2d|114 R002-260618
-  - 🇺🇸美国|179KB/s|15h|340 R002-260618
+  - 🇺🇸美国|376KB/s|~3d|120 R002-260618
   - 🇷🇺俄罗斯|296KB/s|~2d|2 R002-260618
   - 🇹🇼台湾|217KB/s|1d|TWN
-  - 🇸🇪瑞典|181KB/s|~2d|3
-  - 🇳🇱荷兰|165KB/s|~2d|144 R002-260618
-  - 🇳🇱荷兰|104KB/s|~2d|149 R002-260618
+  - 🇸🇪瑞典|181KB/s|~3d|3
+  - 🇳🇱荷兰|165KB/s|~2d|140 R002-260618
+  - 🇳🇱荷兰|104KB/s|~2d|146 R002-260618
+  - 🇩🇪德国|117KB/s|~3d|19 R002-260618
   - 🇷🇴罗马尼亚|104KB/s|2d|2 R002-260618
 rules:
 - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
