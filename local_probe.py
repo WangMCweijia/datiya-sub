@@ -199,7 +199,14 @@ def probe(candidates, exe, args, check_cfg):
     concurrency = int(args.concurrency or check_cfg.get("concurrency") or 50)
     # 端点先按「本机直连能不能跑满」预跑一遍再选定：白名单的全部意义就是
     # 「从国内这条线能跑多快」，端点自己只有 300KB/s 的话，测出来全是一片慢。
-    speed_url = args.speed_url or prober._pick_speed_url(prober._speed_urls(check_cfg))
+    if args.speed_url:
+        # 手工指定端点时没有「直连实测」这个参照物，上限退回绝对值。
+        speed_url, direct_kbps = args.speed_url, 0.0
+    else:
+        speed_url, direct_kbps = prober._pick_speed_url_probe(prober._speed_urls(check_cfg))
+    # 节点不可能比本机直连同端点还快：拿直连实测换算出的上限去卡第二轮结果，
+    # 挡掉「末段窗口切不出来、退回无下限除法」那类计时噪声（线上发出过 81MB/s 的假值）。
+    speed_cap = prober._rate_cap_kbps(direct_kbps)
     speed_bytes = int(check_cfg.get("speed_bytes") or 1000000)
     speed_ms = int(check_cfg.get("speed_timeout_ms") or 5000)
     speed_conc = int(check_cfg.get("speed_concurrency") or 12)
@@ -284,12 +291,14 @@ def probe(candidates, exe, args, check_cfg):
 
                 speeds = {}
                 if speed_url and alive:
-                    log.info("第二轮：走代理下载测速 %d 个节点（并发 %d）", len(alive), speed_conc)
+                    log.info("第二轮：走代理下载测速 %d 个节点（并发 %d，速率上限 %.0fKB/s）",
+                             len(alive), speed_conc, speed_cap)
                     with ThreadPoolExecutor(speed_conc) as pool:
                         measured = list(
                             pool.map(
                                 lambda item: prober._measure_speed(
-                                    ports[item[0]["name"]], speed_url, speed_bytes, speed_ms
+                                    ports[item[0]["name"]], speed_url, speed_bytes,
+                                    speed_ms, speed_cap,
                                 ),
                                 alive,
                             )
@@ -402,7 +411,8 @@ def _backfill_first_ok(stamp, rounds, interval_h):
     return back.strftime("%Y-%m-%d %H:%M:%S %z")
 
 
-def merge(old, results, keep_days, dead_after, round_no=0, interval_h=3.0):
+def merge(old, results, keep_days, dead_after, round_no=0, interval_h=3.0,
+          gap_reset_rounds=2):
     """把本轮结果并入历史：ok_rounds 累加，连续 3 轮失败标记 dead。
 
     保留历史很重要：免费节点会抖动，单轮失败不代表死，下一轮恢复即可；
@@ -410,14 +420,41 @@ def merge(old, results, keep_days, dead_after, round_no=0, interval_h=3.0):
 
     `first_ok` 是「这一段连续存活」的起点：订阅名字里的存活时长、以及
     「老黄牛优先」排序都读它。只在测通时写，被判死（dead）后才重置。
+
+    2026-10-29 补的另一个重置口子：**缺席**。旧逻辑只认「测了且失败」，可是候选池
+    每轮只采一两成，节点很可能连着几轮压根没被安排测——那段缺席被当成「还在活着」，
+    于是 first_ok 一路往前漂，名字里就成了「已存活 6d」（白名单首测只有 6h）。
+    现在每轮给没测到的条目记 miss_rounds，连续缺席 >= `gap_reset_rounds` 轮后，
+    下次测通就从那一刻重新起算。缺席不等于死，但也不能拿来当存活证据。
     """
     entries = dict(old.get("entries") or {})
     stamp = now_stamp()
+    # 本轮没被安排实测的条目：累计缺席轮数。它们既没通过也没失败，不能算「还在活」。
+    # gap_reset_rounds<=0 时关闭整个机制，顺手把旧标记清掉。
+    tested = set(results)
+    gaps = 0
+    for fp, entry in entries.items():
+        if fp in tested:
+            continue
+        if int(gap_reset_rounds or 0) <= 0:
+            entry.pop("miss_rounds", None)
+            continue
+        miss = int(entry.get("miss_rounds") or 0) + 1
+        entry["miss_rounds"] = miss
+        if miss == int(gap_reset_rounds):
+            gaps += 1
+    if gaps:
+        log.info("本轮未实测：新增 %d 个连续缺席 >= %s 轮的条目（下次测通重新计存活）",
+                 gaps, gap_reset_rounds)
     for fp, res in results.items():
         entry = dict(entries.get(fp) or {})
         # 被判死之后又活过来：上一段连续存活已经结束，起点必须重置，
         # 否则中断的那几天会被算进存活时长（名字里就成了假的「活了 5 天」）。
         was_dead = bool(entry.get("dead"))
+        # 连续缺席够久 = 这一段观测断了，回来时同样从「现在」重新起算（见 docstring）。
+        missing = int(entry.get("miss_rounds") or 0)
+        was_gap = bool(gap_reset_rounds) and missing >= int(gap_reset_rounds)
+        restart = was_dead or was_gap
         # 回填起点要用**本轮之前**的轮数与上次测通时间：entry 马上就要被本轮结果覆盖，
         # 拿覆盖后的值倒推会少算一轮（first_ok 每轮往前漂一个间隔，越漂越早）。
         prev_rounds = int(entry.get("ok_rounds") or 0)
@@ -453,11 +490,12 @@ def merge(old, results, keep_days, dead_after, round_no=0, interval_h=3.0):
             entry["kbps"] = res["kbps"]
             entry["last_ok"] = stamp
             entry.pop("dead", None)
-            if was_dead:
+            entry.pop("miss_rounds", None)
+            if restart:
                 entry.pop("first_ok", None)
                 entry.pop("first_ok_est", None)
             if not entry.get("first_ok"):
-                if was_dead or prev_rounds <= 0 or not prev_last_ok:
+                if restart or prev_rounds <= 0 or not prev_last_ok:
                     # 全新的连续段：本轮就是真实起点。
                     entry["first_ok"] = stamp
                 else:
@@ -703,11 +741,13 @@ def main():
         old = whitelist.load(wl_path)
         round_no = int(old.get("probe_rounds") or 0) + 1
         # 轮间隔只用来给「升级前的老条目」倒推存活起点，取计划任务的周期（默认 3 小时）。
-        interval_h = float(
-            (check_cfg.get("whitelist") or {}).get("round_interval_hours", 3) or 3
-        )
+        wl_cfg = check_cfg.get("whitelist") or {}
+        interval_h = float(wl_cfg.get("round_interval_hours", 3) or 3)
+        # 连续缺席多少轮就不再认「连续存活」（默认 2 轮 ≈ 6 小时）。
+        gap_rounds = int(wl_cfg.get("age_gap_reset_rounds", 2) or 0)
         entries, pruned = merge(
-            old, results, args.keep_days, args.dead_after, round_no, interval_h
+            old, results, args.keep_days, args.dead_after, round_no, interval_h,
+            gap_rounds,
         )
         payload = build_payload(entries, host, round_no)
         # newline="\n" 不能省：Windows 上文本模式会把每个 \n 翻成 \r\n，而 CI（Linux）

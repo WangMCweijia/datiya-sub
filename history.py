@@ -43,9 +43,15 @@ def _parse_stamp(value):
 
 
 class Ledger:
-    def __init__(self, path, enabled=True):
+    def __init__(self, path, enabled=True, expire_hours=6):
         self.path = path
         self.enabled = bool(enabled)
+        # 「连续存活」的失效期：超过这么多小时没被再次发布，这一段连续记录就结束。
+        # 没有它，账本会攒下大量「消失的节点」并一直带着老 streak：实测 445 条
+        # streak>0 的记录 12 小时没再出现、336 条 streak≥3 超过 24 小时，重测命中就
+        # 直接插队，存活时长也被算成几天（名字写 6d，白名单首测只有 6h）。
+        # 取值要与探测周期同量级（本机每 3 小时一轮），6h = 允许漏掉一轮。
+        self.expire_hours = float(expire_hours or 0)
         self.data = {"updated_at": None, "nodes": {}}
         if self.enabled:
             self._load()
@@ -175,6 +181,24 @@ class Ledger:
                 rec["last_fail"] = stamp
                 dropped += 1
 
+        # 连续存活过期：本轮没发布、且上次发布早于 `expire_hours` 的记录，这一段
+        # 连续存活已经无法证明还在继续（节点可能早死了，也可能只是没被采到），
+        # 一律清零。不清 last_seen，让下面的报废规则按原时间表回收；也不写
+        # last_fail=now，否则这些幽灵会按「失败记录留 3 天」再多活三天。
+        expired = 0
+        if self.expire_hours > 0:
+            expire_cutoff = now - timedelta(hours=self.expire_hours)
+            for fpr, rec in nodes.items():
+                if fpr in published_ids or int(rec.get("streak") or 0) <= 0:
+                    continue
+                last_seen = _parse_stamp(rec.get("last_seen"))
+                if last_seen and last_seen >= expire_cutoff:
+                    continue
+                rec["streak"] = 0
+                rec.pop("first_seen", None)
+                rec.pop("trusted_since", None)
+                expired += 1
+
         # 老账本（存活时长功能上线前）没有 first_seen。给**仍然连续存活**（streak>0）
         # 的记录补上 last_seen：那是它最后一次发布的真实时间，当起点只是偏保守，
         # 不会像「补 now」那样把一段长寿历史整段抹掉。
@@ -228,8 +252,8 @@ class Ledger:
         except OSError as exc:
             log.warning("存活账本写入失败（不影响本次发布）：%s", exc)
             return
-        log.info("存活账本：记录 %d 条（本次发布 +1 计 %d 个，淘汰清零 %d 个，过期清理 %d 条"
-                 "%s，累计连续存活 ≥%d 次的有 %d 个）",
-                 len(nodes), len(published_ids), dropped, len(stale),
+        log.info("存活账本：记录 %d 条（本次发布 +1 计 %d 个，淘汰清零 %d 个，"
+                 "消失过期 %d 个，过期清理 %d 条%s，累计连续存活 ≥%d 次的有 %d 个）",
+                 len(nodes), len(published_ids), dropped, expired, len(stale),
                  f"，超限再删 {pruned} 条" if pruned else "",
                  trusted_streak, trusted_total)

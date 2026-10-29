@@ -402,6 +402,7 @@ def main():
     ledger = history.Ledger(
         ROOT / str(hist_cfg.get("file", "history.json")),
         enabled=bool(hist_cfg.get("enabled", True)),
+        expire_hours=float(hist_cfg.get("streak_expire_hours", 6) or 0),
     )
 
     china_cfg = check_cfg.get("china_check") or {}
@@ -415,6 +416,10 @@ def main():
     # 发布侧按 `check.whitelist.require_https`（未显式设置时跟随前者）筛不筛。
     wl_cfg.setdefault("require_https", check_cfg.get("https_check", True))
     wl_cfg.setdefault("https_fail_rounds", check_cfg.get("https_fail_rounds", 2))
+    # 延迟上限同样只留一个口径：`check.max_delay_ms`。它原来只写在
+    # `prober.filter_working` 里，白名单这条**生产路径**上根本没人读——白名单把
+    # `_wl_delay` 标好了却没人用，结果发布集里 44/117 个节点延迟 >1.5s（最慢 4.8s）。
+    wl_cfg.setdefault("max_delay_ms", check_cfg.get("max_delay_ms", 0))
     cand_cfg = check_cfg.get("candidates") or {}
     # 发布顺序：只按实测网速（见 builder.sort_by_speed）。只影响订阅里
     # 节点的排列顺序，不淘汰节点，所以两条测活分支（白名单 / Globalping）都能用。
@@ -425,6 +430,10 @@ def main():
     # 本轮真正写进候选池的节点（本机下一轮会测的就是它们）。源健康表要用它当分母：
     # 拿采集数当分母会把「压根没被测过」算成失败。
     cand_pool = []
+    # 账本结算的「本轮真的被测过」范围。白名单模式下它不是发布集：发布集是
+    # **本机探测的结果**，探测对象是候选池。两者混为一谈会让「进过探测但被淘汰的
+    # 清零」永远不触发（见下面 probe_scope 的注释）。
+    probe_scope = None
 
     if check_cfg.get("enabled", True) and not args.no_check:
         # 白名单新鲜时**跳过境外测速**：它是三重筛选里最不准的一环，而且会误删
@@ -448,7 +457,7 @@ def main():
             proxies, wl_stats = whitelist.apply(full_pool, wl_data, wl_cfg)
             log.info(
                 "白名单过滤：去重后 %d → %d（命中 %d；标记失效 %d、不稳定 %d、"
-                "过慢 %d、测不出网速 %d、只能明文 %d、超出实测窗口 %d；"
+                "过慢 %d、测不出网速 %d、只能明文 %d、延迟超限 %d、超出实测窗口 %d；"
                 "不在白名单的 %d 个未经验证，一律不发）",
                 deduped,
                 len(proxies),
@@ -458,6 +467,7 @@ def main():
                 wl_stats.get("slow", 0),
                 wl_stats.get("unmeasured", 0),
                 wl_stats.get("no_https", 0),
+                wl_stats.get("slow_delay", 0),
                 wl_stats.get("stale", 0),
                 wl_stats.get("unknown", 0),
             )
@@ -543,6 +553,12 @@ def main():
                 ROOT / str(cand_cfg.get("file", "candidates.json")), pool, cand_cfg
             )
             cand_pool = pool
+            # 本机这一轮要逐个实测的就是这个池子，所以「被测过」= 池子而不是发布集。
+            # 旧写法让 probe_input 等于 publish，于是 ledger.commit 的
+            # published/probed 两个集合永远相同，「淘汰清零」一次都没执行过——账本里
+            # 攒下 445 条 streak>0 却 12 小时没再出现的幽灵，重测命中就带老 streak
+            # 插队，存活时长也被算成几天（名字写 6d、白名单首测只有 6h）。
+            probe_scope = list(pool)
             proxies = publish
         else:
             if str(check_cfg.get("method", "tcp")).lower() == "mihomo":
@@ -602,6 +618,8 @@ def main():
     # 被名额截断、压根没进探测的节点不算淘汰，连续存活次数保持不变（否则会死锁：
     # 没进探测 → 清零 → 下轮没有存活加成 → 永远排不上号）。
     probe_input = list(proxies)
+    if probe_scope is None:
+        probe_scope = probe_input
 
     # 白名单新鲜时，国内可达性已经由本机真实测速回答过了（比 Globalping 的
     # TLS 握手强得多），不再花 Globalping 配额，也不让两种判定互相覆盖。
@@ -667,11 +685,17 @@ def main():
     #   · 因网速下限主动筛掉时用 min_speed_keep(5)：节点少是**筛出来的结果**，
     #     不是故障。用 30 去卡它，会让「按 100KB/s 过滤」这一整轮白跑——
     #     筛后剩 7 个 → 判不合格 → 保留旧订阅 → 用户看到的还是那一批慢节点。
-    # 「只能明文」也属于**主动筛掉**（不是探测故障），所以同样算进 floor_cut，
+    # 「只能明文」「延迟超限」也属于**主动筛掉**（不是探测故障），所以同样算进 floor_cut，
     # 否则某轮 HTTPS 闸门筛得多时会被 min_alive=30 拦下、保留旧订阅，闸门等于没生效
     # —— 与网速下限踩过的是同一个坑。
-    floor_cut = (int(wl_stats.get("slow", 0)) + int(wl_stats.get("unmeasured", 0))
-                 + int(wl_stats.get("no_https", 0)))
+    #
+    # `unmeasured`（连得上但下载测不出速度）**不能**算进来。它看着像「筛掉的慢节点」，
+    # 实际是**测量失败**（端点抽风、上游掐断长连接），每轮都是主要拒绝原因（实测一轮
+    # 301 个里占 280）。把它算进 floor_cut 的后果是 floor_cut 恒 >0 → 阈值恒等于
+    # min_speed_keep=5：真出现「整轮只跑出 6 个可用」的坏局时，117 个节点的订阅会被
+    # 直接覆盖成 6 个。按测量失败处理才对——判不准就别动线上，等下一轮。
+    floor_cut = (int(wl_stats.get("slow", 0)) + int(wl_stats.get("no_https", 0))
+                 + int(wl_stats.get("slow_delay", 0)))
     alive_floor = int(check_cfg.get("min_alive", 30))
     if floor_cut and int(wl_cfg.get("min_kbps") or 0) > 0:
         alive_floor = min(alive_floor, int(check_cfg.get("min_speed_keep", 5)))
@@ -692,6 +716,13 @@ def main():
         )
     else:
         active_floor = float(check_cfg.get("min_speed_kbps") or 0)
+    # 订阅里不能出现 _speed_kbps / _streak 这类内部字段（mihomo 会拒绝整份配置）；
+    # 但账本结算要用到它们，所以先造一份干净副本用于发布与校验。
+    public = [
+        {k: v for k, v in proxy.items() if not k.startswith("_")} for proxy in proxies
+    ]
+    links = builder.build_links(public)
+    link_types = Counter(link.split("://", 1)[0] for link in links)
     # 网速口径要跟着订阅一起发出去：只有白名单真的用上了，名字里的数字才是
     # 「这条线实测」；回退到机房探测时必须让读者知道那些数只是估算。
     meta = {
@@ -706,12 +737,12 @@ def main():
         "veteran_days": rank_cfg.get("veteran_days", 0),
         "veteran_kbps": rank_cfg.get("veteran_kbps", 0),
         "min_kbps": active_floor,
+        # 两个订阅文件不是同一批节点：http/socks5 没有分享链接标准，hysteria2 也没进
+        # 分享链接生成器（见 builder.SUPPORTED_LINK_TYPES）。不写出来，用户会以为
+        # v2ray.txt 少掉的几十个节点是「漏了」。
+        "links": len(links),
+        "link_types": dict(link_types),
     }
-    # 订阅里不能出现 _speed_kbps / _streak 这类内部字段（mihomo 会拒绝整份配置）；
-    # 但账本结算要用到它们，所以先造一份干净副本用于发布与校验。
-    public = [
-        {k: v for k, v in proxy.items() if not k.startswith("_")} for proxy in proxies
-    ]
     clash_text = builder.build_clash(public, cfg["clash"], meta)
 
     ok, detail = prober.validate_config(clash_text, check_cfg)
@@ -720,9 +751,8 @@ def main():
         return 1
     log.info("发布前校验：mihomo 可正常加载该配置（%s）", detail)
 
-    links = builder.build_links(public)
     # 只有真正通过发布前校验才记账：本轮发布 +1，进过探测但被淘汰的清零。
-    ledger.commit(proxies, probe_input, trusted_streak)
+    ledger.commit(proxies, probe_scope, trusted_streak)
 
     streaks = [int(p.get("_streak") or 0) for p in proxies]
     wl_age = whitelist.age_hours(wl_data) if wl_data else None
@@ -748,6 +778,9 @@ def main():
         "collected": total,
         "alive": len(proxies),
         "links": len(links),
+        # 分享链接按协议的分布：解释「为什么 links < alive」（http/socks5/hysteria2
+        # 没有对应的标准 scheme，只有 Clash 订阅能覆盖全部节点）。
+        "link_types": meta.get("link_types", {}),
         "probe_input": len(probe_input),
         "protocols": dict(
             Counter(str(p.get("type")) for p in proxies).most_common()
@@ -776,6 +809,8 @@ def main():
                 "unmeasured": wl_stats.get("unmeasured", 0),
                 # 「能代理明文、打不开 https」：名字里可能写着几 MB/s，用户点开网页转圈。
                 "no_https": wl_stats.get("no_https", 0),
+                # 延迟超过 check.max_delay_ms 的：发布侧的延迟闸门（whitelist.apply）。
+                "slow_delay": wl_stats.get("slow_delay", 0),
                 "stale": wl_stats.get("stale", 0),
             },
             "min_kbps": active_floor,

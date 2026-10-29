@@ -418,8 +418,8 @@ python main.py --verbose
 | `check.enabled` | 是否做测活 |
 | `check.method` | `mihomo`（用内核真实测速，推荐）或 `tcp`（仅测端口连通，精度低） |
 | `check.test_url` / `timeout_ms` | 第一轮连通性测试的目标地址与单节点超时（毫秒） |
-| `check.max_delay_ms` | 第一轮延迟上限，超过的剔除；`0` 表示不限 |
-| `check.speed_url` / `speed_bytes` | 第二轮下载测速的地址与下载字节预算 |
+| `check.max_delay_ms` | 延迟上限，超过的剔除；`0` 表示不限。第一轮（连通性）与白名单发布侧（`whitelist.apply`）共用这一个口径 |
+| `check.speed_url` / `speed_bytes` | 第二轮下载测速的地址与下载字节预算。单节点速率另有上限：`min(40MB/s, 直连实测×1.5)`——节点不可能比本机直连同端点还快，超限的判计时噪声按 0 处理（2026-10-29 线上发出过 81MB/s 的假值）；传输不足 1 秒的兜底口径同样判 0 |
 | `check.speed_timeout_ms` | 第二轮单节点测速时间预算（毫秒） |
 | `check.speed_concurrency` | 第二轮并发数（默认 8）。旧值 4 是按「本机出口只有 300~600KB/s」定的，2026-10-25 复测证伪：本机直连 `dl.google.com` 稳定 24~25MB/s，那 300KB/s 是 cloudflare 端点自己的瓶颈 |
 | `check.https_check` | 是否做 HTTPS 闸门（默认 true）。关掉后只按明文连通性 + 网速发节点，那种「能跑 4MB/s 但打不开网页」的节点会重新进订阅 |
@@ -444,10 +444,12 @@ python main.py --verbose
 | `check.whitelist.min_ok_rounds` | 至少被本机测通几次才算可用（默认 1；`2` 表示要求跨轮稳定） |
 | `check.whitelist.require_latest_round` | 只发「本轮本机实测通过」的节点（默认开）。`ok_rounds` 是累计值，历史命中会把可用率从 92% 拉到 59% |
 | `check.whitelist.round_interval_hours` | 本机探测轮间隔（默认 3 小时，与计划任务一致）。只用于给升级前的老条目倒推存活起点，倒推值在名字里带 `~` |
+| `check.whitelist.age_gap_reset_rounds` | 连续缺席多少轮就不再认定「连续存活」（默认 2 ≈ 6 小时）：下次测通时存活时长重新起算。缺席 ≠ 死（不清 ok_rounds、不标 dead），但不能拿来当存活证据；设 0 关闭 |
 | `check.whitelist.ok_within_hours` | 额外时间兜底：`last_ok` 超过该时长的条目不发（默认 0.5 小时） |
-| `check.min_alive` | 可用节点少于该值时**不覆盖**已有订阅（默认 30，避免把好订阅写坏）。因网速下限主动筛掉时不适用，见 `min_speed_keep` |
+| `check.min_alive` | 可用节点少于该值时**不覆盖**已有订阅（默认 30，避免把好订阅写坏）。因网速下限/HTTPS 闸门/延迟闸门**主动筛掉**时不适用，见 `min_speed_keep`；「测不出网速」属于测量失败，**不**计入放宽条件——判不准就不动线上 |
 | `history.enabled` / `history.file` | 跨构建存活账本：开关与文件路径（默认仓库根 `history.json`） |
 | `history.trusted_streak` | 连续通过几次构建算「可信」（默认 3）：置顶排序 + 探测额度不足时无条件保留 |
+| `history.streak_expire_hours` | 连续存活的失效期（默认 6 小时）：超过这么久没被再次发布就清零该段连续记录，防止「消失的节点」带着老 streak 复活、存活时长被算成几天 |
 | `clash.*` | 生成配置的端口、测速地址、测速间隔 |
 | `clash.min_region_nodes` | 地区分组的最少节点数（默认 8）。少于该数的地区并入「🌐 其他」，避免十几个「一国一节点」的组把列表刷满 |
 | `naming.enabled` | 是否把节点名统一成「地区 \| 网速 \| 已存活 \| 代表性标志」（默认开，见下文「节点命名」） |

@@ -36,7 +36,6 @@ log = logging.getLogger("datiya.whitelist")
 
 TZ = timezone(timedelta(hours=8))
 VERSION = 1
-MAX_ENTRIES = 1000
 
 
 def _now():
@@ -174,6 +173,7 @@ def apply(proxies, data, cfg):
     entries = (data or {}).get("entries") or {}
     min_ok = int(cfg.get("min_ok_rounds", 1) or 1)
     min_kbps = float(cfg.get("min_kbps", 0) or 0)
+    max_delay = int(cfg.get("max_delay_ms", 0) or 0)
     # 兜底红线：低于这个数量说明「网速环节本身坏了」（端点挂了/内核测不动），
     # 这时宁可发一批带 `--` 的节点，也不能发空订阅。设 0 关闭兜底。
     min_keep = int(cfg.get("min_keep", 20) or 0)
@@ -191,8 +191,8 @@ def apply(proxies, data, cfg):
     enforce_round = bool(latest) and has_round and cfg.get("require_latest_round", True)
 
     kept, stats = [], {"matched": 0, "dead": 0, "unstable": 0, "slow": 0,
-                       "unmeasured": 0, "stale": 0, "no_https": 0, "unknown": 0,
-                       "floor_bypassed": False}
+                       "unmeasured": 0, "stale": 0, "no_https": 0, "slow_delay": 0,
+                       "unknown": 0, "floor_bypassed": False}
     for proxy in proxies:
         entry = entries.get(builder.fingerprint(proxy))
         if not entry:
@@ -233,6 +233,12 @@ def apply(proxies, data, cfg):
         proxy["_wl_kbps"] = kbps
         proxy["_wl_delay"] = int(entry.get("delay") or 0)
         proxy["_wl_rounds"] = ok_rounds
+        # 延迟闸门。口径与 `prober.filter_working` 一致：0=不限，否则超过即剔除。
+        # delay=0 表示本轮没拿到 RTT（极端情况），不当「超限」处理——它连
+        # CONNECT 都没成功的话根本不会有 kbps，会被网速下限接走。
+        if max_delay and proxy["_wl_delay"] > max_delay:
+            stats["slow_delay"] += 1
+            continue
         # 存活起点：本机**首次测通**的时间（连续段）。账本把连续失败的条目标死并清掉，
         # 节点重新出现时 first_ok 重新写，所以它天然表示「这一段连续可用的历史」，
         # 不会把「死了三天又活过来」算成「活了三天」。

@@ -38,9 +38,22 @@ _RATE_MIN_SAMPLES = 3      # 少于这个数的样本不足以下结论，退回
 # 必须有个止损点，否则一轮测速的流量按 GB 计。
 _HARD_MAX_BYTES = 12 * 1024 * 1024
 
-# 速率上限（KB/s）。超过 100MB/s 只可能是计时出了错，宁可判 0（名字显示 --）
-# 也不要让假值排到最前面。
-_RATE_CAP_KBPS = 100 * 1024
+# 速率上限（KB/s）。绝对值 40MB/s：2026-10-29 之前的 100MB/s 形同虚设——线上发出过
+# 一个 83322KB/s（81MB/s）的 vless 节点，而同一轮本机直连只跑到 17.9MB/s。
+# 真正的守门是下面的「直连实测 × 系数」，这个常数只在直连也测不出来时兜底。
+_RATE_CAP_KBPS = 40 * 1024
+
+# 动态上限：节点穿过本机 mihomo 转发，物理上不可能比本机直连同端点还快。
+# ×1.5 是给口径差留的余量——直连那 4 秒是从 TLS 握手开始算的平均值（含慢启动），
+# 节点侧取的是末段 2.5 秒中位，同一档带宽下后者天然偏高，但不该高过 1.5 倍。
+_RATE_CAP_DIRECT_FACTOR = 1.5
+
+# 兜底口径（首字节→结束的平均速率）至少要跑这么久才敢用。
+# 2026-10-29 的假值就是从这里出来的：末段窗口切不出 3 段（整段只有 0.15 秒）时
+# 退回 `received / elapsed`，而 elapsed 没有下限——12MB(_HARD_MAX_BYTES) 在
+# 0.1475 秒内到齐就是 83308KB/s，与线上 best_kbps=83322.5 只差 0.02%。
+# 短于 1 秒的传输连一次稳态采样都不够，判 0（宁可丢一个真快的，也不要发一个假最快的）。
+_RATE_MIN_ELAPSED_S = 1.0
 
 
 def _alloc_ports(count):
@@ -253,11 +266,11 @@ def _direct_session():
     return session
 
 
-def _pick_speed_url(urls, per_url_s=4.0):
-    """直连预跑一遍候选端点，挑「小窗口内下得最多」的那个。
+def _pick_speed_url_probe(urls, per_url_s=4.0):
+    """直连预跑候选端点，返回 (最优端点, 该端点的直连速率 KB/s)。
 
-    只测 4 秒、不经过任何代理：目的是排除「端点自身就慢」这种系统性误差。
-    全部不可达时返回第一个，交给调用方按既定流程失败告警。
+    只测 4 秒、不经过任何代理：一是排除「端点自身就慢」这种系统性误差，二是给出
+    本轮节点测速的**物理上限**（见 `_rate_cap_kbps`）。全是不可达时返回 (第一个, 0)。
     """
     best, best_bytes = None, -1
     for url in urls:
@@ -283,17 +296,40 @@ def _pick_speed_url(urls, per_url_s=4.0):
         if got > best_bytes:
             best, best_bytes = url, got
     if best:
+        kbps = best_bytes / per_url_s / 1024
         log.info(
-            "测速端点选定 %s（直连 4 秒下了 %.1f MB ≈ %.0f KB/s）",
+            "测速端点选定 %s（直连 4 秒下了 %.1f MB ≈ %.0f KB/s，本轮节点速率上限 %.0f KB/s）",
             best,
             best_bytes / 1e6,
-            best_bytes / per_url_s / 1024,
+            kbps,
+            _rate_cap_kbps(kbps),
         )
-        return best
-    return urls[0] if urls else None
+        return best, kbps
+    return (urls[0] if urls else None), 0.0
 
 
-def _measure_speed(port, url, budget_bytes, budget_ms):
+def _pick_speed_url(urls, per_url_s=4.0):
+    """只取端点的兼容入口（诊断脚本在用）。"""
+    return _pick_speed_url_probe(urls, per_url_s)[0]
+
+
+def _rate_cap_kbps(direct_kbps=None):
+    """本轮单节点速率的合理上限：min(绝对值上限, 直连实测 × 系数)。
+
+    直连没测出来（0/None）时只用绝对值：没有参照物就别乱压，否则端点抖动一下
+    就会把所有节点判成 0。
+    """
+    cap = float(_RATE_CAP_KBPS)
+    try:
+        direct = float(direct_kbps or 0)
+    except (TypeError, ValueError):
+        direct = 0.0
+    if direct > 0:
+        cap = min(cap, direct * _RATE_CAP_DIRECT_FACTOR)
+    return cap
+
+
+def _measure_speed(port, url, budget_bytes, budget_ms, cap_kbps=None):
     """第二轮：经本地端口真实下载，返回 KB/s（失败返回 0）。
 
     只算**可持续速率**，三条都和最早那版不同：
@@ -307,6 +343,9 @@ def _measure_speed(port, url, budget_bytes, budget_ms):
        300MB/s（200Mbps 家宽根本跑不到），平均值压不住这种突发，中位数可以。
 
     代价是「只连得上、下不了多少」的节点会得到 0，这正是我们要区分的那一类。
+
+    `cap_kbps`：本轮速率上限，由调用方按「直连实测 × 系数」给出（`_rate_cap_kbps`）。
+    超过它的结果一律判 0——一个节点不可能比你自己的入户线路还快。
     """
     proxy = f"http://127.0.0.1:{port}"
     started = time.monotonic()
@@ -352,11 +391,22 @@ def _measure_speed(port, url, budget_bytes, budget_ms):
     if kbps is None:
         # 样本不足（慢节点在预算内只下了几百 KB）：退回首字节口径，
         # 分母是整段下载时间，不会被 0.01 秒放大。
+        # 但分母本身必须够长：末段窗口切不出 3 段时，快节点会在 0.1 秒量级就跑完
+        # (字节上限)，那时 `received / elapsed` 是纯计时噪声（12MB/0.147s=81MB/s）。
         elapsed = end - first_byte_at
-        if elapsed <= 0:
+        if elapsed < _RATE_MIN_ELAPSED_S:
+            if received >= _HARD_MAX_BYTES:
+                # 撞到字节上限说明它不慢，只是没等够一个稳态窗口就下完了；
+                # 这一档无法给可信数字，按「没测出」处理比发一个假峰值安全。
+                log.debug("节点传输 %.0f ms 内到齐字节上限，无法计速，判 0", elapsed * 1000)
             return 0.0
         kbps = received / elapsed / 1024
-    if kbps > _RATE_CAP_KBPS:
+    cap = _rate_cap_kbps(cap_kbps) if cap_kbps is not None else float(_RATE_CAP_KBPS)
+    if kbps > cap:
+        log.warning(
+            "节点实测 %.0fKB/s 超过本轮上限 %.0fKB/s（直连实测换算），判为计时噪声，按 0 处理",
+            kbps, cap,
+        )
         return 0.0
     return kbps
 
@@ -388,9 +438,10 @@ def _speed_filter(proxies, ports, cfg):
     """第二轮：真实下载测速，剔除下载失败或网速过低的节点。"""
     if not proxies:
         return proxies
-    url = _pick_speed_url(_speed_urls(cfg))
+    url, direct_kbps = _pick_speed_url_probe(_speed_urls(cfg))
     if not url:
         return proxies
+    cap = _rate_cap_kbps(direct_kbps)
 
     budget_bytes = int(cfg.get("speed_bytes", 1000000))
     budget_ms = int(cfg.get("speed_timeout_ms", 5000))
@@ -401,7 +452,7 @@ def _speed_filter(proxies, ports, cfg):
     with ThreadPoolExecutor(max_workers=concurrency) as pool:
         speeds = list(
             pool.map(
-                lambda p: _measure_speed(ports[p["name"]], url, budget_bytes, budget_ms),
+                lambda p: _measure_speed(ports[p["name"]], url, budget_bytes, budget_ms, cap),
                 proxies,
             )
         )

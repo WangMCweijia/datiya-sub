@@ -1207,11 +1207,30 @@ def build_clash(proxies, clash_cfg, meta):
         else "，仅附加源"
     )
     speed_line = _speed_source_line(meta)
+    # 两个订阅文件的覆盖范围要说实话：http/socks5 没有分享链接标准 scheme、
+    # hysteria2 没进生成器，v2ray.txt 天然比 clash.yaml 少一批节点。不写出来，
+    # 用户会以为少掉的是「漏发」。
+    links = meta.get("links")
+    alive = int(meta.get("alive") or 0)
+    if links is not None and alive and int(links) < alive:
+        types = meta.get("link_types") or {}
+        brief = "、".join(
+            "%s %d" % (k, v) for k, v in sorted(types.items(), key=lambda kv: -kv[1])
+        )
+        links_line = (
+            "分享链接（v2ray.txt）只覆盖 %d/%d 个节点（%s）；"
+            "http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅" % (
+                int(links), alive, brief or "无链接格式协议"
+            )
+        )
+    else:
+        links_line = None
     header = (
         "# 由 datiya-sub 自动生成，请勿手动修改\n"
         f"# 更新于 {meta['updated_at']} | 可用节点 {meta['alive']} 个"
         f"（候选 {meta['total']} 个{scope}）\n"
         + (f"# {speed_line}\n" if speed_line else "")
+        + (f"# {links_line}\n" if links_line else "")
     )
     body = yaml.safe_dump(
         config,
