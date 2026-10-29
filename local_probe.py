@@ -611,6 +611,13 @@ def report(payload, results, rounds):
         for entry in fast:
             print(f"  {entry['kbps']:8.0f}  {entry['delay']:5d}ms  "
                   f"{entry['type']:8s} {entry['line']}")
+    # HTTPS 闸门的覆盖情况：None 表示本轮没测（没网速 / 闸门被跳过），
+    # 只看测过的那些，否则「不通 0 个」会被误读成「全都通」。
+    gated = [res for res in results.values() if res.get("https") is not None]
+    if gated:
+        bad = sum(1 for res in gated if not res["https"])
+        print(f"HTTPS 闸门：测了 {len(gated)} 个，不通 {bad} 个"
+              f"（连续 2 轮不通才拦，见 status.json 的 rejected.no_https）")
     print(f"白名单总条目：{len(entries)}（含历史；CI 只发其中的节点）")
     print("=" * 62)
 
