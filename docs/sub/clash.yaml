@@ -1,8 +1,8 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-10-30 12:25:52 +0800 | 可用节点 11 个（候选 5477 个，仅附加源）
-# 网速=本机实测（WANG-OFFICE，0.0 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
+# 更新于 2026-10-30 13:51:55 +0800 | 可用节点 10 个（候选 6150 个，仅附加源）
+# 网速=本机实测（WANG-OFFICE，1.5 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
 # 存活=首次测通至今（第二个数字，如 7d/36h；带 ~ 的是按探测轮次数推算）；存活 ≥3 天且网速 ≥256KB/s 的节点整体排在最前，其余按网速降序；低于 100KB/s 或测不出速度的节点已剔除
-# 分享链接（v2ray.txt）只覆盖 3/11 个节点（vless 2、vmess 1）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
+# 分享链接（v2ray.txt）只覆盖 3/10 个节点（vless 2、vmess 1）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -43,12 +43,12 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇺🇸美国|403KB/s|~7d|zhuhai.uk 04
-  type: http
+- port: 443
   server: 137.175.22.16
-  port: 443
-  tls: true
   skip-cert-verify: true
+  tls: true
+  type: http
+  name: 🇺🇸美国|403KB/s|~8d|zhuhai.uk 04
 - name: 🇺🇸美国|392KB/s|~3d|7 R002-260618
   port: 443
   server: fan.365747.xyz
@@ -58,18 +58,18 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: ❓其他|359KB/s|~3d|http-84.17.47.123
+- name: 🇳🇱荷兰|359KB/s|~3d|zhuhai.uk 02
+  type: http
   server: 84.17.47.123
   port: 9002
-  type: http
   tls: true
   skip-cert-verify: true
-- name: 🇺🇸美国|5.0MB/s|3h|zhuhai.uk 07
-  type: http
+- port: 8443
   server: 45.150.164.18
-  port: 8443
-  tls: true
   skip-cert-verify: true
+  tls: true
+  type: http
+  name: 🇺🇸美国|5.0MB/s|4h|zhuhai.uk 07
 - name: 🇬🇧英国|1.4MB/s|1d|2
   server: 144.31.213.229
   port: 443
@@ -84,15 +84,7 @@ proxies:
   udp: true
   skip-cert-verify: false
   tfo: false
-- password: None
-  port: 23856
-  server: 51.159.225.196
-  skip-cert-verify: true
-  tls: true
-  type: http
-  username: 'null'
-  name: 🇳🇱荷兰|1.0MB/s|6h|zhuhai.uk
-- name: 🇸🇪瑞典|1004KB/s|<1h|4
+- name: 🇸🇪瑞典|1004KB/s|1h|4
   server: 94.249.195.81
   port: 43000
   type: vless
@@ -109,7 +101,7 @@ proxies:
   udp: true
   xudp: true
   packet-encoding: xudp
-- name: 🇺🇸美国|276KB/s|3h|36 R002-260618
+- name: 🇺🇸美国|276KB/s|4h|36 R002-260618
   port: 443
   server: 137.175.22.116
   skip-cert-verify: true
@@ -119,14 +111,14 @@ proxies:
   udp: true
 - alterId: 0
   cipher: auto
-  name: ❓其他|173KB/s|<1h|vmess-1934374877
+  name: ❓其他|173KB/s|1h|vmess-1934374877
   network: ws
   port: 10086
   server: 120.48.133.162
   type: vmess
   udp: true
   uuid: f81d0fc9-c6b0-4dab-a270-6e697e0a367f
-- name: 🇫🇷法国|128KB/s|6h|61 R002-260618
+- name: 🇫🇷法国|128KB/s|7h|61 R002-260618
   port: 443
   server: 62.210.27.111
   skip-cert-verify: true
@@ -143,16 +135,15 @@ proxy-groups:
   - DIRECT
   - 🌐 其他
   - 🇳🇱荷兰|584KB/s|~3d|speednode 0024
-  - 🇺🇸美国|403KB/s|~7d|zhuhai.uk 04
+  - 🇺🇸美国|403KB/s|~8d|zhuhai.uk 04
   - 🇺🇸美国|392KB/s|~3d|7 R002-260618
-  - ❓其他|359KB/s|~3d|http-84.17.47.123
-  - 🇺🇸美国|5.0MB/s|3h|zhuhai.uk 07
+  - 🇳🇱荷兰|359KB/s|~3d|zhuhai.uk 02
+  - 🇺🇸美国|5.0MB/s|4h|zhuhai.uk 07
   - 🇬🇧英国|1.4MB/s|1d|2
-  - 🇳🇱荷兰|1.0MB/s|6h|zhuhai.uk
-  - 🇸🇪瑞典|1004KB/s|<1h|4
-  - 🇺🇸美国|276KB/s|3h|36 R002-260618
-  - ❓其他|173KB/s|<1h|vmess-1934374877
-  - 🇫🇷法国|128KB/s|6h|61 R002-260618
+  - 🇸🇪瑞典|1004KB/s|1h|4
+  - 🇺🇸美国|276KB/s|4h|36 R002-260618
+  - ❓其他|173KB/s|1h|vmess-1934374877
+  - 🇫🇷法国|128KB/s|7h|61 R002-260618
 - name: ♻️ 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -162,16 +153,15 @@ proxy-groups:
   lazy: true
   proxies:
   - 🇳🇱荷兰|584KB/s|~3d|speednode 0024
-  - 🇺🇸美国|403KB/s|~7d|zhuhai.uk 04
+  - 🇺🇸美国|403KB/s|~8d|zhuhai.uk 04
   - 🇺🇸美国|392KB/s|~3d|7 R002-260618
-  - ❓其他|359KB/s|~3d|http-84.17.47.123
-  - 🇺🇸美国|5.0MB/s|3h|zhuhai.uk 07
+  - 🇳🇱荷兰|359KB/s|~3d|zhuhai.uk 02
+  - 🇺🇸美国|5.0MB/s|4h|zhuhai.uk 07
   - 🇬🇧英国|1.4MB/s|1d|2
-  - 🇳🇱荷兰|1.0MB/s|6h|zhuhai.uk
-  - 🇸🇪瑞典|1004KB/s|<1h|4
-  - 🇺🇸美国|276KB/s|3h|36 R002-260618
-  - ❓其他|173KB/s|<1h|vmess-1934374877
-  - 🇫🇷法国|128KB/s|6h|61 R002-260618
+  - 🇸🇪瑞典|1004KB/s|1h|4
+  - 🇺🇸美国|276KB/s|4h|36 R002-260618
+  - ❓其他|173KB/s|1h|vmess-1934374877
+  - 🇫🇷法国|128KB/s|7h|61 R002-260618
 - name: ⚡ 负载均衡
   type: load-balance
   strategy: consistent-hashing
@@ -181,16 +171,15 @@ proxy-groups:
   timeout: 8000
   proxies:
   - 🇳🇱荷兰|584KB/s|~3d|speednode 0024
-  - 🇺🇸美国|403KB/s|~7d|zhuhai.uk 04
+  - 🇺🇸美国|403KB/s|~8d|zhuhai.uk 04
   - 🇺🇸美国|392KB/s|~3d|7 R002-260618
-  - ❓其他|359KB/s|~3d|http-84.17.47.123
-  - 🇺🇸美国|5.0MB/s|3h|zhuhai.uk 07
+  - 🇳🇱荷兰|359KB/s|~3d|zhuhai.uk 02
+  - 🇺🇸美国|5.0MB/s|4h|zhuhai.uk 07
   - 🇬🇧英国|1.4MB/s|1d|2
-  - 🇳🇱荷兰|1.0MB/s|6h|zhuhai.uk
-  - 🇸🇪瑞典|1004KB/s|<1h|4
-  - 🇺🇸美国|276KB/s|3h|36 R002-260618
-  - ❓其他|173KB/s|<1h|vmess-1934374877
-  - 🇫🇷法国|128KB/s|6h|61 R002-260618
+  - 🇸🇪瑞典|1004KB/s|1h|4
+  - 🇺🇸美国|276KB/s|4h|36 R002-260618
+  - ❓其他|173KB/s|1h|vmess-1934374877
+  - 🇫🇷法国|128KB/s|7h|61 R002-260618
 - name: 🌐 其他
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -199,17 +188,16 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - ❓其他|359KB/s|~3d|http-84.17.47.123
-  - ❓其他|173KB/s|<1h|vmess-1934374877
+  - ❓其他|173KB/s|1h|vmess-1934374877
   - 🇳🇱荷兰|584KB/s|~3d|speednode 0024
-  - 🇳🇱荷兰|1.0MB/s|6h|zhuhai.uk
-  - 🇺🇸美国|403KB/s|~7d|zhuhai.uk 04
+  - 🇳🇱荷兰|359KB/s|~3d|zhuhai.uk 02
+  - 🇺🇸美国|403KB/s|~8d|zhuhai.uk 04
   - 🇺🇸美国|392KB/s|~3d|7 R002-260618
-  - 🇺🇸美国|5.0MB/s|3h|zhuhai.uk 07
-  - 🇺🇸美国|276KB/s|3h|36 R002-260618
+  - 🇺🇸美国|5.0MB/s|4h|zhuhai.uk 07
+  - 🇺🇸美国|276KB/s|4h|36 R002-260618
   - 🇬🇧英国|1.4MB/s|1d|2
-  - 🇸🇪瑞典|1004KB/s|<1h|4
-  - 🇫🇷法国|128KB/s|6h|61 R002-260618
+  - 🇸🇪瑞典|1004KB/s|1h|4
+  - 🇫🇷法国|128KB/s|7h|61 R002-260618
 rules:
 - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
 - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
