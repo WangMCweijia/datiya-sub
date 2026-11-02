@@ -1,8 +1,8 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-11-02 21:25:20 +0800 | 可用节点 5 个（候选 7203 个，仅附加源）
-# 网速=本机实测（WANG-OFFICE，0.0 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
+# 更新于 2026-11-03 00:27:33 +0800 | 可用节点 18 个（候选 7245 个，仅附加源）
+# 网速=本机实测（WANG-OFFICE，0.1 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
 # 存活=首次测通至今（第二个数字，如 7d/36h；带 ~ 的是按探测轮次数推算）；存活 ≥3 天且网速 ≥256KB/s 的节点整体排在最前，其余按网速降序；低于 100KB/s 或测不出速度的节点已剔除
-# 分享链接（v2ray.txt）只覆盖 2/5 个节点（vmess 2）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
+# 分享链接（v2ray.txt）只覆盖 6/18 个节点（vmess 2、hysteria2 2、vless 2）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -35,12 +35,6 @@ dns:
   - 223.5.5.5
   - 119.29.29.29
 proxies:
-- name: 🇯🇵日本|529KB/s|<1h|zhuhai.uk
-  type: http
-  server: 120.232.204.58
-  port: 40583
-  tls: true
-  skip-cert-verify: true
 - password: 'null'
   port: 40583
   server: 120.232.204.58
@@ -48,30 +42,204 @@ proxies:
   tls: true
   type: http
   username: 'null'
-  name: 🇯🇵日本|293KB/s|6h|1
-- alterId: 0
-  cipher: auto
-  name: ❓其他|207KB/s|3d|vmess-1945999980
-  network: ws
-  port: 10086
-  server: 120.48.133.162
-  type: vmess
+  name: 🇯🇵日本|3.0MB/s|9h|1
+- type: hysteria
+  name: 🇺🇸美国|2.4MB/s|<1h|IPV4
+  server: 198.200.57.142
+  port: 22335
+  password: github.com/Alvin9999-newpac/fanqiang
+  tls: true
+  servername: bing.com
+  sni: bing.com
+  skip-cert-verify: true
+  alpn:
+  - h3
+  up: '11'
+  down: '55'
+  auth-str: github.com/Alvin9999-newpac/fanqiang
+- type: hysteria
+  name: 🇺🇸美国|1.8MB/s|<1h|IPV4
+  server: 137.175.82.44
+  port: 443
+  password: dongtaiwang.com
+  tls: true
+  servername: bing.com
+  sni: bing.com
+  skip-cert-verify: true
+  alpn:
+  - h3
+  up: '11'
+  down: '55'
+  auth-str: dongtaiwang.com
+- type: hysteria
+  name: 🇫🇷法国|1.6MB/s|<1h|IPV4
+  server: 163.172.117.163
+  port: 36699
+  password: dongtaiwang.com
+  tls: true
+  servername: bing.com
+  sni: bing.com
+  skip-cert-verify: true
+  alpn:
+  - h3
+  up: '11'
+  down: '55'
+  auth-str: dongtaiwang.com
+- type: hysteria
+  name: 🇫🇷法国|1.5MB/s|12h|IPV4
+  server: 62.210.28.175
+  port: 24667
+  password: dongtaiwang.com
+  tls: true
+  servername: bing.com
+  sni: bing.com
+  skip-cert-verify: true
+  alpn:
+  - h3
+  up: '11'
+  down: '55'
+  auth-str: dongtaiwang.com
+  protocol: udp
+  sub_tag: P002-260618
   udp: true
-  uuid: f81d0fc9-c6b0-4dab-a270-6e697e0a367f
+- alpn:
+  - h3
+  auth_str: dongtaiwang.com
+  down: 55 Mbps
+  name: 🇩🇪德国|988KB/s|14h|3 K001-260618
+  obfs: ''
+  port: 26691
+  protocol: udp
+  server: 5.83.129.143
+  skip-cert-verify: true
+  sni: apple.com
+  sub_tag: K001-260618
+  type: hysteria
+  up: 11 Mbps
+  udp: true
+  auth-str: dongtaiwang.com
+- name: 🇫🇷法国|936KB/s|9h|217 R002-260618
+  password: f13f964e-f06c-11ec-a858-f23c91cfbbc9
+  port: 443
+  server: 8a7d3033-ta1og0-ta5i1s-1j61y.fr.oshuawei.com
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  username: f13f964e-f06c-11ec-a858-f23c91cfbbc9
+  udp: true
+  sni: 8a7d3033-ta1og0-ta5i1s-1j61y.fr.oshuawei.com
+- port: 8443
+  server: 176.124.206.150
+  skip-cert-verify: true
+  type: socks5
+  name: 🇩🇪德国|418KB/s|12h|9
+  sub_tag: S001-260618
+  udp: true
 - alterId: 0
   cipher: auto
-  name: ❓其他|138KB/s|11h|vmess-1934446571
+  name: ❓其他|301KB/s|14h|vmess-1934446571
   network: ws
   port: 10086
   server: 120.48.133.162
   type: vmess
   udp: true
   uuid: a8d931b0-6c27-428b-8d86-c20efea3dba7
-- name: 🇯🇵日本|137KB/s|<1h|28 P002-260618
-  port: 343
-  server: 133.18.200.207
+- type: hysteria2
+  name: 🇺🇸美国|256KB/s|<1h|IPV4
+  server: starlink-ft.251313.xyz
+  port: 443
+  password: https://xship.best
+  tls: true
+  servername: xship.top
+  sni: xship.top
+  skip-cert-verify: true
+- type: hysteria2
+  name: 🇦🇪阿联酋|242KB/s|<1h|阿拉伯联合酋长国-> FI IPV4
+  server: 217.60.73.56
+  port: 443
+  password: 69e41e64-a832-471a-b740-94577ca85520
+  tls: true
+  servername: forshynewh.duckdns.org
+  sni: forshynewh.duckdns.org
+  skip-cert-verify: true
+  alpn:
+  - h3
+  sub_tag: A001-260618
+  udp: true
+- name: 🇩🇪德国|223KB/s|~7d|16 R002-260618
+  port: 8443
+  server: 77.221.136.60
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- client-fingerprint: chrome
+  encryption: mlkem768x25519plus.native.0rtt.sphudmOm4wKYnBGDTU6kl6-KH7fdQ1VzXp58hEAn3zU
+  flow: xtls-rprx-vision
+  name: 🇩🇪德国|219KB/s|12h|75 F003-260618
+  network: tcp
+  port: 59397
+  reality-opts:
+    public-key: 7w6m1Z7wZk1KX7bBlCi50t_8T-HdC8aMizOcIyqcaS4
+    short-id: '1430'
+  server: 185.44.64.166
+  sub_tag: F003-260618
+  tls: true
+  type: vless
+  udp: true
+  uuid: ac36b6f8-d03d-46cb-808f-e655183fb76d
+  xudp: true
+  packet-encoding: xudp
+  servername: la.blogs.nvidia.com
+- name: 🇳🇱荷兰|201KB/s|12h|251 R002-260618
+  port: 443
+  server: 5.255.97.222
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- alterId: 0
+  cipher: auto
+  name: ❓其他|196KB/s|3d|vmess-1945999980
+  network: ws
+  port: 10086
+  server: 120.48.133.162
+  type: vmess
+  udp: true
+  uuid: f81d0fc9-c6b0-4dab-a270-6e697e0a367f
+- name: 🇺🇸美国|156KB/s|14h|275 P002-260618
+  password: 'null'
+  port: 9002
+  server: 138.199.35.218
   skip-cert-verify: true
   sub_tag: P002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇱🇻拉脱维亚|147KB/s|<1h|abfada
+  server: 72.56.52.248
+  port: 443
+  type: vless
+  uuid: 2614a96d-e39f-4cca-a9c7-467a178c2c0a
+  tls: true
+  flow: xtls-rprx-vision
+  reality-opts:
+    public-key: OFmJtVi6OB9E6KIc5QV5YmoouimRFc-Se9hICjtV8hQ
+  servername: lv.dexlen.cc
+  client-fingerprint: firefox
+  network: tcp
+  udp: true
+  sub_tag: M003-260806
+  xudp: true
+  packet-encoding: xudp
+- name: 🇺🇸美国|106KB/s|6h|49 R002-260618
+  port: 9002
+  server: 138.199.35.200
+  skip-cert-verify: true
+  sub_tag: R002-260618
   tls: true
   type: http
   udp: true
@@ -83,11 +251,24 @@ proxy-groups:
   - ⚡ 负载均衡
   - DIRECT
   - 🌐 其他
-  - 🇯🇵日本|529KB/s|<1h|zhuhai.uk
-  - 🇯🇵日本|293KB/s|6h|1
-  - ❓其他|207KB/s|3d|vmess-1945999980
-  - ❓其他|138KB/s|11h|vmess-1934446571
-  - 🇯🇵日本|137KB/s|<1h|28 P002-260618
+  - 🇯🇵日本|3.0MB/s|9h|1
+  - 🇺🇸美国|2.4MB/s|<1h|IPV4
+  - 🇺🇸美国|1.8MB/s|<1h|IPV4
+  - 🇫🇷法国|1.6MB/s|<1h|IPV4
+  - 🇫🇷法国|1.5MB/s|12h|IPV4
+  - 🇩🇪德国|988KB/s|14h|3 K001-260618
+  - 🇫🇷法国|936KB/s|9h|217 R002-260618
+  - 🇩🇪德国|418KB/s|12h|9
+  - ❓其他|301KB/s|14h|vmess-1934446571
+  - 🇺🇸美国|256KB/s|<1h|IPV4
+  - 🇦🇪阿联酋|242KB/s|<1h|阿拉伯联合酋长国-> FI IPV4
+  - 🇩🇪德国|223KB/s|~7d|16 R002-260618
+  - 🇩🇪德国|219KB/s|12h|75 F003-260618
+  - 🇳🇱荷兰|201KB/s|12h|251 R002-260618
+  - ❓其他|196KB/s|3d|vmess-1945999980
+  - 🇺🇸美国|156KB/s|14h|275 P002-260618
+  - 🇱🇻拉脱维亚|147KB/s|<1h|abfada
+  - 🇺🇸美国|106KB/s|6h|49 R002-260618
 - name: ♻️ 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -96,11 +277,24 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - 🇯🇵日本|529KB/s|<1h|zhuhai.uk
-  - 🇯🇵日本|293KB/s|6h|1
-  - ❓其他|207KB/s|3d|vmess-1945999980
-  - ❓其他|138KB/s|11h|vmess-1934446571
-  - 🇯🇵日本|137KB/s|<1h|28 P002-260618
+  - 🇯🇵日本|3.0MB/s|9h|1
+  - 🇺🇸美国|2.4MB/s|<1h|IPV4
+  - 🇺🇸美国|1.8MB/s|<1h|IPV4
+  - 🇫🇷法国|1.6MB/s|<1h|IPV4
+  - 🇫🇷法国|1.5MB/s|12h|IPV4
+  - 🇩🇪德国|988KB/s|14h|3 K001-260618
+  - 🇫🇷法国|936KB/s|9h|217 R002-260618
+  - 🇩🇪德国|418KB/s|12h|9
+  - ❓其他|301KB/s|14h|vmess-1934446571
+  - 🇺🇸美国|256KB/s|<1h|IPV4
+  - 🇦🇪阿联酋|242KB/s|<1h|阿拉伯联合酋长国-> FI IPV4
+  - 🇩🇪德国|223KB/s|~7d|16 R002-260618
+  - 🇩🇪德国|219KB/s|12h|75 F003-260618
+  - 🇳🇱荷兰|201KB/s|12h|251 R002-260618
+  - ❓其他|196KB/s|3d|vmess-1945999980
+  - 🇺🇸美国|156KB/s|14h|275 P002-260618
+  - 🇱🇻拉脱维亚|147KB/s|<1h|abfada
+  - 🇺🇸美国|106KB/s|6h|49 R002-260618
 - name: ⚡ 负载均衡
   type: load-balance
   strategy: consistent-hashing
@@ -109,11 +303,24 @@ proxy-groups:
   lazy: true
   timeout: 8000
   proxies:
-  - 🇯🇵日本|529KB/s|<1h|zhuhai.uk
-  - 🇯🇵日本|293KB/s|6h|1
-  - ❓其他|207KB/s|3d|vmess-1945999980
-  - ❓其他|138KB/s|11h|vmess-1934446571
-  - 🇯🇵日本|137KB/s|<1h|28 P002-260618
+  - 🇯🇵日本|3.0MB/s|9h|1
+  - 🇺🇸美国|2.4MB/s|<1h|IPV4
+  - 🇺🇸美国|1.8MB/s|<1h|IPV4
+  - 🇫🇷法国|1.6MB/s|<1h|IPV4
+  - 🇫🇷法国|1.5MB/s|12h|IPV4
+  - 🇩🇪德国|988KB/s|14h|3 K001-260618
+  - 🇫🇷法国|936KB/s|9h|217 R002-260618
+  - 🇩🇪德国|418KB/s|12h|9
+  - ❓其他|301KB/s|14h|vmess-1934446571
+  - 🇺🇸美国|256KB/s|<1h|IPV4
+  - 🇦🇪阿联酋|242KB/s|<1h|阿拉伯联合酋长国-> FI IPV4
+  - 🇩🇪德国|223KB/s|~7d|16 R002-260618
+  - 🇩🇪德国|219KB/s|12h|75 F003-260618
+  - 🇳🇱荷兰|201KB/s|12h|251 R002-260618
+  - ❓其他|196KB/s|3d|vmess-1945999980
+  - 🇺🇸美国|156KB/s|14h|275 P002-260618
+  - 🇱🇻拉脱维亚|147KB/s|<1h|abfada
+  - 🇺🇸美国|106KB/s|6h|49 R002-260618
 - name: 🌐 其他
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -122,11 +329,24 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - ❓其他|207KB/s|3d|vmess-1945999980
-  - ❓其他|138KB/s|11h|vmess-1934446571
-  - 🇯🇵日本|529KB/s|<1h|zhuhai.uk
-  - 🇯🇵日本|293KB/s|6h|1
-  - 🇯🇵日本|137KB/s|<1h|28 P002-260618
+  - ❓其他|301KB/s|14h|vmess-1934446571
+  - ❓其他|196KB/s|3d|vmess-1945999980
+  - 🇯🇵日本|3.0MB/s|9h|1
+  - 🇺🇸美国|2.4MB/s|<1h|IPV4
+  - 🇺🇸美国|1.8MB/s|<1h|IPV4
+  - 🇺🇸美国|256KB/s|<1h|IPV4
+  - 🇺🇸美国|156KB/s|14h|275 P002-260618
+  - 🇺🇸美国|106KB/s|6h|49 R002-260618
+  - 🇫🇷法国|1.6MB/s|<1h|IPV4
+  - 🇫🇷法国|1.5MB/s|12h|IPV4
+  - 🇫🇷法国|936KB/s|9h|217 R002-260618
+  - 🇩🇪德国|988KB/s|14h|3 K001-260618
+  - 🇩🇪德国|418KB/s|12h|9
+  - 🇩🇪德国|223KB/s|~7d|16 R002-260618
+  - 🇩🇪德国|219KB/s|12h|75 F003-260618
+  - 🇦🇪阿联酋|242KB/s|<1h|阿拉伯联合酋长国-> FI IPV4
+  - 🇳🇱荷兰|201KB/s|12h|251 R002-260618
+  - 🇱🇻拉脱维亚|147KB/s|<1h|abfada
 rules:
 - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
 - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
