@@ -446,6 +446,9 @@ def main():
     # `prober.filter_working` 里，白名单这条**生产路径**上根本没人读——白名单把
     # `_wl_delay` 标好了却没人用，结果发布集里 44/117 个节点延迟 >1.5s（最慢 4.8s）。
     wl_cfg.setdefault("max_delay_ms", check_cfg.get("max_delay_ms", 0))
+    # 延迟豁免阈值（实测吞吐达标的节点不受延迟红线约束），口径同样只留一个。
+    wl_cfg.setdefault("max_delay_exempt_kbps",
+                      check_cfg.get("max_delay_exempt_kbps", 0))
     cand_cfg = check_cfg.get("candidates") or {}
     # 发布顺序：只按实测网速（见 builder.sort_by_speed）。只影响订阅里
     # 节点的排列顺序，不淘汰节点，所以两条测活分支（白名单 / Globalping）都能用。
@@ -854,6 +857,8 @@ def main():
                 "no_https": wl_stats.get("no_https", 0),
                 # 延迟超过 check.max_delay_ms 的：发布侧的延迟闸门（whitelist.apply）。
                 "slow_delay": wl_stats.get("slow_delay", 0),
+                # 延迟超红线但因实测吞吐达标而放行的（check.max_delay_exempt_kbps）。
+                "delay_exempt": wl_stats.get("delay_exempt", 0),
                 "stale": wl_stats.get("stale", 0),
             },
             "min_kbps": active_floor,
