@@ -78,7 +78,16 @@ jobs:
           # source_health.json 是各源命中率的滚动记录（EWMA），跨构建累积才有意义。
           [ -f source_health.json ] && git add -f source_health.json
           git diff --cached --quiet || git commit -m "chore: 更新订阅 $(date -u +%Y-%m-%dT%H:%MZ)"
-          git push
+          # 连续推两次代码会排进来两个 run（concurrency 只排队不取消）。先跑完的那个
+          # 把产物推上去后，后跑的直接 push 会被拒：`! [rejected] main -> main (fetch first)`。
+          # 构建本身是成功的，只是提交失败——所以 rebase 后重试，别让它红成「构建失败」。
+          ok=0
+          for i in 1 2 3; do
+            if git push; then ok=1; break; fi
+            echo "::warning::push 被拒（第 $i 次），rebase 后重试"
+            git -c rebase.autoStash=true pull --rebase origin main || true
+          done
+          [ "$ok" = "1" ] || { echo "::error::连续 3 次 push 失败"; exit 1; }
 
       - uses: actions/configure-pages@v5
 
