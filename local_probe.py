@@ -154,6 +154,17 @@ def fetch_candidates(repo, path=None, name="candidates.json.gz"):
     )
 
 
+def _slim_proxy(proxy):
+    """构造代理必需的字段（剥掉内部标记与显示名），口径与 main.write_candidates 一致。"""
+    return {
+        key: value
+        for key, value in proxy.items()
+        if not key.startswith("_")
+        and key != "name"
+        and value not in (None, "", [], {})
+    }
+
+
 # --- 内核 -------------------------------------------------------------------
 
 
@@ -373,6 +384,12 @@ def probe(candidates, exe, args, check_cfg):
             # None = 本轮没测（没网速 / 闸门被跳过），0/1 = 测过且不通过/通过。
             # 必须区分「没测」与「不通」：前者要沿用上一轮的结论，后者要拦住不发。
             "https": None if verdict is None else int(bool(verdict)),
+            # 完整节点定义（构造代理所需字段）。CI 侧靠它把「本轮源站没再采到、
+            # 但白名单证明它还活着」的节点重新构回候选池——只存 line + type 是
+            # 不够的：vless 少 uuid、ws 少 path 就直接连不上，重建出来的节点是废的。
+            # 2026-11-03 实测：白名单 998 条里 294 条有网速，第 43 轮只测到 169 条，
+            # 125 个好节点因为源站漏采被白扔，发布集只剩 29 个。
+            "proxy": _slim_proxy(proxy),
         }
     return results
 
@@ -469,6 +486,15 @@ def merge(old, results, keep_days, dead_after, round_no=0, interval_h=3.0,
         # 实际测通的只有 245 个），白名单等于没过滤。
         entry.update({"line": res["line"], "type": res["type"], "last_check": stamp,
                       "last_round": int(round_no)})
+        # 完整节点定义跟着条目走：CI 侧 `_rescue_orphans` 靠它把「本轮源站没采到」
+        # 的节点重新构进候选池。没有它就只能从上一轮候选池捞，而上一轮池子里
+        # 未必有这个节点（池子上限 2000，白名单 998 条，覆盖不全）。
+        # 只给「有实测网速」的条目存定义：零速条目根本不会被补录，存了白占体积
+        # （白名单每 3 小时推一次，998 条全带定义会翻倍到 700KB 以上）。
+        if res.get("proxy") and float(res.get("kbps") or 0) > 0:
+            entry["proxy"] = res["proxy"]
+        elif "proxy" in entry and not res["ok"]:
+            entry.pop("proxy", None)
         # HTTPS 判定带轮次：whitelist.apply 只认「本轮测的」那一条，
         # 否则一条几轮前的不通记录会把它永久拦在发布之外，而它可能早就修好了。
         # 同时维护**连续失败轮数**：免费节点抖动剧烈（实测同一节点连测三次
