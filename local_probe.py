@@ -317,6 +317,36 @@ def probe(candidates, exe, args, check_cfg):
                     speeds = {item[0]["name"]: kb for item, kb in zip(alive, measured)}
                     got = sum(1 for kb in speeds.values() if kb > 0)
                     log.info("第二轮：%d/%d 个测出网速", got, len(alive))
+                    # 零速重试：**低延迟却下不动的节点，多半是当场抖动，不是线路废**。
+                    # 2026-10-29 实测同一批节点早晚各测一次，https 失败数 14 → 4，
+                    # 说明并发和瞬时拥塞会把好节点压成 0（假阴性）。第 43 轮 591 个
+                    # 可出网节点里有 220 个零速，其中一批 delay<1500ms 的属于这种。
+                    # 只重试低延迟的：代价是几百秒探测时间，换来的是发布量。
+                    zero = [
+                        item[0] for item in alive
+                        if speeds.get(item[0]["name"], 0) <= 0
+                        and 0 < int(delays.get(item[0]["name"]) or 0) < 1500
+                    ]
+                    if zero and speed_url:
+                        log.info("第二轮补测：%d 个零速但延迟 <1.5s 的节点，复测一次",
+                                 len(zero))
+                        with ThreadPoolExecutor(max(1, speed_conc // 2)) as pool:
+                            again = list(
+                                pool.map(
+                                    lambda p: prober._measure_speed(
+                                        ports[p["name"]], speed_url, speed_bytes,
+                                        speed_ms, speed_cap,
+                                    ),
+                                    zero,
+                                )
+                            )
+                        saved = 0
+                        for p, kb in zip(zero, again):
+                            if kb > 0:
+                                speeds[p["name"]] = kb
+                                saved += 1
+                        if saved:
+                            log.info("第二轮补测：救回 %d 个零速节点", saved)
 
                 # 第三轮：HTTPS 闸门。前两轮验的是「CONNECT + 明文 204」和**
                 # 明文大文件下载**，两关都过不代表浏览器能用：只肯转发明文、
