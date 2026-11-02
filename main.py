@@ -366,6 +366,71 @@ def write_candidates(path, proxies, cand_cfg):
     return len(items)
 
 
+def _load_prev_candidates(path):
+    """读仓库里上一轮的候选池（.gz/.json），只用来捞回白名单孤儿。"""
+    try:
+        raw = path.read_bytes()
+    except OSError:
+        return []
+    try:
+        if raw[:2] == b"\x1f\x8b":
+            raw = gzip.decompress(raw)
+        data = json.loads(raw.decode("utf-8"))
+    except (OSError, ValueError) as exc:
+        log.warning("上一轮候选池读取失败（%s），本轮不做白名单补录", exc)
+        return []
+    items = data.get("proxies") if isinstance(data, dict) else data
+    return items if isinstance(items, list) else []
+
+
+def _rescue_orphans(rest, entries, cand_cfg):
+    """把「白名单里活着、但本轮源站没采到」的节点从上一轮候选池捞回池子。
+
+    根因：候选池每轮都从**本轮采集结果**重建。节点一旦某轮没被任一源站采到，
+    它就既不在 `full_pool` 里，也不在 `rest` 里，`split_verified` 根本没机会给它
+    排位——于是本轮不重测 → 白名单里 `round` 停在旧值 → `whitelist.apply` 判
+    `stale` 下线 → 下一轮更没有理由保它。这是个自我强化的漏斗。
+
+    实测（2026-11-03 第 43 轮）：白名单 998 条里 294 条有实测网速，本轮只测到
+    169 条，**125 个好节点因为「源站这轮没再给出它」被白扔**，发布集只剩 29 个。
+    免费节点的上游列表本来就在漂移，这不是偶发，而是发布量被压在几十个上的主因。
+
+    补录只认白名单条目（`entries` 里有记录且未标 dead），所以不会把池子变成
+    「死节点坟场」——白名单自己会按 `streak_expire_hours` 清掉长期不出现的条目。
+    """
+    prev_path = ROOT / str(cand_cfg.get("file", "candidates.json.gz"))
+    prev = _load_prev_candidates(prev_path)
+    if not prev or not entries:
+        return rest, 0
+    known = {builder.fingerprint(p) for p in rest}
+    rescued = []
+    for item in prev:
+        if not isinstance(item, dict):
+            continue
+        proxy = {k: v for k, v in item.items() if k != "_fp"}
+        fp = builder.fingerprint(proxy)
+        if fp in known:
+            continue
+        entry = entries.get(fp)
+        if not entry or entry.get("dead"):
+            continue
+        # write_candidates 剥掉了 name，这里补一个占位名：池子只喂给本机探测，
+        # local_probe 会把全部节点统一改名 p0001..，发布侧的命名另走 builder。
+        proxy.setdefault("name", "rescued-" + fp[:8])
+        # 保留源标记，源健康表才能把补录节点算回它原来的源
+        proxy["_srcs"] = ["(白名单补录)"]
+        rescued.append(proxy)
+        known.add(fp)
+    if rescued:
+        log.info(
+            "候选池补录：%d 个白名单节点本轮未被源站采到，已从上一轮池子捞回"
+            "（否则它们只会等到过期判 stale）",
+            len(rescued),
+        )
+        rest = rescued + rest
+    return rest, len(rescued)
+
+
 def main():
     parser = argparse.ArgumentParser(description="聚合 free.datiya.com 免费节点")
     parser.add_argument("--config", default=str(ROOT / "config.yaml"))
@@ -557,6 +622,11 @@ def main():
             rest = [p for p in full_pool if builder.fingerprint(p) not in proven]
             candidate_cap = int(cand_cfg.get("max") or 0)
             verified_ratio = float(cand_cfg.get("verified_ratio", 0) or 0)
+            # 白名单孤儿补录：本轮源站没采到的老节点，靠上一轮候选池把完整参数捞回来。
+            # 它们进 rest 后由 split_verified 归入 verified 组，按 last_ok 新鲜度排序。
+            rest, rescued = _rescue_orphans(
+                rest, (wl_data or {}).get("entries") or {}, cand_cfg
+            )
             verified, fresh = builder.split_verified(
                 rest, (wl_data or {}).get("entries") or {}
             )
@@ -578,8 +648,9 @@ def main():
                 take_fresh = fresh[: max(0, need - len(take_verified))]
                 pool = publish + take_verified + take_fresh
                 log.info(
-                    "候选池：发布 %d + 已验证老节点 %d/%d + 新节点 %d/%d（上限 %d）",
-                    len(publish), len(take_verified), len(verified),
+                    "候选池：发布 %d + 已验证老节点 %d/%d（含补录 %d）"
+                    " + 新节点 %d/%d（上限 %d）",
+                    len(publish), len(take_verified), len(verified), rescued,
                     len(take_fresh), len(fresh), candidate_cap,
                 )
                 if len(verified) > len(take_verified):
