@@ -1207,6 +1207,16 @@ def build_clash(proxies, clash_cfg, meta):
         else "，仅附加源"
     )
     speed_line = _speed_source_line(meta)
+    # 降级版必须有第一眼可见的声明：机房测的延迟/连通性可信，但网速数字与本机
+    # 实测是两回事（秩相关 +0.107），不标清楚用户会把降级轮的数字当承诺看。
+    degrade = meta.get("degraded")
+    degrade_line = (
+        "⚠️ 降级版（%s）：本机白名单不可用，本轮由境外机房探测筛选——"
+        "能连上、延迟达标，但网速数字仅供量级参考；本机恢复探测后自动回到实测口径"
+        % degrade
+        if degrade
+        else None
+    )
     # 两个订阅文件的覆盖范围要说实话：http/socks5 没有分享链接标准 scheme、
     # hysteria2 没进生成器，v2ray.txt 天然比 clash.yaml 少一批节点。不写出来，
     # 用户会以为少掉的是「漏发」。
@@ -1229,6 +1239,7 @@ def build_clash(proxies, clash_cfg, meta):
         "# 由 datiya-sub 自动生成，请勿手动修改\n"
         f"# 更新于 {meta['updated_at']} | 可用节点 {meta['alive']} 个"
         f"（候选 {meta['total']} 个{scope}）\n"
+        + (f"# {degrade_line}\n" if degrade_line else "")
         + (f"# {speed_line}\n" if speed_line else "")
         + (f"# {links_line}\n" if links_line else "")
     )

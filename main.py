@@ -39,33 +39,48 @@ def load_config(path):
         return yaml.safe_load(handle)
 
 
-def _whitelist_hold(wl_cfg, wl_data, reason):
-    """白名单不可用时默认「不发」——保留上一版订阅，而不是回退机房测速。
+def _whitelist_stale_action(wl_cfg, wl_data, reason):
+    """白名单不可用时的处置，`whitelist.on_stale` 三选一：
 
-    2026-10-28 踩过：本机 18:15 之后断电，白名单过了 4 小时有效期，CI 按旧逻辑
-    回退 Globalping（境外机房）测速，连续两轮（23:01 / 05:08）发出中位 8.9MB/s、
-    最快 80MB/s 的节点。本机复测那批「标称最快 30 个」：只有 1 个能出网、43.9KB/s，
-    标称/实测中位 875 倍。机房测的是「节点到机房的带宽」，与本机可达性的秩相关
-    只有 +0.107，两种数不能混用——所以宁可订阅停在几小时前那一版，也不发假数字。
+    · hold（默认）：本轮不发，订阅停上一版。宁可停更也不发假数字——
+      2026-10-28 踩过：本机断电后 CI 回退机房测速，连续两轮发中位 8.9MB/s、
+      最快 80MB/s 的节点，本机复测标称/实测中位 875 倍。机房测的是「节点到
+      机房的带宽」，与本机可达性的秩相关只有 +0.107。
+    · degrade：回退机房探测发「降级版」订阅——本机关机/断网超过 max_age_hours
+      时订阅不断供。机房口径下延迟/连通性/HTTPS 闸门仍可信，网速数字不可信，
+      所以订阅头会打上醒目的降级标注（见 builder.build_clash），status.json
+      也带 degraded 标记。白名单恢复后下一轮自动回到实测口径。
+    · globalping：旧行为，静默回退机房探测，无任何降级标注（不推荐）。
 
-    只有「白名单文件缺失 / 无条目」继续走 Globalping：那时没有可保留的上一版，
-    新仓库也需要先有东西可发。把 `whitelist.on_stale` 设成 `globalping` 可恢复旧行为。
+    三种模式对「白名单文件缺失/无条目」一致：继续走机房探测——那时没有可
+    保留的上一版，新仓库也需要先有东西可发。
 
-    返回 True 表示本轮应当直接结束（不写任何产物）。
+    返回处置名："hold"（调用方直接收工）/"degrade"（调用方打降级标记后继续）
+    /"globalping"（调用方原样继续）。
     """
-    if str(wl_cfg.get("on_stale", "hold") or "hold").lower() != "hold":
-        return False
-    if not wl_data or not (wl_data.get("entries") or {}):
-        return False
-    log.error(
-        "白名单不可用（%s）→ 按 whitelist.on_stale=hold 保留上一版订阅，本轮不发布；"
-        "本机跑一次 local_probe.py --push 即可恢复更新",
-        reason,
-    )
-    if os.environ.get("GITHUB_ACTIONS"):
-        # Actions 里会变成一条 annotation，不用翻日志也能看见「为什么今天没更新」
-        print("::warning title=订阅已暂停更新::%s" % reason)
-    return True
+    mode = str(wl_cfg.get("on_stale", "hold") or "hold").lower()
+    if mode == "hold" and wl_data and (wl_data.get("entries") or {}):
+        log.error(
+            "白名单不可用（%s）→ 按 whitelist.on_stale=hold 保留上一版订阅，本轮不发布；"
+            "本机跑一次 local_probe.py --push 即可恢复更新",
+            reason,
+        )
+        if os.environ.get("GITHUB_ACTIONS"):
+            # Actions 里会变成一条 annotation，不用翻日志也能看见「为什么今天没更新」
+            print("::warning title=订阅已暂停更新::%s" % reason)
+        return "hold"
+    if mode == "degrade" and wl_data and (wl_data.get("entries") or {}):
+        # 有旧订阅可保、但明确选择了降级：标注必须足够响，否则用户会把机房网速
+        # 当本机实测看（875 倍的教训）。
+        log.warning(
+            "白名单不可用（%s）→ on_stale=degrade：本轮回退机房探测发降级版"
+            "（订阅头与 status.json 均已标注）",
+            reason,
+        )
+        if os.environ.get("GITHUB_ACTIONS"):
+            print("::warning title=降级版订阅::%s；本机跑一次 local_probe.py --push 恢复实测口径" % reason)
+        return "degrade"
+    return "globalping"
 
 
 def collect(fetcher, days):
@@ -204,6 +219,16 @@ def render_page(status, out_cfg):
 
     rank = status.get("rank") or {}
     rank_row = ""
+    # 降级轮要在页面上一眼可见：用户如果拿降级轮的机房网速当本机实测用，
+    # 会踩 2026-10-28 那种「标称 80MB/s 实测 43KB/s」的坑。
+    degrade = (status.get("whitelist") or {}).get("degraded")
+    degrade_row = (
+        f'<tr><th>状态</th><td><strong style="color:#b45309">⚠️ 降级版</strong>'
+        f"——{degrade}；本轮节点由境外机房探测筛选，网速数字仅供量级参考，"
+        f"本机恢复探测后自动恢复</td></tr>"
+        if degrade
+        else ""
+    )
     if rank.get("median_kbps") is not None:
         # 老黄牛这一层的门槛写在页面上，读者才知道「排在前面的不是最快的那个」为什么。
         vet_days = float(rank.get("veteran_days") or 0)
@@ -260,6 +285,7 @@ def render_page(status, out_cfg):
   {source_row}
   {health_row}
   <tr><th>可用节点</th><td>{status['alive']} 个</td></tr>
+  {degrade_row}
   {proto_row}
   {line_row}
   {streak_row}
@@ -427,6 +453,9 @@ def main():
     china_dropped = 0
     wl_used, wl_detail, wl_stats = False, "未启用", {}
     wl_data = None
+    # 非 None 表示本轮是「降级版」：白名单过期/脱节但 on_stale=degrade，
+    # 回退机房探测续命。标记会进订阅头和 status.json（见 meta 与 status 组装）。
+    degrade_reason = None
     # 本轮真正写进候选池的节点（本机下一轮会测的就是它们）。源健康表要用它当分母：
     # 拿采集数当分母会把「压根没被测过」算成失败。
     cand_pool = []
@@ -445,9 +474,13 @@ def main():
                 ROOT / str(wl_cfg.get("file", "whitelist.json")), wl_cfg
             )
             log.info("本机白名单：%s", wl_detail)
-            # 过期/损坏 → 直接收工（保留上一版订阅），不再回退到机房测速。
-            if not wl_used and _whitelist_hold(wl_cfg, wl_data, wl_detail):
-                return 0
+            # 过期/损坏 → 按 on_stale 处置：hold 收工保旧版；degrade 降级续命。
+            if not wl_used:
+                action = _whitelist_stale_action(wl_cfg, wl_data, wl_detail)
+                if action == "hold":
+                    return 0
+                if action == "degrade":
+                    degrade_reason = wl_detail
 
         if wl_used:
             ledger.annotate(proxies)
@@ -485,12 +518,17 @@ def main():
                     wl_cfg.get("min_match", 10),
                 )
                 log.warning("%s", reason)
-                # 白名单是新鲜的、只是和采集池对不上，说明该重跑本机探测而不是
-                # 换成机房口径——后者发出去的网速国内用户一个都跑不到。
-                if _whitelist_hold(wl_cfg, wl_data, reason):
+                # 白名单是新鲜的、只是和采集池对不上：hold 停更 / degrade 降级，
+                # 同一条处置链。
+                action = _whitelist_stale_action(wl_cfg, wl_data, reason)
+                if action == "hold":
                     return 0
+                if action == "degrade":
+                    degrade_reason = reason
                 wl_used = False
-                wl_detail = reason + "，回退 Globalping 探测"
+                wl_detail = reason + "，回退机房探测" + (
+                    "（降级版）" if action == "degrade" else ""
+                )
 
         if wl_used:
             probed = len(proxies)
@@ -742,6 +780,8 @@ def main():
         # v2ray.txt 少掉的几十个节点是「漏了」。
         "links": len(links),
         "link_types": dict(link_types),
+        # 降级标记：非 None 时订阅头会打「⚠️ 降级版」说明（builder.build_clash）。
+        "degraded": degrade_reason,
     }
     clash_text = builder.build_clash(public, cfg["clash"], meta)
 
@@ -799,6 +839,9 @@ def main():
         "whitelist": {
             "used": wl_used,
             "detail": wl_detail,
+            # 降级版标记：本机白名单不可用但 on_stale=degrade 时为原因字符串，
+            # 正常轮次为 None。监控/页面可以直接拿它判断「这轮是不是降级口径」。
+            "degraded": degrade_reason,
             "matched": wl_stats.get("matched", 0),
             "rejected": {
                 "dead": wl_stats.get("dead", 0),

@@ -276,8 +276,12 @@ schtasks /create /tn datiya-probe /tr "D://path//to//run_local_probe.bat" /sc ho
 
 - `whitelist.json` 带 `generated_at`：超过 `check.whitelist.max_age_hours`（默认 4 小时）
   即视为过期。处置方式由 `check.whitelist.on_stale` 决定：
-  - `hold`（默认）——**本轮不发布**，订阅停在上一版。理由见下一节；
-  - `globalping` —— 旧行为，回退境外机房测速。
+  - `hold` —— **本轮不发布**，订阅停在上一版。理由见下一节；
+  - `degrade`（默认）—— 回退境外机房探测发「降级版」：订阅头第一行打 ⚠️ 降级标注、
+    `status.json` 的 `whitelist.degraded` 带原因。机房口径下**延迟/连通性/HTTPS 闸门
+    仍可信**（这些闸门照常生效），网速数字仅供量级参考；本机白名单恢复后下一轮自动
+    回到实测口径；
+  - `globalping` —— 旧行为，回退境外机房测速且无任何降级标注（不推荐）。
 - 命中数低于 `min_match`（默认 10）视为白名单与候选池脱节，同样按 `on_stale` 处置
   （说明该重跑本机探测，而不是换一把尺子）；
 - 白名单文件整个缺失/为空时不受 `on_stale` 限制，仍走 Globalping：那时没有可保留的
@@ -305,12 +309,14 @@ schtasks /create /tn datiya-probe /tr "D://path//to//run_local_probe.bat" /sc ho
 跑几十 MB/s 很轻松，从国内家宽过去会被上游限速甚至直接掐断。这也是 10-25 实测过的
 结论：机房测速与本机实测的 Spearman 只有 **+0.107**，等于瞎选。
 
-所以默认 `on_stale: hold`：宁可订阅停在几小时前那一版（里面每个数字都是本机真测的），
-也不推一批标称 80MB/s、实际连不上的节点。恢复更新只需在本机跑一次
+所以 `hold` 的逻辑是：机房测出来的网速发出去只会误导，宁可订阅停在几小时前那一版
+（里面每个数字都是本机真测的）。恢复更新只需在本机跑一次
 `local_probe.py --push`，一小时内的下一轮构建就会带着新数据发布。
 
-> 代价要说清：`hold` 期间订阅**不会更新**，节点会随时间失效。如果本机长期不开机，
-> 把 `on_stale` 改成 `globalping` 至少还能拿到「能连」的节点——只是别信名字里的网速。
+> 但 `hold` 期间订阅**不会更新**，节点会随时间失效——2026-11-02 实际发生过：工作区
+> 目录丢失导致本机探测断供 3 天，订阅冻结在 10 个死节点。所以现在默认
+> `on_stale: degrade`：本机关机/断网时退而求其次发降级版（能连上的节点 + 醒目标注），
+> 网速数字以订阅头第一行的 ⚠️ 为准。若你更在意「数字必须全真」，改回 `hold` 即可。
 
 ### 网速下限：`--` 从哪来、为什么不发了
 
@@ -439,7 +445,7 @@ python main.py --verbose
 | `check.candidates.verified_ratio` | 已验证老节点（白名单测通过、本轮没进发布集）占空余名额的比例，默认 0.6。不保它们会让节点掉出候选池→不再重测→判 stale 下线，存活时长永远攒不起来。设 0 退化为「老节点全保」 |
 | `check.whitelist.enabled` | 是否使用本机实测白名单（推荐开启，见上节） |
 | `check.whitelist.max_age_hours` | 白名单超过该时长视为过期（默认 4），处置见 `on_stale` |
-| `check.whitelist.on_stale` | 过期/脱节时的处置：`hold`（默认，本轮不发、订阅停上一版）或 `globalping`（回退机房测速） |
+| `check.whitelist.on_stale` | 过期/脱节时的处置：`degrade`（默认，回退机房探测发降级版，头+status 标注）、`hold`（本轮不发、订阅停上一版）、`globalping`（回退机房测速、无标注） |
 | `check.whitelist.min_match` | 白名单命中少于该数则判定脱节，同样按 `on_stale` 处置（默认 10） |
 | `check.whitelist.min_ok_rounds` | 至少被本机测通几次才算可用（默认 1；`2` 表示要求跨轮稳定） |
 | `check.whitelist.require_latest_round` | 只发「本轮本机实测通过」的节点（默认开）。`ok_rounds` 是累计值，历史命中会把可用率从 92% 拉到 59% |
