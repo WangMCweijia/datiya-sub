@@ -1,8 +1,8 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-11-02 15:24:09 +0800 | 可用节点 7 个（候选 8038 个，仅附加源）
+# 更新于 2026-11-02 18:23:52 +0800 | 可用节点 18 个（候选 7634 个，仅附加源）
 # 网速=本机实测（WANG-OFFICE，0.0 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
 # 存活=首次测通至今（第二个数字，如 7d/36h；带 ~ 的是按探测轮次数推算）；存活 ≥3 天且网速 ≥256KB/s 的节点整体排在最前，其余按网速降序；低于 100KB/s 或测不出速度的节点已剔除
-# 分享链接（v2ray.txt）只覆盖 4/7 个节点（vmess 2、vless 2）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
+# 分享链接（v2ray.txt）只覆盖 3/18 个节点（vless 3）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -35,89 +35,179 @@ dns:
   - 223.5.5.5
   - 119.29.29.29
 proxies:
-- name: 🇺🇸美国|374KB/s|~6d|26 R002-260618
+- name: 🇺🇸美国|1.3MB/s|~6d|speednode 0040
   port: 443
-  server: fan.226278.xyz
-  sni: fan.226278.xyz
+  server: 38.247.141.135
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+  sub_tag: R002-260618
+- client-fingerprint: firefox
+  flow: xtls-rprx-vision
+  name: 🇨🇿捷克|1.1MB/s|3d|13
+  port: 2063
+  reality-opts:
+    public-key: MMpt_jWc4J3oySBdf5sPDVRkiWlZmOObth6A1scM9BM
+  server: 31.77.13.22
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: b18d5990-96eb-4587-a386-7f8ef7591e6a
+  network: tcp
+  servername: rusbid.de
+- name: 🇳🇱荷兰|973KB/s|~7d|223 R002-260618
+  port: 443
+  server: 5.255.118.82
+  skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
   type: http
   udp: true
-- alterId: 0
-  cipher: auto
-  name: ❓其他|303KB/s|5h|vmess-1934446571
-  network: ws
-  port: 10086
-  server: 120.48.133.162
-  type: vmess
+- client-fingerprint: firefox
+  flow: xtls-rprx-vision
+  name: ❓其他|324KB/s|3d|vless-1935621151
+  network: raw
+  port: 2063
+  reality-opts:
+    public-key: MMpt_jWc4J3oySBdf5sPDVRkiWlZmOObth6A1scM9BM
+    short-id: ''
+  server: 31.77.13.22
+  servername: rusbid.de
+  tls: true
+  type: vless
   udp: true
-  uuid: a8d931b0-6c27-428b-8d86-c20efea3dba7
-- name: 🇺🇸美国|235KB/s|~11d|311 R002-260618
+  uuid: b18d5990-96eb-4587-a386-7f8ef7591e6a
+- name: 🇺🇸美国|2.4MB/s|8h|14
   password: 'null'
-  port: 443
-  server: 38.28.193.188
+  port: 9002
+  server: 138.199.35.212
+  skip-cert-verify: true
+  tls: true
+  type: http
+  username: 'null'
+  sub_tag: R002-260618
+  udp: true
+- name: 🇺🇸美国|2.4MB/s|6h|150 R002-260618
+  password: 'null'
+  port: 9002
+  server: 138.199.35.214
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
   type: http
   username: 'null'
   udp: true
-- alterId: 0
-  cipher: auto
-  name: ❓其他|184KB/s|3d|vmess-1945999980
-  network: ws
-  port: 10086
-  server: 120.48.133.162
-  type: vmess
+- name: 🇺🇸美国|1.4MB/s|3h|217 R002-260618
+  port: 9002
+  server: 138.199.35.214
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
   udp: true
-  uuid: f81d0fc9-c6b0-4dab-a270-6e697e0a367f
-- client-fingerprint: chrome
-  encryption: none
+- client-fingerprint: firefox
   flow: xtls-rprx-vision
-  name: 🇨🇿捷克|170KB/s|3d|8 B007-260618
-  network: tcp
   port: 2063
   reality-opts:
     public-key: MMpt_jWc4J3oySBdf5sPDVRkiWlZmOObth6A1scM9BM
-    short-id: ''
   server: cz-prg.dontblockmepls.com
-  sub_tag: B007-260618
+  servername: rusbid.de
+  skip-cert-verify: true
+  sni: rusbid.de
   tls: true
   type: vless
   udp: true
   uuid: b18d5990-96eb-4587-a386-7f8ef7591e6a
-  xudp: true
-  packet-encoding: xudp
-  servername: rusbid.de
-  skip-cert-verify: false
-- name: 🇺🇸美国|134KB/s|~6d|15
+  name: 🇳🇱荷兰|1.1MB/s|8h|b166fd
+- name: 🇺🇸美国|778KB/s|6h|18
   password: None
-  port: 8443
-  server: 44.229.69.166
+  port: 38182
+  server: 69.55.49.177
+  type: socks5
+  udp: true
+  sub_tag: P002-260618
+- name: 🇬🇧英国|679KB/s|6h|32 R002-260618
+  password: 62f2374c-891b-11ef-a3f6-f23c9164ca5d
+  port: 443
+  server: 3d329aa8-t9zts0-tpaqgu-1smhu.uk.oshuawei.com
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  username: 62f2374c-891b-11ef-a3f6-f23c9164ca5d
+  udp: true
+  sni: 3d329aa8-t9zts0-tpaqgu-1smhu.uk.oshuawei.com
+- name: 🇺🇸美国|402KB/s|6h|8 P002-260618
+  password: None
+  port: 9002
+  server: 138.199.35.220
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|397KB/s|<1h|60 R002-260618
+  port: 9002
+  server: 138.199.35.200
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- port: 443
+  server: 5.255.97.220
   skip-cert-verify: true
   tls: true
   type: http
-  sub_tag: P002-260618
+  name: 🇳🇱荷兰|246KB/s|3h|zhuhai.uk 05
+  sub_tag: R002-260618
   udp: true
-- client-fingerprint: chrome
-  encryption: none
-  flow: xtls-rprx-vision
-  name: 🇨🇿捷克|107KB/s|3d|9 B007-260618
-  network: tcp
-  port: 2063
-  reality-opts:
-    public-key: MMpt_jWc4J3oySBdf5sPDVRkiWlZmOObth6A1scM9BM
-    short-id: ''
-  server: 31.77.13.22
-  sub_tag: B007-260618
+- name: 🇺🇸美国|231KB/s|6h|196
+  password: 'null'
+  port: 9002
+  server: 138.199.35.213
+  skip-cert-verify: true
   tls: true
-  type: vless
+  type: http
+  username: 'null'
   udp: true
-  uuid: b18d5990-96eb-4587-a386-7f8ef7591e6a
-  xudp: true
-  packet-encoding: xudp
-  servername: rusbid.de
-  skip-cert-verify: false
+- name: 🇺🇸美国|221KB/s|8h|73 P002-260618
+  password: 'null'
+  port: 9002
+  server: 138.199.35.206
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇳🇱荷兰|219KB/s|6h|297 R002-260618
+  port: 443
+  server: 5.255.97.222
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇫🇷法国|118KB/s|4d|zhuhai.uk 02
+  type: http
+  server: 87.98.174.157
+  port: 6103
+  username: 'null'
+  password: 'null'
+  tls: true
+  skip-cert-verify: true
+- name: 🇳🇱荷兰|113KB/s|4d|speednode 0025
+  password: None
+  port: 9002
+  server: 84.17.47.149
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+  sub_tag: K001-260618
 proxy-groups:
 - name: 🚀 节点选择
   type: select
@@ -125,14 +215,26 @@ proxy-groups:
   - ♻️ 自动选择
   - ⚡ 负载均衡
   - DIRECT
+  - 🌐 美国
   - 🌐 其他
-  - 🇺🇸美国|374KB/s|~6d|26 R002-260618
-  - ❓其他|303KB/s|5h|vmess-1934446571
-  - 🇺🇸美国|235KB/s|~11d|311 R002-260618
-  - ❓其他|184KB/s|3d|vmess-1945999980
-  - 🇨🇿捷克|170KB/s|3d|8 B007-260618
-  - 🇺🇸美国|134KB/s|~6d|15
-  - 🇨🇿捷克|107KB/s|3d|9 B007-260618
+  - 🇺🇸美国|1.3MB/s|~6d|speednode 0040
+  - 🇨🇿捷克|1.1MB/s|3d|13
+  - 🇳🇱荷兰|973KB/s|~7d|223 R002-260618
+  - ❓其他|324KB/s|3d|vless-1935621151
+  - 🇺🇸美国|2.4MB/s|8h|14
+  - 🇺🇸美国|2.4MB/s|6h|150 R002-260618
+  - 🇺🇸美国|1.4MB/s|3h|217 R002-260618
+  - 🇳🇱荷兰|1.1MB/s|8h|b166fd
+  - 🇺🇸美国|778KB/s|6h|18
+  - 🇬🇧英国|679KB/s|6h|32 R002-260618
+  - 🇺🇸美国|402KB/s|6h|8 P002-260618
+  - 🇺🇸美国|397KB/s|<1h|60 R002-260618
+  - 🇳🇱荷兰|246KB/s|3h|zhuhai.uk 05
+  - 🇺🇸美国|231KB/s|6h|196
+  - 🇺🇸美国|221KB/s|8h|73 P002-260618
+  - 🇳🇱荷兰|219KB/s|6h|297 R002-260618
+  - 🇫🇷法国|118KB/s|4d|zhuhai.uk 02
+  - 🇳🇱荷兰|113KB/s|4d|speednode 0025
 - name: ♻️ 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -141,13 +243,24 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - 🇺🇸美国|374KB/s|~6d|26 R002-260618
-  - ❓其他|303KB/s|5h|vmess-1934446571
-  - 🇺🇸美国|235KB/s|~11d|311 R002-260618
-  - ❓其他|184KB/s|3d|vmess-1945999980
-  - 🇨🇿捷克|170KB/s|3d|8 B007-260618
-  - 🇺🇸美国|134KB/s|~6d|15
-  - 🇨🇿捷克|107KB/s|3d|9 B007-260618
+  - 🇺🇸美国|1.3MB/s|~6d|speednode 0040
+  - 🇨🇿捷克|1.1MB/s|3d|13
+  - 🇳🇱荷兰|973KB/s|~7d|223 R002-260618
+  - ❓其他|324KB/s|3d|vless-1935621151
+  - 🇺🇸美国|2.4MB/s|8h|14
+  - 🇺🇸美国|2.4MB/s|6h|150 R002-260618
+  - 🇺🇸美国|1.4MB/s|3h|217 R002-260618
+  - 🇳🇱荷兰|1.1MB/s|8h|b166fd
+  - 🇺🇸美国|778KB/s|6h|18
+  - 🇬🇧英国|679KB/s|6h|32 R002-260618
+  - 🇺🇸美国|402KB/s|6h|8 P002-260618
+  - 🇺🇸美国|397KB/s|<1h|60 R002-260618
+  - 🇳🇱荷兰|246KB/s|3h|zhuhai.uk 05
+  - 🇺🇸美国|231KB/s|6h|196
+  - 🇺🇸美国|221KB/s|8h|73 P002-260618
+  - 🇳🇱荷兰|219KB/s|6h|297 R002-260618
+  - 🇫🇷法国|118KB/s|4d|zhuhai.uk 02
+  - 🇳🇱荷兰|113KB/s|4d|speednode 0025
 - name: ⚡ 负载均衡
   type: load-balance
   strategy: consistent-hashing
@@ -156,13 +269,41 @@ proxy-groups:
   lazy: true
   timeout: 8000
   proxies:
-  - 🇺🇸美国|374KB/s|~6d|26 R002-260618
-  - ❓其他|303KB/s|5h|vmess-1934446571
-  - 🇺🇸美国|235KB/s|~11d|311 R002-260618
-  - ❓其他|184KB/s|3d|vmess-1945999980
-  - 🇨🇿捷克|170KB/s|3d|8 B007-260618
-  - 🇺🇸美国|134KB/s|~6d|15
-  - 🇨🇿捷克|107KB/s|3d|9 B007-260618
+  - 🇺🇸美国|1.3MB/s|~6d|speednode 0040
+  - 🇨🇿捷克|1.1MB/s|3d|13
+  - 🇳🇱荷兰|973KB/s|~7d|223 R002-260618
+  - ❓其他|324KB/s|3d|vless-1935621151
+  - 🇺🇸美国|2.4MB/s|8h|14
+  - 🇺🇸美国|2.4MB/s|6h|150 R002-260618
+  - 🇺🇸美国|1.4MB/s|3h|217 R002-260618
+  - 🇳🇱荷兰|1.1MB/s|8h|b166fd
+  - 🇺🇸美国|778KB/s|6h|18
+  - 🇬🇧英国|679KB/s|6h|32 R002-260618
+  - 🇺🇸美国|402KB/s|6h|8 P002-260618
+  - 🇺🇸美国|397KB/s|<1h|60 R002-260618
+  - 🇳🇱荷兰|246KB/s|3h|zhuhai.uk 05
+  - 🇺🇸美国|231KB/s|6h|196
+  - 🇺🇸美国|221KB/s|8h|73 P002-260618
+  - 🇳🇱荷兰|219KB/s|6h|297 R002-260618
+  - 🇫🇷法国|118KB/s|4d|zhuhai.uk 02
+  - 🇳🇱荷兰|113KB/s|4d|speednode 0025
+- name: 🌐 美国
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 600
+  tolerance: 50
+  timeout: 8000
+  lazy: true
+  proxies:
+  - 🇺🇸美国|1.3MB/s|~6d|speednode 0040
+  - 🇺🇸美国|2.4MB/s|8h|14
+  - 🇺🇸美国|2.4MB/s|6h|150 R002-260618
+  - 🇺🇸美国|1.4MB/s|3h|217 R002-260618
+  - 🇺🇸美国|778KB/s|6h|18
+  - 🇺🇸美国|402KB/s|6h|8 P002-260618
+  - 🇺🇸美国|397KB/s|<1h|60 R002-260618
+  - 🇺🇸美国|231KB/s|6h|196
+  - 🇺🇸美国|221KB/s|8h|73 P002-260618
 - name: 🌐 其他
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -171,13 +312,15 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - ❓其他|303KB/s|5h|vmess-1934446571
-  - ❓其他|184KB/s|3d|vmess-1945999980
-  - 🇺🇸美国|374KB/s|~6d|26 R002-260618
-  - 🇺🇸美国|235KB/s|~11d|311 R002-260618
-  - 🇺🇸美国|134KB/s|~6d|15
-  - 🇨🇿捷克|170KB/s|3d|8 B007-260618
-  - 🇨🇿捷克|107KB/s|3d|9 B007-260618
+  - ❓其他|324KB/s|3d|vless-1935621151
+  - 🇨🇿捷克|1.1MB/s|3d|13
+  - 🇳🇱荷兰|973KB/s|~7d|223 R002-260618
+  - 🇳🇱荷兰|1.1MB/s|8h|b166fd
+  - 🇳🇱荷兰|246KB/s|3h|zhuhai.uk 05
+  - 🇳🇱荷兰|219KB/s|6h|297 R002-260618
+  - 🇳🇱荷兰|113KB/s|4d|speednode 0025
+  - 🇬🇧英国|679KB/s|6h|32 R002-260618
+  - 🇫🇷法国|118KB/s|4d|zhuhai.uk 02
 rules:
 - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
 - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
