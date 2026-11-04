@@ -195,6 +195,7 @@ def resolve_binary(explicit):
 
 def probe(candidates, exe, args, check_cfg):
     """给每个候选开独立入站端口，真实 CONNECT + 下载测速，返回 [(候选, 结果)]。"""
+    t_start = time.monotonic()
     proxies = []
     for index, item in enumerate(candidates):
         proxy = {k: v for k, v in item.items() if not k.startswith("_")}
@@ -317,25 +318,43 @@ def probe(candidates, exe, args, check_cfg):
                     speeds = {item[0]["name"]: kb for item, kb in zip(alive, measured)}
                     got = sum(1 for kb in speeds.values() if kb > 0)
                     log.info("第二轮：%d/%d 个测出网速", got, len(alive))
-                    # 零速重试：**低延迟却下不动的节点，多半是当场抖动，不是线路废**。
-                    # 2026-10-29 实测同一批节点早晚各测一次，https 失败数 14 → 4，
-                    # 说明并发和瞬时拥塞会把好节点压成 0（假阴性）。第 43 轮 591 个
-                    # 可出网节点里有 220 个零速，其中一批 delay<1500ms 的属于这种。
-                    # 只重试低延迟的：代价是几百秒探测时间，换来的是发布量。
+                    # 零速重试：**零速绝大多数是测量伪影，不是线路废**。
+                    # 2026-11-04 直接验证（diag_endpoint.py，13 个「本轮零速、延迟
+                    # <1.5s」的节点单独重测）：11 个立刻出了速度（47/126/233KB/s…）。
+                    # 主测速那 8 路并发同时拉 3MB，会把慢节点整个压成 0，线路本身是通的。
+                    # 旧实现只补 delay<1500ms 的那 68 个，delay 更高的整片（21:00 那轮
+                    # 380 个）被留在零速里判死，发布量被压到 7 个。
+                    # 现在补**全部零速**，按延迟升序（最快的先补，最可能是假阴性），
+                    # 并发压到 4 路避免再次互相挤压。代价约 +12 分钟/轮。
                     zero = [
                         item[0] for item in alive
                         if speeds.get(item[0]["name"], 0) <= 0
-                        and 0 < int(delays.get(item[0]["name"]) or 0) < 1500
                     ]
+                    zero.sort(key=lambda p: int(delays.get(p["name"]) or 99999))
+                    # 时间预算：计划任务给的单实例上限是 45 分钟（ExecutionTimeLimit=PT45M），
+                    # 超时会被直接杀掉、白名单推不上去。这里按「整轮预算 - 已用 - 收尾」
+                    # 反推这一轮能补测多少个，宁可少补也不要把自己跑到超时。
+                    zero_ms = int(check_cfg.get("zero_retry_ms") or 5000)
+                    zero_conc = max(4, speed_conc * 3 // 4)
+                    budget_s = int(check_cfg.get("round_budget_s") or 2400)
+                    room = budget_s - (time.monotonic() - t_start) - 420
+                    fit = int(max(0.0, room) * zero_conc * 1000 / max(1, zero_ms))
+                    zero_cap = max(0, min(int(check_cfg.get("zero_retry_max") or 600), fit))
+                    if len(zero) > zero_cap:
+                        log.info(
+                            "第二轮补测：零速 %d 个，按剩余 %.0f 分钟只补最快的 %d 个",
+                            len(zero), max(0.0, room) / 60, zero_cap,
+                        )
+                        zero = zero[:zero_cap]
                     if zero and speed_url:
-                        log.info("第二轮补测：%d 个零速但延迟 <1.5s 的节点，复测一次",
-                                 len(zero))
-                        with ThreadPoolExecutor(max(1, speed_conc // 2)) as pool:
+                        log.info("第二轮补测：%d 个零速节点复测一次（并发 %d，预算 %dms）",
+                                 len(zero), zero_conc, zero_ms)
+                        with ThreadPoolExecutor(zero_conc) as pool:
                             again = list(
                                 pool.map(
                                     lambda p: prober._measure_speed(
                                         ports[p["name"]], speed_url, speed_bytes,
-                                        speed_ms, speed_cap,
+                                        zero_ms, speed_cap,
                                     ),
                                     zero,
                                 )
