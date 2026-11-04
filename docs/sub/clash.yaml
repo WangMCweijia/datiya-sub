@@ -1,8 +1,8 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-11-04 21:40:22 +0800 | 可用节点 7 个（候选 7281 个，仅附加源）
-# 网速=本机实测（WANG-OFFICE，0.0 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
+# 更新于 2026-11-04 23:34:33 +0800 | 可用节点 6 个（候选 7135 个，仅附加源）
+# 网速=本机实测（WANG-OFFICE，1.9 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
 # 存活=首次测通至今（第二个数字，如 7d/36h；带 ~ 的是按探测轮次数推算）；存活 ≥3 天且网速 ≥256KB/s 的节点整体排在最前，其余按网速降序；低于 100KB/s 或测不出速度的节点已剔除
-# 分享链接（v2ray.txt）只覆盖 1/7 个节点（vless 1）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
+# 分享链接（v2ray.txt）只覆盖 1/6 个节点（vless 1）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -36,7 +36,7 @@ dns:
   - 119.29.29.29
 proxies:
 - type: hysteria
-  name: 🇫🇷法国|1.1MB/s|<1h|IPV4
+  name: 🇫🇷法国|1.1MB/s|1h|IPV4
   server: 62.210.28.175
   port: 24667
   password: dongtaiwang.com
@@ -60,7 +60,7 @@ proxies:
   type: http
   udp: true
   sub_tag: R002-260618
-- name: 🇳🇱荷兰|156KB/s|<1h|4
+- name: 🇳🇱荷兰|156KB/s|1h|4
   server: 716ca599511416e1.tunvi.w-ert.org
   port: 40287
   type: vless
@@ -74,7 +74,7 @@ proxies:
   udp: true
   skip-cert-verify: false
   tfo: false
-- name: 🇺🇸美国|148KB/s|2d|94 R002-260618
+- name: 🇺🇸美国|148KB/s|2d|14 R002-260618
   port: 9002
   server: 138.199.35.209
   skip-cert-verify: true
@@ -82,15 +82,7 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇺🇸美国|139KB/s|1d|358 R002-260618
-  port: 443
-  server: 38.28.185.152
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇳🇱荷兰|123KB/s|1d|141 P002-260618
+- name: 🇳🇱荷兰|123KB/s|1d|140 P002-260618
   password: None
   port: 443
   server: 5.255.118.82
@@ -99,7 +91,7 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇸🇬新加坡|120KB/s|1d|40 R002-260618
+- name: 🇸🇬新加坡|120KB/s|1d|35 R002-260618
   password: '8888'
   port: 1080
   server: 47.236.168.243
@@ -116,13 +108,12 @@ proxy-groups:
   - ⚡ 负载均衡
   - DIRECT
   - 🌐 其他
-  - 🇫🇷法国|1.1MB/s|<1h|IPV4
+  - 🇫🇷法国|1.1MB/s|1h|IPV4
   - 🇩🇰丹麦|157KB/s|5d|speednode 0006
-  - 🇳🇱荷兰|156KB/s|<1h|4
-  - 🇺🇸美国|148KB/s|2d|94 R002-260618
-  - 🇺🇸美国|139KB/s|1d|358 R002-260618
-  - 🇳🇱荷兰|123KB/s|1d|141 P002-260618
-  - 🇸🇬新加坡|120KB/s|1d|40 R002-260618
+  - 🇳🇱荷兰|156KB/s|1h|4
+  - 🇺🇸美国|148KB/s|2d|14 R002-260618
+  - 🇳🇱荷兰|123KB/s|1d|140 P002-260618
+  - 🇸🇬新加坡|120KB/s|1d|35 R002-260618
 - name: ♻️ 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -131,13 +122,12 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - 🇫🇷法国|1.1MB/s|<1h|IPV4
+  - 🇫🇷法国|1.1MB/s|1h|IPV4
   - 🇩🇰丹麦|157KB/s|5d|speednode 0006
-  - 🇳🇱荷兰|156KB/s|<1h|4
-  - 🇺🇸美国|148KB/s|2d|94 R002-260618
-  - 🇺🇸美国|139KB/s|1d|358 R002-260618
-  - 🇳🇱荷兰|123KB/s|1d|141 P002-260618
-  - 🇸🇬新加坡|120KB/s|1d|40 R002-260618
+  - 🇳🇱荷兰|156KB/s|1h|4
+  - 🇺🇸美国|148KB/s|2d|14 R002-260618
+  - 🇳🇱荷兰|123KB/s|1d|140 P002-260618
+  - 🇸🇬新加坡|120KB/s|1d|35 R002-260618
 - name: ⚡ 负载均衡
   type: load-balance
   strategy: consistent-hashing
@@ -146,13 +136,12 @@ proxy-groups:
   lazy: true
   timeout: 8000
   proxies:
-  - 🇫🇷法国|1.1MB/s|<1h|IPV4
+  - 🇫🇷法国|1.1MB/s|1h|IPV4
   - 🇩🇰丹麦|157KB/s|5d|speednode 0006
-  - 🇳🇱荷兰|156KB/s|<1h|4
-  - 🇺🇸美国|148KB/s|2d|94 R002-260618
-  - 🇺🇸美国|139KB/s|1d|358 R002-260618
-  - 🇳🇱荷兰|123KB/s|1d|141 P002-260618
-  - 🇸🇬新加坡|120KB/s|1d|40 R002-260618
+  - 🇳🇱荷兰|156KB/s|1h|4
+  - 🇺🇸美国|148KB/s|2d|14 R002-260618
+  - 🇳🇱荷兰|123KB/s|1d|140 P002-260618
+  - 🇸🇬新加坡|120KB/s|1d|35 R002-260618
 - name: 🌐 其他
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -161,13 +150,12 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - 🇫🇷法国|1.1MB/s|<1h|IPV4
+  - 🇫🇷法国|1.1MB/s|1h|IPV4
   - 🇩🇰丹麦|157KB/s|5d|speednode 0006
-  - 🇳🇱荷兰|156KB/s|<1h|4
-  - 🇳🇱荷兰|123KB/s|1d|141 P002-260618
-  - 🇺🇸美国|148KB/s|2d|94 R002-260618
-  - 🇺🇸美国|139KB/s|1d|358 R002-260618
-  - 🇸🇬新加坡|120KB/s|1d|40 R002-260618
+  - 🇳🇱荷兰|156KB/s|1h|4
+  - 🇳🇱荷兰|123KB/s|1d|140 P002-260618
+  - 🇺🇸美国|148KB/s|2d|14 R002-260618
+  - 🇸🇬新加坡|120KB/s|1d|35 R002-260618
 rules:
 - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
 - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
