@@ -1,8 +1,8 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-11-06 14:50:58 +0800 | 可用节点 17 个（候选 5308 个，仅附加源）
-# 网速=本机实测（WANG-OFFICE，2.2 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
+# 更新于 2026-11-06 15:41:33 +0800 | 可用节点 16 个（候选 5397 个，仅附加源）
+# 网速=本机实测（WANG-OFFICE，0.0 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
 # 存活=首次测通至今（第二个数字，如 7d/36h；带 ~ 的是按探测轮次数推算）；存活 ≥3 天且网速 ≥256KB/s 的节点整体排在最前，其余按网速降序；低于 100KB/s 或测不出速度的节点已剔除
-# 分享链接（v2ray.txt）只覆盖 5/17 个节点（vless 5）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
+# 分享链接（v2ray.txt）只覆盖 7/16 个节点（vless 7）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -35,29 +35,82 @@ dns:
   - 223.5.5.5
   - 119.29.29.29
 proxies:
-- name: 🇺🇸美国|441KB/s|3d|54 R002-260618
+- name: 🇮🇪爱尔兰|529KB/s|3d|speednode 0013
   port: 443
-  server: 192.227.176.234
+  server: 34.249.214.108
   skip-cert-verify: true
-  sub_tag: R002-260618
   tls: true
   type: http
   udp: true
-- name: 🇫🇷法国|351KB/s|3d|17 R002-260618
-  password: None
-  port: 443
-  server: fan.132031.xyz
-  skip-cert-verify: true
-  sub_tag: R002-260618
+- type: hysteria
+  name: 🇩🇪德国|782KB/s|1d|IPV4
+  server: 5.83.129.90
+  port: 54177
+  password: dongtaiwang.com
   tls: true
+  servername: apple.com
+  sni: apple.com
+  skip-cert-verify: true
+  alpn:
+  - h3
+  up: '11'
+  down: '55'
+  auth-str: dongtaiwang.com
+  auth_str: dongtaiwang.com
+  protocol: udp
+- type: hysteria
+  name: 🇫🇷法国|441KB/s|15h|IPV4
+  server: 62.210.28.175
+  port: 24667
+  password: dongtaiwang.com
+  tls: true
+  servername: bing.com
+  sni: bing.com
+  skip-cert-verify: true
+  alpn:
+  - h3
+  up: '11'
+  down: '55'
+  auth-str: dongtaiwang.com
+  protocol: udp
+  auth_str: dongtaiwang.com
+- client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  port: 8443
+  reality-opts:
+    public-key: 8NkTRxC5Q7bptx-8ADobkuhPK-ZN0kEEbzv6tCFGMzE
+    short-id: 69984b9e02545831
+  server: 198.16.113.219
+  servername: www.apple.com
+  tls: true
+  type: vless
+  uuid: e3e0e1c3-599e-4ae1-8ad4-d9e90effacc4
+  name: 🇮🇷伊朗|353KB/s|1d|zhuhai.uk
+- name: 🇺🇸美国|353KB/s|<1h|zhuhai.uk 04
   type: http
+  server: fan.596189.xyz
+  port: 443
+  username: 'null'
+  password: 'null'
+  tls: true
+  sni: fan.596189.xyz
+- client-fingerprint: chrome
+  network: xhttp
+  port: 4443
+  server: swo2.nexfile.net
+  servername: swo2.nexfile.net
+  skip-cert-verify: false
+  tfo: false
+  tls: true
+  type: vless
   udp: true
-  sni: fan.132031.xyz
+  uuid: a35c508f-4d5d-4531-842e-6e9d43c762c0
+  name: 🇬🇧英国|337KB/s|1d|071
 - alpn:
   - h2
   - http/1.1
   client-fingerprint: firefox
-  name: 🇷🇺俄罗斯|1.3MB/s|14h|2
+  name: 🇷🇺俄罗斯|334KB/s|15h|2
   network: xhttp
   port: 443
   server: cdn-ya.shamanapp.online
@@ -84,37 +137,28 @@ proxies:
     x-padding-method: tokenish
     x-padding-obfs-mode: true
     x-padding-placement: header
-- client-fingerprint: chrome
-  network: xhttp
-  port: 4443
-  server: swo2.nexfile.net
-  servername: swo2.nexfile.net
-  skip-cert-verify: false
-  tfo: false
-  tls: true
+- name: 🇸🇬新加坡|262KB/s|<1h|zhuhai.uk 02
   type: vless
-  udp: true
-  uuid: a35c508f-4d5d-4531-842e-6e9d43c762c0
-  name: 🇬🇧英国|907KB/s|1d|071
-- type: hysteria
-  name: 🇩🇪德国|698KB/s|1d|IPV4
-  server: 5.83.129.90
-  port: 54177
-  password: dongtaiwang.com
+  server: 106.75.143.18
+  port: 4022
+  uuid: e4e2afbe-1a21-4ca2-a22f-b5417e825687
   tls: true
-  servername: apple.com
-  sni: apple.com
+  servername: buylite.tv.apple.com
+  client-fingerprint: chrome
+  reality-opts:
+    public-key: 2g8FZHxPWjphq568-OS8ypk7qb76HiMhWua0UAJfOl8
+    short-id: ace0f99d
+- name: 🇺🇸美国|235KB/s|1d|63 R002-260618
+  port: 443
+  server: 137.175.22.120
   skip-cert-verify: true
-  alpn:
-  - h3
-  up: '11'
-  down: '55'
-  auth-str: dongtaiwang.com
-  auth_str: dongtaiwang.com
-  protocol: udp
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
 - client-fingerprint: firefox
   flow: xtls-rprx-vision
-  name: ❓其他|461KB/s|8h|vless-1935612028
+  name: ❓其他|219KB/s|9h|vless-1935612028
   network: tcp
   port: 8443
   reality-opts:
@@ -126,8 +170,10 @@ proxies:
   type: vless
   udp: true
   uuid: 98a24806-141a-43d3-b094-bd66c4eb93b8
-- client-fingerprint: chrome
+- client-fingerprint: random
   flow: xtls-rprx-vision
+  name: ❓其他|147KB/s|2d|vless-1934825040
+  network: tcp
   port: 8443
   reality-opts:
     public-key: 8NkTRxC5Q7bptx-8ADobkuhPK-ZN0kEEbzv6tCFGMzE
@@ -136,92 +182,47 @@ proxies:
   servername: www.apple.com
   tls: true
   type: vless
+  udp: true
   uuid: e3e0e1c3-599e-4ae1-8ad4-d9e90effacc4
-  name: 🇮🇷伊朗|456KB/s|1d|zhuhai.uk
-- port: 443
-  server: fan.596189.xyz
-  skip-cert-verify: true
-  sni: fan.596189.xyz
-  tls: true
+- name: 🇭🇰香港|137KB/s|<1h|zhuhai.uk
+  type: socks5
+  server: 61.142.113.42
+  port: 6666
+- name: 🇳🇱荷兰|124KB/s|2d|zhuhai.uk 02
   type: http
-  name: 🇺🇸美国|370KB/s|2d|zhuhai.uk 03
-- name: 🇷🇺俄罗斯|334KB/s|1d|1
+  server: 51.158.243.91
+  port: 443
+  username: 'null'
   password: None
-  port: 1446
-  server: 46.29.166.134
+  tls: true
+  skip-cert-verify: true
+- port: 3128
+  server: 119.28.24.235
   skip-cert-verify: true
   tls: true
   type: http
-- name: 🇳🇱荷兰|230KB/s|2h|2
-  server: 15d7fft.nl11.h1clayd.click
+  name: 🇭🇰香港|119KB/s|2d|zhuhai.uk 02
+- name: ❓其他|103KB/s|1d|85 R002-260618
   port: 443
+  server: 62.210.70.194
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- client-fingerprint: firefox
+  grpc-opts:
+    grpc-mode: gun
+    grpc-service-name: 138-124-86-230-sslip-io
+  name: 🇸🇪瑞典|101KB/s|<1h|63ae98
+  network: grpc
+  port: 48115
+  server: 138.124.86.230
+  servername: 138-124-86-230.sslip.io
+  tls: true
   type: vless
-  uuid: b7b8ee80-db83-4276-8c68-87dc88b0b0b5
-  tls: true
-  reality-opts:
-    public-key: xv6OUZcyzEHXFMTfumuJH-1Rd4NQ0cdmWikek4mm0m4
-    short-id: c71118d9399fb8c2
-  servername: 15d7fft.nl11.h1clayd.click
-  client-fingerprint: chrome
-  network: tcp
   udp: true
-- name: 🇺🇸美国|219KB/s|1d|63 R002-260618
-  port: 443
-  server: 137.175.22.120
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇳🇱荷兰|199KB/s|~10d|speednode 0023
-  port: 9002
-  server: 84.17.47.124
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: ❓其他|189KB/s|5h|67 R002-260618
-  port: 443
-  server: fan.132031.xyz
-  skip-cert-verify: true
-  sni: fan.132031.xyz
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: ❓其他|178KB/s|1d|40 R002-260618
-  port: 443
-  server: 137.175.22.84
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇭🇰香港|177KB/s|8d|2 R002-260618
-  password: 'null'
-  port: 443
-  server: fan.240104.xyz
-  sni: fan.240104.xyz
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇷🇴罗马尼亚|121KB/s|2d|7
-  port: 9002
-  server: 193.176.84.17
-  skip-cert-verify: true
-  sni: www.bing.com
-  tls: true
-  type: http
-- name: 🇳🇱荷兰|101KB/s|3d|zhuhai.uk 03
-  type: http
-  server: 84.17.47.148
-  port: 9002
-  username: 'null'
-  password: 'null'
-  tls: true
-  skip-cert-verify: true
+  uuid: b2fe1fa4-6a79-4938-a3f4-63b54ae7f16b
 proxy-groups:
 - name: 🚀 节点选择
   type: select
@@ -230,23 +231,22 @@ proxy-groups:
   - ⚡ 负载均衡
   - DIRECT
   - 🌐 其他
-  - 🇺🇸美国|441KB/s|3d|54 R002-260618
-  - 🇫🇷法国|351KB/s|3d|17 R002-260618
-  - 🇷🇺俄罗斯|1.3MB/s|14h|2
-  - 🇬🇧英国|907KB/s|1d|071
-  - 🇩🇪德国|698KB/s|1d|IPV4
-  - ❓其他|461KB/s|8h|vless-1935612028
-  - 🇮🇷伊朗|456KB/s|1d|zhuhai.uk
-  - 🇺🇸美国|370KB/s|2d|zhuhai.uk 03
-  - 🇷🇺俄罗斯|334KB/s|1d|1
-  - 🇳🇱荷兰|230KB/s|2h|2
-  - 🇺🇸美国|219KB/s|1d|63 R002-260618
-  - 🇳🇱荷兰|199KB/s|~10d|speednode 0023
-  - ❓其他|189KB/s|5h|67 R002-260618
-  - ❓其他|178KB/s|1d|40 R002-260618
-  - 🇭🇰香港|177KB/s|8d|2 R002-260618
-  - 🇷🇴罗马尼亚|121KB/s|2d|7
-  - 🇳🇱荷兰|101KB/s|3d|zhuhai.uk 03
+  - 🇮🇪爱尔兰|529KB/s|3d|speednode 0013
+  - 🇩🇪德国|782KB/s|1d|IPV4
+  - 🇫🇷法国|441KB/s|15h|IPV4
+  - 🇮🇷伊朗|353KB/s|1d|zhuhai.uk
+  - 🇺🇸美国|353KB/s|<1h|zhuhai.uk 04
+  - 🇬🇧英国|337KB/s|1d|071
+  - 🇷🇺俄罗斯|334KB/s|15h|2
+  - 🇸🇬新加坡|262KB/s|<1h|zhuhai.uk 02
+  - 🇺🇸美国|235KB/s|1d|63 R002-260618
+  - ❓其他|219KB/s|9h|vless-1935612028
+  - ❓其他|147KB/s|2d|vless-1934825040
+  - 🇭🇰香港|137KB/s|<1h|zhuhai.uk
+  - 🇳🇱荷兰|124KB/s|2d|zhuhai.uk 02
+  - 🇭🇰香港|119KB/s|2d|zhuhai.uk 02
+  - ❓其他|103KB/s|1d|85 R002-260618
+  - 🇸🇪瑞典|101KB/s|<1h|63ae98
 - name: ♻️ 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -255,23 +255,22 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - 🇺🇸美国|441KB/s|3d|54 R002-260618
-  - 🇫🇷法国|351KB/s|3d|17 R002-260618
-  - 🇷🇺俄罗斯|1.3MB/s|14h|2
-  - 🇬🇧英国|907KB/s|1d|071
-  - 🇩🇪德国|698KB/s|1d|IPV4
-  - ❓其他|461KB/s|8h|vless-1935612028
-  - 🇮🇷伊朗|456KB/s|1d|zhuhai.uk
-  - 🇺🇸美国|370KB/s|2d|zhuhai.uk 03
-  - 🇷🇺俄罗斯|334KB/s|1d|1
-  - 🇳🇱荷兰|230KB/s|2h|2
-  - 🇺🇸美国|219KB/s|1d|63 R002-260618
-  - 🇳🇱荷兰|199KB/s|~10d|speednode 0023
-  - ❓其他|189KB/s|5h|67 R002-260618
-  - ❓其他|178KB/s|1d|40 R002-260618
-  - 🇭🇰香港|177KB/s|8d|2 R002-260618
-  - 🇷🇴罗马尼亚|121KB/s|2d|7
-  - 🇳🇱荷兰|101KB/s|3d|zhuhai.uk 03
+  - 🇮🇪爱尔兰|529KB/s|3d|speednode 0013
+  - 🇩🇪德国|782KB/s|1d|IPV4
+  - 🇫🇷法国|441KB/s|15h|IPV4
+  - 🇮🇷伊朗|353KB/s|1d|zhuhai.uk
+  - 🇺🇸美国|353KB/s|<1h|zhuhai.uk 04
+  - 🇬🇧英国|337KB/s|1d|071
+  - 🇷🇺俄罗斯|334KB/s|15h|2
+  - 🇸🇬新加坡|262KB/s|<1h|zhuhai.uk 02
+  - 🇺🇸美国|235KB/s|1d|63 R002-260618
+  - ❓其他|219KB/s|9h|vless-1935612028
+  - ❓其他|147KB/s|2d|vless-1934825040
+  - 🇭🇰香港|137KB/s|<1h|zhuhai.uk
+  - 🇳🇱荷兰|124KB/s|2d|zhuhai.uk 02
+  - 🇭🇰香港|119KB/s|2d|zhuhai.uk 02
+  - ❓其他|103KB/s|1d|85 R002-260618
+  - 🇸🇪瑞典|101KB/s|<1h|63ae98
 - name: ⚡ 负载均衡
   type: load-balance
   strategy: consistent-hashing
@@ -280,23 +279,22 @@ proxy-groups:
   lazy: true
   timeout: 8000
   proxies:
-  - 🇺🇸美国|441KB/s|3d|54 R002-260618
-  - 🇫🇷法国|351KB/s|3d|17 R002-260618
-  - 🇷🇺俄罗斯|1.3MB/s|14h|2
-  - 🇬🇧英国|907KB/s|1d|071
-  - 🇩🇪德国|698KB/s|1d|IPV4
-  - ❓其他|461KB/s|8h|vless-1935612028
-  - 🇮🇷伊朗|456KB/s|1d|zhuhai.uk
-  - 🇺🇸美国|370KB/s|2d|zhuhai.uk 03
-  - 🇷🇺俄罗斯|334KB/s|1d|1
-  - 🇳🇱荷兰|230KB/s|2h|2
-  - 🇺🇸美国|219KB/s|1d|63 R002-260618
-  - 🇳🇱荷兰|199KB/s|~10d|speednode 0023
-  - ❓其他|189KB/s|5h|67 R002-260618
-  - ❓其他|178KB/s|1d|40 R002-260618
-  - 🇭🇰香港|177KB/s|8d|2 R002-260618
-  - 🇷🇴罗马尼亚|121KB/s|2d|7
-  - 🇳🇱荷兰|101KB/s|3d|zhuhai.uk 03
+  - 🇮🇪爱尔兰|529KB/s|3d|speednode 0013
+  - 🇩🇪德国|782KB/s|1d|IPV4
+  - 🇫🇷法国|441KB/s|15h|IPV4
+  - 🇮🇷伊朗|353KB/s|1d|zhuhai.uk
+  - 🇺🇸美国|353KB/s|<1h|zhuhai.uk 04
+  - 🇬🇧英国|337KB/s|1d|071
+  - 🇷🇺俄罗斯|334KB/s|15h|2
+  - 🇸🇬新加坡|262KB/s|<1h|zhuhai.uk 02
+  - 🇺🇸美国|235KB/s|1d|63 R002-260618
+  - ❓其他|219KB/s|9h|vless-1935612028
+  - ❓其他|147KB/s|2d|vless-1934825040
+  - 🇭🇰香港|137KB/s|<1h|zhuhai.uk
+  - 🇳🇱荷兰|124KB/s|2d|zhuhai.uk 02
+  - 🇭🇰香港|119KB/s|2d|zhuhai.uk 02
+  - ❓其他|103KB/s|1d|85 R002-260618
+  - 🇸🇪瑞典|101KB/s|<1h|63ae98
 - name: 🌐 其他
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -305,23 +303,22 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - ❓其他|461KB/s|8h|vless-1935612028
-  - ❓其他|189KB/s|5h|67 R002-260618
-  - ❓其他|178KB/s|1d|40 R002-260618
-  - 🇺🇸美国|441KB/s|3d|54 R002-260618
-  - 🇺🇸美国|370KB/s|2d|zhuhai.uk 03
-  - 🇺🇸美国|219KB/s|1d|63 R002-260618
-  - 🇫🇷法国|351KB/s|3d|17 R002-260618
-  - 🇷🇺俄罗斯|1.3MB/s|14h|2
-  - 🇷🇺俄罗斯|334KB/s|1d|1
-  - 🇬🇧英国|907KB/s|1d|071
-  - 🇩🇪德国|698KB/s|1d|IPV4
-  - 🇮🇷伊朗|456KB/s|1d|zhuhai.uk
-  - 🇳🇱荷兰|230KB/s|2h|2
-  - 🇳🇱荷兰|199KB/s|~10d|speednode 0023
-  - 🇳🇱荷兰|101KB/s|3d|zhuhai.uk 03
-  - 🇭🇰香港|177KB/s|8d|2 R002-260618
-  - 🇷🇴罗马尼亚|121KB/s|2d|7
+  - ❓其他|219KB/s|9h|vless-1935612028
+  - ❓其他|147KB/s|2d|vless-1934825040
+  - ❓其他|103KB/s|1d|85 R002-260618
+  - 🇮🇪爱尔兰|529KB/s|3d|speednode 0013
+  - 🇩🇪德国|782KB/s|1d|IPV4
+  - 🇫🇷法国|441KB/s|15h|IPV4
+  - 🇮🇷伊朗|353KB/s|1d|zhuhai.uk
+  - 🇺🇸美国|353KB/s|<1h|zhuhai.uk 04
+  - 🇺🇸美国|235KB/s|1d|63 R002-260618
+  - 🇬🇧英国|337KB/s|1d|071
+  - 🇷🇺俄罗斯|334KB/s|15h|2
+  - 🇸🇬新加坡|262KB/s|<1h|zhuhai.uk 02
+  - 🇭🇰香港|137KB/s|<1h|zhuhai.uk
+  - 🇭🇰香港|119KB/s|2d|zhuhai.uk 02
+  - 🇳🇱荷兰|124KB/s|2d|zhuhai.uk 02
+  - 🇸🇪瑞典|101KB/s|<1h|63ae98
 rules:
 - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
 - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
