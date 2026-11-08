@@ -1,61 +1,63 @@
 {
-  "updated_at": "2026-11-08 11:30:30 +0800",
+  "updated_at": "2026-11-08 12:42:53 +0800",
   "source": "https://free.datiya.com",
   "site_enabled": false,
   "days": [],
   "collected": 8584,
-  "alive": 39,
-  "links": 15,
+  "alive": 13,
+  "links": 5,
   "link_types": {
-    "vless": 15
+    "vless": 4,
+    "vmess": 1
   },
-  "probe_input": 39,
+  "probe_input": 13,
   "protocols": {
-    "http": 23,
-    "vless": 15,
-    "hysteria": 1
+    "http": 7,
+    "vless": 4,
+    "hysteria": 1,
+    "vmess": 1
   },
-  "unique_lines": 38,
-  "line_uniqueness": 0.974,
+  "unique_lines": 11,
+  "line_uniqueness": 0.846,
   "rank": {
     "sort_by": "veteran_then_speed",
-    "measured": 39,
-    "total": 39,
-    "median_kbps": 860.7,
-    "best_kbps": 4212.8,
-    "worst_kbps": 300.4,
-    "veterans": 17,
+    "measured": 13,
+    "total": 13,
+    "median_kbps": 433.0,
+    "best_kbps": 5039.2,
+    "worst_kbps": 375.3,
+    "veterans": 1,
     "veteran_days": 3.0,
     "veteran_kbps": 256.0,
-    "median_age_h": 55.9,
-    "oldest_age_h": 417.9
+    "median_age_h": 9.1,
+    "oldest_age_h": 75.0
   },
   "streak": {
-    "first": 20,
-    "repeat": 7,
-    "trusted": 12
+    "first": 10,
+    "repeat": 1,
+    "trusted": 2
   },
   "china_check": false,
   "china_dropped": 0,
   "whitelist": {
     "used": true,
-    "detail": "白名单可用：823 条记录，0.1 小时前由 WANG-OFFICE 实测",
+    "detail": "白名单可用：836 条记录，0.0 小时前由 WANG-OFFICE 实测",
     "degraded": null,
-    "matched": 647,
+    "matched": 667,
     "rejected": {
       "dead": 0,
       "unstable": 0,
-      "slow": 74,
-      "unmeasured": 214,
-      "no_https": 16,
-      "slow_delay": 125,
+      "slow": 80,
+      "unmeasured": 185,
+      "no_https": 10,
+      "slow_delay": 162,
       "delay_exempt": 2,
-      "stale": 179
+      "stale": 217
     },
     "min_kbps": 300.0,
     "floor_bypassed": false,
-    "entries": 823,
-    "age_hours": 0.09,
+    "entries": 836,
+    "age_hours": 0.02,
     "probe_host": "WANG-OFFICE"
   },
   "sources": {
@@ -69,15 +71,15 @@
     "LeilaoMi": 41
   },
   "source_health": {
-    "generated_at": "2026-11-08 11:30:30 +0800",
+    "generated_at": "2026-11-08 12:42:53 +0800",
     "rows": [
       {
         "name": "daily_free_vpn",
         "collected": 3485,
         "own": 2767,
-        "pool": 1715,
-        "alive": 34,
-        "rate": 0.02,
+        "pool": 1748,
+        "alive": 10,
+        "rate": 0.006,
         "by_type": {
           "anytls": {
             "pool": 1,
@@ -86,8 +88,8 @@
           },
           "http": {
             "pool": 590,
-            "alive": 20,
-            "rate": 0.034
+            "alive": 5,
+            "rate": 0.008
           },
           "hysteria": {
             "pool": 5,
@@ -105,7 +107,7 @@
             "rate": 0.0
           },
           "ss": {
-            "pool": 10,
+            "pool": 11,
             "alive": 0,
             "rate": 0.0
           },
@@ -115,69 +117,14 @@
             "rate": 0.0
           },
           "vless": {
-            "pool": 1086,
-            "alive": 13,
-            "rate": 0.012
+            "pool": 1118,
+            "alive": 3,
+            "rate": 0.003
           },
           "vmess": {
-            "pool": 5,
-            "alive": 0,
-            "rate": 0.0
-          }
-        }
-      },
-      {
-        "name": "ermaozi",
-        "collected": 467,
-        "own": 90,
-        "pool": 192,
-        "alive": 10,
-        "rate": 0.052,
-        "by_type": {
-          "anytls": {
-            "pool": 3,
-            "alive": 0,
-            "rate": 0.0
-          },
-          "http": {
-            "pool": 102,
-            "alive": 3,
-            "rate": 0.029
-          },
-          "hysteria": {
             "pool": 5,
             "alive": 1,
             "rate": 0.2
-          },
-          "hysteria2": {
-            "pool": 5,
-            "alive": 0,
-            "rate": 0.0
-          },
-          "socks5": {
-            "pool": 4,
-            "alive": 0,
-            "rate": 0.0
-          },
-          "ss": {
-            "pool": 10,
-            "alive": 0,
-            "rate": 0.0
-          },
-          "trojan": {
-            "pool": 4,
-            "alive": 0,
-            "rate": 0.0
-          },
-          "vless": {
-            "pool": 57,
-            "alive": 6,
-            "rate": 0.105
-          },
-          "vmess": {
-            "pool": 2,
-            "alive": 0,
-            "rate": 0.0
           }
         }
       },
@@ -185,9 +132,9 @@
         "name": "TopFreeProxy",
         "collected": 3120,
         "own": 2698,
-        "pool": 147,
-        "alive": 5,
-        "rate": 0.034,
+        "pool": 148,
+        "alive": 3,
+        "rate": 0.02,
         "by_type": {
           "anytls": {
             "pool": 3,
@@ -196,13 +143,13 @@
           },
           "http": {
             "pool": 47,
-            "alive": 2,
-            "rate": 0.043
+            "alive": 1,
+            "rate": 0.021
           },
           "hysteria": {
             "pool": 5,
-            "alive": 1,
-            "rate": 0.2
+            "alive": 0,
+            "rate": 0.0
           },
           "hysteria2": {
             "pool": 2,
@@ -215,7 +162,7 @@
             "rate": 0.0
           },
           "ss": {
-            "pool": 10,
+            "pool": 11,
             "alive": 0,
             "rate": 0.0
           },
@@ -226,38 +173,83 @@
           },
           "vless": {
             "pool": 71,
-            "alive": 2,
-            "rate": 0.028
+            "alive": 1,
+            "rate": 0.014
           },
           "vmess": {
             "pool": 4,
+            "alive": 1,
+            "rate": 0.25
+          }
+        }
+      },
+      {
+        "name": "ermaozi",
+        "collected": 467,
+        "own": 90,
+        "pool": 193,
+        "alive": 2,
+        "rate": 0.01,
+        "by_type": {
+          "anytls": {
+            "pool": 3,
+            "alive": 0,
+            "rate": 0.0
+          },
+          "http": {
+            "pool": 102,
+            "alive": 1,
+            "rate": 0.01
+          },
+          "hysteria": {
+            "pool": 5,
+            "alive": 0,
+            "rate": 0.0
+          },
+          "hysteria2": {
+            "pool": 5,
+            "alive": 0,
+            "rate": 0.0
+          },
+          "socks5": {
+            "pool": 4,
+            "alive": 0,
+            "rate": 0.0
+          },
+          "ss": {
+            "pool": 11,
+            "alive": 0,
+            "rate": 0.0
+          },
+          "trojan": {
+            "pool": 4,
+            "alive": 0,
+            "rate": 0.0
+          },
+          "vless": {
+            "pool": 57,
+            "alive": 1,
+            "rate": 0.018
+          },
+          "vmess": {
+            "pool": 2,
             "alive": 0,
             "rate": 0.0
           }
         }
       },
       {
-        "name": "LeilaoMi",
-        "collected": 41,
-        "own": 7,
-        "pool": 33,
-        "alive": 2,
-        "rate": 0.061,
+        "name": "zhuhaiuk-extra",
+        "collected": 3,
+        "own": 0,
+        "pool": 1,
+        "alive": 1,
+        "rate": 1.0,
         "by_type": {
-          "http": {
-            "pool": 19,
-            "alive": 0,
-            "rate": 0.0
-          },
-          "ss": {
-            "pool": 4,
-            "alive": 0,
-            "rate": 0.0
-          },
           "vless": {
-            "pool": 10,
-            "alive": 2,
-            "rate": 0.2
+            "pool": 1,
+            "alive": 1,
+            "rate": 1.0
           }
         }
       },
@@ -271,8 +263,8 @@
         "by_type": {
           "http": {
             "pool": 22,
-            "alive": 1,
-            "rate": 0.045
+            "alive": 0,
+            "rate": 0.0
           },
           "socks5": {
             "pool": 3,
@@ -281,8 +273,8 @@
           },
           "vless": {
             "pool": 2,
-            "alive": 0,
-            "rate": 0.0
+            "alive": 1,
+            "rate": 0.5
           }
         }
       },
@@ -302,45 +294,25 @@
         }
       },
       {
-        "name": "zhuhaiuk-extra",
-        "collected": 3,
-        "own": 0,
-        "pool": 1,
-        "alive": 0,
-        "rate": 0.0,
-        "by_type": {
-          "vless": {
-            "pool": 1,
-            "alive": 0,
-            "rate": 0.0
-          }
-        }
-      },
-      {
-        "name": "(白名单补录)",
-        "collected": 0,
-        "own": 0,
-        "pool": 199,
+        "name": "LeilaoMi",
+        "collected": 41,
+        "own": 7,
+        "pool": 34,
         "alive": 0,
         "rate": 0.0,
         "by_type": {
           "http": {
-            "pool": 168,
+            "pool": 19,
             "alive": 0,
             "rate": 0.0
           },
-          "hysteria": {
-            "pool": 1,
-            "alive": 0,
-            "rate": 0.0
-          },
-          "socks5": {
-            "pool": 12,
+          "ss": {
+            "pool": 5,
             "alive": 0,
             "rate": 0.0
           },
           "vless": {
-            "pool": 18,
+            "pool": 10,
             "alive": 0,
             "rate": 0.0
           }
@@ -354,35 +326,61 @@
         "alive": 0,
         "rate": 0.0,
         "by_type": {}
+      },
+      {
+        "name": "(白名单补录)",
+        "collected": 0,
+        "own": 0,
+        "pool": 166,
+        "alive": 0,
+        "rate": 0.0,
+        "by_type": {
+          "http": {
+            "pool": 146,
+            "alive": 0,
+            "rate": 0.0
+          },
+          "hysteria": {
+            "pool": 1,
+            "alive": 0,
+            "rate": 0.0
+          },
+          "socks5": {
+            "pool": 11,
+            "alive": 0,
+            "rate": 0.0
+          },
+          "vless": {
+            "pool": 7,
+            "alive": 0,
+            "rate": 0.0
+          },
+          "vmess": {
+            "pool": 1,
+            "alive": 0,
+            "rate": 0.0
+          }
+        }
       }
     ]
   },
   "regions": {
-    "美国": 13,
-    "荷兰": 7,
-    "法国": 4,
+    "美国": 6,
     "瑞士": 3,
-    "罗马尼亚": 2,
-    "巴西": 1,
-    "德国": 1,
-    "拉脱维亚": 1,
-    "新加坡": 1,
-    "日本": 1,
+    "法国": 1,
     "波兰": 1,
-    "瑞典": 1,
-    "西班牙": 1,
-    "香港": 1,
-    "其他": 1
+    "荷兰": 1,
+    "香港": 1
   },
   "naming": {
     "enabled": true,
     "format": "地区|网速|代表性标志",
     "sample": [
-      "🇺🇸美国|3.6MB/s|5d|10",
-      "🇸🇪瑞典|1.4MB/s|3d|1",
-      "🇷🇴罗马尼亚|1.3MB/s|3d|81 R002-260618",
-      "🇫🇷法国|1.2MB/s|3d|zhuhai.uk",
-      "🇫🇷法国|1.1MB/s|~12d|151 R002-260618"
+      "🇺🇸美国|391KB/s|3d|311 R002-260618",
+      "🇳🇱荷兰|4.9MB/s|<1h|6 K001-260618",
+      "🇭🇰香港|978KB/s|2d|1",
+      "🇨🇭瑞士|862KB/s|6h|adeb90",
+      "🇨🇭瑞士|794KB/s|9h|CHE 2"
     ]
   }
 }
