@@ -1,8 +1,8 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-11-09 09:44:40 +0800 | 可用节点 37 个（候选 5087 个，仅附加源）
-# 网速=本机实测（WANG-OFFICE，0.1 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
+# 更新于 2026-11-09 12:40:22 +0800 | 可用节点 66 个（候选 7841 个，仅附加源）
+# 网速=本机实测（WANG-OFFICE，0.0 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
 # 存活=首次测通至今（第二个数字，如 7d/36h；带 ~ 的是按探测轮次数推算）；存活 ≥3 天且网速 ≥256KB/s 的节点整体排在最前，其余按网速降序；低于 300KB/s 或测不出速度的节点已剔除
-# 分享链接（v2ray.txt）只覆盖 11/37 个节点（vless 11）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
+# 分享链接（v2ray.txt）只覆盖 6/66 个节点（vless 4、ss 2）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -35,68 +35,90 @@ dns:
   - 223.5.5.5
   - 119.29.29.29
 proxies:
-- password: 'null'
-  port: 40583
-  server: 120.232.204.58
-  skip-cert-verify: true
+- name: 🇹🇼台湾|5.3MB/s|10d|3
+  password: exaxgqkKkd0TAMrCxeonWg==
+  port: 1443
+  server: twmoon1-cdn-route.couldflare-cdn.com
+  sni: twmoon1-cdn-route.couldflare-cdn.com
   tls: true
   type: http
-  username: 'null'
-  name: 🇯🇵日本|5.1MB/s|6d|zhuhai.uk
-- name: 🇭🇰香港|4.1MB/s|3d|1
+  udp: true
+  username: mrwdfNTD8M79LCukCieldrqZWqs=
+- name: 🇭🇰香港|3.5MB/s|3d|1
   password: None
   port: 31343
   server: 120.232.204.58
   skip-cert-verify: true
   tls: true
   type: http
-- port: 8090
-  server: 66.153.187.90
-  skip-cert-verify: true
-  tls: true
-  type: http
-  name: 🇺🇸美国|3.6MB/s|~13d|zhuhai.uk 03
-- name: 🇺🇸美国|3.6MB/s|6d|13 P002-260618
+- name: 🇺🇸美国|2.2MB/s|4d|36 P002-260618
   password: None
   port: 9002
-  server: 138.199.35.199
+  server: 138.199.35.218
   skip-cert-verify: true
   sub_tag: P002-260618
   tls: true
   type: http
   udp: true
-- name: 🇷🇴罗马尼亚|3.4MB/s|5d|2
+- name: 🇺🇸美国|2.2MB/s|6d|20 P002-260618
+  password: None
   port: 9002
-  server: 193.176.84.20
+  server: 138.199.35.211
   skip-cert-verify: true
-  sni: www.bing.com
+  sub_tag: P002-260618
   tls: true
   type: http
   udp: true
-- name: 🇩🇪德国|2.3MB/s|~13d|1 R002-260618
+- name: 🇳🇱荷兰|1.8MB/s|3d|speednode 0027
+  password: None
   port: 9002
-  server: 158.173.154.4
+  server: 84.17.47.123
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+  sub_tag: P002-260618
+- port: 9002
+  server: 138.199.35.215
+  skip-cert-verify: true
+  tls: true
+  type: http
+  name: 🇺🇸美国|1.5MB/s|5d|zhuhai.uk
+  sub_tag: R002-260618
+  udp: true
+- name: 🇸🇪瑞典|1.5MB/s|~13d|6 R002-260618
+  port: 443
+  server: 217.210.129.243
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
   type: http
   udp: true
-- name: 🇳🇱荷兰|2.3MB/s|10d|speednode 0025
-  password: None
+- name: 🇺🇸美国|1.4MB/s|6d|23
+  password: ''
   port: 9002
-  server: 84.17.47.149
+  server: 138.199.35.218
   skip-cert-verify: true
+  tls: true
+  type: http
+  username: ''
+  udp: true
+- name: 🇵🇱波兰|1.3MB/s|~13d|4 P002-260618
+  password: None
+  port: 443
+  server: 151.115.54.133
+  skip-cert-verify: true
+  sub_tag: P002-260618
   tls: true
   type: http
   udp: true
-- name: 🇳🇱荷兰|2.2MB/s|6d|18
-  password: 'null'
-  port: 9002
-  server: 84.17.47.148
+- name: 🇺🇸美国|901KB/s|10d|575 R002-260618
+  port: 443
+  server: 96.5.129.85
   skip-cert-verify: true
+  sub_tag: R002-260618
   tls: true
   type: http
-  username: 'null'
   udp: true
 - alpn:
   - h2
@@ -128,37 +150,185 @@ proxies:
     x-padding-method: tokenish
     x-padding-obfs-mode: true
     x-padding-placement: header
-  name: 🇵🇱波兰|1.3MB/s|3d|1
-- name: 🇫🇷法国|1.3MB/s|~13d|6 R002-260618
+  name: 🇵🇱波兰|730KB/s|3d|1
+- name: 🇱🇻拉脱维亚|668KB/s|3d|3 R002-260618
   port: 443
-  server: 141.94.16.4
+  server: 185.219.159.16
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
   type: http
   udp: true
-- name: 🇱🇻拉脱维亚|1.2MB/s|10d|speednode 0021
+- name: 🇯🇵日本|629KB/s|3d|18 R002-260618
+  port: 443
+  server: fan.571589.xyz
+  skip-cert-verify: false
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+  sni: fan.571589.xyz
+- name: 🇳🇱荷兰|533KB/s|~14d|56 R002-260618
+  password: 'null'
+  port: 443
+  server: 51.158.243.91
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇺🇸美国|521KB/s|3d|584 R002-260618
+  port: 443
+  server: 38.28.185.205
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇲🇽墨西哥|504KB/s|6d|1 R002-260618
+  port: 443
+  server: 45.134.9.41
+  skip-cert-verify: true
+  sni: 991cc80f13caf81d3426ddebb2da7f49-240d6105b6ef86f0.apache-iv.com
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇭🇰香港|474KB/s|5d|47 P002-260618
+  port: 3128
+  server: 119.28.24.235
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|452KB/s|6d|65 R002-260618
+  port: 9002
+  server: 138.199.35.204
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|434KB/s|5d|238 R002-260618
+  port: 443
+  server: 38.28.185.222
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|417KB/s|3d|267 R002-260618
+  port: 443
+  server: 38.28.193.188
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|403KB/s|4d|603 R002-260618
+  port: 443
+  server: 137.175.22.88
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|403KB/s|3d|606 R002-260618
+  port: 443
+  server: 137.175.22.40
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|392KB/s|4d|585 R002-260618
+  port: 443
+  server: 137.175.22.16
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|389KB/s|4d|600 R002-260618
+  port: 443
+  server: 137.175.22.56
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|388KB/s|4d|108 R002-260618
+  port: 443
+  server: 38.28.193.1
+  skip-cert-verify: true
+  sni: 38.28.193.1
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|386KB/s|4d|602 R002-260618
+  port: 443
+  server: 137.175.22.116
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|386KB/s|~13d|163 Z001-260618
+  port: 443
+  server: fan.226278.xyz
+  sub_tag: Z001-260618
+  tls: true
+  type: http
+  udp: true
+  sni: fan.226278.xyz
+- name: 🇺🇸美国|384KB/s|4d|604 R002-260618
+  port: 443
+  server: 137.175.22.96
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇯🇵日本|383KB/s|3d|9 K001-260618
+  password: 'null'
+  port: 443
+  server: fan.571589.xyz
+  skip-cert-verify: true
+  sub_tag: K001-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+  sni: fan.571589.xyz
+- name: 🇮🇪爱尔兰|346KB/s|6d|speednode 0013
+  port: 443
+  server: 34.249.214.108
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+  sub_tag: R002-260618
+- password: 'null'
+  port: 40583
+  server: 120.232.204.58
+  skip-cert-verify: true
+  tls: true
+  type: http
+  username: 'null'
+  name: 🇯🇵日本|345KB/s|6d|zhuhai.uk
+- name: 🇷🇴罗马尼亚|339KB/s|7d|6 P002-260618
   password: None
-  port: 443
-  server: 185.219.159.16
+  port: 9002
+  server: 193.176.84.34
   skip-cert-verify: true
+  sub_tag: P002-260618
   tls: true
   type: http
   udp: true
-- port: 9002
-  server: 138.199.35.215
-  skip-cert-verify: true
-  tls: true
-  type: http
-  name: 🇺🇸美国|1.2MB/s|5d|zhuhai.uk
-- name: 🇱🇻拉脱维亚|842KB/s|~14d|speednode 0020
-  port: 443
-  server: 185.219.159.15
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: ❓其他|418KB/s|~14d|28 R002-260618
+- name: 🇩🇪德国|315KB/s|~14d|12 R002-260618
   port: 8443
   server: 77.221.136.60
   skip-cert-verify: true
@@ -166,28 +336,15 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇺🇸美国|17.8MB/s|<1h|zhuhai.uk 02
-  type: vless
-  server: saas.sin.fan
-  port: 443
-  uuid: 5d7b401c-78fa-4254-872e-6d42bf7e75ec
-  tls: true
-  servername: v1n6.11676767.xyz
-  skip-cert-verify: true
-  client-fingerprint: chrome
-  network: ws
-  ws-opts:
-    path: /film/pay
-    headers:
-      Host: v1n6.11676767.xyz
-- port: 58764
-  server: 118.184.140.90
-  skip-cert-verify: true
-  tls: true
+- name: ❓其他|5.1MB/s|2h|http-120.232.204.58
+  server: 120.232.204.58
+  port: 31343
   type: http
-  name: 🇺🇸美国|7.5MB/s|15h|8
+  tls: true
+  skip-cert-verify: true
 - client-fingerprint: chrome
   flow: xtls-rprx-vision
+  network: tcp
   port: 443
   reality-opts:
     public-key: 1vSZjvhZO01oAEH3b7eebR1qF5dLU1Dq2E7xu8pwGSs
@@ -198,84 +355,133 @@ proxies:
   type: vless
   udp: true
   uuid: 90157e25-cee1-4217-921e-91f300bc1a24
-  name: 🇨🇭瑞士|5.8MB/s|1d|14
-  skip-cert-verify: false
-  sni: perevodchiki.su
-- name: 🇩🇰丹麦|5.0MB/s|3h|speednode 0005
-  port: 9002
-  server: 158.173.154.5
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- name: 🇫🇷法国|3.6MB/s|1d|speednode 0011
-  port: 23856
-  server: 51.159.225.196
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-- client-fingerprint: chrome
+  name: 🇨🇭瑞士|3.2MB/s|2d|zhuhai.uk 01
   encryption: none
-  grpc-opts:
-    grpc-service-name: a9w9wmko0k2od14hv8v
-  name: '🇩🇪德国|3.5MB/s|<1h|vless-DE-1... #2'
-  network: grpc
-  port: 443
-  server: 5.83.129.236
-  servername: host-de-upscale.cdn.cachefleet.com
-  tls: true
-  type: vless
-  uuid: d86e6fda-e519-46ab-98eb-9ff9a9da5984
-- port: 443
-  server: 103.86.117.202
+  sub_tag: M003-260806
+  xudp: true
+  packet-encoding: xudp
+- port: 58764
+  server: 118.184.140.90
   skip-cert-verify: true
-  sni: 103.86.117.202
   tls: true
   type: http
-  name: 🇮🇩印度尼西亚|2.3MB/s|<1h|zhuhai.uk
-- client-fingerprint: chrome
-  flow: xtls-rprx-vision
-  name: ❓其他|2.3MB/s|6h|vless-1937258398
-  network: tcp
+  name: 🇺🇸美国|3.2MB/s|17h|8
+- name: 🇳🇱荷兰|2.4MB/s|<1h|64 P002-260618
+  password: None
   port: 443
-  reality-opts:
-    public-key: xPnpkXu5qfwIArlHKvJsqKJnGdGbJK1tT2GzWMyLohA
-    short-id: 9c56fddf237e8eaf
-  server: 195.211.98.43
-  servername: www.cloudflare.com
+  server: 5.255.118.82
+  skip-cert-verify: true
+  sub_tag: P002-260618
   tls: true
-  type: vless
+  type: http
   udp: true
-  uuid: 1b4b11d5-4c2d-4533-9a55-636757cdee94
-- name: ❓其他|1.4MB/s|<1h|http-120.232.204.58
-  server: 120.232.204.58
-  port: 31343
-  type: http
-  tls: true
+- name: 🇺🇸美国|2.3MB/s|20h|112 P002-260618
+  password: 'null'
+  port: 9002
+  server: 138.199.35.206
   skip-cert-verify: true
-- name: ❓其他|1.2MB/s|<1h|Telegram
-  server: 193.203.10.188
-  port: 443
-  type: vless
-  uuid: 3f5e89d5-591f-4ac9-b071-b05680b573c3
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  username: 'null'
   udp: true
-  flow: xtls-rprx-vision
-  tls: true
-  servername: no.gacvpn.site
+- name: 🇺🇸美国|2.2MB/s|17h|342 P002-260618
+  password: None
+  port: 9002
+  server: 138.199.35.210
   skip-cert-verify: true
-  reality-opts:
-    public-key: mCLTVbcvg_tkaIuGqMVVBV-5d_ftEoLnJHhrCmeLDFk
-    short-id: 08d12dce
-    support-x25519mlkem768: true
-  client-fingerprint: chrome
-- name: 🇮🇩印度尼西亚|1.2MB/s|2d|zhuhai.uk
+  sub_tag: P002-260618
+  tls: true
   type: http
-  server: 178.248.73.58
-  port: 443
-  tls: true
-  sni: 178.248.73.58
+  udp: true
+- alpn:
+  - h3
+  auth_str: dongtaiwang.com
+  down: 55 Mbps
+  name: 🇳🇱荷兰|1.8MB/s|23h|128 K001-260618
+  obfs: ''
+  port: 26691
+  protocol: udp
+  server: 5.83.129.143
   skip-cert-verify: true
+  sni: apple.com
+  sub_tag: K001-260618
+  type: hysteria
+  up: 11 Mbps
+  udp: true
+  auth-str: dongtaiwang.com
+- type: hysteria
+  name: 🇫🇷法国|1.6MB/s|15h|IPV4
+  server: 62.210.28.175
+  port: 24667
+  password: dongtaiwang.com
+  tls: true
+  servername: bing.com
+  sni: bing.com
+  skip-cert-verify: true
+  alpn:
+  - h3
+  up: '11'
+  down: '55'
+  auth-str: dongtaiwang.com
+  protocol: udp
+  auth_str: dongtaiwang.com
+  sub_tag: P002-260618
+  udp: true
+- name: 🇺🇸美国|1.3MB/s|2h|45 R002-260618
+  port: 8090
+  server: 209.148.53.153
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇸🇬新加坡|1.2MB/s|15h|91 R002-260618
+  password: '8888'
+  port: 1080
+  server: 47.236.168.243
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  type: socks5
+  username: '8888'
+  udp: true
+- name: 🇷🇺俄罗斯|1.2MB/s|2h|6 R002-260618
+  password: 'null'
+  port: 443
+  server: 178.219.43.226
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- password: None
+  port: 443
+  server: 172.64.68.89
+  skip-cert-verify: true
+  tls: true
+  type: http
+  name: 🇩🇪德国|1.2MB/s|<1h|3
+  sub_tag: P002-260618
+  udp: true
+- type: hysteria
+  name: 🇩🇪德国|1.2MB/s|5h|IPV4
+  server: 5.83.129.90
+  port: 54177
+  password: dongtaiwang.com
+  tls: true
+  servername: apple.com
+  sni: apple.com
+  skip-cert-verify: true
+  alpn:
+  - h3
+  up: '11'
+  down: '55'
+  auth-str: dongtaiwang.com
+  auth_str: dongtaiwang.com
+  protocol: udp
+  sub_tag: C002-260622
+  udp: true
 - client-fingerprint: chrome
   flow: xtls-rprx-vision
   port: 443
@@ -288,28 +494,21 @@ proxies:
   type: vless
   udp: true
   uuid: 90157e25-cee1-4217-921e-91f300bc1a24
-  name: 🇨🇭瑞士|980KB/s|9h|19
+  name: 🇨🇭瑞士|1012KB/s|11h|19
   skip-cert-verify: false
   sni: perevodchiki.su
-- name: ❓其他|964KB/s|<1h|@FXxNET️
-  server: 177.1.187.227
-  port: 8443
-  type: vless
-  uuid: 8af1ac56-283b-4fc5-bb33-6892498a0592
-  udp: true
-  flow: xtls-rprx-vision
-  tls: true
-  servername: ofd.ru
+- name: 🇺🇸美国|1009KB/s|1d|598 R002-260618
+  port: 443
+  server: 192.227.176.234
   skip-cert-verify: true
-  reality-opts:
-    public-key: R4druLIO_Vb9TrkYUUWsof5S4e5kwaAjh9qQob2kLlI
-    short-id: ''
-    support-x25519mlkem768: true
-  client-fingerprint: chrome
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
 - client-fingerprint: firefox
   encryption: none
   flow: xtls-rprx-vision
-  name: 🇨🇭瑞士|903KB/s|1d|5 M003-260806
+  name: 🇨🇭瑞士|929KB/s|1d|64 M003-260806
   network: tcp
   port: 443
   reality-opts:
@@ -324,44 +523,151 @@ proxies:
   xudp: true
   packet-encoding: xudp
   servername: perevodchiki.su
-- name: 🇺🇸美国|867KB/s|<1h|zhuhai.uk 09
-  type: http
-  server: 138.199.35.216
+- name: 🇺🇸美国|918KB/s|2d|91
+  password: ''
   port: 9002
-  username: 'null'
-  password: 'null'
-  tls: true
-  sni: 138.199.35.216
-  skip-cert-verify: true
-- name: 🇩🇪德国|828KB/s|1d|speednode 0004
-  port: 443
-  server: 213.109.163.119
+  server: 138.199.35.219
   skip-cert-verify: true
   tls: true
   type: http
+  username: ''
   udp: true
-- client-fingerprint: firefox
-  flow: xtls-rprx-vision
-  network: tcp
-  port: 443
-  reality-opts:
-    public-key: 1vSZjvhZO01oAEH3b7eebR1qF5dLU1Dq2E7xu8pwGSs
-    short-id: 428ef87fd47a3a32
-  server: 46.19.138.214
-  servername: perevodchiki.su
+- type: ss
+  name: 🇮🇹意大利|898KB/s|<1h|IPV4
+  server: 202.50.253.27
+  port: 19999
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+  cipher: aes-256-gcm
+  tls: false
+  skip-cert-verify: false
+  udp: true
+  sub_tag: B007-260618
+- name: 🇷🇺俄罗斯|844KB/s|1d|1 R002-260618
+  port: 1446
+  server: 46.29.166.134
+  skip-cert-verify: true
+  sub_tag: R002-260618
   tls: true
-  type: vless
+  type: http
   udp: true
-  uuid: 90157e25-cee1-4217-921e-91f300bc1a24
-  name: 🇨🇭瑞士|682KB/s|1d|CHE
+- password: 'null'
+  port: 443
+  server: 5.255.118.82
+  skip-cert-verify: true
+  tls: true
+  type: http
+  username: 'null'
+  name: 🇳🇱荷兰|795KB/s|5h|3
+  sub_tag: P002-260618
+  udp: true
+- type: ss
+  name: 🇮🇹意大利|586KB/s|<1h|IPV4
+  server: 202.50.253.54
+  port: 19999
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+  cipher: aes-256-gcm
+  tls: false
+  skip-cert-verify: false
+  udp: true
+  sub_tag: B007-260618
+- name: 🇷🇺俄罗斯|553KB/s|1d|3 R002-260618
+  port: 443
+  server: 178.219.43.226
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- password: 'null'
+  port: 443
+  server: fan.365747.xyz
+  skip-cert-verify: true
+  sni: fan.365747.xyz
+  tls: true
+  type: http
+  username: 'null'
+  name: 🇺🇸美国|391KB/s|23h|zhuhai.uk 02
+  sub_tag: R002-260618
+  udp: true
+- name: 🇺🇸美国|387KB/s|20h|601 R002-260618
+  port: 443
+  server: 137.175.22.85
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|385KB/s|1d|583 R002-260618
+  password: 'null'
+  port: 443
+  server: fan.596189.xyz
+  sni: fan.596189.xyz
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇺🇸美国|384KB/s|15h|586 R002-260618
+  port: 443
+  server: fan.365747.xyz
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+  sni: fan.365747.xyz
+- name: 🇺🇸美国|383KB/s|2d|336 R002-260618
+  password: 'null'
+  port: 443
+  server: 38.28.193.188
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇺🇸美国|380KB/s|<1h|605 R002-260618
+  port: 443
+  server: 137.175.22.29
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|357KB/s|1d|328 Z001-260618
+  port: 443
+  server: fan.596189.xyz
+  skip-cert-verify: true
+  sub_tag: Z001-260618
+  tls: true
+  type: http
+  udp: true
+  sni: fan.596189.xyz
 - port: 8443
   server: 77.221.136.60
   skip-cert-verify: true
   sni: 77.221.136.60
   tls: true
   type: http
-  name: 🇸🇪瑞典|641KB/s|1d|zhuhai.uk
-- name: ❓其他|418KB/s|2d|51 R002-260618
+  name: 🇸🇪瑞典|342KB/s|1d|zhuhai.uk
+- name: 🇺🇸美国|337KB/s|2h|115
+  password: 'null'
+  port: 9002
+  server: 138.199.35.200
+  skip-cert-verify: true
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇯🇵日本|337KB/s|1d|15 R002-260618
+  port: 443
+  server: fan.587475.xyz
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+  sni: fan.587475.xyz
+- name: 🇺🇸美国|328KB/s|2d|326 R002-260618
   port: 443
   server: 38.28.185.207
   skip-cert-verify: true
@@ -369,45 +675,6 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇸🇬新加坡|404KB/s|<1h|zhuhai.uk
-  type: http
-  server: 154.26.139.24
-  port: 443
-  tls: true
-  sni: 154.26.139.24
-  skip-cert-verify: true
-- name: 🇰🇷韩国|382KB/s|<1h|zhuhai.uk 02
-  type: vless
-  server: saas.sin.fan
-  port: 443
-  uuid: 5d7b401c-78fa-4254-872e-6d42bf7e75ec
-  tls: true
-  servername: v2n2.11676767.xyz
-  skip-cert-verify: true
-  client-fingerprint: chrome
-  network: ws
-  ws-opts:
-    path: /payment/video/TkZDG0RVE1kPREsSEQ8YEEBHSEpZUwhIFF4WRBIIFUkVRQQQRhNYEFASC0FbR1ZETQ9cXUZAQ1laV0cXFBJEXFRXB10GB1VTAEpYElFeVhQDWV0SQwEWQlpGWRoNC1wYSw==
-    headers:
-      Host: v2n2.11676767.xyz
-- name: 🇮🇩印度尼西亚|378KB/s|15h|zhuhai.uk 02
-  type: http
-  server: 178.248.73.58
-  port: 443
-  username: 'null'
-  password: 'null'
-  tls: true
-  sni: 178.248.73.58
-  skip-cert-verify: true
-- password: 'null'
-  port: 9002
-  server: 84.17.47.125
-  skip-cert-verify: true
-  sni: 84.17.47.125
-  tls: true
-  type: http
-  username: 'null'
-  name: 🇳🇱荷兰|324KB/s|3h|zhuhai.uk 03
 proxy-groups:
 - name: 🚀 节点选择
   type: select
@@ -415,44 +682,74 @@ proxy-groups:
   - ♻️ 自动选择
   - ⚡ 负载均衡
   - DIRECT
+  - 🌐 美国
   - 🌐 其他
-  - 🇯🇵日本|5.1MB/s|6d|zhuhai.uk
-  - 🇭🇰香港|4.1MB/s|3d|1
-  - 🇺🇸美国|3.6MB/s|~13d|zhuhai.uk 03
-  - 🇺🇸美国|3.6MB/s|6d|13 P002-260618
-  - 🇷🇴罗马尼亚|3.4MB/s|5d|2
-  - 🇩🇪德国|2.3MB/s|~13d|1 R002-260618
-  - 🇳🇱荷兰|2.3MB/s|10d|speednode 0025
-  - 🇳🇱荷兰|2.2MB/s|6d|18
-  - 🇵🇱波兰|1.3MB/s|3d|1
-  - 🇫🇷法国|1.3MB/s|~13d|6 R002-260618
-  - 🇱🇻拉脱维亚|1.2MB/s|10d|speednode 0021
-  - 🇺🇸美国|1.2MB/s|5d|zhuhai.uk
-  - 🇱🇻拉脱维亚|842KB/s|~14d|speednode 0020
-  - ❓其他|418KB/s|~14d|28 R002-260618
-  - 🇺🇸美国|17.8MB/s|<1h|zhuhai.uk 02
-  - 🇺🇸美国|7.5MB/s|15h|8
-  - 🇨🇭瑞士|5.8MB/s|1d|14
-  - 🇩🇰丹麦|5.0MB/s|3h|speednode 0005
-  - 🇫🇷法国|3.6MB/s|1d|speednode 0011
-  - '🇩🇪德国|3.5MB/s|<1h|vless-DE-1... #2'
-  - 🇮🇩印度尼西亚|2.3MB/s|<1h|zhuhai.uk
-  - ❓其他|2.3MB/s|6h|vless-1937258398
-  - ❓其他|1.4MB/s|<1h|http-120.232.204.58
-  - ❓其他|1.2MB/s|<1h|Telegram
-  - 🇮🇩印度尼西亚|1.2MB/s|2d|zhuhai.uk
-  - 🇨🇭瑞士|980KB/s|9h|19
-  - ❓其他|964KB/s|<1h|@FXxNET️
-  - 🇨🇭瑞士|903KB/s|1d|5 M003-260806
-  - 🇺🇸美国|867KB/s|<1h|zhuhai.uk 09
-  - 🇩🇪德国|828KB/s|1d|speednode 0004
-  - 🇨🇭瑞士|682KB/s|1d|CHE
-  - 🇸🇪瑞典|641KB/s|1d|zhuhai.uk
-  - ❓其他|418KB/s|2d|51 R002-260618
-  - 🇸🇬新加坡|404KB/s|<1h|zhuhai.uk
-  - 🇰🇷韩国|382KB/s|<1h|zhuhai.uk 02
-  - 🇮🇩印度尼西亚|378KB/s|15h|zhuhai.uk 02
-  - 🇳🇱荷兰|324KB/s|3h|zhuhai.uk 03
+  - 🇹🇼台湾|5.3MB/s|10d|3
+  - 🇭🇰香港|3.5MB/s|3d|1
+  - 🇺🇸美国|2.2MB/s|4d|36 P002-260618
+  - 🇺🇸美国|2.2MB/s|6d|20 P002-260618
+  - 🇳🇱荷兰|1.8MB/s|3d|speednode 0027
+  - 🇺🇸美国|1.5MB/s|5d|zhuhai.uk
+  - 🇸🇪瑞典|1.5MB/s|~13d|6 R002-260618
+  - 🇺🇸美国|1.4MB/s|6d|23
+  - 🇵🇱波兰|1.3MB/s|~13d|4 P002-260618
+  - 🇺🇸美国|901KB/s|10d|575 R002-260618
+  - 🇵🇱波兰|730KB/s|3d|1
+  - 🇱🇻拉脱维亚|668KB/s|3d|3 R002-260618
+  - 🇯🇵日本|629KB/s|3d|18 R002-260618
+  - 🇳🇱荷兰|533KB/s|~14d|56 R002-260618
+  - 🇺🇸美国|521KB/s|3d|584 R002-260618
+  - 🇲🇽墨西哥|504KB/s|6d|1 R002-260618
+  - 🇭🇰香港|474KB/s|5d|47 P002-260618
+  - 🇺🇸美国|452KB/s|6d|65 R002-260618
+  - 🇺🇸美国|434KB/s|5d|238 R002-260618
+  - 🇺🇸美国|417KB/s|3d|267 R002-260618
+  - 🇺🇸美国|403KB/s|4d|603 R002-260618
+  - 🇺🇸美国|403KB/s|3d|606 R002-260618
+  - 🇺🇸美国|392KB/s|4d|585 R002-260618
+  - 🇺🇸美国|389KB/s|4d|600 R002-260618
+  - 🇺🇸美国|388KB/s|4d|108 R002-260618
+  - 🇺🇸美国|386KB/s|4d|602 R002-260618
+  - 🇺🇸美国|386KB/s|~13d|163 Z001-260618
+  - 🇺🇸美国|384KB/s|4d|604 R002-260618
+  - 🇯🇵日本|383KB/s|3d|9 K001-260618
+  - 🇮🇪爱尔兰|346KB/s|6d|speednode 0013
+  - 🇯🇵日本|345KB/s|6d|zhuhai.uk
+  - 🇷🇴罗马尼亚|339KB/s|7d|6 P002-260618
+  - 🇩🇪德国|315KB/s|~14d|12 R002-260618
+  - ❓其他|5.1MB/s|2h|http-120.232.204.58
+  - 🇨🇭瑞士|3.2MB/s|2d|zhuhai.uk 01
+  - 🇺🇸美国|3.2MB/s|17h|8
+  - 🇳🇱荷兰|2.4MB/s|<1h|64 P002-260618
+  - 🇺🇸美国|2.3MB/s|20h|112 P002-260618
+  - 🇺🇸美国|2.2MB/s|17h|342 P002-260618
+  - 🇳🇱荷兰|1.8MB/s|23h|128 K001-260618
+  - 🇫🇷法国|1.6MB/s|15h|IPV4
+  - 🇺🇸美国|1.3MB/s|2h|45 R002-260618
+  - 🇸🇬新加坡|1.2MB/s|15h|91 R002-260618
+  - 🇷🇺俄罗斯|1.2MB/s|2h|6 R002-260618
+  - 🇩🇪德国|1.2MB/s|<1h|3
+  - 🇩🇪德国|1.2MB/s|5h|IPV4
+  - 🇨🇭瑞士|1012KB/s|11h|19
+  - 🇺🇸美国|1009KB/s|1d|598 R002-260618
+  - 🇨🇭瑞士|929KB/s|1d|64 M003-260806
+  - 🇺🇸美国|918KB/s|2d|91
+  - 🇮🇹意大利|898KB/s|<1h|IPV4
+  - 🇷🇺俄罗斯|844KB/s|1d|1 R002-260618
+  - 🇳🇱荷兰|795KB/s|5h|3
+  - 🇮🇹意大利|586KB/s|<1h|IPV4
+  - 🇷🇺俄罗斯|553KB/s|1d|3 R002-260618
+  - 🇺🇸美国|391KB/s|23h|zhuhai.uk 02
+  - 🇺🇸美国|387KB/s|20h|601 R002-260618
+  - 🇺🇸美国|385KB/s|1d|583 R002-260618
+  - 🇺🇸美国|384KB/s|15h|586 R002-260618
+  - 🇺🇸美国|383KB/s|2d|336 R002-260618
+  - 🇺🇸美国|380KB/s|<1h|605 R002-260618
+  - 🇺🇸美国|357KB/s|1d|328 Z001-260618
+  - 🇸🇪瑞典|342KB/s|1d|zhuhai.uk
+  - 🇺🇸美国|337KB/s|2h|115
+  - 🇯🇵日本|337KB/s|1d|15 R002-260618
+  - 🇺🇸美国|328KB/s|2d|326 R002-260618
 - name: ♻️ 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -461,30 +758,30 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - 🇯🇵日本|5.1MB/s|6d|zhuhai.uk
-  - 🇭🇰香港|4.1MB/s|3d|1
-  - 🇺🇸美国|3.6MB/s|~13d|zhuhai.uk 03
-  - 🇺🇸美国|3.6MB/s|6d|13 P002-260618
-  - 🇷🇴罗马尼亚|3.4MB/s|5d|2
-  - 🇩🇪德国|2.3MB/s|~13d|1 R002-260618
-  - 🇳🇱荷兰|2.3MB/s|10d|speednode 0025
-  - 🇳🇱荷兰|2.2MB/s|6d|18
-  - 🇵🇱波兰|1.3MB/s|3d|1
-  - 🇫🇷法国|1.3MB/s|~13d|6 R002-260618
-  - 🇱🇻拉脱维亚|1.2MB/s|10d|speednode 0021
-  - 🇺🇸美国|1.2MB/s|5d|zhuhai.uk
-  - 🇱🇻拉脱维亚|842KB/s|~14d|speednode 0020
-  - ❓其他|418KB/s|~14d|28 R002-260618
-  - 🇺🇸美国|17.8MB/s|<1h|zhuhai.uk 02
-  - 🇺🇸美国|7.5MB/s|15h|8
-  - 🇨🇭瑞士|5.8MB/s|1d|14
-  - 🇩🇰丹麦|5.0MB/s|3h|speednode 0005
-  - 🇫🇷法国|3.6MB/s|1d|speednode 0011
-  - '🇩🇪德国|3.5MB/s|<1h|vless-DE-1... #2'
-  - 🇮🇩印度尼西亚|2.3MB/s|<1h|zhuhai.uk
-  - ❓其他|2.3MB/s|6h|vless-1937258398
-  - ❓其他|1.4MB/s|<1h|http-120.232.204.58
-  - ❓其他|1.2MB/s|<1h|Telegram
+  - 🇹🇼台湾|5.3MB/s|10d|3
+  - 🇭🇰香港|3.5MB/s|3d|1
+  - 🇺🇸美国|2.2MB/s|4d|36 P002-260618
+  - 🇺🇸美国|2.2MB/s|6d|20 P002-260618
+  - 🇳🇱荷兰|1.8MB/s|3d|speednode 0027
+  - 🇺🇸美国|1.5MB/s|5d|zhuhai.uk
+  - 🇸🇪瑞典|1.5MB/s|~13d|6 R002-260618
+  - 🇺🇸美国|1.4MB/s|6d|23
+  - 🇵🇱波兰|1.3MB/s|~13d|4 P002-260618
+  - 🇺🇸美国|901KB/s|10d|575 R002-260618
+  - 🇵🇱波兰|730KB/s|3d|1
+  - 🇱🇻拉脱维亚|668KB/s|3d|3 R002-260618
+  - 🇯🇵日本|629KB/s|3d|18 R002-260618
+  - 🇳🇱荷兰|533KB/s|~14d|56 R002-260618
+  - 🇺🇸美国|521KB/s|3d|584 R002-260618
+  - 🇲🇽墨西哥|504KB/s|6d|1 R002-260618
+  - 🇭🇰香港|474KB/s|5d|47 P002-260618
+  - 🇺🇸美国|452KB/s|6d|65 R002-260618
+  - 🇺🇸美国|434KB/s|5d|238 R002-260618
+  - 🇺🇸美国|417KB/s|3d|267 R002-260618
+  - 🇺🇸美国|403KB/s|4d|603 R002-260618
+  - 🇺🇸美国|403KB/s|3d|606 R002-260618
+  - 🇺🇸美国|392KB/s|4d|585 R002-260618
+  - 🇺🇸美国|389KB/s|4d|600 R002-260618
 - name: ⚡ 负载均衡
   type: load-balance
   strategy: consistent-hashing
@@ -493,30 +790,70 @@ proxy-groups:
   lazy: true
   timeout: 8000
   proxies:
-  - 🇯🇵日本|5.1MB/s|6d|zhuhai.uk
-  - 🇭🇰香港|4.1MB/s|3d|1
-  - 🇺🇸美国|3.6MB/s|~13d|zhuhai.uk 03
-  - 🇺🇸美国|3.6MB/s|6d|13 P002-260618
-  - 🇷🇴罗马尼亚|3.4MB/s|5d|2
-  - 🇩🇪德国|2.3MB/s|~13d|1 R002-260618
-  - 🇳🇱荷兰|2.3MB/s|10d|speednode 0025
-  - 🇳🇱荷兰|2.2MB/s|6d|18
-  - 🇵🇱波兰|1.3MB/s|3d|1
-  - 🇫🇷法国|1.3MB/s|~13d|6 R002-260618
-  - 🇱🇻拉脱维亚|1.2MB/s|10d|speednode 0021
-  - 🇺🇸美国|1.2MB/s|5d|zhuhai.uk
-  - 🇱🇻拉脱维亚|842KB/s|~14d|speednode 0020
-  - ❓其他|418KB/s|~14d|28 R002-260618
-  - 🇺🇸美国|17.8MB/s|<1h|zhuhai.uk 02
-  - 🇺🇸美国|7.5MB/s|15h|8
-  - 🇨🇭瑞士|5.8MB/s|1d|14
-  - 🇩🇰丹麦|5.0MB/s|3h|speednode 0005
-  - 🇫🇷法国|3.6MB/s|1d|speednode 0011
-  - '🇩🇪德国|3.5MB/s|<1h|vless-DE-1... #2'
-  - 🇮🇩印度尼西亚|2.3MB/s|<1h|zhuhai.uk
-  - ❓其他|2.3MB/s|6h|vless-1937258398
-  - ❓其他|1.4MB/s|<1h|http-120.232.204.58
-  - ❓其他|1.2MB/s|<1h|Telegram
+  - 🇹🇼台湾|5.3MB/s|10d|3
+  - 🇭🇰香港|3.5MB/s|3d|1
+  - 🇺🇸美国|2.2MB/s|4d|36 P002-260618
+  - 🇺🇸美国|2.2MB/s|6d|20 P002-260618
+  - 🇳🇱荷兰|1.8MB/s|3d|speednode 0027
+  - 🇺🇸美国|1.5MB/s|5d|zhuhai.uk
+  - 🇸🇪瑞典|1.5MB/s|~13d|6 R002-260618
+  - 🇺🇸美国|1.4MB/s|6d|23
+  - 🇵🇱波兰|1.3MB/s|~13d|4 P002-260618
+  - 🇺🇸美国|901KB/s|10d|575 R002-260618
+  - 🇵🇱波兰|730KB/s|3d|1
+  - 🇱🇻拉脱维亚|668KB/s|3d|3 R002-260618
+  - 🇯🇵日本|629KB/s|3d|18 R002-260618
+  - 🇳🇱荷兰|533KB/s|~14d|56 R002-260618
+  - 🇺🇸美国|521KB/s|3d|584 R002-260618
+  - 🇲🇽墨西哥|504KB/s|6d|1 R002-260618
+  - 🇭🇰香港|474KB/s|5d|47 P002-260618
+  - 🇺🇸美国|452KB/s|6d|65 R002-260618
+  - 🇺🇸美国|434KB/s|5d|238 R002-260618
+  - 🇺🇸美国|417KB/s|3d|267 R002-260618
+  - 🇺🇸美国|403KB/s|4d|603 R002-260618
+  - 🇺🇸美国|403KB/s|3d|606 R002-260618
+  - 🇺🇸美国|392KB/s|4d|585 R002-260618
+  - 🇺🇸美国|389KB/s|4d|600 R002-260618
+- name: 🌐 美国
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 600
+  tolerance: 50
+  timeout: 8000
+  lazy: true
+  proxies:
+  - 🇺🇸美国|2.2MB/s|4d|36 P002-260618
+  - 🇺🇸美国|2.2MB/s|6d|20 P002-260618
+  - 🇺🇸美国|1.5MB/s|5d|zhuhai.uk
+  - 🇺🇸美国|1.4MB/s|6d|23
+  - 🇺🇸美国|901KB/s|10d|575 R002-260618
+  - 🇺🇸美国|521KB/s|3d|584 R002-260618
+  - 🇺🇸美国|452KB/s|6d|65 R002-260618
+  - 🇺🇸美国|434KB/s|5d|238 R002-260618
+  - 🇺🇸美国|417KB/s|3d|267 R002-260618
+  - 🇺🇸美国|403KB/s|4d|603 R002-260618
+  - 🇺🇸美国|403KB/s|3d|606 R002-260618
+  - 🇺🇸美国|392KB/s|4d|585 R002-260618
+  - 🇺🇸美国|389KB/s|4d|600 R002-260618
+  - 🇺🇸美国|388KB/s|4d|108 R002-260618
+  - 🇺🇸美国|386KB/s|4d|602 R002-260618
+  - 🇺🇸美国|386KB/s|~13d|163 Z001-260618
+  - 🇺🇸美国|384KB/s|4d|604 R002-260618
+  - 🇺🇸美国|3.2MB/s|17h|8
+  - 🇺🇸美国|2.3MB/s|20h|112 P002-260618
+  - 🇺🇸美国|2.2MB/s|17h|342 P002-260618
+  - 🇺🇸美国|1.3MB/s|2h|45 R002-260618
+  - 🇺🇸美国|1009KB/s|1d|598 R002-260618
+  - 🇺🇸美国|918KB/s|2d|91
+  - 🇺🇸美国|391KB/s|23h|zhuhai.uk 02
+  - 🇺🇸美国|387KB/s|20h|601 R002-260618
+  - 🇺🇸美国|385KB/s|1d|583 R002-260618
+  - 🇺🇸美国|384KB/s|15h|586 R002-260618
+  - 🇺🇸美国|383KB/s|2d|336 R002-260618
+  - 🇺🇸美国|380KB/s|<1h|605 R002-260618
+  - 🇺🇸美国|357KB/s|1d|328 Z001-260618
+  - 🇺🇸美国|337KB/s|2h|115
+  - 🇺🇸美国|328KB/s|2d|326 R002-260618
 - name: 🌐 其他
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -525,43 +862,40 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - ❓其他|418KB/s|~14d|28 R002-260618
-  - ❓其他|2.3MB/s|6h|vless-1937258398
-  - ❓其他|1.4MB/s|<1h|http-120.232.204.58
-  - ❓其他|1.2MB/s|<1h|Telegram
-  - ❓其他|964KB/s|<1h|@FXxNET️
-  - ❓其他|418KB/s|2d|51 R002-260618
-  - 🇯🇵日本|5.1MB/s|6d|zhuhai.uk
-  - 🇭🇰香港|4.1MB/s|3d|1
-  - 🇺🇸美国|3.6MB/s|~13d|zhuhai.uk 03
-  - 🇺🇸美国|3.6MB/s|6d|13 P002-260618
-  - 🇺🇸美国|1.2MB/s|5d|zhuhai.uk
-  - 🇺🇸美国|17.8MB/s|<1h|zhuhai.uk 02
-  - 🇺🇸美国|7.5MB/s|15h|8
-  - 🇺🇸美国|867KB/s|<1h|zhuhai.uk 09
-  - 🇷🇴罗马尼亚|3.4MB/s|5d|2
-  - 🇩🇪德国|2.3MB/s|~13d|1 R002-260618
-  - '🇩🇪德国|3.5MB/s|<1h|vless-DE-1... #2'
-  - 🇩🇪德国|828KB/s|1d|speednode 0004
-  - 🇳🇱荷兰|2.3MB/s|10d|speednode 0025
-  - 🇳🇱荷兰|2.2MB/s|6d|18
-  - 🇳🇱荷兰|324KB/s|3h|zhuhai.uk 03
-  - 🇵🇱波兰|1.3MB/s|3d|1
-  - 🇫🇷法国|1.3MB/s|~13d|6 R002-260618
-  - 🇫🇷法国|3.6MB/s|1d|speednode 0011
-  - 🇱🇻拉脱维亚|1.2MB/s|10d|speednode 0021
-  - 🇱🇻拉脱维亚|842KB/s|~14d|speednode 0020
-  - 🇨🇭瑞士|5.8MB/s|1d|14
-  - 🇨🇭瑞士|980KB/s|9h|19
-  - 🇨🇭瑞士|903KB/s|1d|5 M003-260806
-  - 🇨🇭瑞士|682KB/s|1d|CHE
-  - 🇩🇰丹麦|5.0MB/s|3h|speednode 0005
-  - 🇮🇩印度尼西亚|2.3MB/s|<1h|zhuhai.uk
-  - 🇮🇩印度尼西亚|1.2MB/s|2d|zhuhai.uk
-  - 🇮🇩印度尼西亚|378KB/s|15h|zhuhai.uk 02
-  - 🇸🇪瑞典|641KB/s|1d|zhuhai.uk
-  - 🇸🇬新加坡|404KB/s|<1h|zhuhai.uk
-  - 🇰🇷韩国|382KB/s|<1h|zhuhai.uk 02
+  - ❓其他|5.1MB/s|2h|http-120.232.204.58
+  - 🇹🇼台湾|5.3MB/s|10d|3
+  - 🇭🇰香港|3.5MB/s|3d|1
+  - 🇭🇰香港|474KB/s|5d|47 P002-260618
+  - 🇳🇱荷兰|1.8MB/s|3d|speednode 0027
+  - 🇳🇱荷兰|533KB/s|~14d|56 R002-260618
+  - 🇳🇱荷兰|2.4MB/s|<1h|64 P002-260618
+  - 🇳🇱荷兰|1.8MB/s|23h|128 K001-260618
+  - 🇳🇱荷兰|795KB/s|5h|3
+  - 🇸🇪瑞典|1.5MB/s|~13d|6 R002-260618
+  - 🇸🇪瑞典|342KB/s|1d|zhuhai.uk
+  - 🇵🇱波兰|1.3MB/s|~13d|4 P002-260618
+  - 🇵🇱波兰|730KB/s|3d|1
+  - 🇱🇻拉脱维亚|668KB/s|3d|3 R002-260618
+  - 🇯🇵日本|629KB/s|3d|18 R002-260618
+  - 🇯🇵日本|383KB/s|3d|9 K001-260618
+  - 🇯🇵日本|345KB/s|6d|zhuhai.uk
+  - 🇯🇵日本|337KB/s|1d|15 R002-260618
+  - 🇲🇽墨西哥|504KB/s|6d|1 R002-260618
+  - 🇮🇪爱尔兰|346KB/s|6d|speednode 0013
+  - 🇷🇴罗马尼亚|339KB/s|7d|6 P002-260618
+  - 🇩🇪德国|315KB/s|~14d|12 R002-260618
+  - 🇩🇪德国|1.2MB/s|<1h|3
+  - 🇩🇪德国|1.2MB/s|5h|IPV4
+  - 🇨🇭瑞士|3.2MB/s|2d|zhuhai.uk 01
+  - 🇨🇭瑞士|1012KB/s|11h|19
+  - 🇨🇭瑞士|929KB/s|1d|64 M003-260806
+  - 🇫🇷法国|1.6MB/s|15h|IPV4
+  - 🇸🇬新加坡|1.2MB/s|15h|91 R002-260618
+  - 🇷🇺俄罗斯|1.2MB/s|2h|6 R002-260618
+  - 🇷🇺俄罗斯|844KB/s|1d|1 R002-260618
+  - 🇷🇺俄罗斯|553KB/s|1d|3 R002-260618
+  - 🇮🇹意大利|898KB/s|<1h|IPV4
+  - 🇮🇹意大利|586KB/s|<1h|IPV4
 rules:
 - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
 - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
