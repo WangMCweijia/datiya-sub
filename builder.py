@@ -477,7 +477,16 @@ def sanitize(proxies):
     VMESS_SECURITY = {"auto", "none", "zero", "aes-128-gcm", "chacha20-poly1305"}
     fixed = 0
     vmess_fixed = 0
+    reality_fixed = 0
     for proxy in proxies:
+        # REALITY 本质上是 TLS 的变体，内核解析时强制要求 tls=true：
+        # `Parse config error: proxy N: REALITY requires TLS` 会让**整份**配置被拒
+        # （2026-11-13 实测：2000 个候选里一个这样的节点就导致本机真实测速直接退出）。
+        # 上游源常把 reality-opts 给了却漏写 tls，这里补上；真不支持 TLS 的节点
+        # 会在接下来的 CONNECT 探测里自然淘汰，不会进白名单。
+        if proxy.get("reality-opts") and not proxy.get("tls"):
+            proxy["tls"] = True
+            reality_fixed += 1
         if str(proxy.get("type")).lower() == "vmess":
             raw = proxy.get("cipher")
             security = str(raw).strip().lower() if raw not in (None, "") else ""
@@ -493,6 +502,8 @@ def sanitize(proxies):
         log.info("清洗掉 %d 处含控制字符的字段", fixed)
     if vmess_fixed:
         log.info("规范化 %d 个 vmess 节点的加密方式为 auto", vmess_fixed)
+    if reality_fixed:
+        log.info("补上 %d 个 REALITY 节点缺失的 tls=true（内核强制要求）", reality_fixed)
     return proxies
 
 
