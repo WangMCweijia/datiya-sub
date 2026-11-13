@@ -202,6 +202,10 @@ def probe(candidates, exe, args, check_cfg):
         proxy["name"] = "p%04d" % index
         proxies.append(proxy)
     proxies = builder.filter_supported(proxies)
+    # 规范化字段：mihomo 对整份配置是「一个坏节点全盘拒绝」，而这里的配置有 2000 个
+    # 节点，不先洗干净等于把整轮探测的成败押在源站质量上（2026-11-13 因一个
+    # REALITY 缺 tls 的节点直接解析失败退出）。
+    proxies = builder.sanitize(proxies)
     if not proxies:
         raise SystemExit("候选池里没有内核能加载的节点")
     log.info("候选 %d 个，内核可加载 %d 个", len(candidates), len(proxies))
