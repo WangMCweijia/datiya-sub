@@ -1,6 +1,6 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-11-14 21:40:34 +0800 | 可用节点 7 个（候选 5071 个，仅附加源）
-# 网速=本机实测（WANG-OFFICE，0.0 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
+# 更新于 2026-11-14 23:07:13 +0800 | 可用节点 7 个（候选 6555 个，仅附加源）
+# 网速=本机实测（WANG-OFFICE，1.5 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
 # 存活=首次测通至今（第二个数字，如 7d/36h；带 ~ 的是按探测轮次数推算）；存活 ≥3 天且网速 ≥256KB/s 的节点整体排在最前，其余按网速降序；低于 300KB/s 或测不出速度的节点已剔除
 # 分享链接（v2ray.txt）只覆盖 1/7 个节点（ss 1）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
 port: 7890
@@ -35,6 +35,22 @@ dns:
   - 223.5.5.5
   - 119.29.29.29
 proxies:
+- alpn:
+  - h3
+  auth_str: dongtaiwang.com
+  down: 55 Mbps
+  name: 🇳🇱荷兰|1.6MB/s|6d|153 K001-260618
+  obfs: ''
+  port: 26691
+  protocol: udp
+  server: 5.83.129.143
+  skip-cert-verify: true
+  sni: apple.com
+  sub_tag: K001-260618
+  type: hysteria
+  up: 11 Mbps
+  udp: true
+  auth-str: dongtaiwang.com
 - name: 🇩🇪德国|594KB/s|5d|2 R002-260618
   port: 443
   server: 172.64.68.89
@@ -51,16 +67,16 @@ proxies:
   server: 202.50.253.45
   type: ss
   udp: true
-  skip-cert-verify: false
-  tls: false
   sub_tag: A004-260618
-- password: None
+- name: 🇫🇷法国|374KB/s|5d|25 P002-260618
+  password: None
   port: 443
   server: 172.64.68.89
   skip-cert-verify: true
+  sub_tag: P002-260618
   tls: true
   type: http
-  name: 🇩🇪德国|374KB/s|5d|3
+  udp: true
 - type: hysteria
   name: 🇩🇪德国|1.3MB/s|1d|> NL IPV4
   server: 5.83.129.143
@@ -73,6 +89,9 @@ proxies:
   up: '11'
   down: '55'
   auth-str: dongtaiwang.com
+  sub_tag: R002-260618
+  x-toolall-mihomo: true
+  udp: true
 - alpn:
   - h3
   auth-str: dongtaiwang.com
@@ -87,20 +106,17 @@ proxies:
   type: hysteria
   udp: true
   up: 11
+  sub_tag: P002-260618
   password: dongtaiwang.com
   servername: bing.com
-  tls: true
-- port: 8888
-  server: 123.121.132.234
-  skip-cert-verify: true
-  type: http
-  name: 🇨🇳中国|423KB/s|9h|11
+  x-toolall-mihomo: true
 - name: 🇭🇰香港|318KB/s|1d|1
   port: 8443
   server: 38.76.140.254
   skip-cert-verify: true
   tls: true
   type: http
+  udp: true
 proxy-groups:
 - name: 🚀 节点选择
   type: select
@@ -109,12 +125,12 @@ proxy-groups:
   - ⚡ 负载均衡
   - DIRECT
   - 🌐 其他
+  - 🇳🇱荷兰|1.6MB/s|6d|153 K001-260618
   - 🇩🇪德国|594KB/s|5d|2 R002-260618
   - '🇮🇹意大利|587KB/s|5d|ss-IT-1619... #6'
-  - 🇩🇪德国|374KB/s|5d|3
+  - 🇫🇷法国|374KB/s|5d|25 P002-260618
   - 🇩🇪德国|1.3MB/s|1d|> NL IPV4
   - 🇫🇷法国|856KB/s|1d|2
-  - 🇨🇳中国|423KB/s|9h|11
   - 🇭🇰香港|318KB/s|1d|1
 - name: ♻️ 自动选择
   type: url-test
@@ -124,12 +140,12 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
+  - 🇳🇱荷兰|1.6MB/s|6d|153 K001-260618
   - 🇩🇪德国|594KB/s|5d|2 R002-260618
   - '🇮🇹意大利|587KB/s|5d|ss-IT-1619... #6'
-  - 🇩🇪德国|374KB/s|5d|3
+  - 🇫🇷法国|374KB/s|5d|25 P002-260618
   - 🇩🇪德国|1.3MB/s|1d|> NL IPV4
   - 🇫🇷法国|856KB/s|1d|2
-  - 🇨🇳中国|423KB/s|9h|11
   - 🇭🇰香港|318KB/s|1d|1
 - name: ⚡ 负载均衡
   type: load-balance
@@ -139,12 +155,12 @@ proxy-groups:
   lazy: true
   timeout: 8000
   proxies:
+  - 🇳🇱荷兰|1.6MB/s|6d|153 K001-260618
   - 🇩🇪德国|594KB/s|5d|2 R002-260618
   - '🇮🇹意大利|587KB/s|5d|ss-IT-1619... #6'
-  - 🇩🇪德国|374KB/s|5d|3
+  - 🇫🇷法国|374KB/s|5d|25 P002-260618
   - 🇩🇪德国|1.3MB/s|1d|> NL IPV4
   - 🇫🇷法国|856KB/s|1d|2
-  - 🇨🇳中国|423KB/s|9h|11
   - 🇭🇰香港|318KB/s|1d|1
 - name: 🌐 其他
   type: url-test
@@ -154,12 +170,12 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
+  - 🇳🇱荷兰|1.6MB/s|6d|153 K001-260618
   - 🇩🇪德国|594KB/s|5d|2 R002-260618
-  - 🇩🇪德国|374KB/s|5d|3
   - 🇩🇪德国|1.3MB/s|1d|> NL IPV4
   - '🇮🇹意大利|587KB/s|5d|ss-IT-1619... #6'
+  - 🇫🇷法国|374KB/s|5d|25 P002-260618
   - 🇫🇷法国|856KB/s|1d|2
-  - 🇨🇳中国|423KB/s|9h|11
   - 🇭🇰香港|318KB/s|1d|1
 rules:
 - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
