@@ -1,8 +1,8 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-11-14 15:39:48 +0800 | 可用节点 7 个（候选 5080 个，仅附加源）
+# 更新于 2026-11-14 18:39:09 +0800 | 可用节点 12 个（候选 5145 个，仅附加源）
 # 网速=本机实测（WANG-OFFICE，0.0 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
 # 存活=首次测通至今（第二个数字，如 7d/36h；带 ~ 的是按探测轮次数推算）；存活 ≥3 天且网速 ≥256KB/s 的节点整体排在最前，其余按网速降序；低于 300KB/s 或测不出速度的节点已剔除
-# 分享链接（v2ray.txt）只覆盖 4/7 个节点（ss 2、vless 2）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
+# 分享链接（v2ray.txt）只覆盖 5/12 个节点（ss 4、vless 1）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -35,9 +35,44 @@ dns:
   - 223.5.5.5
   - 119.29.29.29
 proxies:
+- password: '8888'
+  port: 1080
+  server: 47.236.168.243
+  type: socks5
+  username: '8888'
+  name: 🇸🇬新加坡|1.2MB/s|5d|zhuhai.uk
+- name: 🇩🇪德国|902KB/s|5d|5 R002-260618
+  port: 443
+  server: 172.64.68.89
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+  x-toolall-mihomo: true
 - type: ss
-  name: 🇮🇹意大利|931KB/s|6d|IPV4
-  server: 202.50.253.18
+  name: 🇮🇹意大利|893KB/s|5d|IPV4
+  server: 202.50.253.72
+  port: 19999
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+  cipher: aes-256-gcm
+  tls: false
+  skip-cert-verify: false
+  udp: true
+  sub_tag: A004-260618
+- type: ss
+  name: 🇮🇹意大利|807KB/s|11d|IPV4
+  server: 202.50.253.63
+  port: 19999
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+  cipher: aes-256-gcm
+  tls: false
+  skip-cert-verify: false
+  udp: true
+  sub_tag: A004-260618
+- type: ss
+  name: 🇮🇹意大利|753KB/s|5d|IPV4
+  server: 202.50.253.27
   port: 19999
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
   cipher: aes-256-gcm
@@ -45,64 +80,61 @@ proxies:
   skip-cert-verify: false
   udp: true
   sub_tag: B007-260618
+- name: 🇩🇪德国|504KB/s|5d|3
+  password: None
+  port: 443
+  server: 172.64.68.89
+  skip-cert-verify: true
+  tls: true
+  type: http
 - type: ss
-  name: 🇮🇹意大利|424KB/s|4d|IPV4
-  server: 202.50.253.90
+  name: 🇮🇹意大利|308KB/s|6d|IPV4
+  server: 202.50.253.81
   port: 19999
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
   cipher: aes-256-gcm
   tls: false
   skip-cert-verify: false
   udp: true
-  sub_tag: C001-260618
-- name: 🇨🇳中国|11.1MB/s|3h|13
-  port: 8888
-  server: 114.252.202.38
+- name: 🇺🇸美国|6.0MB/s|6h|15
+  port: 58764
+  server: 118.184.140.90
   skip-cert-verify: true
+  tls: true
   type: http
-- name: 🇨🇳中国|3.2MB/s|3h|11
+- name: 🇨🇳中国|1.7MB/s|6h|11
   port: 8888
   server: 123.121.132.234
   skip-cert-verify: true
   type: http
-- name: 🇨🇳中国|2.3MB/s|3h|10
-  port: 8888
-  server: 111.192.61.210
+- name: 🇺🇸美国|1.5MB/s|21h|15
+  password: ''
+  port: 9002
+  server: 138.199.35.199
   skip-cert-verify: true
+  tls: true
   type: http
-- name: 🇸🇪瑞典|1.5MB/s|9h|6a0f86
-  server: 185.117.89.74
-  port: 443
+  username: ''
+  udp: true
+- name: 🇺🇸美国|1.1MB/s|1d|3
+  server: 156.229.167.109
+  port: 8443
   type: vless
-  uuid: f8cb3c89-32af-4255-bebc-d90aad175069
+  uuid: eb8c97f7-a154-4442-91b0-54c0d055ad0b
   tls: true
   reality-opts:
-    public-key: pR39Vv5qhk8r6akOicoy6mMs4-ppSWUez8MyAXG7wwQ
-    short-id: 27350908de933e09
-  servername: seb.kosmosapp.net
-  client-fingerprint: firefox
-  network: grpc
-  grpc-opts:
-    grpc-mode: gun
-    grpc-service-name: neurex
-  udp: true
-- name: 🇷🇺俄罗斯|823KB/s|3h|4
-  server: windytrout.net
-  port: 2053
-  type: vless
-  uuid: 37af0181-5598-4aad-a040-d926bcb65757
-  tls: true
-  alpn:
-  - h2
-  - http/1.1
-  servername: windytrout.net
+    public-key: 4g6gX0ueJap7pY_iTDx23h6bzo3KIOTcFzP1Uacn0QA
+    short-id: 4ad2e4e660550e43
+  servername: github.githubassets.com
   client-fingerprint: chrome
-  network: xhttp
-  xhttp-opts:
-    path: /api/v1/upload
-    host: windytrout.net
-    mode: auto
+  network: tcp
   udp: true
+- name: ❓其他|345KB/s|1d|http-38.76.140.254
+  server: 38.76.140.254
+  port: 8443
+  type: http
+  tls: true
+  skip-cert-verify: true
 proxy-groups:
 - name: 🚀 节点选择
   type: select
@@ -111,13 +143,18 @@ proxy-groups:
   - ⚡ 负载均衡
   - DIRECT
   - 🌐 其他
-  - 🇮🇹意大利|931KB/s|6d|IPV4
-  - 🇮🇹意大利|424KB/s|4d|IPV4
-  - 🇨🇳中国|11.1MB/s|3h|13
-  - 🇨🇳中国|3.2MB/s|3h|11
-  - 🇨🇳中国|2.3MB/s|3h|10
-  - 🇸🇪瑞典|1.5MB/s|9h|6a0f86
-  - 🇷🇺俄罗斯|823KB/s|3h|4
+  - 🇸🇬新加坡|1.2MB/s|5d|zhuhai.uk
+  - 🇩🇪德国|902KB/s|5d|5 R002-260618
+  - 🇮🇹意大利|893KB/s|5d|IPV4
+  - 🇮🇹意大利|807KB/s|11d|IPV4
+  - 🇮🇹意大利|753KB/s|5d|IPV4
+  - 🇩🇪德国|504KB/s|5d|3
+  - 🇮🇹意大利|308KB/s|6d|IPV4
+  - 🇺🇸美国|6.0MB/s|6h|15
+  - 🇨🇳中国|1.7MB/s|6h|11
+  - 🇺🇸美国|1.5MB/s|21h|15
+  - 🇺🇸美国|1.1MB/s|1d|3
+  - ❓其他|345KB/s|1d|http-38.76.140.254
 - name: ♻️ 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -126,13 +163,18 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - 🇮🇹意大利|931KB/s|6d|IPV4
-  - 🇮🇹意大利|424KB/s|4d|IPV4
-  - 🇨🇳中国|11.1MB/s|3h|13
-  - 🇨🇳中国|3.2MB/s|3h|11
-  - 🇨🇳中国|2.3MB/s|3h|10
-  - 🇸🇪瑞典|1.5MB/s|9h|6a0f86
-  - 🇷🇺俄罗斯|823KB/s|3h|4
+  - 🇸🇬新加坡|1.2MB/s|5d|zhuhai.uk
+  - 🇩🇪德国|902KB/s|5d|5 R002-260618
+  - 🇮🇹意大利|893KB/s|5d|IPV4
+  - 🇮🇹意大利|807KB/s|11d|IPV4
+  - 🇮🇹意大利|753KB/s|5d|IPV4
+  - 🇩🇪德国|504KB/s|5d|3
+  - 🇮🇹意大利|308KB/s|6d|IPV4
+  - 🇺🇸美国|6.0MB/s|6h|15
+  - 🇨🇳中国|1.7MB/s|6h|11
+  - 🇺🇸美国|1.5MB/s|21h|15
+  - 🇺🇸美国|1.1MB/s|1d|3
+  - ❓其他|345KB/s|1d|http-38.76.140.254
 - name: ⚡ 负载均衡
   type: load-balance
   strategy: consistent-hashing
@@ -141,13 +183,18 @@ proxy-groups:
   lazy: true
   timeout: 8000
   proxies:
-  - 🇮🇹意大利|931KB/s|6d|IPV4
-  - 🇮🇹意大利|424KB/s|4d|IPV4
-  - 🇨🇳中国|11.1MB/s|3h|13
-  - 🇨🇳中国|3.2MB/s|3h|11
-  - 🇨🇳中国|2.3MB/s|3h|10
-  - 🇸🇪瑞典|1.5MB/s|9h|6a0f86
-  - 🇷🇺俄罗斯|823KB/s|3h|4
+  - 🇸🇬新加坡|1.2MB/s|5d|zhuhai.uk
+  - 🇩🇪德国|902KB/s|5d|5 R002-260618
+  - 🇮🇹意大利|893KB/s|5d|IPV4
+  - 🇮🇹意大利|807KB/s|11d|IPV4
+  - 🇮🇹意大利|753KB/s|5d|IPV4
+  - 🇩🇪德国|504KB/s|5d|3
+  - 🇮🇹意大利|308KB/s|6d|IPV4
+  - 🇺🇸美国|6.0MB/s|6h|15
+  - 🇨🇳中国|1.7MB/s|6h|11
+  - 🇺🇸美国|1.5MB/s|21h|15
+  - 🇺🇸美国|1.1MB/s|1d|3
+  - ❓其他|345KB/s|1d|http-38.76.140.254
 - name: 🌐 其他
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -156,13 +203,18 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - 🇮🇹意大利|931KB/s|6d|IPV4
-  - 🇮🇹意大利|424KB/s|4d|IPV4
-  - 🇨🇳中国|11.1MB/s|3h|13
-  - 🇨🇳中国|3.2MB/s|3h|11
-  - 🇨🇳中国|2.3MB/s|3h|10
-  - 🇸🇪瑞典|1.5MB/s|9h|6a0f86
-  - 🇷🇺俄罗斯|823KB/s|3h|4
+  - ❓其他|345KB/s|1d|http-38.76.140.254
+  - 🇸🇬新加坡|1.2MB/s|5d|zhuhai.uk
+  - 🇩🇪德国|902KB/s|5d|5 R002-260618
+  - 🇩🇪德国|504KB/s|5d|3
+  - 🇮🇹意大利|893KB/s|5d|IPV4
+  - 🇮🇹意大利|807KB/s|11d|IPV4
+  - 🇮🇹意大利|753KB/s|5d|IPV4
+  - 🇮🇹意大利|308KB/s|6d|IPV4
+  - 🇺🇸美国|6.0MB/s|6h|15
+  - 🇺🇸美国|1.5MB/s|21h|15
+  - 🇺🇸美国|1.1MB/s|1d|3
+  - 🇨🇳中国|1.7MB/s|6h|11
 rules:
 - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
 - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
