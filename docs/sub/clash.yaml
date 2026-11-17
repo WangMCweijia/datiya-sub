@@ -1,8 +1,8 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-11-17 12:11:30 +0800 | 可用节点 22 个（候选 5202 个，仅附加源）
+# 更新于 2026-11-17 15:32:12 +0800 | 可用节点 9 个（候选 5553 个，仅附加源）
 # 网速=本机实测（WANG-OFFICE，0.0 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
 # 存活=首次测通至今（第二个数字，如 7d/36h；带 ~ 的是按探测轮次数推算）；存活 ≥3 天且网速 ≥256KB/s 的节点整体排在最前，其余按网速降序；低于 300KB/s 或测不出速度的节点已剔除
-# 分享链接（v2ray.txt）只覆盖 13/22 个节点（ss 7、vless 5、vmess 1）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
+# 分享链接（v2ray.txt）只覆盖 5/9 个节点（ss 5）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -35,246 +35,73 @@ dns:
   - 223.5.5.5
   - 119.29.29.29
 proxies:
-- alpn:
-  - h3
-  auth-str: dongtaiwang.com
-  down: '55'
-  password: dongtaiwang.com
-  port: 26691
-  server: 5.83.129.143
-  skip-cert-verify: true
-  tls: true
-  type: hysteria
-  up: '11'
-  name: 🇩🇪德国|4.7MB/s|3d|> NL IPV4
-- port: 443
-  server: 172.64.69.89
+- name: 🇺🇸美国|8.7MB/s|3d|2
+  port: 58764
+  server: 118.184.140.90
   skip-cert-verify: true
   tls: true
   type: http
-  name: 🇩🇪德国|4.7MB/s|7d|2
-  sub_tag: R002-260618
-  udp: true
-- name: 🇷🇺俄罗斯|1.6MB/s|3d|1 R002-260618
-  port: 1446
-  server: 46.29.166.134
+- name: 🇸🇬新加坡|1.0MB/s|8d|1 R002-260618
+  password: '8888'
+  port: 1080
+  server: 47.236.168.243
   skip-cert-verify: true
   sub_tag: R002-260618
-  tls: true
-  type: http
+  type: socks5
   udp: true
+  username: '8888'
   x-toolall-mihomo: true
 - cipher: aes-256-gcm
-  name: '🇮🇹意大利|1.1MB/s|7d|ss-IT-1619... #4'
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-  port: 19999
-  server: 202.50.253.90
-  type: ss
-  udp: true
-  skip-cert-verify: false
-  tls: false
-  sub_tag: C001-260618
-- cipher: aes-256-gcm
-  name: 🇮🇹意大利|918KB/s|7d|4
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-  port: 19999
-  server: 202.50.253.54
-  type: ss
-  udp: true
-  skip-cert-verify: false
-  tls: false
-  sub_tag: B007-260618
-- cipher: aes-256-gcm
-  name: 🇮🇹意大利|905KB/s|7d|ss-IT-1619...
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-  port: 19999
-  server: 202.50.253.72
-  type: ss
-  udp: true
-- cipher: aes-256-gcm
-  name: '🇮🇹意大利|786KB/s|8d|ss-IT-1619... #1'
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-  port: 19999
-  server: 202.50.253.81
-  type: ss
-  udp: true
-- cipher: aes-256-gcm
-  name: 🇮🇹意大利|758KB/s|7d|2 @ripaojiedian
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-  port: 19999
-  server: 202.50.253.27
-  type: ss
-  udp: true
-  skip-cert-verify: false
-  tls: false
-  sub_tag: B007-260618
-- cipher: aes-256-gcm
-  name: 🇮🇹意大利|550KB/s|8d|2
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-  port: 19999
-  server: 202.50.253.45
-  type: ss
-  udp: true
-  skip-cert-verify: false
-  tls: false
-- cipher: aes-256-gcm
-  name: '❓其他|522KB/s|13d|ss #4'
+  name: '❓其他|975KB/s|13d|ss #4'
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
   port: 19999
   server: 202.50.253.36
   type: ss
   udp: true
-  skip-cert-verify: false
-  tls: false
-- name: ❓其他|384KB/s|3d|91 R002-260618
+- cipher: aes-256-gcm
+  name: '🇮🇹意大利|755KB/s|7d|ss-IT-1619... #4'
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+  port: 19999
+  server: 202.50.253.90
+  type: ss
+  udp: true
+  sub_tag: C001-260618
+- name: 🇺🇸美国|588KB/s|7d|37 R002-260618
   port: 443
-  server: fan.365747.xyz
+  server: 172.64.69.89
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
   type: http
   udp: true
-  sni: fan.365747.xyz
 - port: 443
-  server: fan.226278.xyz
+  server: 137.175.22.29
   skip-cert-verify: true
-  sni: fan.226278.xyz
+  sni: 137.175.22.29
   tls: true
   type: http
-  name: 🇺🇸美国|374KB/s|~21d|zhuhai.uk 12
-  sub_tag: Z001-260618
+  name: 🇺🇸美国|492KB/s|3d|zhuhai.uk 07
+- cipher: aes-256-gcm
+  name: 🇮🇹意大利|448KB/s|8d|4
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+  port: 19999
+  server: 202.50.253.54
+  type: ss
   udp: true
-- name: 🇸🇪瑞典|2.1MB/s|<1h|6
-  server: 195.72.62.7
-  port: 443
-  type: vless
-  uuid: 8197b9b9-8945-460f-99c9-325ef8a8a7c3
-  tls: true
-  flow: xtls-rprx-vision
-  reality-opts:
-    public-key: GQC47B2ZbBygpgJap7Em9lZmCZZkzlckiadXWXlVxGU
-    short-id: 2a67748b0d641e16
-  servername: fexzoo.net
-  client-fingerprint: firefox
-  network: tcp
+  sub_tag: B007-260618
+- cipher: aes-256-gcm
+  name: 🇮🇹意大利|407KB/s|9d|5
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+  port: 19999
+  server: 202.50.253.18
+  type: ss
   udp: true
-  encryption: none
-  sub_tag: M003-260806
-  xudp: true
-  packet-encoding: xudp
-- alpn:
-  - h3
-  auth-str: dongtaiwang.com
-  down: '55'
-  password: dongtaiwang.com
-  port: 36699
-  server: 163.172.117.163
-  servername: bing.com
-  skip-cert-verify: true
-  sni: bing.com
-  tls: true
-  type: hysteria
-  up: '11'
-  name: 🇫🇷法国|1.5MB/s|1d|IPV4
-- name: 🇸🇪瑞典|1.4MB/s|<1h|2
-  server: 191.217.205.175
-  port: 5443
-  type: vless
-  uuid: 0b22812b-4a79-42b1-93ec-5b157b0f2f7f
-  tls: true
-  reality-opts:
-    public-key: YWaSbf7NwwCZNuB3cQ_VCF20mUwWJBcfMysIZN4j6mI
-    short-id: 7a8c9b0e1d2f3456
-  servername: sw.krabvpn.pro
-  client-fingerprint: firefox
-  network: xhttp
-  xhttp-opts:
-    path: /assets/f9c8d7e6a5b4c3d2e1f02468
-    host: sw.krabvpn.pro
-    mode: auto
-  udp: true
-- alterId: 64
-  cipher: auto
-  name: 🇺🇸美国|1.1MB/s|<1h|4
-  network: ws
-  port: 30004
-  server: 192.74.236.148
-  skip-cert-verify: true
-  tls: true
-  type: vmess
-  udp: true
-  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
-  ws-opts:
-    headers:
-      Host: www.91334565.xyz
-    path: /path/1733477783705
-- name: 🇩🇪德国|722KB/s|<1h|2
-  server: video.study.golangwikito.cfd
-  port: 8443
-  type: vless
-  uuid: f8d52ece-fad4-478d-875d-df6eed3befa7
-  tls: true
-  reality-opts:
-    public-key: QrNs0ew7snHqLfpVXS9RAhlRzgAzzGZK9fXmDcx9xHI
-  servername: video.study.golangwikito.cfd
-  client-fingerprint: firefox
-  network: xhttp
-  xhttp-opts:
-    path: /
-    host: video.study.golangwikito.cfd
-    mode: packet-up
-    x-padding-bytes: 100-500
-  udp: true
-- name: 🇳🇱荷兰|443KB/s|1d|14 R002-260618
-  port: 443
-  server: 5.255.118.82
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-  x-toolall-mihomo: true
-- name: 🇩🇪德国|421KB/s|<1h|13
-  server: 31.58.213.31
-  port: 443
-  type: vless
-  uuid: 2232d904-8e6a-4202-8240-6efd8aec02e9
-  tls: true
-  flow: xtls-rprx-vision
-  servername: app.streamru2.net
-  client-fingerprint: firefox
-  network: tcp
-  udp: true
-- port: 443
-  server: 137.175.22.52
-  skip-cert-verify: true
-  sni: 137.175.22.52
-  tls: true
-  type: http
-  name: 🇺🇸美国|385KB/s|1d|zhuhai.uk 15
-- port: 443
-  server: 38.28.193.39
-  skip-cert-verify: true
-  tls: true
-  type: http
-  name: 🇺🇸美国|324KB/s|1d|zhuhai.uk 07
-- name: 🇩🇪德国|320KB/s|<1h|3
-  server: media.study.golangwikito.cfd
-  port: 8443
-  type: vless
-  uuid: f8d52ece-fad4-478d-875d-df6eed3befa7
-  tls: true
-  reality-opts:
-    public-key: QrNs0ew7snHqLfpVXS9RAhlRzgAzzGZK9fXmDcx9xHI
-    short-id: 40a4b9403abe554c
-  servername: media.study.golangwikito.cfd
-  client-fingerprint: firefox
-  network: xhttp
-  xhttp-opts:
-    path: /
-    host: media.study.golangwikito.cfd
-    mode: packet-up
-    x-padding-bytes: 100-500
+- cipher: aes-256-gcm
+  name: 🇮🇹意大利|395KB/s|7d|ss-IT-1619...
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+  port: 19999
+  server: 202.50.253.72
+  type: ss
   udp: true
 proxy-groups:
 - name: 🚀 节点选择
@@ -284,28 +111,15 @@ proxy-groups:
   - ⚡ 负载均衡
   - DIRECT
   - 🌐 其他
-  - 🇩🇪德国|4.7MB/s|3d|> NL IPV4
-  - 🇩🇪德国|4.7MB/s|7d|2
-  - 🇷🇺俄罗斯|1.6MB/s|3d|1 R002-260618
-  - '🇮🇹意大利|1.1MB/s|7d|ss-IT-1619... #4'
-  - 🇮🇹意大利|918KB/s|7d|4
-  - 🇮🇹意大利|905KB/s|7d|ss-IT-1619...
-  - '🇮🇹意大利|786KB/s|8d|ss-IT-1619... #1'
-  - 🇮🇹意大利|758KB/s|7d|2 @ripaojiedian
-  - 🇮🇹意大利|550KB/s|8d|2
-  - '❓其他|522KB/s|13d|ss #4'
-  - ❓其他|384KB/s|3d|91 R002-260618
-  - 🇺🇸美国|374KB/s|~21d|zhuhai.uk 12
-  - 🇸🇪瑞典|2.1MB/s|<1h|6
-  - 🇫🇷法国|1.5MB/s|1d|IPV4
-  - 🇸🇪瑞典|1.4MB/s|<1h|2
-  - 🇺🇸美国|1.1MB/s|<1h|4
-  - 🇩🇪德国|722KB/s|<1h|2
-  - 🇳🇱荷兰|443KB/s|1d|14 R002-260618
-  - 🇩🇪德国|421KB/s|<1h|13
-  - 🇺🇸美国|385KB/s|1d|zhuhai.uk 15
-  - 🇺🇸美国|324KB/s|1d|zhuhai.uk 07
-  - 🇩🇪德国|320KB/s|<1h|3
+  - 🇺🇸美国|8.7MB/s|3d|2
+  - 🇸🇬新加坡|1.0MB/s|8d|1 R002-260618
+  - '❓其他|975KB/s|13d|ss #4'
+  - '🇮🇹意大利|755KB/s|7d|ss-IT-1619... #4'
+  - 🇺🇸美国|588KB/s|7d|37 R002-260618
+  - 🇺🇸美国|492KB/s|3d|zhuhai.uk 07
+  - 🇮🇹意大利|448KB/s|8d|4
+  - 🇮🇹意大利|407KB/s|9d|5
+  - 🇮🇹意大利|395KB/s|7d|ss-IT-1619...
 - name: ♻️ 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -314,28 +128,15 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - 🇩🇪德国|4.7MB/s|3d|> NL IPV4
-  - 🇩🇪德国|4.7MB/s|7d|2
-  - 🇷🇺俄罗斯|1.6MB/s|3d|1 R002-260618
-  - '🇮🇹意大利|1.1MB/s|7d|ss-IT-1619... #4'
-  - 🇮🇹意大利|918KB/s|7d|4
-  - 🇮🇹意大利|905KB/s|7d|ss-IT-1619...
-  - '🇮🇹意大利|786KB/s|8d|ss-IT-1619... #1'
-  - 🇮🇹意大利|758KB/s|7d|2 @ripaojiedian
-  - 🇮🇹意大利|550KB/s|8d|2
-  - '❓其他|522KB/s|13d|ss #4'
-  - ❓其他|384KB/s|3d|91 R002-260618
-  - 🇺🇸美国|374KB/s|~21d|zhuhai.uk 12
-  - 🇸🇪瑞典|2.1MB/s|<1h|6
-  - 🇫🇷法国|1.5MB/s|1d|IPV4
-  - 🇸🇪瑞典|1.4MB/s|<1h|2
-  - 🇺🇸美国|1.1MB/s|<1h|4
-  - 🇩🇪德国|722KB/s|<1h|2
-  - 🇳🇱荷兰|443KB/s|1d|14 R002-260618
-  - 🇩🇪德国|421KB/s|<1h|13
-  - 🇺🇸美国|385KB/s|1d|zhuhai.uk 15
-  - 🇺🇸美国|324KB/s|1d|zhuhai.uk 07
-  - 🇩🇪德国|320KB/s|<1h|3
+  - 🇺🇸美国|8.7MB/s|3d|2
+  - 🇸🇬新加坡|1.0MB/s|8d|1 R002-260618
+  - '❓其他|975KB/s|13d|ss #4'
+  - '🇮🇹意大利|755KB/s|7d|ss-IT-1619... #4'
+  - 🇺🇸美国|588KB/s|7d|37 R002-260618
+  - 🇺🇸美国|492KB/s|3d|zhuhai.uk 07
+  - 🇮🇹意大利|448KB/s|8d|4
+  - 🇮🇹意大利|407KB/s|9d|5
+  - 🇮🇹意大利|395KB/s|7d|ss-IT-1619...
 - name: ⚡ 负载均衡
   type: load-balance
   strategy: consistent-hashing
@@ -344,28 +145,15 @@ proxy-groups:
   lazy: true
   timeout: 8000
   proxies:
-  - 🇩🇪德国|4.7MB/s|3d|> NL IPV4
-  - 🇩🇪德国|4.7MB/s|7d|2
-  - 🇷🇺俄罗斯|1.6MB/s|3d|1 R002-260618
-  - '🇮🇹意大利|1.1MB/s|7d|ss-IT-1619... #4'
-  - 🇮🇹意大利|918KB/s|7d|4
-  - 🇮🇹意大利|905KB/s|7d|ss-IT-1619...
-  - '🇮🇹意大利|786KB/s|8d|ss-IT-1619... #1'
-  - 🇮🇹意大利|758KB/s|7d|2 @ripaojiedian
-  - 🇮🇹意大利|550KB/s|8d|2
-  - '❓其他|522KB/s|13d|ss #4'
-  - ❓其他|384KB/s|3d|91 R002-260618
-  - 🇺🇸美国|374KB/s|~21d|zhuhai.uk 12
-  - 🇸🇪瑞典|2.1MB/s|<1h|6
-  - 🇫🇷法国|1.5MB/s|1d|IPV4
-  - 🇸🇪瑞典|1.4MB/s|<1h|2
-  - 🇺🇸美国|1.1MB/s|<1h|4
-  - 🇩🇪德国|722KB/s|<1h|2
-  - 🇳🇱荷兰|443KB/s|1d|14 R002-260618
-  - 🇩🇪德国|421KB/s|<1h|13
-  - 🇺🇸美国|385KB/s|1d|zhuhai.uk 15
-  - 🇺🇸美国|324KB/s|1d|zhuhai.uk 07
-  - 🇩🇪德国|320KB/s|<1h|3
+  - 🇺🇸美国|8.7MB/s|3d|2
+  - 🇸🇬新加坡|1.0MB/s|8d|1 R002-260618
+  - '❓其他|975KB/s|13d|ss #4'
+  - '🇮🇹意大利|755KB/s|7d|ss-IT-1619... #4'
+  - 🇺🇸美国|588KB/s|7d|37 R002-260618
+  - 🇺🇸美国|492KB/s|3d|zhuhai.uk 07
+  - 🇮🇹意大利|448KB/s|8d|4
+  - 🇮🇹意大利|407KB/s|9d|5
+  - 🇮🇹意大利|395KB/s|7d|ss-IT-1619...
 - name: 🌐 其他
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -374,28 +162,15 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - '❓其他|522KB/s|13d|ss #4'
-  - ❓其他|384KB/s|3d|91 R002-260618
-  - 🇩🇪德国|4.7MB/s|3d|> NL IPV4
-  - 🇩🇪德国|4.7MB/s|7d|2
-  - 🇩🇪德国|722KB/s|<1h|2
-  - 🇩🇪德国|421KB/s|<1h|13
-  - 🇩🇪德国|320KB/s|<1h|3
-  - 🇷🇺俄罗斯|1.6MB/s|3d|1 R002-260618
-  - '🇮🇹意大利|1.1MB/s|7d|ss-IT-1619... #4'
-  - 🇮🇹意大利|918KB/s|7d|4
-  - 🇮🇹意大利|905KB/s|7d|ss-IT-1619...
-  - '🇮🇹意大利|786KB/s|8d|ss-IT-1619... #1'
-  - 🇮🇹意大利|758KB/s|7d|2 @ripaojiedian
-  - 🇮🇹意大利|550KB/s|8d|2
-  - 🇺🇸美国|374KB/s|~21d|zhuhai.uk 12
-  - 🇺🇸美国|1.1MB/s|<1h|4
-  - 🇺🇸美国|385KB/s|1d|zhuhai.uk 15
-  - 🇺🇸美国|324KB/s|1d|zhuhai.uk 07
-  - 🇸🇪瑞典|2.1MB/s|<1h|6
-  - 🇸🇪瑞典|1.4MB/s|<1h|2
-  - 🇫🇷法国|1.5MB/s|1d|IPV4
-  - 🇳🇱荷兰|443KB/s|1d|14 R002-260618
+  - '❓其他|975KB/s|13d|ss #4'
+  - 🇺🇸美国|8.7MB/s|3d|2
+  - 🇺🇸美国|588KB/s|7d|37 R002-260618
+  - 🇺🇸美国|492KB/s|3d|zhuhai.uk 07
+  - 🇸🇬新加坡|1.0MB/s|8d|1 R002-260618
+  - '🇮🇹意大利|755KB/s|7d|ss-IT-1619... #4'
+  - 🇮🇹意大利|448KB/s|8d|4
+  - 🇮🇹意大利|407KB/s|9d|5
+  - 🇮🇹意大利|395KB/s|7d|ss-IT-1619...
 rules:
 - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
 - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
