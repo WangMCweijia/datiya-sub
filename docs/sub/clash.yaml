@@ -1,8 +1,8 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-11-17 18:31:27 +0800 | 可用节点 5 个（候选 5526 个，仅附加源）
-# 网速=本机实测（WANG-OFFICE，0.0 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
+# 更新于 2026-11-17 21:29:03 +0800 | 可用节点 7 个（候选 5509 个，仅附加源）
+# 网速=本机实测（WANG-OFFICE，3.0 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
 # 存活=首次测通至今（第二个数字，如 7d/36h；带 ~ 的是按探测轮次数推算）；存活 ≥3 天且网速 ≥256KB/s 的节点整体排在最前，其余按网速降序；低于 300KB/s 或测不出速度的节点已剔除
-# 分享链接（v2ray.txt）只覆盖 1/5 个节点（vmess 1）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
+# 分享链接（v2ray.txt）只覆盖 1/7 个节点（vmess 1）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -44,29 +44,50 @@ proxies:
   type: http
   udp: true
   x-toolall-mihomo: true
-- alterId: 64
-  cipher: auto
-  name: 🇺🇸美国|786KB/s|6h|4
-  network: ws
-  port: 30004
-  server: 192.74.236.148
+- name: 🇫🇷法国|365KB/s|8d|10 P002-260618
+  password: None
+  port: 443
+  server: 172.64.68.89
   skip-cert-verify: true
+  sub_tag: P002-260618
   tls: true
-  type: vmess
+  type: http
   udp: true
+- name: 🇫🇷法国|1.8MB/s|2d|f11ff5
+  server: 62.210.70.191
+  port: 24667
+  type: hysteria
+  auth_str: dongtaiwang.com
+  auth-str: dongtaiwang.com
+  up: 10
+  down: 50
+  skip-cert-verify: true
+  alpn:
+  - h3
+  sub_tag: P002-260618
+  udp: true
+- name: 🇺🇸美国|786KB/s|9h|5
+  server: 192.74.236.148
+  port: 30004
+  type: vmess
   uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
+  alterId: 64
+  cipher: auto
+  tls: true
+  skip-cert-verify: true
+  network: ws
   ws-opts:
+    path: /path/1733477783705
     headers:
       Host: www.91334565.xyz
-    path: /path/1733477783705
-- name: 🇺🇸美国|585KB/s|6h|3
-  password: l1tlrdx52v
+  udp: true
+- password: l1tlrdx52v
   port: 62000
   server: 66.253.2.69
   type: socks5
   username: u_rb1dba2
-- name: 🇺🇸美国|361KB/s|2d|6 R002-260618
-  password: exaxgqkKkd0TAMrCxeonWg==
+  name: 🇺🇸美国|585KB/s|9h|3
+- password: exaxgqkKkd0TAMrCxeonWg==
   port: 443
   server: usgp1-cdn-route.couldflare-cdn.com
   sni: usgp1-cdn-route.couldflare-cdn.com
@@ -76,7 +97,8 @@ proxies:
   udp: true
   username: mrwdfNTD8M79LCukCieldrqZWqs=
   x-toolall-mihomo: true
-- name: 🇺🇸美国|358KB/s|1d|111 R002-260618
+  name: 🇺🇸美国|361KB/s|2d|6 R002-260618
+- name: 🇺🇸美国|358KB/s|1d|143 R002-260618
   port: 443
   server: 137.175.22.52
   skip-cert-verify: true
@@ -94,10 +116,12 @@ proxy-groups:
   - DIRECT
   - 🌐 其他
   - 🇷🇺俄罗斯|971KB/s|3d|1 R002-260618
-  - 🇺🇸美国|786KB/s|6h|4
-  - 🇺🇸美国|585KB/s|6h|3
+  - 🇫🇷法国|365KB/s|8d|10 P002-260618
+  - 🇫🇷法国|1.8MB/s|2d|f11ff5
+  - 🇺🇸美国|786KB/s|9h|5
+  - 🇺🇸美国|585KB/s|9h|3
   - 🇺🇸美国|361KB/s|2d|6 R002-260618
-  - 🇺🇸美国|358KB/s|1d|111 R002-260618
+  - 🇺🇸美国|358KB/s|1d|143 R002-260618
 - name: ♻️ 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -107,10 +131,12 @@ proxy-groups:
   lazy: true
   proxies:
   - 🇷🇺俄罗斯|971KB/s|3d|1 R002-260618
-  - 🇺🇸美国|786KB/s|6h|4
-  - 🇺🇸美国|585KB/s|6h|3
+  - 🇫🇷法国|365KB/s|8d|10 P002-260618
+  - 🇫🇷法国|1.8MB/s|2d|f11ff5
+  - 🇺🇸美国|786KB/s|9h|5
+  - 🇺🇸美国|585KB/s|9h|3
   - 🇺🇸美国|361KB/s|2d|6 R002-260618
-  - 🇺🇸美国|358KB/s|1d|111 R002-260618
+  - 🇺🇸美国|358KB/s|1d|143 R002-260618
 - name: ⚡ 负载均衡
   type: load-balance
   strategy: consistent-hashing
@@ -120,10 +146,12 @@ proxy-groups:
   timeout: 8000
   proxies:
   - 🇷🇺俄罗斯|971KB/s|3d|1 R002-260618
-  - 🇺🇸美国|786KB/s|6h|4
-  - 🇺🇸美国|585KB/s|6h|3
+  - 🇫🇷法国|365KB/s|8d|10 P002-260618
+  - 🇫🇷法国|1.8MB/s|2d|f11ff5
+  - 🇺🇸美国|786KB/s|9h|5
+  - 🇺🇸美国|585KB/s|9h|3
   - 🇺🇸美国|361KB/s|2d|6 R002-260618
-  - 🇺🇸美国|358KB/s|1d|111 R002-260618
+  - 🇺🇸美国|358KB/s|1d|143 R002-260618
 - name: 🌐 其他
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -133,10 +161,12 @@ proxy-groups:
   lazy: true
   proxies:
   - 🇷🇺俄罗斯|971KB/s|3d|1 R002-260618
-  - 🇺🇸美国|786KB/s|6h|4
-  - 🇺🇸美国|585KB/s|6h|3
+  - 🇫🇷法国|365KB/s|8d|10 P002-260618
+  - 🇫🇷法国|1.8MB/s|2d|f11ff5
+  - 🇺🇸美国|786KB/s|9h|5
+  - 🇺🇸美国|585KB/s|9h|3
   - 🇺🇸美国|361KB/s|2d|6 R002-260618
-  - 🇺🇸美国|358KB/s|1d|111 R002-260618
+  - 🇺🇸美国|358KB/s|1d|143 R002-260618
 rules:
 - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
 - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
