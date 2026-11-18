@@ -1,8 +1,8 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-11-18 15:31:13 +0800 | 可用节点 11 个（候选 4876 个，仅附加源）
-# 网速=本机实测（WANG-OFFICE，2.9 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
+# 更新于 2026-11-18 15:39:36 +0800 | 可用节点 7 个（候选 4876 个，仅附加源）
+# 网速=本机实测（WANG-OFFICE，0.0 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
 # 存活=首次测通至今（第二个数字，如 7d/36h；带 ~ 的是按探测轮次数推算）；存活 ≥3 天且网速 ≥256KB/s 的节点整体排在最前，其余按网速降序；低于 300KB/s 或测不出速度的节点已剔除
-# 分享链接（v2ray.txt）只覆盖 6/11 个节点（ss 3、vless 2、vmess 1）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
+# 分享链接（v2ray.txt）只覆盖 3/7 个节点（ss 2、vmess 1）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -35,57 +35,27 @@ dns:
   - 223.5.5.5
   - 119.29.29.29
 proxies:
-- name: 🇺🇸美国|7.1MB/s|4d|1
+- name: 🇺🇸美国|9.0MB/s|4d|1
   port: 58764
   server: 118.184.140.90
   skip-cert-verify: true
   tls: true
   type: http
 - cipher: aes-256-gcm
-  name: '🇮🇹意大利|733KB/s|9d|ss-IT-1619... #7'
+  name: 🇮🇹意大利|346KB/s|8d|ss-IT-1619...
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
   port: 19999
-  server: 202.50.253.54
+  server: 202.50.253.72
   type: ss
   udp: true
-  sub_tag: B007-260618
 - cipher: aes-256-gcm
+  name: 🇺🇸美国|343KB/s|14d|4
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
   port: 19999
-  server: 202.50.253.18
+  server: 202.50.253.36
   type: ss
   udp: true
-  name: 🇮🇹意大利|406KB/s|10d|14
-- cipher: aes-256-gcm
-  name: '🇮🇹意大利|381KB/s|8d|ss-IT-1619... #4'
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-  port: 19999
-  server: 202.50.253.90
-  type: ss
-  udp: true
-- port: 443
-  server: 137.175.22.29
-  skip-cert-verify: true
-  sni: 137.175.22.29
-  tls: true
-  type: http
-  name: 🇺🇸美国|380KB/s|4d|zhuhai.uk
-- client-fingerprint: firefox
-  flow: xtls-rprx-vision
-  port: 43149
-  reality-opts:
-    public-key: cvong7paE8XIzzbKWgV5iUruP1pBqI2IhMuBHc8c0UE
-    short-id: 15aa0ad4
-  server: zfapi.zalolink.com
-  servername: psstatic.cdn.bcebos.com
-  tls: true
-  type: vless
-  udp: true
-  uuid: 57beeeb0-03fc-4fc9-94da-7604488a7134
-  name: 🇯🇵日本|324KB/s|3d|15
-  skip-cert-verify: false
-  sni: psstatic.cdn.bcebos.com
-- name: 🇺🇸美国|1.0MB/s|1d|08f8ba
+- name: 🇺🇸美国|780KB/s|1d|08f8ba
   server: 192.74.236.148
   port: 30004
   type: vmess
@@ -100,35 +70,15 @@ proxies:
     headers:
       Host: www.91334565.xyz
   udp: true
-- name: 🇺🇸美国|885KB/s|1d|2
-  password: l1tlrdx52v
-  port: 62000
-  server: 66.253.2.69
-  type: socks5
-  username: u_rb1dba2
-- network: ws
+- name: 🇩🇰丹麦|565KB/s|6h|1 R002-260618
   port: 443
-  server: 185.253.7.22
-  servername: clover.filnex.baby
-  skip-cert-verify: false
-  sni: clover.filnex.baby
-  tls: true
-  type: vless
-  udp: true
-  uuid: 80a06811-f74b-4b82-ac99-7e66c2a98e1c
-  ws-opts:
-    path: /api/de6/stream
-  name: 🇵🇱波兰|833KB/s|12h|4e4363
-- name: 🇫🇷法国|671KB/s|14h|1 R002-260618
-  port: 443
-  server: 103.82.101.43
+  server: 185.245.84.50
   skip-cert-verify: true
-  sni: 76d1d3ecadca44efa2339867d7dfc9a1-8e928736d0f8dbdc.apache-iv.com
   sub_tag: R002-260618
   tls: true
   type: http
   udp: true
-- name: ❓其他|379KB/s|9h|54 R002-260618
+- name: ❓其他|435KB/s|9h|54 R002-260618
   port: 443
   server: 137.175.22.85
   skip-cert-verify: true
@@ -136,6 +86,12 @@ proxies:
   tls: true
   type: http
   udp: true
+- name: ❓其他|403KB/s|15h|http-172.64.68.89
+  server: 172.64.68.89
+  port: 443
+  type: http
+  tls: true
+  skip-cert-verify: true
 proxy-groups:
 - name: 🚀 节点选择
   type: select
@@ -144,17 +100,13 @@ proxy-groups:
   - ⚡ 负载均衡
   - DIRECT
   - 🌐 其他
-  - 🇺🇸美国|7.1MB/s|4d|1
-  - '🇮🇹意大利|733KB/s|9d|ss-IT-1619... #7'
-  - 🇮🇹意大利|406KB/s|10d|14
-  - '🇮🇹意大利|381KB/s|8d|ss-IT-1619... #4'
-  - 🇺🇸美国|380KB/s|4d|zhuhai.uk
-  - 🇯🇵日本|324KB/s|3d|15
-  - 🇺🇸美国|1.0MB/s|1d|08f8ba
-  - 🇺🇸美国|885KB/s|1d|2
-  - 🇵🇱波兰|833KB/s|12h|4e4363
-  - 🇫🇷法国|671KB/s|14h|1 R002-260618
-  - ❓其他|379KB/s|9h|54 R002-260618
+  - 🇺🇸美国|9.0MB/s|4d|1
+  - 🇮🇹意大利|346KB/s|8d|ss-IT-1619...
+  - 🇺🇸美国|343KB/s|14d|4
+  - 🇺🇸美国|780KB/s|1d|08f8ba
+  - 🇩🇰丹麦|565KB/s|6h|1 R002-260618
+  - ❓其他|435KB/s|9h|54 R002-260618
+  - ❓其他|403KB/s|15h|http-172.64.68.89
 - name: ♻️ 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -163,17 +115,13 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - 🇺🇸美国|7.1MB/s|4d|1
-  - '🇮🇹意大利|733KB/s|9d|ss-IT-1619... #7'
-  - 🇮🇹意大利|406KB/s|10d|14
-  - '🇮🇹意大利|381KB/s|8d|ss-IT-1619... #4'
-  - 🇺🇸美国|380KB/s|4d|zhuhai.uk
-  - 🇯🇵日本|324KB/s|3d|15
-  - 🇺🇸美国|1.0MB/s|1d|08f8ba
-  - 🇺🇸美国|885KB/s|1d|2
-  - 🇵🇱波兰|833KB/s|12h|4e4363
-  - 🇫🇷法国|671KB/s|14h|1 R002-260618
-  - ❓其他|379KB/s|9h|54 R002-260618
+  - 🇺🇸美国|9.0MB/s|4d|1
+  - 🇮🇹意大利|346KB/s|8d|ss-IT-1619...
+  - 🇺🇸美国|343KB/s|14d|4
+  - 🇺🇸美国|780KB/s|1d|08f8ba
+  - 🇩🇰丹麦|565KB/s|6h|1 R002-260618
+  - ❓其他|435KB/s|9h|54 R002-260618
+  - ❓其他|403KB/s|15h|http-172.64.68.89
 - name: ⚡ 负载均衡
   type: load-balance
   strategy: consistent-hashing
@@ -182,17 +130,13 @@ proxy-groups:
   lazy: true
   timeout: 8000
   proxies:
-  - 🇺🇸美国|7.1MB/s|4d|1
-  - '🇮🇹意大利|733KB/s|9d|ss-IT-1619... #7'
-  - 🇮🇹意大利|406KB/s|10d|14
-  - '🇮🇹意大利|381KB/s|8d|ss-IT-1619... #4'
-  - 🇺🇸美国|380KB/s|4d|zhuhai.uk
-  - 🇯🇵日本|324KB/s|3d|15
-  - 🇺🇸美国|1.0MB/s|1d|08f8ba
-  - 🇺🇸美国|885KB/s|1d|2
-  - 🇵🇱波兰|833KB/s|12h|4e4363
-  - 🇫🇷法国|671KB/s|14h|1 R002-260618
-  - ❓其他|379KB/s|9h|54 R002-260618
+  - 🇺🇸美国|9.0MB/s|4d|1
+  - 🇮🇹意大利|346KB/s|8d|ss-IT-1619...
+  - 🇺🇸美国|343KB/s|14d|4
+  - 🇺🇸美国|780KB/s|1d|08f8ba
+  - 🇩🇰丹麦|565KB/s|6h|1 R002-260618
+  - ❓其他|435KB/s|9h|54 R002-260618
+  - ❓其他|403KB/s|15h|http-172.64.68.89
 - name: 🌐 其他
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -201,17 +145,13 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - ❓其他|379KB/s|9h|54 R002-260618
-  - 🇺🇸美国|7.1MB/s|4d|1
-  - 🇺🇸美国|380KB/s|4d|zhuhai.uk
-  - 🇺🇸美国|1.0MB/s|1d|08f8ba
-  - 🇺🇸美国|885KB/s|1d|2
-  - '🇮🇹意大利|733KB/s|9d|ss-IT-1619... #7'
-  - 🇮🇹意大利|406KB/s|10d|14
-  - '🇮🇹意大利|381KB/s|8d|ss-IT-1619... #4'
-  - 🇯🇵日本|324KB/s|3d|15
-  - 🇵🇱波兰|833KB/s|12h|4e4363
-  - 🇫🇷法国|671KB/s|14h|1 R002-260618
+  - ❓其他|435KB/s|9h|54 R002-260618
+  - ❓其他|403KB/s|15h|http-172.64.68.89
+  - 🇺🇸美国|9.0MB/s|4d|1
+  - 🇺🇸美国|343KB/s|14d|4
+  - 🇺🇸美国|780KB/s|1d|08f8ba
+  - 🇮🇹意大利|346KB/s|8d|ss-IT-1619...
+  - 🇩🇰丹麦|565KB/s|6h|1 R002-260618
 rules:
 - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
 - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
