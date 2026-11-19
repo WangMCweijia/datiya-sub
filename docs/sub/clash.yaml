@@ -1,8 +1,8 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-11-19 15:39:12 +0800 | 可用节点 16 个（候选 5070 个，仅附加源）
-# 网速=本机实测（WANG-OFFICE，0.0 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
+# 更新于 2026-11-19 18:23:33 +0800 | 可用节点 13 个（候选 5130 个，仅附加源）
+# 网速=本机实测（WANG-OFFICE，2.8 小时前）：名字里的第一个数字就是从这条线走代理测到的可持续吞吐
 # 存活=首次测通至今（第二个数字，如 7d/36h；带 ~ 的是按探测轮次数推算）；存活 ≥3 天且网速 ≥256KB/s 的节点整体排在最前，其余按网速降序；低于 300KB/s 或测不出速度的节点已剔除
-# 分享链接（v2ray.txt）只覆盖 7/16 个节点（ss 5、vless 2）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
+# 分享链接（v2ray.txt）只覆盖 8/13 个节点（ss 5、vless 3）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -42,7 +42,6 @@ proxies:
   server: 202.50.253.81
   type: ss
   udp: true
-  sub_tag: A004-260618
 - cipher: aes-256-gcm
   name: 🇮🇹意大利|889KB/s|16d|@ripaojiedian
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
@@ -51,7 +50,7 @@ proxies:
   type: ss
   udp: true
 - cipher: aes-256-gcm
-  name: 🇮🇹意大利|674KB/s|9d|5
+  name: 🇮🇹意大利|674KB/s|10d|5
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
   port: 19999
   server: 202.50.253.72
@@ -65,23 +64,13 @@ proxies:
   type: ss
   udp: true
   sub_tag: A004-260618
-- name: 🇫🇷法国|554KB/s|5d|44
-  password: 'null'
-  port: 443
-  server: 172.64.69.89
-  skip-cert-verify: true
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
 - cipher: aes-256-gcm
-  name: 🇮🇹意大利|539KB/s|9d|7
+  name: 🇮🇹意大利|539KB/s|10d|7
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
   port: 19999
   server: 202.50.253.90
   type: ss
   udp: true
-  sub_tag: C001-260618
 - name: 🇩🇪德国|536KB/s|4d|2
   password: 'null'
   port: 443
@@ -90,15 +79,7 @@ proxies:
   tls: true
   type: http
   username: 'null'
-- name: 🇫🇷法国|1017KB/s|1d|2 R002-260618
-  port: 443
-  server: 172.64.68.89
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇸🇪瑞典|928KB/s|15h|4
+- name: 🇸🇪瑞典|928KB/s|17h|4
   server: 191.217.206.147
   port: 7443
   type: vless
@@ -120,8 +101,8 @@ proxies:
   server: 103.14.164.202
   type: socks5
   username: route164JIa2CBPxfy
-  name: 🇹🇭泰国|872KB/s|15h|zhuhai.uk 02
-- name: 🇩🇪德国|755KB/s|3h|12
+  name: 🇹🇭泰国|872KB/s|17h|zhuhai.uk 02
+- name: 🇩🇪德国|755KB/s|5h|12
   server: 2.27.14.122
   port: 9443
   type: vless
@@ -137,28 +118,30 @@ proxies:
     path: /assets/246a109dceaa6b7832a98d17
     host: fin.krabvpn.pro
   udp: true
-- name: 🇭🇰香港|755KB/s|12h|zhuhai.uk 02
+- name: 🇭🇰香港|755KB/s|14h|zhuhai.uk 02
   type: http
   server: 38.76.140.254
   port: 8443
   tls: true
   skip-cert-verify: true
-- name: 🇺🇸美国|414KB/s|1d|21 R002-260618
+- alpn:
+  - h2
+  client-fingerprint: firefox
+  name: 🇩🇪德国|403KB/s|11h|36 M003-260806
+  network: xhttp
   port: 443
-  server: 137.175.22.41
-  skip-cert-verify: true
-  sub_tag: R002-260618
+  server: 104.18.139.67
+  sub_tag: M003-260806
   tls: true
-  type: http
+  type: vless
   udp: true
-- name: ❓其他|404KB/s|1d|19 R002-260618
-  port: 443
-  server: 38.28.193.188
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
+  uuid: 0280c276-641b-49af-b699-4931c30ac137
+  xhttp-opts:
+    host: norway.xn--nlqaa425dbaab446bbabd698meae.online
+    path: /api
+  xudp: true
+  packet-encoding: xudp
+  servername: norway.xn--nlqaa425dbaab446bbabd698meae.online.
 - port: 443
   server: 38.28.193.1
   skip-cert-verify: true
@@ -173,6 +156,8 @@ proxies:
   sni: 172.64.68.89
   tls: true
   type: http
+  sub_tag: P002-260618
+  udp: true
 proxy-groups:
 - name: 🚀 节点选择
   type: select
@@ -183,18 +168,15 @@ proxy-groups:
   - 🌐 其他
   - 🇮🇹意大利|1.2MB/s|11d|6
   - 🇮🇹意大利|889KB/s|16d|@ripaojiedian
-  - 🇮🇹意大利|674KB/s|9d|5
+  - 🇮🇹意大利|674KB/s|10d|5
   - 🇮🇹意大利|575KB/s|10d|4
-  - 🇫🇷法国|554KB/s|5d|44
-  - 🇮🇹意大利|539KB/s|9d|7
+  - 🇮🇹意大利|539KB/s|10d|7
   - 🇩🇪德国|536KB/s|4d|2
-  - 🇫🇷法国|1017KB/s|1d|2 R002-260618
-  - 🇸🇪瑞典|928KB/s|15h|4
-  - 🇹🇭泰国|872KB/s|15h|zhuhai.uk 02
-  - 🇩🇪德国|755KB/s|3h|12
-  - 🇭🇰香港|755KB/s|12h|zhuhai.uk 02
-  - 🇺🇸美国|414KB/s|1d|21 R002-260618
-  - ❓其他|404KB/s|1d|19 R002-260618
+  - 🇸🇪瑞典|928KB/s|17h|4
+  - 🇹🇭泰国|872KB/s|17h|zhuhai.uk 02
+  - 🇩🇪德国|755KB/s|5h|12
+  - 🇭🇰香港|755KB/s|14h|zhuhai.uk 02
+  - 🇩🇪德国|403KB/s|11h|36 M003-260806
   - 🇺🇸美国|371KB/s|1d|zhuhai.uk
   - 🇩🇪德国|325KB/s|1d|3
 - name: ♻️ 自动选择
@@ -207,18 +189,15 @@ proxy-groups:
   proxies:
   - 🇮🇹意大利|1.2MB/s|11d|6
   - 🇮🇹意大利|889KB/s|16d|@ripaojiedian
-  - 🇮🇹意大利|674KB/s|9d|5
+  - 🇮🇹意大利|674KB/s|10d|5
   - 🇮🇹意大利|575KB/s|10d|4
-  - 🇫🇷法国|554KB/s|5d|44
-  - 🇮🇹意大利|539KB/s|9d|7
+  - 🇮🇹意大利|539KB/s|10d|7
   - 🇩🇪德国|536KB/s|4d|2
-  - 🇫🇷法国|1017KB/s|1d|2 R002-260618
-  - 🇸🇪瑞典|928KB/s|15h|4
-  - 🇹🇭泰国|872KB/s|15h|zhuhai.uk 02
-  - 🇩🇪德国|755KB/s|3h|12
-  - 🇭🇰香港|755KB/s|12h|zhuhai.uk 02
-  - 🇺🇸美国|414KB/s|1d|21 R002-260618
-  - ❓其他|404KB/s|1d|19 R002-260618
+  - 🇸🇪瑞典|928KB/s|17h|4
+  - 🇹🇭泰国|872KB/s|17h|zhuhai.uk 02
+  - 🇩🇪德国|755KB/s|5h|12
+  - 🇭🇰香港|755KB/s|14h|zhuhai.uk 02
+  - 🇩🇪德国|403KB/s|11h|36 M003-260806
   - 🇺🇸美国|371KB/s|1d|zhuhai.uk
   - 🇩🇪德国|325KB/s|1d|3
 - name: ⚡ 负载均衡
@@ -231,18 +210,15 @@ proxy-groups:
   proxies:
   - 🇮🇹意大利|1.2MB/s|11d|6
   - 🇮🇹意大利|889KB/s|16d|@ripaojiedian
-  - 🇮🇹意大利|674KB/s|9d|5
+  - 🇮🇹意大利|674KB/s|10d|5
   - 🇮🇹意大利|575KB/s|10d|4
-  - 🇫🇷法国|554KB/s|5d|44
-  - 🇮🇹意大利|539KB/s|9d|7
+  - 🇮🇹意大利|539KB/s|10d|7
   - 🇩🇪德国|536KB/s|4d|2
-  - 🇫🇷法国|1017KB/s|1d|2 R002-260618
-  - 🇸🇪瑞典|928KB/s|15h|4
-  - 🇹🇭泰国|872KB/s|15h|zhuhai.uk 02
-  - 🇩🇪德国|755KB/s|3h|12
-  - 🇭🇰香港|755KB/s|12h|zhuhai.uk 02
-  - 🇺🇸美国|414KB/s|1d|21 R002-260618
-  - ❓其他|404KB/s|1d|19 R002-260618
+  - 🇸🇪瑞典|928KB/s|17h|4
+  - 🇹🇭泰国|872KB/s|17h|zhuhai.uk 02
+  - 🇩🇪德国|755KB/s|5h|12
+  - 🇭🇰香港|755KB/s|14h|zhuhai.uk 02
+  - 🇩🇪德国|403KB/s|11h|36 M003-260806
   - 🇺🇸美国|371KB/s|1d|zhuhai.uk
   - 🇩🇪德国|325KB/s|1d|3
 - name: 🌐 其他
@@ -253,21 +229,18 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - ❓其他|404KB/s|1d|19 R002-260618
   - 🇮🇹意大利|1.2MB/s|11d|6
   - 🇮🇹意大利|889KB/s|16d|@ripaojiedian
-  - 🇮🇹意大利|674KB/s|9d|5
+  - 🇮🇹意大利|674KB/s|10d|5
   - 🇮🇹意大利|575KB/s|10d|4
-  - 🇮🇹意大利|539KB/s|9d|7
-  - 🇫🇷法国|554KB/s|5d|44
-  - 🇫🇷法国|1017KB/s|1d|2 R002-260618
+  - 🇮🇹意大利|539KB/s|10d|7
   - 🇩🇪德国|536KB/s|4d|2
-  - 🇩🇪德国|755KB/s|3h|12
+  - 🇩🇪德国|755KB/s|5h|12
+  - 🇩🇪德国|403KB/s|11h|36 M003-260806
   - 🇩🇪德国|325KB/s|1d|3
-  - 🇸🇪瑞典|928KB/s|15h|4
-  - 🇹🇭泰国|872KB/s|15h|zhuhai.uk 02
-  - 🇭🇰香港|755KB/s|12h|zhuhai.uk 02
-  - 🇺🇸美国|414KB/s|1d|21 R002-260618
+  - 🇸🇪瑞典|928KB/s|17h|4
+  - 🇹🇭泰国|872KB/s|17h|zhuhai.uk 02
+  - 🇭🇰香港|755KB/s|14h|zhuhai.uk 02
   - 🇺🇸美国|371KB/s|1d|zhuhai.uk
 rules:
 - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
