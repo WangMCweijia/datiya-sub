@@ -1,9 +1,9 @@
 # 由 datiya-sub 自动生成，请勿手动修改
-# 更新于 2026-11-25 14:45:36 +0800 | 可用节点 190 个（候选 7105 个，仅附加源）
-# ⚠️ 降级版（白名单已过期（142.7 小时 > 4 小时上限）；请在本机运行 local_probe.py --push）：本机白名单不可用，本轮由境外机房探测筛选——能连上、延迟达标，但网速数字仅供量级参考；本机恢复探测后自动回到实测口径
+# 更新于 2026-11-25 16:44:33 +0800 | 可用节点 204 个（候选 7105 个，仅附加源）
+# ⚠️ 降级版（白名单已过期（144.7 小时 > 4 小时上限）；请在本机运行 local_probe.py --push）：本机白名单不可用，本轮由境外机房探测筛选——能连上、延迟达标，但网速数字仅供量级参考；本机恢复探测后自动回到实测口径
 # 网速=机房估算（本机实测白名单不可用/已过期）：带 ~ 的数字仅供量级参考，不能当承诺；挑节点请以自己的实测为准
 # 存活=首次测通至今（第二个数字，如 7d/36h；带 ~ 的是按探测轮次数推算）；存活 ≥3 天且网速 ≥256KB/s 的节点整体排在最前，其余按网速降序；低于 300KB/s 或测不出速度的节点已剔除
-# 分享链接（v2ray.txt）只覆盖 0/190 个节点（无链接格式协议）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
+# 分享链接（v2ray.txt）只覆盖 0/204 个节点（无链接格式协议）；http/socks5 等明文代理没有标准链接格式，请用 Clash 订阅
 port: 7890
 socks-port: 7891
 allow-lan: false
@@ -36,59 +36,23 @@ dns:
   - 223.5.5.5
   - 119.29.29.29
 proxies:
-- name: 🇩🇰丹麦|~10.3MB/s|5d|speednode 0006
+- name: 🇳🇱荷兰|~8.5MB/s|5d|184 R002-260618
   port: 9002
-  server: 158.173.154.5
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-  sub_tag: R002-260618
-- name: 🇩🇪德国|~9.4MB/s|3d|34
-  password: 'null'
-  port: 9002
-  server: 158.173.154.3
-  skip-cert-verify: true
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇳🇱荷兰|~9.3MB/s|5d|speednode 0022
-  port: 9002
-  server: 84.17.47.124
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-  sub_tag: R002-260618
-- name: 🇳🇱荷兰|~8.7MB/s|5d|157 R002-260618
-  port: 23856
-  server: 51.159.225.196
+  server: 84.17.47.148
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
   type: http
   udp: true
-- name: 🇱🇻拉脱维亚|~8.2MB/s|3d|8 K001-260618
-  password: None
-  port: 443
-  server: 185.219.159.16
-  skip-cert-verify: true
-  sub_tag: K001-260618
-  tls: true
-  type: http
-  username: ''
-  udp: true
-- name: 🇩🇪德国|~7.6MB/s|4d|26
-  password: 'null'
+- name: 🇳🇱荷兰|~8.1MB/s|4d|speednode 0017
   port: 9002
-  server: 158.173.154.1
+  server: 84.17.47.125
   skip-cert-verify: true
   tls: true
   type: http
-  username: 'null'
   udp: true
-- name: 🇳🇱荷兰|~7.5MB/s|3d|82 R002-260618
+  sub_tag: R002-260618
+- name: 🇳🇱荷兰|~7.3MB/s|3d|82 R002-260618
   port: 9002
   server: 84.17.47.150
   skip-cert-verify: true
@@ -97,7 +61,47 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇳🇱荷兰|~7.2MB/s|5d|speednode 0021
+- name: 🇳🇱荷兰|~6.2MB/s|5d|157 R002-260618
+  port: 23856
+  server: 51.159.225.196
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇳🇱荷兰|~5.9MB/s|4d|154 R002-260618
+  port: 9002
+  server: 84.17.47.123
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇷🇴罗马尼亚|~5.4MB/s|4d|54 P002-260618
+  port: 9002
+  server: 193.176.84.26
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇹🇭泰国|~5.0MB/s|3d|13 R002-260618
+  password: ao3W5ZML
+  port: 42000
+  server: 168.222.8.66
+  sub_tag: R002-260618
+  type: socks5
+  username: JPjarpW3
+  udp: true
+- name: 🇳🇱荷兰|~4.7MB/s|5d|speednode 0022
+  port: 9002
+  server: 84.17.47.124
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+  sub_tag: R002-260618
+- name: 🇳🇱荷兰|~4.6MB/s|5d|speednode 0021
   password: None
   port: 9002
   server: 84.17.47.148
@@ -106,31 +110,15 @@ proxies:
   type: http
   udp: true
   sub_tag: P002-260618
-- name: 🇩🇰丹麦|~6.6MB/s|5d|speednode 0004
-  port: 9002
-  server: 158.173.154.1
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-  sub_tag: R002-260618
-- name: 🇳🇱荷兰|~6.6MB/s|4d|154 R002-260618
-  port: 9002
-  server: 84.17.47.123
+- name: 🇱🇻拉脱维亚|~3.9MB/s|3d|7 R002-260618
+  port: 443
+  server: 185.219.159.16
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
   type: http
   udp: true
-- name: 🇷🇴罗马尼亚|~6.5MB/s|4d|54 P002-260618
-  port: 9002
-  server: 193.176.84.26
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇳🇱荷兰|~6.3MB/s|3d|65 P002-260618
+- name: 🇳🇱荷兰|~3.5MB/s|3d|65 P002-260618
   password: None
   port: 443
   server: 51.158.243.91
@@ -139,66 +127,7 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇳🇱荷兰|~6.3MB/s|5d|184 R002-260618
-  port: 9002
-  server: 84.17.47.148
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇫🇷法国|~6.1MB/s|4d|3 R002-260618
-  password: 'null'
-  port: 6103
-  server: 87.98.174.157
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-  username: 'null'
-  x-toolall-mihomo: true
-- name: 🇩🇪德国|~5.6MB/s|4d|1 R002-260618
-  port: 11111
-  server: 103.237.102.191
-  sub_tag: R002-260618
-  type: http
-  udp: true
-- name: 🇳🇱荷兰|~5.6MB/s|4d|speednode 0017
-  port: 9002
-  server: 84.17.47.125
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-  sub_tag: R002-260618
-- name: 🇳🇱荷兰|~5.5MB/s|3d|164 K001-260618
-  password: 'null'
-  port: 23856
-  server: 51.159.225.196
-  skip-cert-verify: true
-  sub_tag: K001-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇱🇻拉脱维亚|~5.3MB/s|3d|7 R002-260618
-  port: 443
-  server: 185.219.159.16
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇳🇱荷兰|~5.0MB/s|5d|63 R002-260618
-  port: 19362
-  server: 51.159.225.197
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇷🇴罗马尼亚|~3.3MB/s|3d|53 R002-260618
+- name: 🇷🇴罗马尼亚|~3.2MB/s|3d|53 R002-260618
   password: 'null'
   port: 9002
   server: 193.176.84.33
@@ -209,7 +138,99 @@ proxies:
   type: http
   username: 'null'
   udp: true
-- name: 🇫🇷法国|~2.9MB/s|5d|69 R002-260618
+- name: 🇩🇪德国|~3.2MB/s|4d|1 R002-260618
+  port: 11111
+  server: 103.237.102.191
+  sub_tag: R002-260618
+  type: http
+  udp: true
+- name: 🇸🇬新加坡|~3.1MB/s|5d|37 R002-260618
+  port: 443
+  server: 154.26.139.24
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇳🇱荷兰|~2.8MB/s|3d|164 K001-260618
+  password: 'null'
+  port: 23856
+  server: 51.159.225.196
+  skip-cert-verify: true
+  sub_tag: K001-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇳🇱荷兰|~2.3MB/s|5d|63 R002-260618
+  port: 19362
+  server: 51.159.225.197
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇩🇪德国|~2.3MB/s|4d|26
+  password: 'null'
+  port: 9002
+  server: 158.173.154.1
+  skip-cert-verify: true
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇩🇰丹麦|~2.3MB/s|5d|speednode 0004
+  port: 9002
+  server: 158.173.154.1
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+  sub_tag: R002-260618
+- name: 🇺🇸美国|~2.3MB/s|3d|400 R002-260618
+  password: kingstar123++
+  port: 62000
+  server: 23.230.200.250
+  sub_tag: R002-260618
+  type: socks5
+  username: kingstar123
+  udp: true
+- name: 🇩🇰丹麦|~2.3MB/s|5d|speednode 0006
+  port: 9002
+  server: 158.173.154.5
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+  sub_tag: R002-260618
+- password: c0a34a
+  port: 62000
+  server: 66.80.2.252
+  type: socks5
+  username: usereb7d
+  name: 🇸🇬新加坡|~2.1MB/s|3d|zhuhai.uk
+  sub_tag: R002-260618
+  udp: true
+- name: 🇱🇻拉脱维亚|~2.0MB/s|3d|8 K001-260618
+  password: None
+  port: 443
+  server: 185.219.159.16
+  skip-cert-verify: true
+  sub_tag: K001-260618
+  tls: true
+  type: http
+  username: ''
+  udp: true
+- name: 🇩🇪德国|~1.9MB/s|3d|34
+  password: 'null'
+  port: 9002
+  server: 158.173.154.3
+  skip-cert-verify: true
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇫🇷法国|~1.4MB/s|5d|69 R002-260618
   port: 443
   server: 141.94.16.4
   skip-cert-verify: true
@@ -218,333 +239,46 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇸🇬新加坡|~2.7MB/s|5d|37 R002-260618
-  port: 443
-  server: 154.26.139.24
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- password: c0a34a
-  port: 62000
-  server: 66.80.2.252
-  type: socks5
-  username: usereb7d
-  name: 🇸🇬新加坡|~2.3MB/s|3d|zhuhai.uk
-  sub_tag: R002-260618
-  udp: true
-- name: 🇺🇸美国|~1.7MB/s|3d|400 R002-260618
-  password: kingstar123++
-  port: 62000
-  server: 23.230.200.250
-  sub_tag: R002-260618
-  type: socks5
-  username: kingstar123
-  udp: true
-- name: 🇹🇭泰国|~759KB/s|3d|13 R002-260618
-  password: ao3W5ZML
-  port: 42000
-  server: 168.222.8.66
-  sub_tag: R002-260618
-  type: socks5
-  username: JPjarpW3
-  udp: true
-- name: 🇺🇸美国|~24.4MB/s|3h|266 P002-260618
+- name: 🇫🇷法国|~365KB/s|4d|3 R002-260618
   password: 'null'
-  port: 9002
-  server: 138.199.35.207
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇺🇸美国|~20.6MB/s|<1h|133 R002-260618
-  port: 9002
-  server: 138.199.35.216
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸美国|~19.7MB/s|<1h|483 R002-260618
-  port: 9002
-  server: 138.199.35.206
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸美国|~19.3MB/s|<1h|227 P002-260618
-  password: None
-  port: 9002
-  server: 138.199.35.209
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸美国|~17.8MB/s|1d|7
-  password: 75bPoRcB
-  port: 62000
-  server: 216.132.114.27
-  type: socks5
-  username: JzufiJ62
-  sub_tag: R002-260618
-  udp: true
-- name: 🇫🇷法国|~17.4MB/s|<1h|31 P002-260618
-  password: None
   port: 6103
   server: 87.98.174.157
   skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸美国|~16.6MB/s|<1h|414 R002-260618
-  password: 'null'
-  port: 9002
-  server: 138.199.35.209
-  skip-cert-verify: true
-  sni: 138.199.35.209
   sub_tag: R002-260618
   tls: true
   type: http
+  udp: true
   username: 'null'
-  udp: true
-- name: 🇺🇸美国|~15.6MB/s|<1h|259 R002-260618
-  password: 'null'
-  port: 9002
-  server: 138.199.35.205
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇺🇸美国|~14.8MB/s|3h|450 R002-260618
-  password: ''
-  port: 9002
-  server: 138.199.35.201
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-  username: ''
-- name: 🇺🇸美国|~14.5MB/s|<1h|478 P002-260618
-  password: None
+  x-toolall-mihomo: true
+- name: 🇺🇸美国|~31.9MB/s|1h|165 R002-260618
   port: 9002
   server: 138.199.35.212
   skip-cert-verify: true
-  sub_tag: P002-260618
+  sub_tag: R002-260618
   tls: true
   type: http
   udp: true
-- name: 🇺🇸美国|~13.8MB/s|<1h|226 P002-260618
-  password: ''
-  port: 9002
-  server: 138.199.35.210
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  username: ''
-  udp: true
-- name: 🇺🇸美国|~13.7MB/s|<1h|269 P002-260618
+- name: 🇺🇸美国|~30.9MB/s|1h|2
   password: 'null'
-  port: 9002
-  server: 138.199.35.196
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇺🇸美国|~13.6MB/s|<1h|375
-  password: 'null'
-  port: 9002
-  server: 138.199.35.213
-  skip-cert-verify: true
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇳🇱荷兰|~13.4MB/s|2d|183 K001-260618
-  password: e4b72b531a2d10900519
-  port: 443
-  server: 82.196.9.7
-  skip-cert-verify: true
-  sub_tag: K001-260618
-  tls: true
-  type: http
-  username: testuser1
-  udp: true
-- name: 🇺🇸美国|~13.3MB/s|3h|37
-  password: ''
-  port: 9002
-  server: 138.199.35.218
-  skip-cert-verify: true
-  tls: true
-  type: http
-  username: ''
-  udp: true
-- name: 🇺🇸美国|~13.2MB/s|<1h|371 R002-260618
-  password: 'null'
-  port: 9002
-  server: 138.199.35.197
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇺🇸美国|~13.2MB/s|<1h|546 R002-260618
-  port: 9002
-  server: 138.199.35.218
-  skip-cert-verify: true
-  sni: 138.199.35.218
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸美国|~13.0MB/s|<1h|343 R002-260618
-  port: 9002
-  server: 138.199.35.204
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸美国|~12.8MB/s|<1h|382 P002-260618
-  password: None
-  port: 9002
-  server: 138.199.35.208
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇳🇱荷兰|~12.5MB/s|3h|209 R002-260618
-  password: e4b72b531a2d10900519
-  port: 443
-  server: 82.196.9.7
-  sni: 52c40907.acsnet.co
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: testuser1
-  udp: true
-- name: 🇺🇸美国|~12.5MB/s|3h|5 P002-260618
-  password: None
-  port: 9002
-  server: 138.199.35.196
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-  x-toolall-mihomo: true
-- name: 🇺🇸美国|~12.3MB/s|<1h|372 R002-260618
-  port: 443
-  server: 207.5.30.9
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇮🇪爱尔兰|~12.3MB/s|2d|speednode 0009
-  port: 443
-  server: 34.249.214.108
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-  sub_tag: R002-260618
-- name: 🇺🇸美国|~12.0MB/s|<1h|4
-  password: 'null'
-  port: 9002
-  server: 138.199.35.206
-  skip-cert-verify: true
-  tls: true
-  type: http
-  username: 'null'
-  sub_tag: P002-260618
-  udp: true
-- name: 🇺🇸美国|~11.7MB/s|<1h|241 P002-260618
-  password: None
-  port: 9002
-  server: 138.199.35.215
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸美国|~11.7MB/s|3h|239 R002-260618
-  password: 'null'
-  port: 9002
-  server: 138.199.35.210
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇺🇸美国|~11.4MB/s|<1h|98 R002-260618
   port: 9002
   server: 138.199.35.220
   skip-cert-verify: true
-  sub_tag: R002-260618
   tls: true
   type: http
+  username: 'null'
+  sub_tag: P002-260618
   udp: true
-- name: 🇺🇸美国|~11.4MB/s|2d|6
-  password: l1tlrdx52v
-  port: 62000
-  server: 66.253.2.69
-  type: socks5
-  username: u_rb1dba2
-  sub_tag: R002-260618
-  udp: true
-- name: 🇺🇸美国|~11.3MB/s|<1h|172 P002-260618
-  password: None
+- name: 🇺🇸美国|~29.8MB/s|1h|341 P002-260618
+  password: 'null'
   port: 9002
   server: 138.199.35.211
   skip-cert-verify: true
   sub_tag: P002-260618
   tls: true
   type: http
-  udp: true
-- name: 🇺🇸美国|~11.3MB/s|<1h|240 P002-260618
-  password: 'null'
-  port: 9002
-  server: 138.199.35.217
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
   username: 'null'
   udp: true
-- name: 🇩🇪德国|~11.2MB/s|12h|75 R002-260618
-  port: 9002
-  server: 158.173.154.4
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸美国|~11.1MB/s|3h|15
-  password: 'null'
-  port: 9002
-  server: 138.199.35.214
-  skip-cert-verify: true
-  tls: true
-  type: http
-  username: 'null'
-  sub_tag: R002-260618
-  udp: true
-- name: 🇺🇸美国|~11.0MB/s|<1h|32 P002-260618
+- name: 🇺🇸美国|~28.5MB/s|1h|32 P002-260618
   password: None
   port: 9002
   server: 138.199.35.207
@@ -553,98 +287,7 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇺🇸美国|~10.8MB/s|<1h|349 R002-260618
-  password: 'null'
-  port: 9002
-  server: 138.199.35.199
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇺🇸美国|~10.5MB/s|12h|294 K001-260618
-  password: None
-  port: 443
-  server: 162.244.227.36
-  skip-cert-verify: true
-  sub_tag: K001-260618
-  tls: true
-  type: http
-  username: ''
-  udp: true
-- name: 🇺🇸美国|~10.5MB/s|<1h|45 P002-260618
-  password: None
-  port: 9002
-  server: 138.199.35.199
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇲🇽墨西哥|~10.5MB/s|<1h|10 R002-260618
-  password: VvUAFi2E
-  port: 62000
-  server: 72.57.228.30
-  sub_tag: R002-260618
-  type: socks5
-  username: UBXich0K
-  udp: true
-- name: 🇲🇽墨西哥|~10.4MB/s|2d|3
-  password: VvUAFi2E
-  port: 62000
-  server: 72.57.228.87
-  skip-cert-verify: true
-  type: socks5
-  username: UBXich0K
-  sub_tag: K001-260618
-  udp: true
-- name: 🇺🇸美国|~10.4MB/s|3h|77 P002-260618
-  password: None
-  port: 9002
-  server: 138.199.35.217
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇷🇴罗马尼亚|~10.4MB/s|<1h|11 P002-260618
-  port: 9002
-  server: 193.176.84.36
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇷🇴罗马尼亚|~10.3MB/s|<1h|47 R002-260618
-  password: 'null'
-  port: 9002
-  server: 193.176.84.32
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇺🇸美国|~10.3MB/s|<1h|46 K001-260618
-  password: None
-  port: 9002
-  server: 138.199.35.203
-  skip-cert-verify: true
-  sub_tag: K001-260618
-  tls: true
-  type: http
-  username: ''
-  udp: true
-- name: 🇳🇱荷兰|~10.3MB/s|3h|201 R002-260618
-  port: 443
-  server: 5.255.120.238
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸美国|~10.2MB/s|<1h|476 R002-260618
+- name: 🇺🇸美国|~27.3MB/s|1h|476 R002-260618
   password: 'null'
   port: 9002
   server: 138.199.35.201
@@ -655,33 +298,199 @@ proxies:
   type: http
   username: 'null'
   udp: true
-- name: 🇺🇸美国|~10.0MB/s|<1h|14
+- name: 🇺🇸美国|~25.2MB/s|1h|375
+  password: 'null'
   port: 9002
-  server: 138.199.35.214
+  server: 138.199.35.213
   skip-cert-verify: true
   tls: true
   type: http
-  sub_tag: R002-260618
+  username: 'null'
   udp: true
-- name: 🇺🇸美国|~10.0MB/s|<1h|341 P002-260618
+- name: 🇺🇸美国|~24.6MB/s|1h|309
+  password: ''
+  port: 9002
+  server: 138.199.35.219
+  skip-cert-verify: true
+  tls: true
+  type: http
+  username: ''
+  udp: true
+- name: 🇺🇸美国|~23.6MB/s|1h|121
+  password: ''
+  port: 9002
+  server: 138.199.35.208
+  skip-cert-verify: true
+  tls: true
+  type: http
+  username: ''
+  udp: true
+- name: 🇺🇸美国|~23.5MB/s|<1h|385 P002-260618
+  password: None
+  port: 9002
+  server: 138.199.35.220
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|~23.1MB/s|5h|450 R002-260618
+  password: ''
+  port: 9002
+  server: 138.199.35.201
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+  username: ''
+- name: 🇺🇸美国|~22.6MB/s|<1h|407 R002-260618
   password: 'null'
   port: 9002
-  server: 138.199.35.211
+  server: 138.199.35.198
   skip-cert-verify: true
+  sni: 138.199.35.198
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇺🇸美国|~22.3MB/s|1h|194 R002-260618
+  port: 9002
+  server: 138.199.35.202
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|~21.5MB/s|<1h|433 P002-260618
+  password: None
+  port: 9002
+  server: 138.199.35.206
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|~18.8MB/s|1h|546 R002-260618
+  port: 9002
+  server: 138.199.35.218
+  skip-cert-verify: true
+  sni: 138.199.35.218
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|~18.7MB/s|<1h|211 R002-260618
+  password: 'null'
+  port: 9002
+  server: 138.199.35.216
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇺🇸美国|~18.1MB/s|5h|77 P002-260618
+  password: None
+  port: 9002
+  server: 138.199.35.217
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇳🇱荷兰|~17.5MB/s|2d|177 P002-260618
+  password: None
+  port: 9002
+  server: 84.17.47.125
+  skip-cert-verify: true
+  sni: 84.17.47.125
   sub_tag: P002-260618
   tls: true
   type: http
   username: 'null'
   udp: true
-- name: 🇺🇸美国|~9.9MB/s|<1h|165 R002-260618
+- name: 🇺🇸美国|~17.2MB/s|<1h|264 R002-260618
   port: 9002
-  server: 138.199.35.212
+  server: 138.199.35.198
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
   type: http
   udp: true
-- name: 🇺🇸美国|~9.9MB/s|<1h|481 P002-260618
+- name: 🇺🇸美国|~16.9MB/s|1h|382 P002-260618
+  password: None
+  port: 9002
+  server: 138.199.35.208
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|~16.9MB/s|1h|483 R002-260618
+  port: 9002
+  server: 138.199.35.206
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇳🇱荷兰|~16.2MB/s|5h|156 P002-260618
+  password: ''
+  port: 9002
+  server: 84.17.47.146
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  username: ''
+  udp: true
+- name: 🇺🇸美国|~15.8MB/s|1h|405 P002-260618
+  password: None
+  port: 9002
+  server: 138.199.35.197
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|~15.7MB/s|1h|226 P002-260618
+  password: ''
+  port: 9002
+  server: 138.199.35.210
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  username: ''
+  udp: true
+- name: 🇺🇸美国|~15.6MB/s|1h|343 R002-260618
+  port: 9002
+  server: 138.199.35.204
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|~15.3MB/s|<1h|465 R002-260618
+  port: 9002
+  server: 138.199.35.197
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|~15.3MB/s|<1h|307 P002-260618
+  password: None
+  port: 9002
+  server: 138.199.35.218
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|~14.9MB/s|1h|481 P002-260618
   password: None
   port: 9002
   server: 138.199.35.202
@@ -690,7 +499,132 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇺🇸美国|~9.7MB/s|3h|242 R002-260618
+- name: 🇮🇪爱尔兰|~14.9MB/s|1d|6 R002-260618
+  password: 'null'
+  port: 443
+  server: 34.249.214.108
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇺🇸美国|~14.7MB/s|1h|172 P002-260618
+  password: None
+  port: 9002
+  server: 138.199.35.211
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇩🇪德国|~14.6MB/s|5h|7 R002-260618
+  port: 443
+  server: 193.233.75.115
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|~14.1MB/s|14h|221 R002-260618
+  port: 443
+  server: 162.217.114.50
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|~14.1MB/s|5h|15
+  password: 'null'
+  port: 9002
+  server: 138.199.35.214
+  skip-cert-verify: true
+  tls: true
+  type: http
+  username: 'null'
+  sub_tag: R002-260618
+  udp: true
+- name: 🇺🇸美国|~14.1MB/s|1h|305 P002-260618
+  password: None
+  port: 9002
+  server: 138.199.35.213
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|~14.0MB/s|1h|46 K001-260618
+  password: None
+  port: 9002
+  server: 138.199.35.203
+  skip-cert-verify: true
+  sub_tag: K001-260618
+  tls: true
+  type: http
+  username: ''
+  udp: true
+- name: 🇺🇸美国|~14.0MB/s|5h|386 R002-260618
+  port: 9002
+  server: 138.199.35.209
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇳🇱荷兰|~13.7MB/s|2d|181 R002-260618
+  port: 9002
+  server: 84.17.47.149
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|~13.7MB/s|1h|227 P002-260618
+  password: None
+  port: 9002
+  server: 138.199.35.209
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|~13.3MB/s|<1h|467 R002-260618
+  password: None
+  port: 9002
+  server: 138.199.35.195
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|~13.0MB/s|5h|266 P002-260618
+  password: 'null'
+  port: 9002
+  server: 138.199.35.207
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇳🇱荷兰|~12.8MB/s|5h|182 P002-260618
+  password: None
+  port: 9002
+  server: 84.17.47.126
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|~12.8MB/s|1h|364 R002-260618
+  port: 9002
+  server: 138.199.35.215
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|~12.7MB/s|5h|242 R002-260618
   password: 'null'
   port: 9002
   server: 138.199.35.219
@@ -701,143 +635,36 @@ proxies:
   type: http
   username: 'null'
   udp: true
-- name: 🇳🇱荷兰|~9.6MB/s|12h|137 R002-260618
-  password: 'null'
-  port: 9002
-  server: 84.17.47.147
-  skip-cert-verify: true
-  sni: 84.17.47.147
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇵🇱波兰|~9.6MB/s|<1h|9 R002-260618
-  port: 443
-  server: 151.115.54.133
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸美国|~9.5MB/s|<1h|217
+- name: 🇺🇸美国|~12.2MB/s|<1h|308
   password: ''
   port: 9002
-  server: 138.199.35.205
+  server: 138.199.35.217
   skip-cert-verify: true
   tls: true
   type: http
   username: ''
   udp: true
-- name: 🇺🇸美国|~9.1MB/s|<1h|57 R002-260618
+- name: 🇺🇸美国|~12.2MB/s|<1h|379 R002-260618
+  password: 'null'
   port: 9002
-  server: 138.199.35.195
+  server: 138.199.35.212
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
   type: http
-  udp: true
-- name: 🇳🇱荷兰|~9.1MB/s|3h|156 P002-260618
-  password: ''
-  port: 9002
-  server: 84.17.47.146
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  username: ''
-  udp: true
-- name: 🇺🇸美国|~9.1MB/s|<1h|121
-  password: ''
-  port: 9002
-  server: 138.199.35.208
-  skip-cert-verify: true
-  tls: true
-  type: http
-  username: ''
-  udp: true
-- name: 🇳🇱荷兰|~9.0MB/s|<1h|160 P002-260618
-  password: None
-  port: 443
-  server: 5.255.118.82
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇩🇪德国|~9.0MB/s|2d|21
-  password: 'null'
-  port: 443
-  server: 193.233.75.115
-  skip-cert-verify: true
-  tls: true
-  type: http
   username: 'null'
   udp: true
-- name: 🇳🇱荷兰|~9.0MB/s|3h|230 R002-260618
-  port: 443
-  server: 5.255.120.245
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸美国|~8.9MB/s|<1h|2
-  password: 'null'
-  port: 9002
-  server: 138.199.35.220
-  skip-cert-verify: true
-  tls: true
-  type: http
-  username: 'null'
-  sub_tag: P002-260618
-  udp: true
-- password: 'null'
-  port: 443
-  server: 129.153.93.183
-  skip-cert-verify: true
-  tls: true
-  type: http
-  username: 'null'
-  name: 🇺🇸美国|~8.9MB/s|<1h|zhuhai.uk 03
-  udp: true
-- name: 🇺🇸美国|~8.9MB/s|<1h|416 P002-260618
-  password: 'null'
-  port: 9002
-  server: 138.199.35.195
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇺🇸美国|~8.9MB/s|<1h|305 P002-260618
+- name: 🇺🇸美国|~12.0MB/s|5h|5 P002-260618
   password: None
   port: 9002
-  server: 138.199.35.213
+  server: 138.199.35.196
   skip-cert-verify: true
   sub_tag: P002-260618
   tls: true
   type: http
   udp: true
-- name: 🇺🇸美国|~8.9MB/s|<1h|194 R002-260618
-  port: 9002
-  server: 138.199.35.202
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇷🇴罗马尼亚|~8.8MB/s|12h|17 P002-260618
-  password: None
-  port: 9002
-  server: 193.176.84.29
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸美国|~8.8MB/s|<1h|270 P002-260618
+  x-toolall-mihomo: true
+- name: 🇺🇸美国|~11.9MB/s|1h|270 P002-260618
   password: None
   port: 9002
   server: 138.199.35.216
@@ -846,15 +673,90 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇵🇱波兰|~8.8MB/s|1d|1
-  port: 443
-  server: 91.92.250.33
+- name: 🇺🇸美国|~11.9MB/s|<1h|39 P002-260618
+  password: 'null'
+  port: 9002
+  server: 138.199.35.215
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇺🇸美国|~11.9MB/s|1h|269 P002-260618
+  password: 'null'
+  port: 9002
+  server: 138.199.35.196
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇺🇸美国|~11.8MB/s|1h|45 P002-260618
+  password: None
+  port: 9002
+  server: 138.199.35.199
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|~11.7MB/s|5h|239 R002-260618
+  password: 'null'
+  port: 9002
+  server: 138.199.35.210
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇺🇸美国|~11.7MB/s|1h|14
+  port: 9002
+  server: 138.199.35.214
   skip-cert-verify: true
   tls: true
   type: http
   sub_tag: R002-260618
   udp: true
-- name: 🇺🇸美国|~8.6MB/s|3h|304 R002-260618
+- name: 🇺🇸美国|~11.6MB/s|<1h|218
+  password: ''
+  port: 9002
+  server: 138.199.35.203
+  skip-cert-verify: true
+  tls: true
+  type: http
+  username: ''
+  udp: true
+- name: 🇺🇸美国|~11.6MB/s|1h|422 R002-260618
+  port: 9002
+  server: 138.199.35.200
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|~11.3MB/s|1h|349 R002-260618
+  password: 'null'
+  port: 9002
+  server: 138.199.35.199
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇺🇸美国|~10.9MB/s|<1h|193 P002-260618
+  password: None
+  port: 9002
+  server: 138.199.35.205
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|~10.8MB/s|5h|304 R002-260618
   password: None
   port: 9002
   server: 138.199.35.200
@@ -863,67 +765,24 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇳🇱荷兰|~8.6MB/s|1d|57 R002-260618
-  port: 443
-  server: 5.255.118.82
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸美国|~8.6MB/s|<1h|364 R002-260618
+- name: 🇺🇸美国|~9.2MB/s|1h|217
+  password: ''
   port: 9002
-  server: 138.199.35.215
+  server: 138.199.35.205
   skip-cert-verify: true
+  tls: true
+  type: http
+  username: ''
+  udp: true
+- name: 🇺🇸美国|~8.8MB/s|2d|7
+  password: 75bPoRcB
+  port: 62000
+  server: 216.132.114.27
+  type: socks5
+  username: JzufiJ62
   sub_tag: R002-260618
-  tls: true
-  type: http
   udp: true
-- name: 🇳🇱荷兰|~8.5MB/s|2d|181 R002-260618
-  port: 9002
-  server: 84.17.47.149
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇫🇷法国|~8.5MB/s|3h|34 R002-260618
-  password: 'null'
-  port: 8081
-  server: 31.32.19.111
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇺🇸美国|~8.5MB/s|<1h|374 P002-260618
-  password: None
-  port: 9002
-  server: 138.199.35.204
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇩🇪德国|~8.4MB/s|<1h|8 R002-260618
-  port: 9002
-  server: 158.173.154.2
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇺🇸美国|~8.3MB/s|<1h|405 P002-260618
-  password: None
-  port: 9002
-  server: 138.199.35.197
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇳🇱荷兰|~8.3MB/s|2d|178 R002-260618
+- name: 🇳🇱荷兰|~8.7MB/s|2d|178 R002-260618
   password: 'null'
   port: 9002
   server: 84.17.47.150
@@ -933,7 +792,79 @@ proxies:
   type: http
   username: 'null'
   udp: true
-- name: 🇫🇷法国|~8.3MB/s|1d|51 K001-260618
+- name: 🇺🇸美国|~8.2MB/s|1d|363 R002-260618
+  password: exaxgqkKkd0TAMrCxeonWg==
+  port: 443
+  server: usgp1-cdn-route.couldflare-cdn.com
+  sni: usgp1-cdn-route.couldflare-cdn.com
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+  username: mrwdfNTD8M79LCukCieldrqZWqs=
+  x-toolall-mihomo: true
+- name: 🇲🇽墨西哥|~8.0MB/s|1h|10 R002-260618
+  password: VvUAFi2E
+  port: 62000
+  server: 72.57.228.30
+  sub_tag: R002-260618
+  type: socks5
+  username: UBXich0K
+  udp: true
+- name: 🇩🇪德国|~7.9MB/s|2d|21
+  password: 'null'
+  port: 443
+  server: 193.233.75.115
+  skip-cert-verify: true
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇺🇸美国|~7.7MB/s|5h|258 S001-260618
+  password: ''
+  port: 38182
+  server: 69.55.49.177
+  skip-cert-verify: true
+  sub_tag: S001-260618
+  type: socks5
+  username: ''
+  udp: true
+- name: 🇳🇱荷兰|~7.5MB/s|1d|274
+  password: 'null'
+  port: 19362
+  server: 51.159.225.197
+  skip-cert-verify: true
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇷🇴罗马尼亚|~7.5MB/s|14h|9
+  port: 9002
+  server: 193.176.84.25
+  skip-cert-verify: true
+  tls: true
+  type: http
+  sub_tag: R002-260618
+  udp: true
+- name: 🇳🇱荷兰|~7.4MB/s|1d|speednode 0019
+  password: None
+  port: 9002
+  server: 84.17.47.149
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+  sub_tag: K001-260618
+- name: 🇲🇽墨西哥|~7.3MB/s|2d|3
+  password: VvUAFi2E
+  port: 62000
+  server: 72.57.228.87
+  skip-cert-verify: true
+  type: socks5
+  username: UBXich0K
+  sub_tag: K001-260618
+  udp: true
+- name: 🇫🇷法国|~7.2MB/s|1d|51 K001-260618
   password: None
   port: 8081
   server: 31.32.19.111
@@ -943,160 +874,58 @@ proxies:
   type: http
   username: ''
   udp: true
-- name: 🇩🇪德国|~8.3MB/s|2d|30
-  password: 'null'
-  port: 9002
-  server: 158.173.154.5
-  skip-cert-verify: true
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇳🇱荷兰|~8.2MB/s|3h|147
-  password: 'null'
+- name: 🇳🇱荷兰|~7.1MB/s|<1h|121 R002-260618
   port: 443
-  server: 89.150.35.94
-  skip-cert-verify: true
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇷🇴罗马尼亚|~8.1MB/s|<1h|80 R002-260618
-  password: 'null'
-  port: 9002
-  server: 193.176.84.37
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇺🇸美国|~8.1MB/s|<1h|309
-  password: ''
-  port: 9002
-  server: 138.199.35.219
-  skip-cert-verify: true
-  tls: true
-  type: http
-  username: ''
-  udp: true
-- name: 🇳🇱荷兰|~7.7MB/s|2d|49 R002-260618
-  password: 'null'
-  port: 9002
-  server: 84.17.47.126
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇺🇸美国|~7.3MB/s|<1h|422 R002-260618
-  port: 9002
-  server: 138.199.35.200
+  server: 51.158.243.91
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
   type: http
   udp: true
-- name: 🇩🇪德国|~7.3MB/s|<1h|49
+- delay: 1488
+  name: 🇷🇴罗马尼亚|~7.1MB/s|<1h|75 G001-260618
   password: 'null'
   port: 9002
-  server: 158.173.154.4
+  server: 193.176.84.35
   skip-cert-verify: true
+  sub_tag: G001-260618
   tls: true
   type: http
-  username: 'null'
   udp: true
-- name: 🇩🇪德国|~7.2MB/s|<1h|19 P002-260618
+  username: 'null'
+- name: 🇺🇸美国|~7.1MB/s|14h|477 R002-260618
+  port: 443
+  server: 96.5.129.85
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|~7.0MB/s|<1h|10
   password: None
-  port: 443
-  server: 193.233.75.115
+  port: 38182
+  server: 69.55.49.177
   skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇷🇴罗马尼亚|~7.2MB/s|3h|50 R002-260618
-  password: 'null'
-  port: 9002
-  server: 193.176.84.38
-  skip-cert-verify: true
-  sni: 193.176.84.38
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇳🇱荷兰|~6.9MB/s|3h|238 R002-260618
-  port: 443
-  server: 5.255.125.188
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇳🇱荷兰|~6.7MB/s|1d|274
-  password: 'null'
-  port: 19362
-  server: 51.159.225.197
-  skip-cert-verify: true
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇮🇪爱尔兰|~6.7MB/s|2d|speednode 0010
-  port: 443
-  server: 18.200.158.139
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-  sub_tag: R002-260618
-- name: 🇩🇪德国|~6.7MB/s|<1h|38 R002-260618
-  password: udp-relay=true
-  port: 11111
-  server: 103.237.102.191
-  sub_tag: R002-260618
-  type: http
-  username: None
-  udp: true
-- name: 🇷🇺俄罗斯|~6.6MB/s|3h|4 P002-260618
-  password: 'null'
-  port: 1446
-  server: 46.29.166.134
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇳🇱荷兰|~6.6MB/s|<1h|203 R002-260618
-  port: 9002
-  server: 84.17.47.126
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇭🇷克罗地亚|~6.5MB/s|3h|4 S001-260618
-  password: ''
-  port: 1081
-  server: 176.9.107.170
-  skip-cert-verify: true
-  sub_tag: S001-260618
   type: socks5
-  username: ''
-  udp: true
-- name: 🇳🇱荷兰|~6.4MB/s|2d|177 P002-260618
-  password: None
-  port: 9002
-  server: 84.17.47.125
-  skip-cert-verify: true
-  sni: 84.17.47.125
   sub_tag: P002-260618
+  udp: true
+- name: 🇫🇷法国|~6.6MB/s|<1h|49 R002-260618
+  port: 8081
+  server: 31.32.19.111
+  skip-cert-verify: true
+  sub_tag: R002-260618
   tls: true
   type: http
-  username: 'null'
+  udp: true
+- name: 🇺🇸美国|~6.6MB/s|14h|294 K001-260618
+  password: None
+  port: 443
+  server: 162.244.227.36
+  skip-cert-verify: true
+  sub_tag: K001-260618
+  tls: true
+  type: http
+  username: ''
   udp: true
 - name: 🇳🇱荷兰|~6.4MB/s|2d|101 R002-260618
   password: 'null'
@@ -1108,30 +937,21 @@ proxies:
   type: http
   username: 'null'
   udp: true
-- name: 🇳🇱荷兰|~6.4MB/s|<1h|187 P002-260618
-  password: 'null'
-  port: 443
-  server: 185.140.209.235
+- name: 🇷🇴罗马尼亚|~6.4MB/s|<1h|34 P002-260618
+  password: None
+  port: 9002
+  server: 193.176.84.39
   skip-cert-verify: true
   sub_tag: P002-260618
   tls: true
   type: http
-  username: 'null'
   udp: true
-- name: 🇷🇴罗马尼亚|~6.4MB/s|<1h|85 Z001-260618
-  port: 9002
-  server: 193.176.84.33
-  skip-cert-verify: true
-  sub_tag: Z001-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇵🇱波兰|~6.3MB/s|3h|15 K001-260618
+- name: 🇳🇱荷兰|~6.3MB/s|2d|49 R002-260618
   password: 'null'
-  port: 443
-  server: 151.115.54.133
+  port: 9002
+  server: 84.17.47.126
   skip-cert-verify: true
-  sub_tag: K001-260618
+  sub_tag: R002-260618
   tls: true
   type: http
   username: 'null'
@@ -1144,7 +964,380 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇳🇱荷兰|~6.3MB/s|2d|9
+- name: 🇷🇴罗马尼亚|~6.2MB/s|1d|83 K001-260618
+  password: None
+  port: 9002
+  server: 193.176.84.18
+  skip-cert-verify: true
+  sub_tag: K001-260618
+  tls: true
+  type: http
+  username: ''
+  udp: true
+- name: 🇷🇴罗马尼亚|~5.9MB/s|14h|60 P002-260618
+  port: 9002
+  server: 193.176.84.19
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇮🇪爱尔兰|~5.8MB/s|2d|speednode 0010
+  port: 443
+  server: 18.200.158.139
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+  sub_tag: R002-260618
+- name: 🇷🇴罗马尼亚|~5.8MB/s|1d|speednode 0024
+  password: None
+  port: 9002
+  server: 193.176.84.24
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+  sub_tag: P002-260618
+- name: 🇳🇱荷兰|~5.8MB/s|2d|117 P002-260618
+  password: None
+  port: 9002
+  server: 84.17.47.147
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇷🇺俄罗斯|~5.8MB/s|<1h|2 K001-260618
+  password: None
+  port: 1446
+  server: 46.29.166.134
+  skip-cert-verify: true
+  sub_tag: K001-260618
+  tls: true
+  type: http
+  username: ''
+  udp: true
+- name: 🇫🇷法国|~5.6MB/s|1h|59 R002-260618
+  port: 8090
+  server: 80.124.109.22
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇲🇽墨西哥|~5.5MB/s|2d|4 R002-260618
+  password: lcFa8dTH
+  port: 62000
+  server: 94.194.165.96
+  sub_tag: R002-260618
+  type: socks5
+  username: QyVdo5ks
+  udp: true
+- name: 🇷🇴罗马尼亚|~5.4MB/s|5h|2 P002-260618
+  port: 9002
+  server: 193.176.84.27
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇷🇴罗马尼亚|~5.3MB/s|<1h|4
+  port: 9002
+  server: 193.176.84.24
+  skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+- name: 🇸🇬新加坡|~5.3MB/s|5h|54
+  password: ''
+  port: 8443
+  server: 66.42.49.247
+  skip-cert-verify: true
+  tls: true
+  type: http
+  username: ''
+  udp: true
+- name: 🇻🇳越南|~5.3MB/s|14h|2
+  password: jHsK2gqs
+  port: 62000
+  server: 103.184.113.236
+  type: socks5
+  username: qT46DZLv
+  sub_tag: R002-260618
+  udp: true
+- name: 🇷🇴罗马尼亚|~5.2MB/s|<1h|12 R002-260618
+  password: None
+  port: 9002
+  server: 193.176.84.22
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇷🇴罗马尼亚|~5.2MB/s|5h|98 P002-260618
+  password: None
+  port: 9002
+  server: 193.176.84.23
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇷🇴罗马尼亚|~5.0MB/s|5h|92 R002-260618
+  port: 9002
+  server: 193.176.84.23
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇷🇺俄罗斯|~4.8MB/s|5h|4 P002-260618
+  password: 'null'
+  port: 1446
+  server: 46.29.166.134
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇳🇱荷兰|~4.8MB/s|1h|160 P002-260618
+  password: None
+  port: 443
+  server: 5.255.118.82
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇷🇴罗马尼亚|~4.7MB/s|14h|10 R002-260618
+  port: 9002
+  server: 193.176.84.30
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|~4.7MB/s|1h|372 R002-260618
+  port: 443
+  server: 207.5.30.9
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇳🇱荷兰|~4.7MB/s|5h|209 R002-260618
+  password: e4b72b531a2d10900519
+  port: 443
+  server: 82.196.9.7
+  sni: 52c40907.acsnet.co
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  username: testuser1
+  udp: true
+- name: 🇷🇴罗马尼亚|~4.6MB/s|<1h|62 R002-260618
+  password: None
+  port: 9002
+  server: 193.176.84.33
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇷🇴罗马尼亚|~4.6MB/s|<1h|36 Z001-260618
+  port: 9002
+  server: 193.176.84.21
+  skip-cert-verify: true
+  sub_tag: Z001-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇳🇱荷兰|~4.6MB/s|1h|187 P002-260618
+  password: 'null'
+  port: 443
+  server: 185.140.209.235
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇳🇱荷兰|~4.5MB/s|5h|230 R002-260618
+  port: 443
+  server: 5.255.120.245
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇳🇱荷兰|~4.5MB/s|5h|238 R002-260618
+  port: 443
+  server: 5.255.125.188
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇳🇱荷兰|~4.5MB/s|14h|137 R002-260618
+  password: 'null'
+  port: 9002
+  server: 84.17.47.147
+  skip-cert-verify: true
+  sni: 84.17.47.147
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇷🇴罗马尼亚|~4.5MB/s|14h|69 P002-260618
+  password: None
+  port: 9002
+  server: 193.176.84.36
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇹🇭泰国|~4.4MB/s|2d|10 R002-260618
+  password: Ks4Iab43
+  port: 42000
+  server: 82.47.152.151
+  sub_tag: R002-260618
+  type: socks5
+  username: userLjVB
+  udp: true
+- name: 🇷🇴罗马尼亚|~4.4MB/s|1h|11 P002-260618
+  port: 9002
+  server: 193.176.84.36
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇳🇱荷兰|~4.4MB/s|5h|201 R002-260618
+  port: 443
+  server: 5.255.120.238
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇮🇹意大利|~4.3MB/s|1d|5
+  password: JdFlrZhqHP
+  port: 1080
+  server: 69.16.157.244
+  type: socks5
+  username: ufCobhydz4Wd
+  sub_tag: R002-260618
+  udp: true
+- name: 🇲🇽墨西哥|~4.3MB/s|2d|3 P002-260618
+  password: DJy1T0dt
+  port: 42000
+  server: 144.225.47.161
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  type: socks5
+  username: Tek2x6av
+  udp: true
+- name: 🇷🇴罗马尼亚|~4.3MB/s|1h|47 R002-260618
+  password: 'null'
+  port: 9002
+  server: 193.176.84.32
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- delay: 1801
+  name: 🇷🇴罗马尼亚|~4.2MB/s|<1h|28 G001-260618
+  port: 9002
+  server: 193.176.84.31
+  skip-cert-verify: true
+  sub_tag: G001-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇳🇱荷兰|~4.2MB/s|2d|183 K001-260618
+  password: e4b72b531a2d10900519
+  port: 443
+  server: 82.196.9.7
+  skip-cert-verify: true
+  sub_tag: K001-260618
+  tls: true
+  type: http
+  username: testuser1
+  udp: true
+- name: 🇳🇱荷兰|~4.2MB/s|2d|57 R002-260618
+  port: 443
+  server: 5.255.118.82
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|~4.1MB/s|2d|6
+  password: l1tlrdx52v
+  port: 62000
+  server: 66.253.2.69
+  type: socks5
+  username: u_rb1dba2
+  sub_tag: R002-260618
+  udp: true
+- name: 🇷🇴罗马尼亚|~4.0MB/s|5h|81 R002-260618
+  port: 9002
+  server: 193.176.84.29
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇷🇴罗马尼亚|~4.0MB/s|14h|17 P002-260618
+  password: None
+  port: 9002
+  server: 193.176.84.29
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇮🇩印度尼西亚|~4.0MB/s|2d|5 S001-260618
+  password: APJ7RmY9
+  port: 62000
+  server: 202.155.99.212
+  skip-cert-verify: true
+  sub_tag: S001-260618
+  type: socks5
+  username: gebHTLF6
+  udp: true
+- name: 🇷🇴罗马尼亚|~4.0MB/s|1d|71 R002-260618
+  port: 9002
+  server: 193.176.84.35
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇷🇴罗马尼亚|~3.9MB/s|14h|86 Z001-260618
+  port: 9002
+  server: 193.176.84.40
+  skip-cert-verify: true
+  sub_tag: Z001-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇷🇴罗马尼亚|~3.9MB/s|14h|41 R002-260618
+  port: 9002
+  server: 193.176.84.18
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇳🇱荷兰|~3.9MB/s|2d|9
   password: 'null'
   port: 9002
   server: 84.17.47.123
@@ -1153,33 +1346,136 @@ proxies:
   type: http
   username: 'null'
   udp: true
-- name: 🇫🇷法国|~6.2MB/s|<1h|59 R002-260618
-  port: 8090
-  server: 80.124.109.22
+- name: 🇷🇴罗马尼亚|~3.9MB/s|<1h|30 P002-260618
+  password: ''
+  port: 9002
+  server: 193.176.84.38
   skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  username: ''
+  udp: true
+- name: 🇩🇪德国|~3.8MB/s|5h|42 R002-260618
+  password: 'null'
+  port: 9002
+  server: 158.173.154.4
+  skip-cert-verify: true
+  sni: 158.173.154.4
   sub_tag: R002-260618
   tls: true
   type: http
+  username: 'null'
   udp: true
-- name: 🇳🇱荷兰|~6.1MB/s|<1h|2 R002-260618
-  password: 'null'
+- name: 🇷🇴罗马尼亚|~3.8MB/s|14h|46 P002-260618
+  password: None
+  port: 9002
+  server: 193.176.84.37
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇷🇴罗马尼亚|~3.8MB/s|14h|89 P002-260618
+  password: None
+  port: 9002
+  server: 193.176.84.27
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇷🇴罗马尼亚|~3.7MB/s|5h|29 P002-260618
+  password: None
+  port: 9002
+  server: 193.176.84.34
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇺🇸美国|~3.7MB/s|5h|515
+  password: ''
+  port: 8090
+  server: 66.153.187.90
+  skip-cert-verify: true
+  tls: true
+  type: http
+  username: ''
+  udp: true
+- name: 🇵🇱波兰|~3.7MB/s|1d|1
   port: 443
-  server: 51.158.243.91
+  server: 91.92.250.33
+  skip-cert-verify: true
+  tls: true
+  type: http
+  sub_tag: R002-260618
+  udp: true
+- name: 🇭🇰香港|~3.7MB/s|<1h|20 P002-260618
+  port: 3128
+  server: 119.28.24.235
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇹🇭泰国|~3.6MB/s|5h|3
+  password: YlRoWvE0dL_cUqS94wPeKnA4
+  port: 62000
+  server: 87.84.49.206
+  skip-cert-verify: true
+  type: socks5
+  username: ks878449260d
+  sub_tag: S001-260618
+  udp: true
+- name: 🇷🇴罗马尼亚|~3.6MB/s|<1h|79 P002-260618
+  password: ''
+  port: 9002
+  server: 193.176.84.17
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  username: ''
+  udp: true
+- name: 🇷🇴罗马尼亚|~3.6MB/s|1d|25 R002-260618
+  password: 'null'
+  port: 9002
+  server: 193.176.84.16
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
   type: http
   username: 'null'
   udp: true
-- name: 🇫🇷法国|~6.1MB/s|3h|33 R002-260618
-  port: 8090
-  server: 83.206.1.225
+- name: 🇩🇪德国|~3.5MB/s|1h|38 R002-260618
+  password: udp-relay=true
+  port: 11111
+  server: 103.237.102.191
+  sub_tag: R002-260618
+  type: http
+  username: None
+  udp: true
+- name: 🇷🇴罗马尼亚|~3.5MB/s|1d|31 P002-260618
+  password: None
+  port: 9002
+  server: 193.176.84.20
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇷🇴罗马尼亚|~3.5MB/s|14h|23 R002-260618
+  password: 'null'
+  port: 9002
+  server: 193.176.84.17
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
   type: http
+  username: 'null'
   udp: true
-- name: 🇷🇴罗马尼亚|~6.1MB/s|2d|6 R002-260618
+- name: 🇷🇴罗马尼亚|~3.5MB/s|2d|6 R002-260618
   password: 'null'
   port: 9002
   server: 193.176.84.40
@@ -1189,64 +1485,160 @@ proxies:
   type: http
   username: 'null'
   udp: true
-- name: 🇷🇴罗马尼亚|~6.1MB/s|12h|46 P002-260618
+- name: 🇩🇪德国|~3.5MB/s|14h|75 R002-260618
+  port: 9002
+  server: 158.173.154.4
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇩🇪德国|~3.4MB/s|2d|30
+  password: 'null'
+  port: 9002
+  server: 158.173.154.5
+  skip-cert-verify: true
+  tls: true
+  type: http
+  username: 'null'
+  udp: true
+- name: 🇹🇭泰国|~3.4MB/s|2d|8 R002-260618
+  password: fAgE2jqK
+  port: 42000
+  server: 151.246.108.69
+  sub_tag: R002-260618
+  type: socks5
+  username: h87527jJ
+  udp: true
+- name: 🇻🇳越南|~3.4MB/s|14h|3 K001-260618
+  password: ''
+  port: 8443
+  server: 14.225.71.128
+  skip-cert-verify: true
+  sub_tag: K001-260618
+  tls: true
+  type: http
+  username: ''
+  udp: true
+- name: 🇻🇳越南|~3.3MB/s|1d|4 R002-260618
+  password: jHsK2gqs
+  port: 62000
+  server: 103.184.113.190
+  sub_tag: R002-260618
+  type: socks5
+  username: qT46DZLv
+  udp: true
+- name: 🇰🇷韩国|~3.3MB/s|1d|1
+  port: 1080
+  server: 59.11.209.162
+  skip-cert-verify: true
+  type: socks5
+  sub_tag: S001-260618
+  udp: true
+- name: 🇷🇴罗马尼亚|~3.3MB/s|2d|39 P002-260618
   password: None
   port: 9002
-  server: 193.176.84.37
+  server: 193.176.84.32
   skip-cert-verify: true
   sub_tag: P002-260618
   tls: true
   type: http
   udp: true
-- name: 🇷🇴罗马尼亚|~6.1MB/s|3h|87 R002-260618
+- name: 🇵🇱波兰|~3.2MB/s|5h|15 K001-260618
   password: 'null'
-  port: 9002
-  server: 193.176.84.39
-  skip-cert-verify: true
-  sni: 193.176.84.39
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇳🇱荷兰|~6.1MB/s|<1h|194 R002-260618
   port: 443
-  server: 89.150.35.94
+  server: 151.115.54.133
   skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇷🇴罗马尼亚|~6.1MB/s|3h|59 R002-260618
-  password: 'null'
-  port: 9002
-  server: 193.176.84.19
-  skip-cert-verify: true
-  sub_tag: R002-260618
+  sub_tag: K001-260618
   tls: true
   type: http
   username: 'null'
   udp: true
-- name: 🇮🇪爱尔兰|~5.9MB/s|1d|6 R002-260618
-  password: 'null'
+- name: 🇯🇵日本|~3.2MB/s|1d|3
+  password: J5rM2xL9
+  port: 42000
+  server: 103.248.150.238
+  skip-cert-verify: true
+  type: socks5
+  username: tB4vN7qP
+  sub_tag: S001-260618
+  udp: true
+- name: 🇩🇪德国|~3.1MB/s|1h|8 R002-260618
+  port: 9002
+  server: 158.173.154.2
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- password: KT5hiU8o
+  port: 42000
+  server: 104.234.70.82
+  type: socks5
+  username: rnt2L4XO
+  name: 🇹🇭泰国|~2.9MB/s|5h|zhuhai.uk
+  sub_tag: R002-260618
+  udp: true
+- name: 🇺🇸美国|~2.8MB/s|<1h|501 P002-260618
+  password: None
+  port: 8090
+  server: 184.188.139.2
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇹🇭泰国|~2.7MB/s|2d|15 R002-260618
+  password: KT5hiU8o
+  port: 42000
+  server: 104.234.70.136
+  sub_tag: R002-260618
+  type: socks5
+  username: rnt2L4XO
+  udp: true
+- name: 🇹🇭泰国|~2.7MB/s|1d|6 R002-260618
+  password: YlRoWvE0dL_cUqS94wPeKnA4
+  port: 62000
+  server: 87.84.49.245
+  sub_tag: R002-260618
+  type: socks5
+  username: ks878449260d
+  udp: true
+- name: 🇸🇬新加坡|~2.6MB/s|14h|29 K001-260618
+  password: None
+  port: 443
+  server: 154.26.139.24
+  skip-cert-verify: true
+  sub_tag: K001-260618
+  tls: true
+  type: http
+  username: ''
+  udp: true
+- name: 🇲🇽墨西哥|~2.5MB/s|1h|7 R002-260618
+  password: DJy1T0dt
+  port: 42000
+  server: 144.225.47.8
+  sub_tag: R002-260618
+  type: socks5
+  username: Tek2x6av
+  udp: true
+- name: 🇮🇪爱尔兰|~2.4MB/s|2d|speednode 0009
   port: 443
   server: 34.249.214.108
   skip-cert-verify: true
+  tls: true
+  type: http
+  udp: true
+  sub_tag: R002-260618
+- name: 🇮🇹意大利|~2.3MB/s|1d|15 R002-260618
+  port: 443
+  server: 91.243.118.217
+  skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
   type: http
-  username: 'null'
   udp: true
-- name: 🇷🇴罗马尼亚|~5.8MB/s|3h|22
-  password: 'null'
-  port: 9002
-  server: 193.176.84.38
-  skip-cert-verify: true
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇩🇪德国|~5.8MB/s|2d|20 P002-260618
+- name: 🇩🇪德国|~2.3MB/s|2d|20 P002-260618
   password: None
   port: 9002
   server: 158.173.154.2
@@ -1255,15 +1647,7 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇷🇴罗马尼亚|~5.6MB/s|1d|71 R002-260618
-  port: 9002
-  server: 193.176.84.35
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇩🇪德国|~5.6MB/s|2d|17 R002-260618
+- name: 🇩🇪德国|~2.3MB/s|2d|17 R002-260618
   port: 9002
   server: 158.173.154.3
   skip-cert-verify: true
@@ -1271,83 +1655,34 @@ proxies:
   tls: true
   type: http
   udp: true
-- name: 🇳🇱荷兰|~5.6MB/s|2d|117 P002-260618
-  password: None
-  port: 9002
-  server: 84.17.47.147
+- name: 🇱🇹立陶宛|~2.2MB/s|2d|5 R002-260618
+  port: 443
+  server: 89.124.11.9
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  type: http
+  udp: true
+- name: 🇯🇵日本|~2.0MB/s|2d|9 P002-260618
+  password: EGJDy5Kg
+  port: 42000
+  server: 103.248.150.50
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  type: socks5
+  username: paZFN3JA
+  udp: true
+- name: 🇮🇪爱尔兰|~1.9MB/s|2d|8 P002-260618
+  password: 'null'
+  port: 443
+  server: 18.200.158.139
   skip-cert-verify: true
   sub_tag: P002-260618
   tls: true
   type: http
+  username: 'null'
   udp: true
-- name: 🇳🇱荷兰|~5.5MB/s|1d|speednode 0019
-  password: None
-  port: 9002
-  server: 84.17.47.149
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-  sub_tag: K001-260618
-- name: 🇷🇺俄罗斯|~5.2MB/s|2d|1 R002-260618
-  port: 1446
-  server: 46.29.166.134
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇲🇽墨西哥|~5.0MB/s|2d|3 P002-260618
-  password: DJy1T0dt
-  port: 42000
-  server: 144.225.47.161
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  type: socks5
-  username: Tek2x6av
-  udp: true
-- name: 🇲🇽墨西哥|~4.9MB/s|2d|1
-  password: sZnD8GTz
-  port: 42000
-  server: 144.225.47.68
-  type: socks5
-  username: DJy1T0dt
-  sub_tag: R002-260618
-  udp: true
-- name: 🇷🇴罗马尼亚|~4.9MB/s|1d|31 P002-260618
-  password: None
-  port: 9002
-  server: 193.176.84.20
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇹🇭泰国|~4.6MB/s|2d|10 R002-260618
-  password: Ks4Iab43
-  port: 42000
-  server: 82.47.152.151
-  sub_tag: R002-260618
-  type: socks5
-  username: userLjVB
-  udp: true
-- name: 🇲🇽墨西哥|~4.5MB/s|12h|2 R002-260618
-  password: sZnD8GTz
-  port: 42000
-  server: 144.225.47.106
-  sub_tag: R002-260618
-  type: socks5
-  username: DJy1T0dt
-  udp: true
-- name: 🇮🇹意大利|~4.5MB/s|1d|5
-  password: JdFlrZhqHP
-  port: 1080
-  server: 69.16.157.244
-  type: socks5
-  username: ufCobhydz4Wd
-  sub_tag: R002-260618
-  udp: true
-- name: 🇱🇹立陶宛|~4.4MB/s|2d|13 R002-260618
+- name: 🇱🇹立陶宛|~1.8MB/s|2d|13 R002-260618
   password: 'null'
   port: 443
   server: 89.124.11.9
@@ -1358,26 +1693,24 @@ proxies:
   type: http
   username: 'null'
   udp: true
-- name: 🇷🇴罗马尼亚|~4.4MB/s|1d|83 K001-260618
-  password: None
-  port: 9002
-  server: 193.176.84.18
-  skip-cert-verify: true
-  sub_tag: K001-260618
-  tls: true
-  type: http
-  username: ''
+- name: 🇮🇩印度尼西亚|~1.7MB/s|2d|6 R002-260618
+  password: APJ7RmY9
+  port: 62000
+  server: 202.155.99.32
+  sub_tag: R002-260618
+  type: socks5
+  username: gebHTLF6
   udp: true
-- name: 🇷🇴罗马尼亚|~4.2MB/s|2d|39 P002-260618
-  password: None
-  port: 9002
-  server: 193.176.84.32
+- name: 🇲🇽墨西哥|~1.6MB/s|2d|2
+  password: KsPAxZGn
+  port: 42000
+  server: 94.194.166.52
   skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  type: http
+  type: socks5
+  username: userLRgK
+  sub_tag: R002-260618
   udp: true
-- name: 🇷🇴罗马尼亚|~4.2MB/s|1d|16 R002-260618
+- name: 🇷🇴罗马尼亚|~1.6MB/s|2d|16 R002-260618
   password: 'null'
   port: 9002
   server: 193.176.84.26
@@ -1387,308 +1720,7 @@ proxies:
   type: http
   username: 'null'
   udp: true
-- name: 🇲🇽墨西哥|~4.2MB/s|2d|4 R002-260618
-  password: lcFa8dTH
-  port: 62000
-  server: 94.194.165.96
-  sub_tag: R002-260618
-  type: socks5
-  username: QyVdo5ks
-  udp: true
-- name: 🇹🇭泰国|~4.1MB/s|1d|16 R002-260618
-  password: zdnivBaI
-  port: 62000
-  server: 109.66.136.242
-  sub_tag: R002-260618
-  type: socks5
-  username: r3ZzP8WW
-  udp: true
-- name: 🇹🇭泰国|~3.9MB/s|2d|9 R002-260618
-  password: mpbK00Pl
-  port: 42000
-  server: 192.204.15.192
-  sub_tag: R002-260618
-  type: socks5
-  username: X3s3JteD
-  udp: true
-- name: 🇹🇭泰国|~3.8MB/s|1d|15 R002-260618
-  password: KT5hiU8o
-  port: 42000
-  server: 104.234.70.136
-  sub_tag: R002-260618
-  type: socks5
-  username: rnt2L4XO
-  udp: true
-- name: 🇹🇭泰国|~3.7MB/s|2d|2
-  password: VAwyJQX0iKMJiyCw5UVK9wGH
-  port: 42000
-  server: 103.14.164.202
-  skip-cert-verify: true
-  type: socks5
-  username: route164JIa2CBPxfy
-  sub_tag: K001-260618
-  udp: true
-- name: 🇻🇳越南|~3.7MB/s|1d|4 R002-260618
-  password: jHsK2gqs
-  port: 62000
-  server: 103.184.113.190
-  sub_tag: R002-260618
-  type: socks5
-  username: qT46DZLv
-  udp: true
-- name: 🇱🇹立陶宛|~3.5MB/s|2d|5 R002-260618
-  port: 443
-  server: 89.124.11.9
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇷🇴罗马尼亚|~3.5MB/s|1d|25 R002-260618
-  password: 'null'
-  port: 9002
-  server: 193.176.84.16
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  username: 'null'
-  udp: true
-- name: 🇯🇵日本|~3.5MB/s|2d|9 P002-260618
-  password: EGJDy5Kg
-  port: 42000
-  server: 103.248.150.50
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  type: socks5
-  username: paZFN3JA
-  udp: true
-- name: 🇲🇽墨西哥|~3.2MB/s|2d|2
-  password: KsPAxZGn
-  port: 42000
-  server: 94.194.166.52
-  skip-cert-verify: true
-  type: socks5
-  username: userLRgK
-  sub_tag: R002-260618
-  udp: true
-- name: 🇹🇭泰国|~3.1MB/s|2d|8 R002-260618
-  password: fAgE2jqK
-  port: 42000
-  server: 151.246.108.69
-  sub_tag: R002-260618
-  type: socks5
-  username: h87527jJ
-  udp: true
-- password: KT5hiU8o
-  port: 42000
-  server: 104.234.70.82
-  type: socks5
-  username: rnt2L4XO
-  name: 🇹🇭泰国|~3.1MB/s|3h|zhuhai.uk
-  sub_tag: R002-260618
-  udp: true
-- name: 🇹🇭泰国|~3.1MB/s|3h|3
-  password: YlRoWvE0dL_cUqS94wPeKnA4
-  port: 62000
-  server: 87.84.49.206
-  skip-cert-verify: true
-  type: socks5
-  username: ks878449260d
-  sub_tag: S001-260618
-  udp: true
-- name: 🇷🇴罗马尼亚|~3.0MB/s|1d|speednode 0024
-  password: None
-  port: 9002
-  server: 193.176.84.24
-  skip-cert-verify: true
-  tls: true
-  type: http
-  udp: true
-  sub_tag: P002-260618
-- name: 🇹🇭泰国|~2.7MB/s|2d|1
-  password: VAwyJQX0iKMJiyCw5UVK9wGH
-  port: 42000
-  server: 103.14.164.30
-  type: socks5
-  username: route164JIa2CBPxfy
-  sub_tag: R002-260618
-  udp: true
-- name: 🇹🇭泰国|~2.6MB/s|1d|6 R002-260618
-  password: YlRoWvE0dL_cUqS94wPeKnA4
-  port: 62000
-  server: 87.84.49.245
-  sub_tag: R002-260618
-  type: socks5
-  username: ks878449260d
-  udp: true
-- name: 🇹🇭泰国|~2.6MB/s|1d|3 R002-260618
-  password: zdnivBaI
-  port: 62000
-  server: 109.66.136.42
-  sub_tag: R002-260618
-  type: socks5
-  username: r3ZzP8WW
-  udp: true
-- name: 🇮🇩印度尼西亚|~2.6MB/s|2d|5 S001-260618
-  password: APJ7RmY9
-  port: 62000
-  server: 202.155.99.212
-  skip-cert-verify: true
-  sub_tag: S001-260618
-  type: socks5
-  username: gebHTLF6
-  udp: true
-- name: 🇮🇩印度尼西亚|~2.6MB/s|1d|6 R002-260618
-  password: APJ7RmY9
-  port: 62000
-  server: 202.155.99.32
-  sub_tag: R002-260618
-  type: socks5
-  username: gebHTLF6
-  udp: true
-- name: 🇺🇸美国|~2.4MB/s|1d|609 S001-260618
-  password: ppyefe3k
-  port: 62000
-  server: 23.230.200.176
-  skip-cert-verify: true
-  sub_tag: S001-260618
-  type: socks5
-  username: u1f0cijj
-  udp: true
-- name: 🇹🇭泰国|~2.4MB/s|1d|17 R002-260618
-  password: ao3W5ZML
-  port: 42000
-  server: 168.222.8.4
-  sub_tag: R002-260618
-  type: socks5
-  username: JPjarpW3
-  udp: true
-- name: 🇯🇵日本|~2.3MB/s|1d|3
-  password: J5rM2xL9
-  port: 42000
-  server: 103.248.150.238
-  skip-cert-verify: true
-  type: socks5
-  username: tB4vN7qP
-  sub_tag: S001-260618
-  udp: true
-- name: 🇲🇽墨西哥|~2.3MB/s|<1h|7 R002-260618
-  password: DJy1T0dt
-  port: 42000
-  server: 144.225.47.8
-  sub_tag: R002-260618
-  type: socks5
-  username: Tek2x6av
-  udp: true
-- name: 🇬🇭加纳|~2.0MB/s|<1h|1 S001-260618
-  password: test123
-  port: 1080
-  server: 169.255.56.148
-  skip-cert-verify: true
-  sub_tag: S001-260618
-  type: socks5
-  username: test123
-  udp: true
-- name: 🇮🇩印度尼西亚|~2.0MB/s|1d|2 R002-260618
-  password: RRWtX6XP
-  port: 62000
-  server: 203.84.138.59
-  sub_tag: R002-260618
-  type: socks5
-  username: 9tcjLp2W
-  udp: true
-- name: 🇹🇭泰国|~1.9MB/s|1d|14 R002-260618
-  password: mpbK00Pl
-  port: 42000
-  server: 192.204.15.138
-  sub_tag: R002-260618
-  type: socks5
-  username: X3s3JteD
-  udp: true
-- name: 🇹🇭泰国|~1.5MB/s|<1h|2 R002-260618
-  password: ao3W5ZML
-  port: 42000
-  server: 168.222.8.119
-  sub_tag: R002-260618
-  type: socks5
-  username: JPjarpW3
-  udp: true
-- name: 🇮🇹意大利|~1.4MB/s|1d|15 R002-260618
-  port: 443
-  server: 91.243.118.217
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇲🇽墨西哥|~1.4MB/s|3h|11 R002-260618
-  password: 2j7CCZQb
-  port: 62000
-  server: 94.194.164.203
-  sub_tag: R002-260618
-  type: socks5
-  username: rVkkraqT
-  udp: true
-- name: 🇺🇸美国|~1.3MB/s|2d|370 R002-260618
-  port: 443
-  server: 71.43.26.234
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  type: http
-  udp: true
-- name: 🇳🇱荷兰|~1.3MB/s|<1h|250 K001-260618
-  password: ''
-  port: 9052
-  server: 157.90.113.23
-  skip-cert-verify: true
-  sub_tag: K001-260618
-  type: socks5
-  username: ''
-  udp: true
-- name: 🇰🇷韩国|~1.2MB/s|<1h|40 R002-260618
-  port: 1080
-  server: 183.106.215.208
-  sub_tag: R002-260618
-  type: socks5
-  udp: true
-- name: 🇲🇽墨西哥|~1.2MB/s|2d|5 P002-260618
-  password: sZnD8GTz
-  port: 42000
-  server: 144.225.47.158
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  type: socks5
-  username: DJy1T0dt
-  udp: true
-- password: '8888'
-  port: 1080
-  server: 47.236.168.243
-  type: socks5
-  username: '8888'
-  name: 🇸🇬新加坡|~1.0MB/s|3h|zhuhai.uk 02
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  udp: true
-- name: 🇻🇳越南|~1.0MB/s|12h|2
-  password: jHsK2gqs
-  port: 62000
-  server: 103.184.113.236
-  type: socks5
-  username: qT46DZLv
-  sub_tag: R002-260618
-  udp: true
-- name: 🇫🇷法国|~1000KB/s|1d|82 K001-260618
-  password: Zn5mR7vA
-  port: 42000
-  server: 144.56.22.78
-  skip-cert-verify: true
-  sub_tag: K001-260618
-  type: socks5
-  username: L8wP3kQx
-  udp: true
-- name: 🇩🇪德国|~940KB/s|<1h|140 S001-260618
+- name: 🇩🇪德国|~1.4MB/s|1h|140 S001-260618
   password: iq1884wz
   port: 42000
   server: 91.109.47.96
@@ -1697,24 +1729,82 @@ proxies:
   type: socks5
   username: u7feiej0
   udp: true
-- name: 🇰🇷韩国|~852KB/s|1d|1
-  port: 1080
-  server: 59.11.209.162
-  skip-cert-verify: true
+- name: 🇲🇽墨西哥|~1.2MB/s|2d|1
+  password: sZnD8GTz
+  port: 42000
+  server: 144.225.47.68
   type: socks5
-  sub_tag: S001-260618
+  username: DJy1T0dt
+  sub_tag: R002-260618
   udp: true
-- name: 🇮🇪爱尔兰|~824KB/s|2d|8 P002-260618
-  password: 'null'
-  port: 443
-  server: 18.200.158.139
+- name: 🇲🇽墨西哥|~1.1MB/s|2d|5 P002-260618
+  password: sZnD8GTz
+  port: 42000
+  server: 144.225.47.158
   skip-cert-verify: true
   sub_tag: P002-260618
-  tls: true
-  type: http
-  username: 'null'
+  type: socks5
+  username: DJy1T0dt
   udp: true
-- name: 🇺🇸美国|~392KB/s|1d|402 Z001-260618
+- name: 🇫🇷法国|~877KB/s|1d|82 K001-260618
+  password: Zn5mR7vA
+  port: 42000
+  server: 144.56.22.78
+  skip-cert-verify: true
+  sub_tag: K001-260618
+  type: socks5
+  username: L8wP3kQx
+  udp: true
+- name: 🇺🇸美国|~834KB/s|1d|609 S001-260618
+  password: ppyefe3k
+  port: 62000
+  server: 23.230.200.176
+  skip-cert-verify: true
+  sub_tag: S001-260618
+  type: socks5
+  username: u1f0cijj
+  udp: true
+- name: 🇹🇭泰国|~789KB/s|2d|17 R002-260618
+  password: ao3W5ZML
+  port: 42000
+  server: 168.222.8.4
+  sub_tag: R002-260618
+  type: socks5
+  username: JPjarpW3
+  udp: true
+- name: 🇲🇽墨西哥|~769KB/s|14h|2 R002-260618
+  password: sZnD8GTz
+  port: 42000
+  server: 144.225.47.106
+  sub_tag: R002-260618
+  type: socks5
+  username: DJy1T0dt
+  udp: true
+- name: 🇹🇭泰国|~619KB/s|1h|2 R002-260618
+  password: ao3W5ZML
+  port: 42000
+  server: 168.222.8.119
+  sub_tag: R002-260618
+  type: socks5
+  username: JPjarpW3
+  udp: true
+- name: 🇹🇭泰国|~481KB/s|2d|1
+  password: VAwyJQX0iKMJiyCw5UVK9wGH
+  port: 42000
+  server: 103.14.164.30
+  type: socks5
+  username: route164JIa2CBPxfy
+  sub_tag: R002-260618
+  udp: true
+- name: 🇲🇽墨西哥|~456KB/s|5h|11 R002-260618
+  password: 2j7CCZQb
+  port: 62000
+  server: 94.194.164.203
+  sub_tag: R002-260618
+  type: socks5
+  username: rVkkraqT
+  udp: true
+- name: 🇺🇸美国|~399KB/s|1d|402 Z001-260618
   port: 443
   server: fan.226278.xyz
   sub_tag: Z001-260618
@@ -1722,6 +1812,39 @@ proxies:
   type: http
   udp: true
   sni: fan.226278.xyz
+- name: 🇹🇭泰国|~372KB/s|2d|9 R002-260618
+  password: mpbK00Pl
+  port: 42000
+  server: 192.204.15.192
+  sub_tag: R002-260618
+  type: socks5
+  username: X3s3JteD
+  udp: true
+- password: '8888'
+  port: 1080
+  server: 47.236.168.243
+  type: socks5
+  username: '8888'
+  name: 🇸🇬新加坡|~349KB/s|5h|zhuhai.uk 02
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  udp: true
+- name: 🇧🇷巴西|~318KB/s|2d|2 R002-260618
+  password: 0mvrt5jb
+  port: 62000
+  server: 191.7.129.133
+  sub_tag: R002-260618
+  type: socks5
+  username: uwrgfkwg
+  udp: true
+- name: 🇹🇭泰国|~301KB/s|2d|1 R002-260618
+  password: 1pB7HV6u
+  port: 42000
+  server: 151.246.109.158
+  sub_tag: R002-260618
+  type: socks5
+  username: AJ3d9gJw
+  udp: true
 proxy-groups:
 - name: 🚀 节点选择
   type: select
@@ -1730,203 +1853,216 @@ proxy-groups:
   - ⚡ 负载均衡
   - DIRECT
   - 🌐 美国
-  - 🌐 荷兰
   - 🌐 罗马尼亚
-  - 🌐 泰国
+  - 🌐 荷兰
   - 🌐 德国
+  - 🌐 泰国
   - 🌐 墨西哥
-  - 🌐 法国
   - 🌐 其他
-  - 🇩🇰丹麦|~10.3MB/s|5d|speednode 0006
-  - 🇩🇪德国|~9.4MB/s|3d|34
-  - 🇳🇱荷兰|~9.3MB/s|5d|speednode 0022
-  - 🇳🇱荷兰|~8.7MB/s|5d|157 R002-260618
-  - 🇱🇻拉脱维亚|~8.2MB/s|3d|8 K001-260618
-  - 🇩🇪德国|~7.6MB/s|4d|26
-  - 🇳🇱荷兰|~7.5MB/s|3d|82 R002-260618
-  - 🇳🇱荷兰|~7.2MB/s|5d|speednode 0021
-  - 🇩🇰丹麦|~6.6MB/s|5d|speednode 0004
-  - 🇳🇱荷兰|~6.6MB/s|4d|154 R002-260618
-  - 🇷🇴罗马尼亚|~6.5MB/s|4d|54 P002-260618
-  - 🇳🇱荷兰|~6.3MB/s|3d|65 P002-260618
-  - 🇳🇱荷兰|~6.3MB/s|5d|184 R002-260618
-  - 🇫🇷法国|~6.1MB/s|4d|3 R002-260618
-  - 🇩🇪德国|~5.6MB/s|4d|1 R002-260618
-  - 🇳🇱荷兰|~5.6MB/s|4d|speednode 0017
-  - 🇳🇱荷兰|~5.5MB/s|3d|164 K001-260618
-  - 🇱🇻拉脱维亚|~5.3MB/s|3d|7 R002-260618
-  - 🇳🇱荷兰|~5.0MB/s|5d|63 R002-260618
-  - 🇷🇴罗马尼亚|~3.3MB/s|3d|53 R002-260618
-  - 🇫🇷法国|~2.9MB/s|5d|69 R002-260618
-  - 🇸🇬新加坡|~2.7MB/s|5d|37 R002-260618
-  - 🇸🇬新加坡|~2.3MB/s|3d|zhuhai.uk
-  - 🇺🇸美国|~1.7MB/s|3d|400 R002-260618
-  - 🇹🇭泰国|~759KB/s|3d|13 R002-260618
-  - 🇺🇸美国|~24.4MB/s|3h|266 P002-260618
-  - 🇺🇸美国|~20.6MB/s|<1h|133 R002-260618
-  - 🇺🇸美国|~19.7MB/s|<1h|483 R002-260618
-  - 🇺🇸美国|~19.3MB/s|<1h|227 P002-260618
-  - 🇺🇸美国|~17.8MB/s|1d|7
-  - 🇫🇷法国|~17.4MB/s|<1h|31 P002-260618
-  - 🇺🇸美国|~16.6MB/s|<1h|414 R002-260618
-  - 🇺🇸美国|~15.6MB/s|<1h|259 R002-260618
-  - 🇺🇸美国|~14.8MB/s|3h|450 R002-260618
-  - 🇺🇸美国|~14.5MB/s|<1h|478 P002-260618
-  - 🇺🇸美国|~13.8MB/s|<1h|226 P002-260618
-  - 🇺🇸美国|~13.7MB/s|<1h|269 P002-260618
-  - 🇺🇸美国|~13.6MB/s|<1h|375
-  - 🇳🇱荷兰|~13.4MB/s|2d|183 K001-260618
-  - 🇺🇸美国|~13.3MB/s|3h|37
-  - 🇺🇸美国|~13.2MB/s|<1h|371 R002-260618
-  - 🇺🇸美国|~13.2MB/s|<1h|546 R002-260618
-  - 🇺🇸美国|~13.0MB/s|<1h|343 R002-260618
-  - 🇺🇸美国|~12.8MB/s|<1h|382 P002-260618
-  - 🇳🇱荷兰|~12.5MB/s|3h|209 R002-260618
-  - 🇺🇸美国|~12.5MB/s|3h|5 P002-260618
-  - 🇺🇸美国|~12.3MB/s|<1h|372 R002-260618
-  - 🇮🇪爱尔兰|~12.3MB/s|2d|speednode 0009
-  - 🇺🇸美国|~12.0MB/s|<1h|4
-  - 🇺🇸美国|~11.7MB/s|<1h|241 P002-260618
-  - 🇺🇸美国|~11.7MB/s|3h|239 R002-260618
-  - 🇺🇸美国|~11.4MB/s|<1h|98 R002-260618
-  - 🇺🇸美国|~11.4MB/s|2d|6
-  - 🇺🇸美国|~11.3MB/s|<1h|172 P002-260618
-  - 🇺🇸美国|~11.3MB/s|<1h|240 P002-260618
-  - 🇩🇪德国|~11.2MB/s|12h|75 R002-260618
-  - 🇺🇸美国|~11.1MB/s|3h|15
-  - 🇺🇸美国|~11.0MB/s|<1h|32 P002-260618
-  - 🇺🇸美国|~10.8MB/s|<1h|349 R002-260618
-  - 🇺🇸美国|~10.5MB/s|12h|294 K001-260618
-  - 🇺🇸美国|~10.5MB/s|<1h|45 P002-260618
-  - 🇲🇽墨西哥|~10.5MB/s|<1h|10 R002-260618
-  - 🇲🇽墨西哥|~10.4MB/s|2d|3
-  - 🇺🇸美国|~10.4MB/s|3h|77 P002-260618
-  - 🇷🇴罗马尼亚|~10.4MB/s|<1h|11 P002-260618
-  - 🇷🇴罗马尼亚|~10.3MB/s|<1h|47 R002-260618
-  - 🇺🇸美国|~10.3MB/s|<1h|46 K001-260618
-  - 🇳🇱荷兰|~10.3MB/s|3h|201 R002-260618
-  - 🇺🇸美国|~10.2MB/s|<1h|476 R002-260618
-  - 🇺🇸美国|~10.0MB/s|<1h|14
-  - 🇺🇸美国|~10.0MB/s|<1h|341 P002-260618
-  - 🇺🇸美国|~9.9MB/s|<1h|165 R002-260618
-  - 🇺🇸美国|~9.9MB/s|<1h|481 P002-260618
-  - 🇺🇸美国|~9.7MB/s|3h|242 R002-260618
-  - 🇳🇱荷兰|~9.6MB/s|12h|137 R002-260618
-  - 🇵🇱波兰|~9.6MB/s|<1h|9 R002-260618
-  - 🇺🇸美国|~9.5MB/s|<1h|217
-  - 🇺🇸美国|~9.1MB/s|<1h|57 R002-260618
-  - 🇳🇱荷兰|~9.1MB/s|3h|156 P002-260618
-  - 🇺🇸美国|~9.1MB/s|<1h|121
-  - 🇳🇱荷兰|~9.0MB/s|<1h|160 P002-260618
-  - 🇩🇪德国|~9.0MB/s|2d|21
-  - 🇳🇱荷兰|~9.0MB/s|3h|230 R002-260618
-  - 🇺🇸美国|~8.9MB/s|<1h|2
-  - 🇺🇸美国|~8.9MB/s|<1h|zhuhai.uk 03
-  - 🇺🇸美国|~8.9MB/s|<1h|416 P002-260618
-  - 🇺🇸美国|~8.9MB/s|<1h|305 P002-260618
-  - 🇺🇸美国|~8.9MB/s|<1h|194 R002-260618
-  - 🇷🇴罗马尼亚|~8.8MB/s|12h|17 P002-260618
-  - 🇺🇸美国|~8.8MB/s|<1h|270 P002-260618
-  - 🇵🇱波兰|~8.8MB/s|1d|1
-  - 🇺🇸美国|~8.6MB/s|3h|304 R002-260618
-  - 🇳🇱荷兰|~8.6MB/s|1d|57 R002-260618
-  - 🇺🇸美国|~8.6MB/s|<1h|364 R002-260618
-  - 🇳🇱荷兰|~8.5MB/s|2d|181 R002-260618
-  - 🇫🇷法国|~8.5MB/s|3h|34 R002-260618
-  - 🇺🇸美国|~8.5MB/s|<1h|374 P002-260618
-  - 🇩🇪德国|~8.4MB/s|<1h|8 R002-260618
-  - 🇺🇸美国|~8.3MB/s|<1h|405 P002-260618
-  - 🇳🇱荷兰|~8.3MB/s|2d|178 R002-260618
-  - 🇫🇷法国|~8.3MB/s|1d|51 K001-260618
-  - 🇩🇪德国|~8.3MB/s|2d|30
-  - 🇳🇱荷兰|~8.2MB/s|3h|147
-  - 🇷🇴罗马尼亚|~8.1MB/s|<1h|80 R002-260618
-  - 🇺🇸美国|~8.1MB/s|<1h|309
-  - 🇳🇱荷兰|~7.7MB/s|2d|49 R002-260618
-  - 🇺🇸美国|~7.3MB/s|<1h|422 R002-260618
-  - 🇩🇪德国|~7.3MB/s|<1h|49
-  - 🇩🇪德国|~7.2MB/s|<1h|19 P002-260618
-  - 🇷🇴罗马尼亚|~7.2MB/s|3h|50 R002-260618
-  - 🇳🇱荷兰|~6.9MB/s|3h|238 R002-260618
-  - 🇳🇱荷兰|~6.7MB/s|1d|274
-  - 🇮🇪爱尔兰|~6.7MB/s|2d|speednode 0010
-  - 🇩🇪德国|~6.7MB/s|<1h|38 R002-260618
-  - 🇷🇺俄罗斯|~6.6MB/s|3h|4 P002-260618
-  - 🇳🇱荷兰|~6.6MB/s|<1h|203 R002-260618
-  - 🇭🇷克罗地亚|~6.5MB/s|3h|4 S001-260618
-  - 🇳🇱荷兰|~6.4MB/s|2d|177 P002-260618
+  - 🇳🇱荷兰|~8.5MB/s|5d|184 R002-260618
+  - 🇳🇱荷兰|~8.1MB/s|4d|speednode 0017
+  - 🇳🇱荷兰|~7.3MB/s|3d|82 R002-260618
+  - 🇳🇱荷兰|~6.2MB/s|5d|157 R002-260618
+  - 🇳🇱荷兰|~5.9MB/s|4d|154 R002-260618
+  - 🇷🇴罗马尼亚|~5.4MB/s|4d|54 P002-260618
+  - 🇹🇭泰国|~5.0MB/s|3d|13 R002-260618
+  - 🇳🇱荷兰|~4.7MB/s|5d|speednode 0022
+  - 🇳🇱荷兰|~4.6MB/s|5d|speednode 0021
+  - 🇱🇻拉脱维亚|~3.9MB/s|3d|7 R002-260618
+  - 🇳🇱荷兰|~3.5MB/s|3d|65 P002-260618
+  - 🇷🇴罗马尼亚|~3.2MB/s|3d|53 R002-260618
+  - 🇩🇪德国|~3.2MB/s|4d|1 R002-260618
+  - 🇸🇬新加坡|~3.1MB/s|5d|37 R002-260618
+  - 🇳🇱荷兰|~2.8MB/s|3d|164 K001-260618
+  - 🇳🇱荷兰|~2.3MB/s|5d|63 R002-260618
+  - 🇩🇪德国|~2.3MB/s|4d|26
+  - 🇩🇰丹麦|~2.3MB/s|5d|speednode 0004
+  - 🇺🇸美国|~2.3MB/s|3d|400 R002-260618
+  - 🇩🇰丹麦|~2.3MB/s|5d|speednode 0006
+  - 🇸🇬新加坡|~2.1MB/s|3d|zhuhai.uk
+  - 🇱🇻拉脱维亚|~2.0MB/s|3d|8 K001-260618
+  - 🇩🇪德国|~1.9MB/s|3d|34
+  - 🇫🇷法国|~1.4MB/s|5d|69 R002-260618
+  - 🇫🇷法国|~365KB/s|4d|3 R002-260618
+  - 🇺🇸美国|~31.9MB/s|1h|165 R002-260618
+  - 🇺🇸美国|~30.9MB/s|1h|2
+  - 🇺🇸美国|~29.8MB/s|1h|341 P002-260618
+  - 🇺🇸美国|~28.5MB/s|1h|32 P002-260618
+  - 🇺🇸美国|~27.3MB/s|1h|476 R002-260618
+  - 🇺🇸美国|~25.2MB/s|1h|375
+  - 🇺🇸美国|~24.6MB/s|1h|309
+  - 🇺🇸美国|~23.6MB/s|1h|121
+  - 🇺🇸美国|~23.5MB/s|<1h|385 P002-260618
+  - 🇺🇸美国|~23.1MB/s|5h|450 R002-260618
+  - 🇺🇸美国|~22.6MB/s|<1h|407 R002-260618
+  - 🇺🇸美国|~22.3MB/s|1h|194 R002-260618
+  - 🇺🇸美国|~21.5MB/s|<1h|433 P002-260618
+  - 🇺🇸美国|~18.8MB/s|1h|546 R002-260618
+  - 🇺🇸美国|~18.7MB/s|<1h|211 R002-260618
+  - 🇺🇸美国|~18.1MB/s|5h|77 P002-260618
+  - 🇳🇱荷兰|~17.5MB/s|2d|177 P002-260618
+  - 🇺🇸美国|~17.2MB/s|<1h|264 R002-260618
+  - 🇺🇸美国|~16.9MB/s|1h|382 P002-260618
+  - 🇺🇸美国|~16.9MB/s|1h|483 R002-260618
+  - 🇳🇱荷兰|~16.2MB/s|5h|156 P002-260618
+  - 🇺🇸美国|~15.8MB/s|1h|405 P002-260618
+  - 🇺🇸美国|~15.7MB/s|1h|226 P002-260618
+  - 🇺🇸美国|~15.6MB/s|1h|343 R002-260618
+  - 🇺🇸美国|~15.3MB/s|<1h|465 R002-260618
+  - 🇺🇸美国|~15.3MB/s|<1h|307 P002-260618
+  - 🇺🇸美国|~14.9MB/s|1h|481 P002-260618
+  - 🇮🇪爱尔兰|~14.9MB/s|1d|6 R002-260618
+  - 🇺🇸美国|~14.7MB/s|1h|172 P002-260618
+  - 🇩🇪德国|~14.6MB/s|5h|7 R002-260618
+  - 🇺🇸美国|~14.1MB/s|14h|221 R002-260618
+  - 🇺🇸美国|~14.1MB/s|5h|15
+  - 🇺🇸美国|~14.1MB/s|1h|305 P002-260618
+  - 🇺🇸美国|~14.0MB/s|1h|46 K001-260618
+  - 🇺🇸美国|~14.0MB/s|5h|386 R002-260618
+  - 🇳🇱荷兰|~13.7MB/s|2d|181 R002-260618
+  - 🇺🇸美国|~13.7MB/s|1h|227 P002-260618
+  - 🇺🇸美国|~13.3MB/s|<1h|467 R002-260618
+  - 🇺🇸美国|~13.0MB/s|5h|266 P002-260618
+  - 🇳🇱荷兰|~12.8MB/s|5h|182 P002-260618
+  - 🇺🇸美国|~12.8MB/s|1h|364 R002-260618
+  - 🇺🇸美国|~12.7MB/s|5h|242 R002-260618
+  - 🇺🇸美国|~12.2MB/s|<1h|308
+  - 🇺🇸美国|~12.2MB/s|<1h|379 R002-260618
+  - 🇺🇸美国|~12.0MB/s|5h|5 P002-260618
+  - 🇺🇸美国|~11.9MB/s|1h|270 P002-260618
+  - 🇺🇸美国|~11.9MB/s|<1h|39 P002-260618
+  - 🇺🇸美国|~11.9MB/s|1h|269 P002-260618
+  - 🇺🇸美国|~11.8MB/s|1h|45 P002-260618
+  - 🇺🇸美国|~11.7MB/s|5h|239 R002-260618
+  - 🇺🇸美国|~11.7MB/s|1h|14
+  - 🇺🇸美国|~11.6MB/s|<1h|218
+  - 🇺🇸美国|~11.6MB/s|1h|422 R002-260618
+  - 🇺🇸美国|~11.3MB/s|1h|349 R002-260618
+  - 🇺🇸美国|~10.9MB/s|<1h|193 P002-260618
+  - 🇺🇸美国|~10.8MB/s|5h|304 R002-260618
+  - 🇺🇸美国|~9.2MB/s|1h|217
+  - 🇺🇸美国|~8.8MB/s|2d|7
+  - 🇳🇱荷兰|~8.7MB/s|2d|178 R002-260618
+  - 🇺🇸美国|~8.2MB/s|1d|363 R002-260618
+  - 🇲🇽墨西哥|~8.0MB/s|1h|10 R002-260618
+  - 🇩🇪德国|~7.9MB/s|2d|21
+  - 🇺🇸美国|~7.7MB/s|5h|258 S001-260618
+  - 🇳🇱荷兰|~7.5MB/s|1d|274
+  - 🇷🇴罗马尼亚|~7.5MB/s|14h|9
+  - 🇳🇱荷兰|~7.4MB/s|1d|speednode 0019
+  - 🇲🇽墨西哥|~7.3MB/s|2d|3
+  - 🇫🇷法国|~7.2MB/s|1d|51 K001-260618
+  - 🇳🇱荷兰|~7.1MB/s|<1h|121 R002-260618
+  - 🇷🇴罗马尼亚|~7.1MB/s|<1h|75 G001-260618
+  - 🇺🇸美国|~7.1MB/s|14h|477 R002-260618
+  - 🇺🇸美国|~7.0MB/s|<1h|10
+  - 🇫🇷法国|~6.6MB/s|<1h|49 R002-260618
+  - 🇺🇸美国|~6.6MB/s|14h|294 K001-260618
   - 🇳🇱荷兰|~6.4MB/s|2d|101 R002-260618
-  - 🇳🇱荷兰|~6.4MB/s|<1h|187 P002-260618
-  - 🇷🇴罗马尼亚|~6.4MB/s|<1h|85 Z001-260618
-  - 🇵🇱波兰|~6.3MB/s|3h|15 K001-260618
+  - 🇷🇴罗马尼亚|~6.4MB/s|<1h|34 P002-260618
+  - 🇳🇱荷兰|~6.3MB/s|2d|49 R002-260618
   - 🇺🇸美国|~6.3MB/s|2d|487 R002-260618
-  - 🇳🇱荷兰|~6.3MB/s|2d|9
-  - 🇫🇷法国|~6.2MB/s|<1h|59 R002-260618
-  - 🇳🇱荷兰|~6.1MB/s|<1h|2 R002-260618
-  - 🇫🇷法国|~6.1MB/s|3h|33 R002-260618
-  - 🇷🇴罗马尼亚|~6.1MB/s|2d|6 R002-260618
-  - 🇷🇴罗马尼亚|~6.1MB/s|12h|46 P002-260618
-  - 🇷🇴罗马尼亚|~6.1MB/s|3h|87 R002-260618
-  - 🇳🇱荷兰|~6.1MB/s|<1h|194 R002-260618
-  - 🇷🇴罗马尼亚|~6.1MB/s|3h|59 R002-260618
-  - 🇮🇪爱尔兰|~5.9MB/s|1d|6 R002-260618
-  - 🇷🇴罗马尼亚|~5.8MB/s|3h|22
-  - 🇩🇪德国|~5.8MB/s|2d|20 P002-260618
-  - 🇷🇴罗马尼亚|~5.6MB/s|1d|71 R002-260618
-  - 🇩🇪德国|~5.6MB/s|2d|17 R002-260618
-  - 🇳🇱荷兰|~5.6MB/s|2d|117 P002-260618
-  - 🇳🇱荷兰|~5.5MB/s|1d|speednode 0019
-  - 🇷🇺俄罗斯|~5.2MB/s|2d|1 R002-260618
-  - 🇲🇽墨西哥|~5.0MB/s|2d|3 P002-260618
-  - 🇲🇽墨西哥|~4.9MB/s|2d|1
-  - 🇷🇴罗马尼亚|~4.9MB/s|1d|31 P002-260618
-  - 🇹🇭泰国|~4.6MB/s|2d|10 R002-260618
-  - 🇲🇽墨西哥|~4.5MB/s|12h|2 R002-260618
-  - 🇮🇹意大利|~4.5MB/s|1d|5
-  - 🇱🇹立陶宛|~4.4MB/s|2d|13 R002-260618
-  - 🇷🇴罗马尼亚|~4.4MB/s|1d|83 K001-260618
-  - 🇷🇴罗马尼亚|~4.2MB/s|2d|39 P002-260618
-  - 🇷🇴罗马尼亚|~4.2MB/s|1d|16 R002-260618
-  - 🇲🇽墨西哥|~4.2MB/s|2d|4 R002-260618
-  - 🇹🇭泰国|~4.1MB/s|1d|16 R002-260618
-  - 🇹🇭泰国|~3.9MB/s|2d|9 R002-260618
-  - 🇹🇭泰国|~3.8MB/s|1d|15 R002-260618
-  - 🇹🇭泰国|~3.7MB/s|2d|2
-  - 🇻🇳越南|~3.7MB/s|1d|4 R002-260618
-  - 🇱🇹立陶宛|~3.5MB/s|2d|5 R002-260618
-  - 🇷🇴罗马尼亚|~3.5MB/s|1d|25 R002-260618
-  - 🇯🇵日本|~3.5MB/s|2d|9 P002-260618
-  - 🇲🇽墨西哥|~3.2MB/s|2d|2
-  - 🇹🇭泰国|~3.1MB/s|2d|8 R002-260618
-  - 🇹🇭泰国|~3.1MB/s|3h|zhuhai.uk
-  - 🇹🇭泰国|~3.1MB/s|3h|3
-  - 🇷🇴罗马尼亚|~3.0MB/s|1d|speednode 0024
-  - 🇹🇭泰国|~2.7MB/s|2d|1
-  - 🇹🇭泰国|~2.6MB/s|1d|6 R002-260618
-  - 🇹🇭泰国|~2.6MB/s|1d|3 R002-260618
-  - 🇮🇩印度尼西亚|~2.6MB/s|2d|5 S001-260618
-  - 🇮🇩印度尼西亚|~2.6MB/s|1d|6 R002-260618
-  - 🇺🇸美国|~2.4MB/s|1d|609 S001-260618
-  - 🇹🇭泰国|~2.4MB/s|1d|17 R002-260618
-  - 🇯🇵日本|~2.3MB/s|1d|3
-  - 🇲🇽墨西哥|~2.3MB/s|<1h|7 R002-260618
-  - 🇬🇭加纳|~2.0MB/s|<1h|1 S001-260618
-  - 🇮🇩印度尼西亚|~2.0MB/s|1d|2 R002-260618
-  - 🇹🇭泰国|~1.9MB/s|1d|14 R002-260618
-  - 🇹🇭泰国|~1.5MB/s|<1h|2 R002-260618
-  - 🇮🇹意大利|~1.4MB/s|1d|15 R002-260618
-  - 🇲🇽墨西哥|~1.4MB/s|3h|11 R002-260618
-  - 🇺🇸美国|~1.3MB/s|2d|370 R002-260618
-  - 🇳🇱荷兰|~1.3MB/s|<1h|250 K001-260618
-  - 🇰🇷韩国|~1.2MB/s|<1h|40 R002-260618
-  - 🇲🇽墨西哥|~1.2MB/s|2d|5 P002-260618
-  - 🇸🇬新加坡|~1.0MB/s|3h|zhuhai.uk 02
-  - 🇻🇳越南|~1.0MB/s|12h|2
-  - 🇫🇷法国|~1000KB/s|1d|82 K001-260618
-  - 🇩🇪德国|~940KB/s|<1h|140 S001-260618
-  - 🇰🇷韩国|~852KB/s|1d|1
-  - 🇮🇪爱尔兰|~824KB/s|2d|8 P002-260618
-  - 🇺🇸美国|~392KB/s|1d|402 Z001-260618
+  - 🇷🇴罗马尼亚|~6.2MB/s|1d|83 K001-260618
+  - 🇷🇴罗马尼亚|~5.9MB/s|14h|60 P002-260618
+  - 🇮🇪爱尔兰|~5.8MB/s|2d|speednode 0010
+  - 🇷🇴罗马尼亚|~5.8MB/s|1d|speednode 0024
+  - 🇳🇱荷兰|~5.8MB/s|2d|117 P002-260618
+  - 🇷🇺俄罗斯|~5.8MB/s|<1h|2 K001-260618
+  - 🇫🇷法国|~5.6MB/s|1h|59 R002-260618
+  - 🇲🇽墨西哥|~5.5MB/s|2d|4 R002-260618
+  - 🇷🇴罗马尼亚|~5.4MB/s|5h|2 P002-260618
+  - 🇷🇴罗马尼亚|~5.3MB/s|<1h|4
+  - 🇸🇬新加坡|~5.3MB/s|5h|54
+  - 🇻🇳越南|~5.3MB/s|14h|2
+  - 🇷🇴罗马尼亚|~5.2MB/s|<1h|12 R002-260618
+  - 🇷🇴罗马尼亚|~5.2MB/s|5h|98 P002-260618
+  - 🇷🇴罗马尼亚|~5.0MB/s|5h|92 R002-260618
+  - 🇷🇺俄罗斯|~4.8MB/s|5h|4 P002-260618
+  - 🇳🇱荷兰|~4.8MB/s|1h|160 P002-260618
+  - 🇷🇴罗马尼亚|~4.7MB/s|14h|10 R002-260618
+  - 🇺🇸美国|~4.7MB/s|1h|372 R002-260618
+  - 🇳🇱荷兰|~4.7MB/s|5h|209 R002-260618
+  - 🇷🇴罗马尼亚|~4.6MB/s|<1h|62 R002-260618
+  - 🇷🇴罗马尼亚|~4.6MB/s|<1h|36 Z001-260618
+  - 🇳🇱荷兰|~4.6MB/s|1h|187 P002-260618
+  - 🇳🇱荷兰|~4.5MB/s|5h|230 R002-260618
+  - 🇳🇱荷兰|~4.5MB/s|5h|238 R002-260618
+  - 🇳🇱荷兰|~4.5MB/s|14h|137 R002-260618
+  - 🇷🇴罗马尼亚|~4.5MB/s|14h|69 P002-260618
+  - 🇹🇭泰国|~4.4MB/s|2d|10 R002-260618
+  - 🇷🇴罗马尼亚|~4.4MB/s|1h|11 P002-260618
+  - 🇳🇱荷兰|~4.4MB/s|5h|201 R002-260618
+  - 🇮🇹意大利|~4.3MB/s|1d|5
+  - 🇲🇽墨西哥|~4.3MB/s|2d|3 P002-260618
+  - 🇷🇴罗马尼亚|~4.3MB/s|1h|47 R002-260618
+  - 🇷🇴罗马尼亚|~4.2MB/s|<1h|28 G001-260618
+  - 🇳🇱荷兰|~4.2MB/s|2d|183 K001-260618
+  - 🇳🇱荷兰|~4.2MB/s|2d|57 R002-260618
+  - 🇺🇸美国|~4.1MB/s|2d|6
+  - 🇷🇴罗马尼亚|~4.0MB/s|5h|81 R002-260618
+  - 🇷🇴罗马尼亚|~4.0MB/s|14h|17 P002-260618
+  - 🇮🇩印度尼西亚|~4.0MB/s|2d|5 S001-260618
+  - 🇷🇴罗马尼亚|~4.0MB/s|1d|71 R002-260618
+  - 🇷🇴罗马尼亚|~3.9MB/s|14h|86 Z001-260618
+  - 🇷🇴罗马尼亚|~3.9MB/s|14h|41 R002-260618
+  - 🇳🇱荷兰|~3.9MB/s|2d|9
+  - 🇷🇴罗马尼亚|~3.9MB/s|<1h|30 P002-260618
+  - 🇩🇪德国|~3.8MB/s|5h|42 R002-260618
+  - 🇷🇴罗马尼亚|~3.8MB/s|14h|46 P002-260618
+  - 🇷🇴罗马尼亚|~3.8MB/s|14h|89 P002-260618
+  - 🇷🇴罗马尼亚|~3.7MB/s|5h|29 P002-260618
+  - 🇺🇸美国|~3.7MB/s|5h|515
+  - 🇵🇱波兰|~3.7MB/s|1d|1
+  - 🇭🇰香港|~3.7MB/s|<1h|20 P002-260618
+  - 🇹🇭泰国|~3.6MB/s|5h|3
+  - 🇷🇴罗马尼亚|~3.6MB/s|<1h|79 P002-260618
+  - 🇷🇴罗马尼亚|~3.6MB/s|1d|25 R002-260618
+  - 🇩🇪德国|~3.5MB/s|1h|38 R002-260618
+  - 🇷🇴罗马尼亚|~3.5MB/s|1d|31 P002-260618
+  - 🇷🇴罗马尼亚|~3.5MB/s|14h|23 R002-260618
+  - 🇷🇴罗马尼亚|~3.5MB/s|2d|6 R002-260618
+  - 🇩🇪德国|~3.5MB/s|14h|75 R002-260618
+  - 🇩🇪德国|~3.4MB/s|2d|30
+  - 🇹🇭泰国|~3.4MB/s|2d|8 R002-260618
+  - 🇻🇳越南|~3.4MB/s|14h|3 K001-260618
+  - 🇻🇳越南|~3.3MB/s|1d|4 R002-260618
+  - 🇰🇷韩国|~3.3MB/s|1d|1
+  - 🇷🇴罗马尼亚|~3.3MB/s|2d|39 P002-260618
+  - 🇵🇱波兰|~3.2MB/s|5h|15 K001-260618
+  - 🇯🇵日本|~3.2MB/s|1d|3
+  - 🇩🇪德国|~3.1MB/s|1h|8 R002-260618
+  - 🇹🇭泰国|~2.9MB/s|5h|zhuhai.uk
+  - 🇺🇸美国|~2.8MB/s|<1h|501 P002-260618
+  - 🇹🇭泰国|~2.7MB/s|2d|15 R002-260618
+  - 🇹🇭泰国|~2.7MB/s|1d|6 R002-260618
+  - 🇸🇬新加坡|~2.6MB/s|14h|29 K001-260618
+  - 🇲🇽墨西哥|~2.5MB/s|1h|7 R002-260618
+  - 🇮🇪爱尔兰|~2.4MB/s|2d|speednode 0009
+  - 🇮🇹意大利|~2.3MB/s|1d|15 R002-260618
+  - 🇩🇪德国|~2.3MB/s|2d|20 P002-260618
+  - 🇩🇪德国|~2.3MB/s|2d|17 R002-260618
+  - 🇱🇹立陶宛|~2.2MB/s|2d|5 R002-260618
+  - 🇯🇵日本|~2.0MB/s|2d|9 P002-260618
+  - 🇮🇪爱尔兰|~1.9MB/s|2d|8 P002-260618
+  - 🇱🇹立陶宛|~1.8MB/s|2d|13 R002-260618
+  - 🇮🇩印度尼西亚|~1.7MB/s|2d|6 R002-260618
+  - 🇲🇽墨西哥|~1.6MB/s|2d|2
+  - 🇷🇴罗马尼亚|~1.6MB/s|2d|16 R002-260618
+  - 🇩🇪德国|~1.4MB/s|1h|140 S001-260618
+  - 🇲🇽墨西哥|~1.2MB/s|2d|1
+  - 🇲🇽墨西哥|~1.1MB/s|2d|5 P002-260618
+  - 🇫🇷法国|~877KB/s|1d|82 K001-260618
+  - 🇺🇸美国|~834KB/s|1d|609 S001-260618
+  - 🇹🇭泰国|~789KB/s|2d|17 R002-260618
+  - 🇲🇽墨西哥|~769KB/s|14h|2 R002-260618
+  - 🇹🇭泰国|~619KB/s|1h|2 R002-260618
+  - 🇹🇭泰国|~481KB/s|2d|1
+  - 🇲🇽墨西哥|~456KB/s|5h|11 R002-260618
+  - 🇺🇸美国|~399KB/s|1d|402 Z001-260618
+  - 🇹🇭泰国|~372KB/s|2d|9 R002-260618
+  - 🇸🇬新加坡|~349KB/s|5h|zhuhai.uk 02
+  - 🇧🇷巴西|~318KB/s|2d|2 R002-260618
+  - 🇹🇭泰国|~301KB/s|2d|1 R002-260618
 - name: ♻️ 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -1935,30 +2071,30 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - 🇩🇰丹麦|~10.3MB/s|5d|speednode 0006
-  - 🇩🇪德国|~9.4MB/s|3d|34
-  - 🇳🇱荷兰|~9.3MB/s|5d|speednode 0022
-  - 🇳🇱荷兰|~8.7MB/s|5d|157 R002-260618
-  - 🇱🇻拉脱维亚|~8.2MB/s|3d|8 K001-260618
-  - 🇩🇪德国|~7.6MB/s|4d|26
-  - 🇳🇱荷兰|~7.5MB/s|3d|82 R002-260618
-  - 🇳🇱荷兰|~7.2MB/s|5d|speednode 0021
-  - 🇩🇰丹麦|~6.6MB/s|5d|speednode 0004
-  - 🇳🇱荷兰|~6.6MB/s|4d|154 R002-260618
-  - 🇷🇴罗马尼亚|~6.5MB/s|4d|54 P002-260618
-  - 🇳🇱荷兰|~6.3MB/s|3d|65 P002-260618
-  - 🇳🇱荷兰|~6.3MB/s|5d|184 R002-260618
-  - 🇫🇷法国|~6.1MB/s|4d|3 R002-260618
-  - 🇩🇪德国|~5.6MB/s|4d|1 R002-260618
-  - 🇳🇱荷兰|~5.6MB/s|4d|speednode 0017
-  - 🇳🇱荷兰|~5.5MB/s|3d|164 K001-260618
-  - 🇱🇻拉脱维亚|~5.3MB/s|3d|7 R002-260618
-  - 🇳🇱荷兰|~5.0MB/s|5d|63 R002-260618
-  - 🇷🇴罗马尼亚|~3.3MB/s|3d|53 R002-260618
-  - 🇫🇷法国|~2.9MB/s|5d|69 R002-260618
-  - 🇸🇬新加坡|~2.7MB/s|5d|37 R002-260618
-  - 🇸🇬新加坡|~2.3MB/s|3d|zhuhai.uk
-  - 🇺🇸美国|~1.7MB/s|3d|400 R002-260618
+  - 🇳🇱荷兰|~8.5MB/s|5d|184 R002-260618
+  - 🇳🇱荷兰|~8.1MB/s|4d|speednode 0017
+  - 🇳🇱荷兰|~7.3MB/s|3d|82 R002-260618
+  - 🇳🇱荷兰|~6.2MB/s|5d|157 R002-260618
+  - 🇳🇱荷兰|~5.9MB/s|4d|154 R002-260618
+  - 🇷🇴罗马尼亚|~5.4MB/s|4d|54 P002-260618
+  - 🇹🇭泰国|~5.0MB/s|3d|13 R002-260618
+  - 🇳🇱荷兰|~4.7MB/s|5d|speednode 0022
+  - 🇳🇱荷兰|~4.6MB/s|5d|speednode 0021
+  - 🇱🇻拉脱维亚|~3.9MB/s|3d|7 R002-260618
+  - 🇳🇱荷兰|~3.5MB/s|3d|65 P002-260618
+  - 🇷🇴罗马尼亚|~3.2MB/s|3d|53 R002-260618
+  - 🇩🇪德国|~3.2MB/s|4d|1 R002-260618
+  - 🇸🇬新加坡|~3.1MB/s|5d|37 R002-260618
+  - 🇳🇱荷兰|~2.8MB/s|3d|164 K001-260618
+  - 🇳🇱荷兰|~2.3MB/s|5d|63 R002-260618
+  - 🇩🇪德国|~2.3MB/s|4d|26
+  - 🇩🇰丹麦|~2.3MB/s|5d|speednode 0004
+  - 🇺🇸美国|~2.3MB/s|3d|400 R002-260618
+  - 🇩🇰丹麦|~2.3MB/s|5d|speednode 0006
+  - 🇸🇬新加坡|~2.1MB/s|3d|zhuhai.uk
+  - 🇱🇻拉脱维亚|~2.0MB/s|3d|8 K001-260618
+  - 🇩🇪德国|~1.9MB/s|3d|34
+  - 🇫🇷法国|~1.4MB/s|5d|69 R002-260618
 - name: ⚡ 负载均衡
   type: load-balance
   strategy: consistent-hashing
@@ -1967,30 +2103,30 @@ proxy-groups:
   lazy: true
   timeout: 8000
   proxies:
-  - 🇩🇰丹麦|~10.3MB/s|5d|speednode 0006
-  - 🇩🇪德国|~9.4MB/s|3d|34
-  - 🇳🇱荷兰|~9.3MB/s|5d|speednode 0022
-  - 🇳🇱荷兰|~8.7MB/s|5d|157 R002-260618
-  - 🇱🇻拉脱维亚|~8.2MB/s|3d|8 K001-260618
-  - 🇩🇪德国|~7.6MB/s|4d|26
-  - 🇳🇱荷兰|~7.5MB/s|3d|82 R002-260618
-  - 🇳🇱荷兰|~7.2MB/s|5d|speednode 0021
-  - 🇩🇰丹麦|~6.6MB/s|5d|speednode 0004
-  - 🇳🇱荷兰|~6.6MB/s|4d|154 R002-260618
-  - 🇷🇴罗马尼亚|~6.5MB/s|4d|54 P002-260618
-  - 🇳🇱荷兰|~6.3MB/s|3d|65 P002-260618
-  - 🇳🇱荷兰|~6.3MB/s|5d|184 R002-260618
-  - 🇫🇷法国|~6.1MB/s|4d|3 R002-260618
-  - 🇩🇪德国|~5.6MB/s|4d|1 R002-260618
-  - 🇳🇱荷兰|~5.6MB/s|4d|speednode 0017
-  - 🇳🇱荷兰|~5.5MB/s|3d|164 K001-260618
-  - 🇱🇻拉脱维亚|~5.3MB/s|3d|7 R002-260618
-  - 🇳🇱荷兰|~5.0MB/s|5d|63 R002-260618
-  - 🇷🇴罗马尼亚|~3.3MB/s|3d|53 R002-260618
-  - 🇫🇷法国|~2.9MB/s|5d|69 R002-260618
-  - 🇸🇬新加坡|~2.7MB/s|5d|37 R002-260618
-  - 🇸🇬新加坡|~2.3MB/s|3d|zhuhai.uk
-  - 🇺🇸美国|~1.7MB/s|3d|400 R002-260618
+  - 🇳🇱荷兰|~8.5MB/s|5d|184 R002-260618
+  - 🇳🇱荷兰|~8.1MB/s|4d|speednode 0017
+  - 🇳🇱荷兰|~7.3MB/s|3d|82 R002-260618
+  - 🇳🇱荷兰|~6.2MB/s|5d|157 R002-260618
+  - 🇳🇱荷兰|~5.9MB/s|4d|154 R002-260618
+  - 🇷🇴罗马尼亚|~5.4MB/s|4d|54 P002-260618
+  - 🇹🇭泰国|~5.0MB/s|3d|13 R002-260618
+  - 🇳🇱荷兰|~4.7MB/s|5d|speednode 0022
+  - 🇳🇱荷兰|~4.6MB/s|5d|speednode 0021
+  - 🇱🇻拉脱维亚|~3.9MB/s|3d|7 R002-260618
+  - 🇳🇱荷兰|~3.5MB/s|3d|65 P002-260618
+  - 🇷🇴罗马尼亚|~3.2MB/s|3d|53 R002-260618
+  - 🇩🇪德国|~3.2MB/s|4d|1 R002-260618
+  - 🇸🇬新加坡|~3.1MB/s|5d|37 R002-260618
+  - 🇳🇱荷兰|~2.8MB/s|3d|164 K001-260618
+  - 🇳🇱荷兰|~2.3MB/s|5d|63 R002-260618
+  - 🇩🇪德国|~2.3MB/s|4d|26
+  - 🇩🇰丹麦|~2.3MB/s|5d|speednode 0004
+  - 🇺🇸美国|~2.3MB/s|3d|400 R002-260618
+  - 🇩🇰丹麦|~2.3MB/s|5d|speednode 0006
+  - 🇸🇬新加坡|~2.1MB/s|3d|zhuhai.uk
+  - 🇱🇻拉脱维亚|~2.0MB/s|3d|8 K001-260618
+  - 🇩🇪德国|~1.9MB/s|3d|34
+  - 🇫🇷法国|~1.4MB/s|5d|69 R002-260618
 - name: 🌐 美国
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -1999,107 +2135,71 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - 🇺🇸美国|~1.7MB/s|3d|400 R002-260618
-  - 🇺🇸美国|~24.4MB/s|3h|266 P002-260618
-  - 🇺🇸美国|~20.6MB/s|<1h|133 R002-260618
-  - 🇺🇸美国|~19.7MB/s|<1h|483 R002-260618
-  - 🇺🇸美国|~19.3MB/s|<1h|227 P002-260618
-  - 🇺🇸美国|~17.8MB/s|1d|7
-  - 🇺🇸美国|~16.6MB/s|<1h|414 R002-260618
-  - 🇺🇸美国|~15.6MB/s|<1h|259 R002-260618
-  - 🇺🇸美国|~14.8MB/s|3h|450 R002-260618
-  - 🇺🇸美国|~14.5MB/s|<1h|478 P002-260618
-  - 🇺🇸美国|~13.8MB/s|<1h|226 P002-260618
-  - 🇺🇸美国|~13.7MB/s|<1h|269 P002-260618
-  - 🇺🇸美国|~13.6MB/s|<1h|375
-  - 🇺🇸美国|~13.3MB/s|3h|37
-  - 🇺🇸美国|~13.2MB/s|<1h|371 R002-260618
-  - 🇺🇸美国|~13.2MB/s|<1h|546 R002-260618
-  - 🇺🇸美国|~13.0MB/s|<1h|343 R002-260618
-  - 🇺🇸美国|~12.8MB/s|<1h|382 P002-260618
-  - 🇺🇸美国|~12.5MB/s|3h|5 P002-260618
-  - 🇺🇸美国|~12.3MB/s|<1h|372 R002-260618
-  - 🇺🇸美国|~12.0MB/s|<1h|4
-  - 🇺🇸美国|~11.7MB/s|<1h|241 P002-260618
-  - 🇺🇸美国|~11.7MB/s|3h|239 R002-260618
-  - 🇺🇸美国|~11.4MB/s|<1h|98 R002-260618
-  - 🇺🇸美国|~11.4MB/s|2d|6
-  - 🇺🇸美国|~11.3MB/s|<1h|172 P002-260618
-  - 🇺🇸美国|~11.3MB/s|<1h|240 P002-260618
-  - 🇺🇸美国|~11.1MB/s|3h|15
-  - 🇺🇸美国|~11.0MB/s|<1h|32 P002-260618
-  - 🇺🇸美国|~10.8MB/s|<1h|349 R002-260618
-  - 🇺🇸美国|~10.5MB/s|12h|294 K001-260618
-  - 🇺🇸美国|~10.5MB/s|<1h|45 P002-260618
-  - 🇺🇸美国|~10.4MB/s|3h|77 P002-260618
-  - 🇺🇸美国|~10.3MB/s|<1h|46 K001-260618
-  - 🇺🇸美国|~10.2MB/s|<1h|476 R002-260618
-  - 🇺🇸美国|~10.0MB/s|<1h|14
-  - 🇺🇸美国|~10.0MB/s|<1h|341 P002-260618
-  - 🇺🇸美国|~9.9MB/s|<1h|165 R002-260618
-  - 🇺🇸美国|~9.9MB/s|<1h|481 P002-260618
-  - 🇺🇸美国|~9.7MB/s|3h|242 R002-260618
-  - 🇺🇸美国|~9.5MB/s|<1h|217
-  - 🇺🇸美国|~9.1MB/s|<1h|57 R002-260618
-  - 🇺🇸美国|~9.1MB/s|<1h|121
-  - 🇺🇸美国|~8.9MB/s|<1h|2
-  - 🇺🇸美国|~8.9MB/s|<1h|zhuhai.uk 03
-  - 🇺🇸美国|~8.9MB/s|<1h|416 P002-260618
-  - 🇺🇸美国|~8.9MB/s|<1h|305 P002-260618
-  - 🇺🇸美国|~8.9MB/s|<1h|194 R002-260618
-  - 🇺🇸美国|~8.8MB/s|<1h|270 P002-260618
-  - 🇺🇸美国|~8.6MB/s|3h|304 R002-260618
-  - 🇺🇸美国|~8.6MB/s|<1h|364 R002-260618
-  - 🇺🇸美国|~8.5MB/s|<1h|374 P002-260618
-  - 🇺🇸美国|~8.3MB/s|<1h|405 P002-260618
-  - 🇺🇸美国|~8.1MB/s|<1h|309
-  - 🇺🇸美国|~7.3MB/s|<1h|422 R002-260618
+  - 🇺🇸美国|~2.3MB/s|3d|400 R002-260618
+  - 🇺🇸美国|~31.9MB/s|1h|165 R002-260618
+  - 🇺🇸美国|~30.9MB/s|1h|2
+  - 🇺🇸美国|~29.8MB/s|1h|341 P002-260618
+  - 🇺🇸美国|~28.5MB/s|1h|32 P002-260618
+  - 🇺🇸美国|~27.3MB/s|1h|476 R002-260618
+  - 🇺🇸美国|~25.2MB/s|1h|375
+  - 🇺🇸美国|~24.6MB/s|1h|309
+  - 🇺🇸美国|~23.6MB/s|1h|121
+  - 🇺🇸美国|~23.5MB/s|<1h|385 P002-260618
+  - 🇺🇸美国|~23.1MB/s|5h|450 R002-260618
+  - 🇺🇸美国|~22.6MB/s|<1h|407 R002-260618
+  - 🇺🇸美国|~22.3MB/s|1h|194 R002-260618
+  - 🇺🇸美国|~21.5MB/s|<1h|433 P002-260618
+  - 🇺🇸美国|~18.8MB/s|1h|546 R002-260618
+  - 🇺🇸美国|~18.7MB/s|<1h|211 R002-260618
+  - 🇺🇸美国|~18.1MB/s|5h|77 P002-260618
+  - 🇺🇸美国|~17.2MB/s|<1h|264 R002-260618
+  - 🇺🇸美国|~16.9MB/s|1h|382 P002-260618
+  - 🇺🇸美国|~16.9MB/s|1h|483 R002-260618
+  - 🇺🇸美国|~15.8MB/s|1h|405 P002-260618
+  - 🇺🇸美国|~15.7MB/s|1h|226 P002-260618
+  - 🇺🇸美国|~15.6MB/s|1h|343 R002-260618
+  - 🇺🇸美国|~15.3MB/s|<1h|465 R002-260618
+  - 🇺🇸美国|~15.3MB/s|<1h|307 P002-260618
+  - 🇺🇸美国|~14.9MB/s|1h|481 P002-260618
+  - 🇺🇸美国|~14.7MB/s|1h|172 P002-260618
+  - 🇺🇸美国|~14.1MB/s|14h|221 R002-260618
+  - 🇺🇸美国|~14.1MB/s|5h|15
+  - 🇺🇸美国|~14.1MB/s|1h|305 P002-260618
+  - 🇺🇸美国|~14.0MB/s|1h|46 K001-260618
+  - 🇺🇸美国|~14.0MB/s|5h|386 R002-260618
+  - 🇺🇸美国|~13.7MB/s|1h|227 P002-260618
+  - 🇺🇸美国|~13.3MB/s|<1h|467 R002-260618
+  - 🇺🇸美国|~13.0MB/s|5h|266 P002-260618
+  - 🇺🇸美国|~12.8MB/s|1h|364 R002-260618
+  - 🇺🇸美国|~12.7MB/s|5h|242 R002-260618
+  - 🇺🇸美国|~12.2MB/s|<1h|308
+  - 🇺🇸美国|~12.2MB/s|<1h|379 R002-260618
+  - 🇺🇸美国|~12.0MB/s|5h|5 P002-260618
+  - 🇺🇸美国|~11.9MB/s|1h|270 P002-260618
+  - 🇺🇸美国|~11.9MB/s|<1h|39 P002-260618
+  - 🇺🇸美国|~11.9MB/s|1h|269 P002-260618
+  - 🇺🇸美国|~11.8MB/s|1h|45 P002-260618
+  - 🇺🇸美国|~11.7MB/s|5h|239 R002-260618
+  - 🇺🇸美国|~11.7MB/s|1h|14
+  - 🇺🇸美国|~11.6MB/s|<1h|218
+  - 🇺🇸美国|~11.6MB/s|1h|422 R002-260618
+  - 🇺🇸美国|~11.3MB/s|1h|349 R002-260618
+  - 🇺🇸美国|~10.9MB/s|<1h|193 P002-260618
+  - 🇺🇸美国|~10.8MB/s|5h|304 R002-260618
+  - 🇺🇸美国|~9.2MB/s|1h|217
+  - 🇺🇸美国|~8.8MB/s|2d|7
+  - 🇺🇸美国|~8.2MB/s|1d|363 R002-260618
+  - 🇺🇸美国|~7.7MB/s|5h|258 S001-260618
+  - 🇺🇸美国|~7.1MB/s|14h|477 R002-260618
+  - 🇺🇸美国|~7.0MB/s|<1h|10
+  - 🇺🇸美国|~6.6MB/s|14h|294 K001-260618
   - 🇺🇸美国|~6.3MB/s|2d|487 R002-260618
-  - 🇺🇸美国|~2.4MB/s|1d|609 S001-260618
-  - 🇺🇸美国|~1.3MB/s|2d|370 R002-260618
-  - 🇺🇸美国|~392KB/s|1d|402 Z001-260618
-- name: 🌐 荷兰
-  type: url-test
-  url: http://www.gstatic.com/generate_204
-  interval: 600
-  tolerance: 50
-  timeout: 8000
-  lazy: true
-  proxies:
-  - 🇳🇱荷兰|~9.3MB/s|5d|speednode 0022
-  - 🇳🇱荷兰|~8.7MB/s|5d|157 R002-260618
-  - 🇳🇱荷兰|~7.5MB/s|3d|82 R002-260618
-  - 🇳🇱荷兰|~7.2MB/s|5d|speednode 0021
-  - 🇳🇱荷兰|~6.6MB/s|4d|154 R002-260618
-  - 🇳🇱荷兰|~6.3MB/s|3d|65 P002-260618
-  - 🇳🇱荷兰|~6.3MB/s|5d|184 R002-260618
-  - 🇳🇱荷兰|~5.6MB/s|4d|speednode 0017
-  - 🇳🇱荷兰|~5.5MB/s|3d|164 K001-260618
-  - 🇳🇱荷兰|~5.0MB/s|5d|63 R002-260618
-  - 🇳🇱荷兰|~13.4MB/s|2d|183 K001-260618
-  - 🇳🇱荷兰|~12.5MB/s|3h|209 R002-260618
-  - 🇳🇱荷兰|~10.3MB/s|3h|201 R002-260618
-  - 🇳🇱荷兰|~9.6MB/s|12h|137 R002-260618
-  - 🇳🇱荷兰|~9.1MB/s|3h|156 P002-260618
-  - 🇳🇱荷兰|~9.0MB/s|<1h|160 P002-260618
-  - 🇳🇱荷兰|~9.0MB/s|3h|230 R002-260618
-  - 🇳🇱荷兰|~8.6MB/s|1d|57 R002-260618
-  - 🇳🇱荷兰|~8.5MB/s|2d|181 R002-260618
-  - 🇳🇱荷兰|~8.3MB/s|2d|178 R002-260618
-  - 🇳🇱荷兰|~8.2MB/s|3h|147
-  - 🇳🇱荷兰|~7.7MB/s|2d|49 R002-260618
-  - 🇳🇱荷兰|~6.9MB/s|3h|238 R002-260618
-  - 🇳🇱荷兰|~6.7MB/s|1d|274
-  - 🇳🇱荷兰|~6.6MB/s|<1h|203 R002-260618
-  - 🇳🇱荷兰|~6.4MB/s|2d|177 P002-260618
-  - 🇳🇱荷兰|~6.4MB/s|2d|101 R002-260618
-  - 🇳🇱荷兰|~6.4MB/s|<1h|187 P002-260618
-  - 🇳🇱荷兰|~6.3MB/s|2d|9
-  - 🇳🇱荷兰|~6.1MB/s|<1h|2 R002-260618
-  - 🇳🇱荷兰|~6.1MB/s|<1h|194 R002-260618
-  - 🇳🇱荷兰|~5.6MB/s|2d|117 P002-260618
-  - 🇳🇱荷兰|~5.5MB/s|1d|speednode 0019
-  - 🇳🇱荷兰|~1.3MB/s|<1h|250 K001-260618
+  - 🇺🇸美国|~4.7MB/s|1h|372 R002-260618
+  - 🇺🇸美国|~4.1MB/s|2d|6
+  - 🇺🇸美国|~3.7MB/s|5h|515
+  - 🇺🇸美国|~2.8MB/s|<1h|501 P002-260618
+  - 🇺🇸美国|~834KB/s|1d|609 S001-260618
+  - 🇺🇸美国|~399KB/s|1d|402 Z001-260618
 - name: 🌐 罗马尼亚
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -2108,27 +2208,43 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - 🇷🇴罗马尼亚|~6.5MB/s|4d|54 P002-260618
-  - 🇷🇴罗马尼亚|~3.3MB/s|3d|53 R002-260618
-  - 🇷🇴罗马尼亚|~10.4MB/s|<1h|11 P002-260618
-  - 🇷🇴罗马尼亚|~10.3MB/s|<1h|47 R002-260618
-  - 🇷🇴罗马尼亚|~8.8MB/s|12h|17 P002-260618
-  - 🇷🇴罗马尼亚|~8.1MB/s|<1h|80 R002-260618
-  - 🇷🇴罗马尼亚|~7.2MB/s|3h|50 R002-260618
-  - 🇷🇴罗马尼亚|~6.4MB/s|<1h|85 Z001-260618
-  - 🇷🇴罗马尼亚|~6.1MB/s|2d|6 R002-260618
-  - 🇷🇴罗马尼亚|~6.1MB/s|12h|46 P002-260618
-  - 🇷🇴罗马尼亚|~6.1MB/s|3h|87 R002-260618
-  - 🇷🇴罗马尼亚|~6.1MB/s|3h|59 R002-260618
-  - 🇷🇴罗马尼亚|~5.8MB/s|3h|22
-  - 🇷🇴罗马尼亚|~5.6MB/s|1d|71 R002-260618
-  - 🇷🇴罗马尼亚|~4.9MB/s|1d|31 P002-260618
-  - 🇷🇴罗马尼亚|~4.4MB/s|1d|83 K001-260618
-  - 🇷🇴罗马尼亚|~4.2MB/s|2d|39 P002-260618
-  - 🇷🇴罗马尼亚|~4.2MB/s|1d|16 R002-260618
-  - 🇷🇴罗马尼亚|~3.5MB/s|1d|25 R002-260618
-  - 🇷🇴罗马尼亚|~3.0MB/s|1d|speednode 0024
-- name: 🌐 泰国
+  - 🇷🇴罗马尼亚|~5.4MB/s|4d|54 P002-260618
+  - 🇷🇴罗马尼亚|~3.2MB/s|3d|53 R002-260618
+  - 🇷🇴罗马尼亚|~7.5MB/s|14h|9
+  - 🇷🇴罗马尼亚|~7.1MB/s|<1h|75 G001-260618
+  - 🇷🇴罗马尼亚|~6.4MB/s|<1h|34 P002-260618
+  - 🇷🇴罗马尼亚|~6.2MB/s|1d|83 K001-260618
+  - 🇷🇴罗马尼亚|~5.9MB/s|14h|60 P002-260618
+  - 🇷🇴罗马尼亚|~5.8MB/s|1d|speednode 0024
+  - 🇷🇴罗马尼亚|~5.4MB/s|5h|2 P002-260618
+  - 🇷🇴罗马尼亚|~5.3MB/s|<1h|4
+  - 🇷🇴罗马尼亚|~5.2MB/s|<1h|12 R002-260618
+  - 🇷🇴罗马尼亚|~5.2MB/s|5h|98 P002-260618
+  - 🇷🇴罗马尼亚|~5.0MB/s|5h|92 R002-260618
+  - 🇷🇴罗马尼亚|~4.7MB/s|14h|10 R002-260618
+  - 🇷🇴罗马尼亚|~4.6MB/s|<1h|62 R002-260618
+  - 🇷🇴罗马尼亚|~4.6MB/s|<1h|36 Z001-260618
+  - 🇷🇴罗马尼亚|~4.5MB/s|14h|69 P002-260618
+  - 🇷🇴罗马尼亚|~4.4MB/s|1h|11 P002-260618
+  - 🇷🇴罗马尼亚|~4.3MB/s|1h|47 R002-260618
+  - 🇷🇴罗马尼亚|~4.2MB/s|<1h|28 G001-260618
+  - 🇷🇴罗马尼亚|~4.0MB/s|5h|81 R002-260618
+  - 🇷🇴罗马尼亚|~4.0MB/s|14h|17 P002-260618
+  - 🇷🇴罗马尼亚|~4.0MB/s|1d|71 R002-260618
+  - 🇷🇴罗马尼亚|~3.9MB/s|14h|86 Z001-260618
+  - 🇷🇴罗马尼亚|~3.9MB/s|14h|41 R002-260618
+  - 🇷🇴罗马尼亚|~3.9MB/s|<1h|30 P002-260618
+  - 🇷🇴罗马尼亚|~3.8MB/s|14h|46 P002-260618
+  - 🇷🇴罗马尼亚|~3.8MB/s|14h|89 P002-260618
+  - 🇷🇴罗马尼亚|~3.7MB/s|5h|29 P002-260618
+  - 🇷🇴罗马尼亚|~3.6MB/s|<1h|79 P002-260618
+  - 🇷🇴罗马尼亚|~3.6MB/s|1d|25 R002-260618
+  - 🇷🇴罗马尼亚|~3.5MB/s|1d|31 P002-260618
+  - 🇷🇴罗马尼亚|~3.5MB/s|14h|23 R002-260618
+  - 🇷🇴罗马尼亚|~3.5MB/s|2d|6 R002-260618
+  - 🇷🇴罗马尼亚|~3.3MB/s|2d|39 P002-260618
+  - 🇷🇴罗马尼亚|~1.6MB/s|2d|16 R002-260618
+- name: 🌐 荷兰
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 600
@@ -2136,21 +2252,37 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - 🇹🇭泰国|~759KB/s|3d|13 R002-260618
-  - 🇹🇭泰国|~4.6MB/s|2d|10 R002-260618
-  - 🇹🇭泰国|~4.1MB/s|1d|16 R002-260618
-  - 🇹🇭泰国|~3.9MB/s|2d|9 R002-260618
-  - 🇹🇭泰国|~3.8MB/s|1d|15 R002-260618
-  - 🇹🇭泰国|~3.7MB/s|2d|2
-  - 🇹🇭泰国|~3.1MB/s|2d|8 R002-260618
-  - 🇹🇭泰国|~3.1MB/s|3h|zhuhai.uk
-  - 🇹🇭泰国|~3.1MB/s|3h|3
-  - 🇹🇭泰国|~2.7MB/s|2d|1
-  - 🇹🇭泰国|~2.6MB/s|1d|6 R002-260618
-  - 🇹🇭泰国|~2.6MB/s|1d|3 R002-260618
-  - 🇹🇭泰国|~2.4MB/s|1d|17 R002-260618
-  - 🇹🇭泰国|~1.9MB/s|1d|14 R002-260618
-  - 🇹🇭泰国|~1.5MB/s|<1h|2 R002-260618
+  - 🇳🇱荷兰|~8.5MB/s|5d|184 R002-260618
+  - 🇳🇱荷兰|~8.1MB/s|4d|speednode 0017
+  - 🇳🇱荷兰|~7.3MB/s|3d|82 R002-260618
+  - 🇳🇱荷兰|~6.2MB/s|5d|157 R002-260618
+  - 🇳🇱荷兰|~5.9MB/s|4d|154 R002-260618
+  - 🇳🇱荷兰|~4.7MB/s|5d|speednode 0022
+  - 🇳🇱荷兰|~4.6MB/s|5d|speednode 0021
+  - 🇳🇱荷兰|~3.5MB/s|3d|65 P002-260618
+  - 🇳🇱荷兰|~2.8MB/s|3d|164 K001-260618
+  - 🇳🇱荷兰|~2.3MB/s|5d|63 R002-260618
+  - 🇳🇱荷兰|~17.5MB/s|2d|177 P002-260618
+  - 🇳🇱荷兰|~16.2MB/s|5h|156 P002-260618
+  - 🇳🇱荷兰|~13.7MB/s|2d|181 R002-260618
+  - 🇳🇱荷兰|~12.8MB/s|5h|182 P002-260618
+  - 🇳🇱荷兰|~8.7MB/s|2d|178 R002-260618
+  - 🇳🇱荷兰|~7.5MB/s|1d|274
+  - 🇳🇱荷兰|~7.4MB/s|1d|speednode 0019
+  - 🇳🇱荷兰|~7.1MB/s|<1h|121 R002-260618
+  - 🇳🇱荷兰|~6.4MB/s|2d|101 R002-260618
+  - 🇳🇱荷兰|~6.3MB/s|2d|49 R002-260618
+  - 🇳🇱荷兰|~5.8MB/s|2d|117 P002-260618
+  - 🇳🇱荷兰|~4.8MB/s|1h|160 P002-260618
+  - 🇳🇱荷兰|~4.7MB/s|5h|209 R002-260618
+  - 🇳🇱荷兰|~4.6MB/s|1h|187 P002-260618
+  - 🇳🇱荷兰|~4.5MB/s|5h|230 R002-260618
+  - 🇳🇱荷兰|~4.5MB/s|5h|238 R002-260618
+  - 🇳🇱荷兰|~4.5MB/s|14h|137 R002-260618
+  - 🇳🇱荷兰|~4.4MB/s|5h|201 R002-260618
+  - 🇳🇱荷兰|~4.2MB/s|2d|183 K001-260618
+  - 🇳🇱荷兰|~4.2MB/s|2d|57 R002-260618
+  - 🇳🇱荷兰|~3.9MB/s|2d|9
 - name: 🌐 德国
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -2159,19 +2291,39 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - 🇩🇪德国|~9.4MB/s|3d|34
-  - 🇩🇪德国|~7.6MB/s|4d|26
-  - 🇩🇪德国|~5.6MB/s|4d|1 R002-260618
-  - 🇩🇪德国|~11.2MB/s|12h|75 R002-260618
-  - 🇩🇪德国|~9.0MB/s|2d|21
-  - 🇩🇪德国|~8.4MB/s|<1h|8 R002-260618
-  - 🇩🇪德国|~8.3MB/s|2d|30
-  - 🇩🇪德国|~7.3MB/s|<1h|49
-  - 🇩🇪德国|~7.2MB/s|<1h|19 P002-260618
-  - 🇩🇪德国|~6.7MB/s|<1h|38 R002-260618
-  - 🇩🇪德国|~5.8MB/s|2d|20 P002-260618
-  - 🇩🇪德国|~5.6MB/s|2d|17 R002-260618
-  - 🇩🇪德国|~940KB/s|<1h|140 S001-260618
+  - 🇩🇪德国|~3.2MB/s|4d|1 R002-260618
+  - 🇩🇪德国|~2.3MB/s|4d|26
+  - 🇩🇪德国|~1.9MB/s|3d|34
+  - 🇩🇪德国|~14.6MB/s|5h|7 R002-260618
+  - 🇩🇪德国|~7.9MB/s|2d|21
+  - 🇩🇪德国|~3.8MB/s|5h|42 R002-260618
+  - 🇩🇪德国|~3.5MB/s|1h|38 R002-260618
+  - 🇩🇪德国|~3.5MB/s|14h|75 R002-260618
+  - 🇩🇪德国|~3.4MB/s|2d|30
+  - 🇩🇪德国|~3.1MB/s|1h|8 R002-260618
+  - 🇩🇪德国|~2.3MB/s|2d|20 P002-260618
+  - 🇩🇪德国|~2.3MB/s|2d|17 R002-260618
+  - 🇩🇪德国|~1.4MB/s|1h|140 S001-260618
+- name: 🌐 泰国
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 600
+  tolerance: 50
+  timeout: 8000
+  lazy: true
+  proxies:
+  - 🇹🇭泰国|~5.0MB/s|3d|13 R002-260618
+  - 🇹🇭泰国|~4.4MB/s|2d|10 R002-260618
+  - 🇹🇭泰国|~3.6MB/s|5h|3
+  - 🇹🇭泰国|~3.4MB/s|2d|8 R002-260618
+  - 🇹🇭泰国|~2.9MB/s|5h|zhuhai.uk
+  - 🇹🇭泰国|~2.7MB/s|2d|15 R002-260618
+  - 🇹🇭泰国|~2.7MB/s|1d|6 R002-260618
+  - 🇹🇭泰国|~789KB/s|2d|17 R002-260618
+  - 🇹🇭泰国|~619KB/s|1h|2 R002-260618
+  - 🇹🇭泰国|~481KB/s|2d|1
+  - 🇹🇭泰国|~372KB/s|2d|9 R002-260618
+  - 🇹🇭泰国|~301KB/s|2d|1 R002-260618
 - name: 🌐 墨西哥
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -2180,32 +2332,16 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - 🇲🇽墨西哥|~10.5MB/s|<1h|10 R002-260618
-  - 🇲🇽墨西哥|~10.4MB/s|2d|3
-  - 🇲🇽墨西哥|~5.0MB/s|2d|3 P002-260618
-  - 🇲🇽墨西哥|~4.9MB/s|2d|1
-  - 🇲🇽墨西哥|~4.5MB/s|12h|2 R002-260618
-  - 🇲🇽墨西哥|~4.2MB/s|2d|4 R002-260618
-  - 🇲🇽墨西哥|~3.2MB/s|2d|2
-  - 🇲🇽墨西哥|~2.3MB/s|<1h|7 R002-260618
-  - 🇲🇽墨西哥|~1.4MB/s|3h|11 R002-260618
-  - 🇲🇽墨西哥|~1.2MB/s|2d|5 P002-260618
-- name: 🌐 法国
-  type: url-test
-  url: http://www.gstatic.com/generate_204
-  interval: 600
-  tolerance: 50
-  timeout: 8000
-  lazy: true
-  proxies:
-  - 🇫🇷法国|~6.1MB/s|4d|3 R002-260618
-  - 🇫🇷法国|~2.9MB/s|5d|69 R002-260618
-  - 🇫🇷法国|~17.4MB/s|<1h|31 P002-260618
-  - 🇫🇷法国|~8.5MB/s|3h|34 R002-260618
-  - 🇫🇷法国|~8.3MB/s|1d|51 K001-260618
-  - 🇫🇷法国|~6.2MB/s|<1h|59 R002-260618
-  - 🇫🇷法国|~6.1MB/s|3h|33 R002-260618
-  - 🇫🇷法国|~1000KB/s|1d|82 K001-260618
+  - 🇲🇽墨西哥|~8.0MB/s|1h|10 R002-260618
+  - 🇲🇽墨西哥|~7.3MB/s|2d|3
+  - 🇲🇽墨西哥|~5.5MB/s|2d|4 R002-260618
+  - 🇲🇽墨西哥|~4.3MB/s|2d|3 P002-260618
+  - 🇲🇽墨西哥|~2.5MB/s|1h|7 R002-260618
+  - 🇲🇽墨西哥|~1.6MB/s|2d|2
+  - 🇲🇽墨西哥|~1.2MB/s|2d|1
+  - 🇲🇽墨西哥|~1.1MB/s|2d|5 P002-260618
+  - 🇲🇽墨西哥|~769KB/s|14h|2 R002-260618
+  - 🇲🇽墨西哥|~456KB/s|5h|11 R002-260618
 - name: 🌐 其他
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -2214,37 +2350,43 @@ proxy-groups:
   timeout: 8000
   lazy: true
   proxies:
-  - 🇩🇰丹麦|~10.3MB/s|5d|speednode 0006
-  - 🇩🇰丹麦|~6.6MB/s|5d|speednode 0004
-  - 🇱🇻拉脱维亚|~8.2MB/s|3d|8 K001-260618
-  - 🇱🇻拉脱维亚|~5.3MB/s|3d|7 R002-260618
-  - 🇸🇬新加坡|~2.7MB/s|5d|37 R002-260618
-  - 🇸🇬新加坡|~2.3MB/s|3d|zhuhai.uk
-  - 🇸🇬新加坡|~1.0MB/s|3h|zhuhai.uk 02
-  - 🇮🇪爱尔兰|~12.3MB/s|2d|speednode 0009
-  - 🇮🇪爱尔兰|~6.7MB/s|2d|speednode 0010
-  - 🇮🇪爱尔兰|~5.9MB/s|1d|6 R002-260618
-  - 🇮🇪爱尔兰|~824KB/s|2d|8 P002-260618
-  - 🇵🇱波兰|~9.6MB/s|<1h|9 R002-260618
-  - 🇵🇱波兰|~8.8MB/s|1d|1
-  - 🇵🇱波兰|~6.3MB/s|3h|15 K001-260618
-  - 🇷🇺俄罗斯|~6.6MB/s|3h|4 P002-260618
-  - 🇷🇺俄罗斯|~5.2MB/s|2d|1 R002-260618
-  - 🇭🇷克罗地亚|~6.5MB/s|3h|4 S001-260618
-  - 🇮🇹意大利|~4.5MB/s|1d|5
-  - 🇮🇹意大利|~1.4MB/s|1d|15 R002-260618
-  - 🇱🇹立陶宛|~4.4MB/s|2d|13 R002-260618
-  - 🇱🇹立陶宛|~3.5MB/s|2d|5 R002-260618
-  - 🇻🇳越南|~3.7MB/s|1d|4 R002-260618
-  - 🇻🇳越南|~1.0MB/s|12h|2
-  - 🇯🇵日本|~3.5MB/s|2d|9 P002-260618
-  - 🇯🇵日本|~2.3MB/s|1d|3
-  - 🇮🇩印度尼西亚|~2.6MB/s|2d|5 S001-260618
-  - 🇮🇩印度尼西亚|~2.6MB/s|1d|6 R002-260618
-  - 🇮🇩印度尼西亚|~2.0MB/s|1d|2 R002-260618
-  - 🇬🇭加纳|~2.0MB/s|<1h|1 S001-260618
-  - 🇰🇷韩国|~1.2MB/s|<1h|40 R002-260618
-  - 🇰🇷韩国|~852KB/s|1d|1
+  - 🇱🇻拉脱维亚|~3.9MB/s|3d|7 R002-260618
+  - 🇱🇻拉脱维亚|~2.0MB/s|3d|8 K001-260618
+  - 🇸🇬新加坡|~3.1MB/s|5d|37 R002-260618
+  - 🇸🇬新加坡|~2.1MB/s|3d|zhuhai.uk
+  - 🇸🇬新加坡|~5.3MB/s|5h|54
+  - 🇸🇬新加坡|~2.6MB/s|14h|29 K001-260618
+  - 🇸🇬新加坡|~349KB/s|5h|zhuhai.uk 02
+  - 🇩🇰丹麦|~2.3MB/s|5d|speednode 0004
+  - 🇩🇰丹麦|~2.3MB/s|5d|speednode 0006
+  - 🇫🇷法国|~1.4MB/s|5d|69 R002-260618
+  - 🇫🇷法国|~365KB/s|4d|3 R002-260618
+  - 🇫🇷法国|~7.2MB/s|1d|51 K001-260618
+  - 🇫🇷法国|~6.6MB/s|<1h|49 R002-260618
+  - 🇫🇷法国|~5.6MB/s|1h|59 R002-260618
+  - 🇫🇷法国|~877KB/s|1d|82 K001-260618
+  - 🇮🇪爱尔兰|~14.9MB/s|1d|6 R002-260618
+  - 🇮🇪爱尔兰|~5.8MB/s|2d|speednode 0010
+  - 🇮🇪爱尔兰|~2.4MB/s|2d|speednode 0009
+  - 🇮🇪爱尔兰|~1.9MB/s|2d|8 P002-260618
+  - 🇷🇺俄罗斯|~5.8MB/s|<1h|2 K001-260618
+  - 🇷🇺俄罗斯|~4.8MB/s|5h|4 P002-260618
+  - 🇻🇳越南|~5.3MB/s|14h|2
+  - 🇻🇳越南|~3.4MB/s|14h|3 K001-260618
+  - 🇻🇳越南|~3.3MB/s|1d|4 R002-260618
+  - 🇮🇹意大利|~4.3MB/s|1d|5
+  - 🇮🇹意大利|~2.3MB/s|1d|15 R002-260618
+  - 🇮🇩印度尼西亚|~4.0MB/s|2d|5 S001-260618
+  - 🇮🇩印度尼西亚|~1.7MB/s|2d|6 R002-260618
+  - 🇵🇱波兰|~3.7MB/s|1d|1
+  - 🇵🇱波兰|~3.2MB/s|5h|15 K001-260618
+  - 🇭🇰香港|~3.7MB/s|<1h|20 P002-260618
+  - 🇰🇷韩国|~3.3MB/s|1d|1
+  - 🇯🇵日本|~3.2MB/s|1d|3
+  - 🇯🇵日本|~2.0MB/s|2d|9 P002-260618
+  - 🇱🇹立陶宛|~2.2MB/s|2d|5 R002-260618
+  - 🇱🇹立陶宛|~1.8MB/s|2d|13 R002-260618
+  - 🇧🇷巴西|~318KB/s|2d|2 R002-260618
 rules:
 - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
 - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
